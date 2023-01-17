@@ -6,21 +6,53 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.sql.Timestamp;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
- * 유저 모델 정의.
+ * user 테이블 모델 정의
+ * - skeleton-code에서는 BaseEntity를 상속받고 있었으나, user 테이블에 따라 상속 제거함 
  */
 @Entity
+@Table(name = "user")
 @Getter
 @Setter
-public class User extends BaseEntity{
-    String position;
-    String department;
-    String name;
-    String userId;
-
-    @JsonIgnore
+public class User {
+	@Id
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    String id;
+	
+	@Column(name = "user_name")
+    String userName;
+	
+	@Column(name = "user_nickname")
+    String userNickname;
+	
+	@JsonIgnore
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    String password;
+	@Column(name = "user_password")
+    String userPassword;
+	
+	@Column(name = "user_phone")
+	String userPhone;
+	
+	@Column(name = "user_joindate")
+	//String userJoindate;
+	Timestamp userJoindate;
+	
+	@Column(name = "user_role")
+	int userRole;
+	
+	@Column(name = "user_delete_flag")
+	int userDeleteFlag;
+	
+	@Column(name = "user_token")
+	int userToken;
+	
+	@Column(name = "user_alert_flag")
+	int userAlertFlag;
 }
