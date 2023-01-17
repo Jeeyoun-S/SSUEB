@@ -29,6 +29,7 @@ import io.swagger.annotations.ApiResponses;
 import springfox.documentation.annotations.ApiIgnore;
 
 /**
+ * [skeleton-code]
  * 유저 관련 API 요청 처리를 위한 컨트롤러 정의.
  */
 @Api(value = "유저 API", tags = {"User"})
@@ -73,6 +74,7 @@ public class UserController {
 		String userId = userDetails.getUsername();
 		User user = userService.getUserByUserId(userId);
 		
-		return ResponseEntity.status(200).body(UserRes.of(user));
+		//return ResponseEntity.status(200).body(UserRes.of(user));
+		return null; 
 	}
 }

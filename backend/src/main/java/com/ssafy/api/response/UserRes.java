@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
+ * [skeleton-code] 
  * 회원 본인 정보 조회 API ([GET] /api/v1/users/me) 요청에 대한 응답값 정의.
  */
 @Getter
@@ -18,9 +19,9 @@ public class UserRes{
 	@ApiModelProperty(name="User ID")
 	String userId;
 	
-	public static UserRes of(User user) {
-		UserRes res = new UserRes();
-		res.setUserId(user.getUserId());
-		return res;
-	}
+//	public static UserRes of(User user) {
+//		UserRes res = new UserRes();
+//		res.setUserId(user.getUserId());
+//		return res;
+//	}
 }

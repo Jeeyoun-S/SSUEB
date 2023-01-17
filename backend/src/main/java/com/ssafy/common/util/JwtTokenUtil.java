@@ -18,6 +18,7 @@ import java.util.List;
 import static com.google.common.collect.Lists.newArrayList;
 
 /**
+ * [skeleton-code]
  * jwt 토큰 유틸 정의.
  */
 @Component
