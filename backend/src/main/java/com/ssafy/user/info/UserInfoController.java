@@ -11,7 +11,7 @@ import io.swagger.annotations.Api;
 
 @Api(value = "유저 API", tags = {"User"})
 @RestController
-@RequestMapping("/user/info")
+@RequestMapping("/api/user/info")
 public class UserInfoController {
 	
 	@GetMapping("/partner/{id}")
