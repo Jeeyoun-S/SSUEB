@@ -12,11 +12,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  * 유저 모델 정의.
  */
 @Entity
+@Table(name="attach")
 @Getter
 @Setter
 @AllArgsConstructor
