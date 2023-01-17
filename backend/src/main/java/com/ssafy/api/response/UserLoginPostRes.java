@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
+ * [skeleton-code] 
  * 유저 로그인 API ([POST] /api/v1/auth) 요청에 대한 응답값 정의.
  */
 @Getter
