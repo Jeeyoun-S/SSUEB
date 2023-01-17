@@ -20,6 +20,7 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 
 /*
  * 
+ * [skeleton-code]
  * SPA처리를 위한 ControllerAdvice.
  * 요청에 해당하는 Request Mapping이 존재하지 않을 경우 Default로 index.html을 렌더링한다.
  * 
