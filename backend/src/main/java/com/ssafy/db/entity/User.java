@@ -1,17 +1,15 @@
 package com.ssafy.db.entity;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Getter;
 import lombok.Setter;
-
-import java.sql.Timestamp;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
 
 /**
  * user 테이블 모델 정의
@@ -41,8 +39,8 @@ public class User {
 	String userPhone;
 	
 	@Column(name = "user_joindate")
-	//String userJoindate;
-	Timestamp userJoindate;
+	String userJoindate;
+//	Timestamp userJoindate;
 	
 	@Column(name = "user_role")
 	int userRole;
@@ -51,7 +49,7 @@ public class User {
 	int userDeleteFlag;
 	
 	@Column(name = "user_token")
-	int userToken;
+	String userToken;
 	
 	@Column(name = "user_alert_flag")
 	int userAlertFlag;
