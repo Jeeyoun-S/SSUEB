@@ -37,9 +37,9 @@ public class Reservation{
 	@Column(name="reservation_pet_type")
     String reservationPetType;
 	@Column(name="reservation_date")
-    Timestamp reservationDate;
+	String reservationDate;
 	@Column(name="reservation_register_time")
-    Timestamp reservationRegisterTime;
+	String reservationRegisterTime;
 	@Column(name="reservation_consult_content")
     String reservationConsultContent;
 	@Column(name="reservation_dignosis_record")
