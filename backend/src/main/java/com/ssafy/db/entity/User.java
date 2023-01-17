@@ -6,8 +6,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.sql.Timestamp;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -41,8 +39,8 @@ public class User {
 	String userPhone;
 	
 	@Column(name = "user_joindate")
-	//String userJoindate;
-	Timestamp userJoindate;
+	String userJoindate;
+	//Timestamp userJoindate;
 	
 	@Column(name = "user_role")
 	int userRole;
@@ -51,7 +49,7 @@ public class User {
 	int userDeleteFlag;
 	
 	@Column(name = "user_token")
-	int userToken;
+	String userToken;
 	
 	@Column(name = "user_alert_flag")
 	int userAlertFlag;

@@ -18,8 +18,7 @@ import java.util.List;
 import static com.google.common.collect.Lists.newArrayList;
 
 /**
- * [skeleton-code]
- * jwt 토큰 유틸 정의.
+ *  JWT 토큰 유틸 정의
  */
 @Component
 public class JwtTokenUtil {
@@ -49,7 +48,8 @@ public class JwtTokenUtil {
     }
     
     public static String getToken(String userId) {
-    		Date expires = JwtTokenUtil.getTokenExpiration(expirationTime);
+    	Date expires = JwtTokenUtil.getTokenExpiration(expirationTime);
+    		
         return JWT.create()
                 .withSubject(userId)
                 .withExpiresAt(expires)
