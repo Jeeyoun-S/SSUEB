@@ -15,14 +15,14 @@ import com.ssafy.db.repository.UserRepositorySupport;
  */
 @Service("userService")
 public class UserServiceImpl implements UserService {
-	@Autowired
-	UserRepository userRepository;
-	
-	@Autowired
-	UserRepositorySupport userRepositorySupport;
-	
-	@Autowired
-	PasswordEncoder passwordEncoder;
+//	@Autowired
+//	UserRepository userRepository;
+//	
+//	@Autowired
+//	UserRepositorySupport userRepositorySupport;
+//	
+//	@Autowired
+//	PasswordEncoder passwordEncoder;
 	
 	@Override
 	public User createUser(UserRegisterPostReq userRegisterInfo) {

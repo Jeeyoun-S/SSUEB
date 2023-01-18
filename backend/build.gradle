@@ -170,7 +170,13 @@ dependencies {
 
     testImplementation("com.jayway.jsonpath:json-path:2.4.0")
 
+	// JWT 토큰 
+	// skeleton-project에 있던 Jwt implementation > 추후 삭제예정
     implementation("com.auth0:java-jwt:3.10.3")
+    // 추가한 JWT
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
+	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.2'
+	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.2'
     
     implementation("io.springfox:springfox-swagger2:3.0.0")
     implementation("io.springfox:springfox-swagger-ui:3.0.0")

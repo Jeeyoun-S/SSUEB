@@ -10,17 +10,22 @@ import com.querydsl.core.types.Path;
 
 
 /**
- *  QUser is a Querydsl query type for User
+ * QUser is a Querydsl query type for User
  */
 @Generated("com.querydsl.codegen.EntitySerializer")
 public class QUser extends EntityPathBase<User> {
 
     private static final long serialVersionUID = 846542477L;
-    
+
     public static final QUser user = new QUser("user");
 
-    // User 컬럼
     public final StringPath id = createString("id");
+
+    public final NumberPath<Integer> userAlertFlag = createNumber("userAlertFlag", Integer.class);
+
+    public final NumberPath<Integer> userDeleteFlag = createNumber("userDeleteFlag", Integer.class);
+
+    public final StringPath userJoindate = createString("userJoindate");
 
     public final StringPath userName = createString("userName");
 
@@ -31,14 +36,9 @@ public class QUser extends EntityPathBase<User> {
     public final StringPath userPhone = createString("userPhone");
 
     public final NumberPath<Integer> userRole = createNumber("userRole", Integer.class);
-    
-    public final NumberPath<Integer> userDeleteFlag = createNumber("userDeleteFlag", Integer.class);
-    
+
     public final StringPath userToken = createString("userToken");
-    
-    public final NumberPath<Integer> userAlertFlag = createNumber("userAlertFlag", Integer.class);
-    
-    
+
     public QUser(String variable) {
         super(User.class, forVariable(variable));
     }

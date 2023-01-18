@@ -30,11 +30,11 @@ import io.swagger.annotations.ApiResponse;
 @RestController
 @RequestMapping("/api/v1/auth")
 public class AuthController {
-	@Autowired
-	UserService userService;
-	
-	@Autowired
-	PasswordEncoder passwordEncoder;
+//	@Autowired
+//	UserService userService;
+//	
+//	@Autowired
+//	PasswordEncoder passwordEncoder;
 	
 //	@PostMapping("/login")
 //	@ApiOperation(value = "로그인", notes = "<strong>아이디와 패스워드</strong>를 통해 로그인 한다.") 
