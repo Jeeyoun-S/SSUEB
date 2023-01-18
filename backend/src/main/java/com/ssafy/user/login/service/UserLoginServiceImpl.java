@@ -7,13 +7,8 @@ import org.springframework.stereotype.Service;
 import com.ssafy.db.entity.User;
 import com.ssafy.user.login.repository.UserLoginRepositorySupport;
 
-/**
- *  user 로그인 관련 비즈니스 로직 처리를 위한 서비스 구현 정의
- */
 @Service("userLoginService")
 public class UserLoginServiceImpl implements UserLoginService {
-	//@Autowired
-	//UserRepository userRepository;
 	
 	@Autowired
 	UserLoginRepositorySupport userLoginRepositorySupport;
@@ -21,11 +16,13 @@ public class UserLoginServiceImpl implements UserLoginService {
 	@Autowired
 	PasswordEncoder passwordEncoder;
 
-	// [/partner] 해당 id의 회원정보 조회
+	/** 
+	 * id에 해당되는 유저정보 조회
+	 * @param userId 조회할 유저 id
+	 */
 	@Override
 	public User getUserByUserId(String userId) {
 		User user = userLoginRepositorySupport.findUserByUserId(userId).get();
-		
 		return user; 
 	}
 }

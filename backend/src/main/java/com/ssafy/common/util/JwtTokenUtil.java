@@ -47,6 +47,7 @@ public class JwtTokenUtil {
                 .build();
     }
     
+	// 로그인 시 JWT 토큰 발급
     public static String getToken(String userId) {
     	Date expires = JwtTokenUtil.getTokenExpiration(expirationTime);
     		
