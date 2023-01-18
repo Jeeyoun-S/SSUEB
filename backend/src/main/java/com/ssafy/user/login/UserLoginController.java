@@ -42,7 +42,7 @@ public class UserLoginController {
 	@Autowired
 	PasswordEncoder passwordEncoder;
 	
-	// # 반려인 로그인
+	// # 반려인 로그인 - JWT 발급
 	@PostMapping("/partner")
 	@ApiOperation(value = "반려인 로그인", notes = "<strong>아이디와 패스워드</strong>를 통해 로그인 한다.")
 	@ApiResponses({
@@ -53,15 +53,21 @@ public class UserLoginController {
 	})
 	public ResponseEntity<UserLoginPostResponse> loginPartner(@RequestBody @ApiParam(value = "로그인 시 필요한 회원정보(ID, PW)", required = true) UserLoginPostRequest loginInfo) {
 		logger.info("## [Controller]: loginPartner - 반려인 로그인 실행 {}", loginInfo.toString());
+		String id = loginInfo.getId(); 
+		String password = loginInfo.getPassword();
 		
 		// id에 해당되는 회원정보 가져오기
-		User user = userLoginService.getUserByUserId(loginInfo.getId());
+		User user = userLoginService.getUserByUserId(id);
+		if (user == null) {
+			ResponseEntity.ok(UserLoginPostResponse.of(401, "failure", "id 또는 password를 다시 입력해 주세요.", null));
+		}
 		
-		// 가져온 회원정보와 입력된 pw 일치 확인 
-		if (passwordEncoder.matches(loginInfo.getPassword(), user.getUserPassword())) {
+		// 로그인 요청한 유저로부터 입력된 패스워드 와 디비에 저장된 유저의 암호화된 패스워드가 같은지 확인.(유효한 패스워드인지 여부 확인)
+		if (passwordEncoder.matches(password, user.getUserPassword())) {
 			// 유효한 패스워드가 맞는 경우, 로그인 성공 (액세스 토큰을 포함하여 응답값 전달)
 			String accessToken = JwtTokenUtil.getToken(loginInfo.getId());
-			return ResponseEntity.ok(UserLoginPostResponse.of(200, "success", "로그인에 성공했습니다.", JwtTokenUtil.getToken(loginInfo.getId())));
+			logger.info("#21# 반려인 로그인 성공- JWT token: {}", accessToken);
+			return ResponseEntity.ok(UserLoginPostResponse.of(200, "success", "로그인에 성공했습니다.", accessToken));
 		}
 	
 		return ResponseEntity.ok(UserLoginPostResponse.of(401, "failure", "id 또는 password를 다시 입력해 주세요.", null));
