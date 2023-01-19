@@ -1,5 +1,6 @@
 package com.ssafy.user.join.response;
 
+import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -7,6 +8,9 @@ import lombok.Data;
 @AllArgsConstructor
 public class JoinResponse {
 	
+	@ApiModelProperty(value = "성공 또는 실패")
 	String response;
+	
+	@ApiModelProperty(value = "메세지")
 	String message;
 }
