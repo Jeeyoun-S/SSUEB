@@ -116,6 +116,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // token을 사용하는 방식이기 때문에 csrf 비활성화
                 .csrf().disable()
                 
+                // JWT token 관련 exceptionHandling을 위한 code
                 .exceptionHandling()
         		.authenticationEntryPoint(jwtAuthenticationEntryPoint)
         		.accessDeniedHandler(jwtAccessDeniedHandler)
@@ -135,9 +136,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // 인증이 필요한 URL과 필요하지 않은 URL에 대하여 설정
         		.authorizeRequests()
         		// 일단 모두 all로 체크
-        		.antMatchers("/**").permitAll()
-//        		.antMatchers("/api/user/join").permitAll()
-        		.anyRequest().authenticated()
+        		.antMatchers("/**").permitAll()		
+        		.antMatchers("/api/auth/authenticate").permitAll()		
+//        		.antMatchers("/api/user/join").permitAll()				// /api/user/join URL인 경우 모든 요청 허용
+        		.anyRequest().authenticated()							// 그 외의 요청은 모두 인증 필요
                 
         		.and()
         		.apply(new JwtSecurityConfig(jwtTokenProvider));

@@ -1,9 +1,13 @@
 package com.ssafy.user.login.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.springframework.data.repository.NoRepositoryBean;
+import javax.transaction.Transactional;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,6 +22,10 @@ import com.ssafy.user.login.repository.UserLoginRepository;
 @Component("userDetailsService")
 public class CustomUserDetailsService implements UserDetailsService {
 	
+	
+	private static final Logger logger = LoggerFactory.getLogger(CustomUserDetailsService.class);
+
+	
 	private final UserLoginRepository userLoginRepository;
 	
 	public CustomUserDetailsService(UserLoginRepository userLoginRepository) {
@@ -30,13 +38,20 @@ public class CustomUserDetailsService implements UserDetailsService {
 	 * @return UserDetails
 	 */
 	@Override
+	@Transactional
     public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
-        return userLoginRepository.findOneWithAuthoritiesById(userId)
+		logger.info("#21# CustomUser 실행 중 : {}", userId);
+		
+		Optional<User> temp = userLoginRepository.findOneWithAuthoritiesById(userId);
+		logger.info("#21# find 실행 결과 확인: id - {}", temp.get().getId());
+        
+		return userLoginRepository.findOneWithAuthoritiesById(userId)
                 .map(user -> createUser(userId, user))
         		.orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다."));
     }
 
 	private org.springframework.security.core.userdetails.User createUser(String userId, User user) {
+		logger.info("#21# createUser 실행: {}, {}", userId, user.getUserActivated());
 		// 해당 user의 활성화 여부 확인
 		// i) 비활성화일 경우
 		if (user.getUserActivated() == 1) {
@@ -47,6 +62,10 @@ public class CustomUserDetailsService implements UserDetailsService {
 		List<GrantedAuthority> grantedAuthorities = user.getAuthorities().stream()
 				.map(authority -> new SimpleGrantedAuthority(authority.getAuthorityName()))
 				.collect(Collectors.toList());
+		logger.info("#21# 권한 확인: {}", grantedAuthorities);
+		
+		UserDetails details = new org.springframework.security.core.userdetails.User(user.getId(), user.getUserPassword(), grantedAuthorities);
+		logger.info("#21# userdetails 확인: {}", details);
 		
 		return new org.springframework.security.core.userdetails.User(user.getId(),
 				user.getUserPassword(),

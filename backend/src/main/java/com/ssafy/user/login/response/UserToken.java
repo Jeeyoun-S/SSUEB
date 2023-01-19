@@ -1,4 +1,4 @@
-package com.ssafy.user.login.request;
+package com.ssafy.user.login.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

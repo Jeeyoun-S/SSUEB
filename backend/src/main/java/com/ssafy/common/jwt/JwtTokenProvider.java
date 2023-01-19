@@ -3,7 +3,6 @@ package com.ssafy.common.jwt;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import lombok.RequiredArgsConstructor;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -78,7 +77,7 @@ public class JwtTokenProvider implements InitializingBean {
 		return Jwts.builder()
 				.setSubject(authentication.getName())
 				.claim(AUTHORITIES_KEY, authorities)
-				.signWith(key, SignatureAlgorithm.HS512)
+				.signWith(key, SignatureAlgorithm.HS384)
 				.setExpiration(validity)
 				.compact(); 
 	}

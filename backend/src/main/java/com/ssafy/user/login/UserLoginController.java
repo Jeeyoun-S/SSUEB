@@ -3,13 +3,19 @@ package com.ssafy.user.login;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.common.jwt.JwtTokenProvider;
 import com.ssafy.db.entity.User;
 import com.ssafy.user.login.request.UserLoginPostRequest;
 import com.ssafy.user.login.response.UserLoginPostResponse;
@@ -36,6 +42,13 @@ public class UserLoginController {
 	
 	@Autowired
 	PasswordEncoder passwordEncoder;
+	
+	// ** for. JWT 추가
+	@Autowired
+	JwtTokenProvider jwtTokenProvider;
+	@Autowired
+	AuthenticationManagerBuilder authenticationManagerBuilder;
+	// ****
 	
 	// 반려인 로그인 - JWT 발급
 	@PostMapping("/partner")
@@ -67,6 +80,17 @@ public class UserLoginController {
 			
 			//return ResponseEntity.ok(UserLoginPostResponse.of(200, "success", "로그인에 성공했습니다.", accessToken));
 			return ResponseEntity.ok(UserLoginPostResponse.of(200, "success", "로그인에 성공했습니다.", "temp"));
+			
+//			UsernamePasswordAuthenticationToken authenticationToken =
+//					new UsernamePasswordAuthenticationToken(id, password);
+//			
+//			Authentication authentication =
+//					authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+//			
+//			SecurityContextHolder.getContext().setAuthentication(authentication);
+//			String token = jwtTokenProvider.createToken(authentication);
+//			
+//			HttpHeaders httpHeaders = new H
 		}
 	
 		return ResponseEntity.ok(UserLoginPostResponse.of(401, "failure", "id 또는 password를 다시 입력해 주세요.", null));
