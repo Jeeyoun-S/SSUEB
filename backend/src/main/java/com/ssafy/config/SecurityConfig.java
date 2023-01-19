@@ -1,8 +1,5 @@
 package com.ssafy.config;
 
-import com.ssafy.api.service.UserService;
-import com.ssafy.common.auth.JwtAuthenticationFilter;
-import com.ssafy.common.auth.SsafyUserDetailService;
 import com.ssafy.common.jwt.JwtAccessDeniedHandler;
 import com.ssafy.common.jwt.JwtAuthenticationEntryPoint;
 import com.ssafy.common.jwt.JwtSecurityConfig;
@@ -31,6 +28,7 @@ import org.springframework.web.filter.CorsFilter;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+	
 	// for. JWT
 	private final JwtTokenProvider jwtTokenProvider; 
 //	private final CorsFilter corsFilter;
@@ -50,11 +48,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 	// -----
 	
-    @Autowired
-    private SsafyUserDetailService ssafyUserDetailService;
-    
-    @Autowired
-    private UserService userService;
+//    @Autowired
+//    private SsafyUserDetailService ssafyUserDetailService;
+//    
+//    @Autowired
+//    private UserService userService;
     
     // Password 인코딩 방식에 BCrypt 암호화 방식 사용
     @Bean
@@ -64,14 +62,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     // DAO 기반으로 Authentication Provider를 생성
     // BCrypt Password Encoder와 UserDetailService 구현체를 설정
-    @Bean
-    DaoAuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
-        daoAuthenticationProvider.setUserDetailsService(this.ssafyUserDetailService);
-        return daoAuthenticationProvider;
-    }
-    
+//    @Bean
+//    DaoAuthenticationProvider authenticationProvider() {
+//        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
+//        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
+//        daoAuthenticationProvider.setUserDetailsService(this.ssafyUserDetailService);
+//        return daoAuthenticationProvider;
+//    }
+	    
     // for. JWT
 //    @Bean
 //    public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
@@ -105,11 +103,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //    }
 
     // DAO 기반의 Authentication Provider가 적용되도록 설정
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) {
-        auth.authenticationProvider(authenticationProvider());
-    }
+//    @Override
+//    protected void configure(AuthenticationManagerBuilder auth) {
+//        auth.authenticationProvider(authenticationProvider());
+//    }
 
+    
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http

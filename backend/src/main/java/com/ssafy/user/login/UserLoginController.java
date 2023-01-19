@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ssafy.common.util.JwtTokenUtil;
 import com.ssafy.db.entity.User;
 import com.ssafy.user.login.request.UserLoginPostRequest;
 import com.ssafy.user.login.response.UserLoginPostResponse;
@@ -24,6 +23,7 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponses;
 import io.swagger.annotations.ApiResponse;
 
+// authController
 @Api(tags = {"User Login"}, description = "로그인 API")
 @RestController
 @RequestMapping("/api/user/login")
@@ -62,9 +62,11 @@ public class UserLoginController {
 		// 로그인 요청한 유저로부터 입력된 패스워드 와 디비에 저장된 유저의 암호화된 패스워드가 같은지 확인.(유효한 패스워드인지 여부 확인)
 		if (passwordEncoder.matches(password, user.getUserPassword())) {
 			// 유효한 패스워드가 맞는 경우, 로그인 성공 (액세스 토큰을 포함하여 응답값 전달)
-			String accessToken = JwtTokenUtil.getToken(loginInfo.getId());
-			logger.info("#21# 반려인 로그인 성공- JWT token: {}", accessToken);
-			return ResponseEntity.ok(UserLoginPostResponse.of(200, "success", "로그인에 성공했습니다.", accessToken));
+			//String accessToken = JwtTokenUtil.getToken(loginInfo.getId());
+			//logger.info("#21# 반려인 로그인 성공- JWT token: {}", accessToken);
+			
+			//return ResponseEntity.ok(UserLoginPostResponse.of(200, "success", "로그인에 성공했습니다.", accessToken));
+			return ResponseEntity.ok(UserLoginPostResponse.of(200, "success", "로그인에 성공했습니다.", "temp"));
 		}
 	
 		return ResponseEntity.ok(UserLoginPostResponse.of(401, "failure", "id 또는 password를 다시 입력해 주세요.", null));

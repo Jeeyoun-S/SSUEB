@@ -6,9 +6,14 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 /**
@@ -53,4 +58,16 @@ public class User {
 	
 	@Column(name = "user_alert_flag")
 	int userAlertFlag;
+	
+	// JWT 관련 추가 컬럼 
+	@Column(name = "user_activated")
+	int userActivated;
+	
+	// JWT 관련 추가 테이블 
+	@ManyToMany
+	@JoinTable(
+			name = "user_authority",
+			joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
+			inverseJoinColumns = {@JoinColumn(name = "autthority_name", referencedColumnName = "authority_name")})
+	Set<Authority> authorities; 
 }

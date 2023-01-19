@@ -1,7 +1,10 @@
 package com.ssafy.user.login.service;
 
+import org.springframework.stereotype.Service;
+
 import com.ssafy.db.entity.User;
 
+@Service
 public interface UserLoginService {
 	
 	/** 
