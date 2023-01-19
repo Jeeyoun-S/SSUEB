@@ -64,5 +64,19 @@ public class ReservationServiceImpl implements ReservationService {
 	public List<Reservation> getAllUnconfirmedReservation() throws SQLException {
 		return repo.findByConsultantIdIsNull();//확정안난애들 목록
 	}
+	
+	@Override
+	public List<Reservation> getOpenReservation() throws SQLException {
+		return repo.findByReservationOpen(1);//오픈된 리저베이션 목록 가져오기
+	}
 
+	@Override
+	public List<Reservation> getPartnerPastReservation(String userId) throws SQLException {
+		return repo.findByUserIdAndReservationFinish(userId, 1);//상담이 끝난 애들
+	}
+
+	@Override
+	public List<Reservation> getConsultantPastReservation(String consultantId) throws SQLException {
+		return repo.findByConsultantIdAndReservationFinish(consultantId, 1);
+	}
 }

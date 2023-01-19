@@ -19,4 +19,8 @@ public interface ReservationService {
 	List<Reservation> getConsultantConfirmedReservation(String consultantId) throws SQLException;
 	List<Reservation> getPartnerUnconfirmedReservation(String userId) throws SQLException;
 	List<Reservation> getAllUnconfirmedReservation() throws SQLException;
+	List<Reservation> getOpenReservation() throws SQLException;
+	List<Reservation> getPartnerPastReservation(String userId) throws SQLException;
+	List<Reservation> getConsultantPastReservation(String consultantId) throws SQLException;
+	
 }

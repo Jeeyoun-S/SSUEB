@@ -17,6 +17,8 @@ public interface ReservationRepo extends JpaRepository<Reservation,Integer>{
 	List<Reservation> findByConsultantIdAndReservationFinish(String consultantId, int reservationFinish);
 	List<Reservation> findByUserIdAndConsultantIdIsNull(String userId);
 	List<Reservation> findByConsultantIdIsNull();
+	List<Reservation> findByReservationOpen(int reservationOpen);
+	List<Reservation> findByUserIdAndReservationFinish(String userId, int reservationFinish);
 	
 	@Modifying
 	@Transactional

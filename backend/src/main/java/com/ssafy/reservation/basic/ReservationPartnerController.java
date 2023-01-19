@@ -73,4 +73,20 @@ public class ReservationPartnerController {
 		}
 	}
 	
+	@GetMapping("/past/{userId}")
+	@ApiOperation(value = "유저의 지난 상담 내역", notes = "해당 유저의 예전에 상담한(이미 완료된) 내역을 불러온다.", response = Reservation.class) 
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "성공"),
+        @ApiResponse(code = 401, message = "인증 실패"),
+        @ApiResponse(code = 404, message = "사용자 없음"),
+        @ApiResponse(code = 500, message = "서버 오류")
+    })
+	public ResponseEntity<?> getPartnerPastReservation(@PathVariable String userId) {
+		try {
+			List<Reservation> result = reservationService.getPartnerPastReservation(userId);
+			return new ResponseEntity<List<Reservation>>(result, HttpStatus.OK);
+		} catch (Exception e) {
+			return exceptionHandling(e);
+		}
+	}
 }
