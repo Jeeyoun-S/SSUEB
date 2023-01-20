@@ -17,8 +17,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 /**
- * user 테이블 모델 정의
- * - skeleton-code에서는 BaseEntity를 상속받고 있었으나, user 테이블에 따라 상속 제거함 
+ * user 테이블 모델 정의 
  */
 @Entity
 @Table(name = "user")
@@ -68,6 +67,6 @@ public class User {
 	@JoinTable(
 			name = "user_authority",
 			joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
-			inverseJoinColumns = {@JoinColumn(name = "autthority_name", referencedColumnName = "authority_name")})
+			inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "authority_name")})
 	Set<Authority> authorities; 
 }

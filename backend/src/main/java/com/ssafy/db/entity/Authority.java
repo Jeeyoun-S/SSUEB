@@ -8,6 +8,9 @@ import javax.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * authority 테이블 모델 정의 
+ */
 @Entity
 @Table(name = "authority")
 @Getter
