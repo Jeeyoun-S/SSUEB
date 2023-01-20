@@ -29,28 +29,18 @@ public class JwtTokenProvider implements InitializingBean {
 
 	private static final String AUTHORITIES_KEY = "auth";
 	private final String secret;
-	//private final long tokenValidityInMilliseconds;
 	
 	private Key key;
 	
 	// Token 유효시간 
-	//private long tokenValidTime = 24 * 60 * 60 * 1000L; 
 	private long tokenValidTime; 
 	
-//	public TokenProvider(
-//			@Value("${jwt.secret}") String secret,
-//			@Value("${jwt.token-validity-in-seconds}") long tokenValidityInSeconds) {
-//		this.secret = secret; 
-//		this.tokenValidityInMilliseconds = tokenValidityInSeconds * 1000; 
-//	}
 	public JwtTokenProvider(
 			@Value("${jwt.secret}") String secret,
 			@Value("${jwt.expiration}") long expiration) {
 		this.secret = secret; 
 		this.tokenValidTime = expiration; 
 	}
-	
-	
 	
 	@Override
 	public void afterPropertiesSet() throws Exception {
@@ -71,7 +61,6 @@ public class JwtTokenProvider implements InitializingBean {
 		
 		// Token 만료시간 설정
 		long now = (new Date()).getTime(); 
-		//Date validity = new Date(now + this.tokenValidityInMilliseconds);
 		Date validity = new Date(now + this.tokenValidTime);
 		
 		return Jwts.builder()

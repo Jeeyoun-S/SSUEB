@@ -40,10 +40,10 @@ public class CustomUserDetailsService implements UserDetailsService {
 	@Override
 	@Transactional
     public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
-		logger.info("#21# CustomUser 실행 중 : {}", userId);
+//		logger.info("#21# CustomUser 실행 중 : {}", userId);
 		
 		Optional<User> temp = userLoginRepository.findOneWithAuthoritiesById(userId);
-		logger.info("#21# find 실행 결과 확인: id - {}", temp.get().getId());
+//		logger.info("#21# find 실행 결과 확인: id - {}", temp.get().getId());
         
 		return userLoginRepository.findOneWithAuthoritiesById(userId)
                 .map(user -> createUser(userId, user))
@@ -62,10 +62,10 @@ public class CustomUserDetailsService implements UserDetailsService {
 		List<GrantedAuthority> grantedAuthorities = user.getAuthorities().stream()
 				.map(authority -> new SimpleGrantedAuthority(authority.getAuthorityName()))
 				.collect(Collectors.toList());
-		logger.info("#21# 권한 확인: {}", grantedAuthorities);
+//		logger.info("#21# 권한 확인: {}", grantedAuthorities);
 		
-		UserDetails details = new org.springframework.security.core.userdetails.User(user.getId(), user.getUserPassword(), grantedAuthorities);
-		logger.info("#21# userdetails 확인: {}", details);
+//		UserDetails details = new org.springframework.security.core.userdetails.User(user.getId(), user.getUserPassword(), grantedAuthorities);
+//		logger.info("#21# userdetails 확인: {}", details);
 		
 		return new org.springframework.security.core.userdetails.User(user.getId(),
 				user.getUserPassword(),

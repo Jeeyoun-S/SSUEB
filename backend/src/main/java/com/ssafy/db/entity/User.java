@@ -59,11 +59,11 @@ public class User {
 	@Column(name = "user_alert_flag")
 	int userAlertFlag;
 	
-	// JWT 관련 추가 컬럼 
+	// for. add JWT - 사용자 계정 활성화 여부 판단  
 	@Column(name = "user_activated")
 	int userActivated;
 	
-	// JWT 관련 추가 테이블 
+	// for. add JWT - 인증 권한 테이블 
 	@ManyToMany
 	@JoinTable(
 			name = "user_authority",
