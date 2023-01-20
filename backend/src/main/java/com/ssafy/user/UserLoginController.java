@@ -69,6 +69,7 @@ public class UserLoginController {
 		
 		try {
 			logger.info("## [Controller]: authorize - 로그인 실행 {}, {}", loginInfo.getId(), loginInfo.getPassword());
+//			logger.info("#21# 암호화 비밀번호: {}", passwordEncoder.encode(loginInfo.getPassword()));
 			
 			// i) 입력받은 loginInfo(id, pw)를 사용하여 Authentication 토큰 생성 
 			UsernamePasswordAuthenticationToken authenticationToken = 

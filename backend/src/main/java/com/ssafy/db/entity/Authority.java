@@ -18,7 +18,7 @@ import lombok.Setter;
 public class Authority {
 	
 	@Id
-	@Column(name = "authority_name", length = 50)
+	@Column(name = "authority_name", length = 15)
 	String authorityName;
 
 }

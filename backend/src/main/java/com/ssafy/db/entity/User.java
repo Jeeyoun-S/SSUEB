@@ -16,6 +16,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import org.springframework.security.core.GrantedAuthority;
+
 /**
  * user 테이블 모델 정의 
  */
@@ -46,14 +48,16 @@ public class User {
 	String userJoindate;
 	//Timestamp userJoindate;
 	
-	@Column(name = "user_role")
-	int userRole;
+	// [01.20일자] 컬럼 삭제
+//	@Column(name = "user_role")
+//	int userRole;
 	
 	@Column(name = "user_delete_flag")
 	int userDeleteFlag;
 	
-	@Column(name = "user_token")
-	String userToken;
+	// [01.20일자] 컬럼 삭제
+//	@Column(name = "user_token")
+//	String userToken;
 	
 	@Column(name = "user_alert_flag")
 	int userAlertFlag;
@@ -68,5 +72,5 @@ public class User {
 			name = "user_authority",
 			joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
 			inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "authority_name")})
-	Set<Authority> authorities; 
+	Set<Authority> authorities;
 }
