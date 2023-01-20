@@ -1,7 +1,12 @@
 package com.ssafy.reservation.basic;
 
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,7 +18,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.db.entity.Reservation;
 import com.ssafy.reservation.basic.request.ReservationDignosis;
@@ -21,6 +28,7 @@ import com.ssafy.reservation.basic.request.ReservationReivew;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import io.swagger.v3.oas.annotations.parameters.RequestBody;
@@ -50,6 +58,7 @@ public class ReservationController {
     })
 	public ResponseEntity<?> createReservation(@RequestBody Reservation reservation) {
 		try {
+			//System.out.println(reservation.getNo());
 			Reservation res = reservationService.createReservation(reservation);
 			//System.out.println(res);
 			return new ResponseEntity<Reservation>(res, HttpStatus.OK);
@@ -110,7 +119,7 @@ public class ReservationController {
 		}
 	}	
 	
-	@PutMapping("/dignosis/{no}")
+	@PutMapping("/dignosis")
 	@ApiOperation(value = "진단서 작성", notes = "상담을 완료하고 해당 no에 해당하는 예약 테이블에 진단 기록을 저장한다.", response = Void.class) 
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),
@@ -118,16 +127,16 @@ public class ReservationController {
         @ApiResponse(code = 404, message = "사용자 없음"),
         @ApiResponse(code = 500, message = "서버 오류")
     })
-	public ResponseEntity<?> writeDignosis(@RequestBody ReservationDignosis reservationDignosis, @PathVariable int no) {
+	public ResponseEntity<?> writeDignosis(@RequestBody ReservationDignosis reservationDignosis) {
 		try {
-			reservationService.writeDignosis(no, reservationDignosis.getReservationDignosisRecord());
+			reservationService.writeDignosis(reservationDignosis.getNo(), reservationDignosis.getReservationDignosisRecord());
 			return new ResponseEntity<Void>(HttpStatus.OK);
 		} catch (Exception e) {
 			return exceptionHandling(e);
 		}
 	}
 	
-	@PutMapping("/review/{no}")
+	@PutMapping("/review")
 	@ApiOperation(value = "리뷰 작성", notes = "상담을 완료하고 해당 no에 해당하는 예약 테이블에 리뷰 점수와 내용을 기록한다", response = Void.class) 
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),
@@ -135,9 +144,9 @@ public class ReservationController {
         @ApiResponse(code = 404, message = "사용자 없음"),
         @ApiResponse(code = 500, message = "서버 오류")
     })
-	public ResponseEntity<?> writeReview(@PathVariable int no, @RequestBody ReservationReivew review) {
+	public ResponseEntity<?> writeReview(@RequestBody ReservationReivew review) {
 		try {
-			reservationService.writeReview(no,review.getReviewComment(),review.getReviewGrade(),review.getReservationOpen());
+			reservationService.writeReview(review.getNo(),review.getReviewComment(),review.getReviewGrade(),review.getReservationOpen());
 			return new ResponseEntity<Void>(HttpStatus.OK);
 		} catch (Exception e) {
 			return exceptionHandling(e);
@@ -162,4 +171,33 @@ public class ReservationController {
 		}
 	}	
 	
+	
+	
+	
+	@PostMapping("/save")
+    @ApiOperation(value="업로드",notes = "", response = Void.class)
+	@ApiResponses({
+        @ApiResponse(code = 200, message = "성공"),
+        @ApiResponse(code = 401, message = "인증 실패"),
+        @ApiResponse(code = 404, message = "사용자 없음"),
+        @ApiResponse(code = 500, message = "서버 오류")
+    })
+    public ResponseEntity<?> save(@RequestPart(value = "files")  MultipartFile multipartFile){
+		//for(MultipartFile multipartFile : multipartFiles) {
+			System.out.println(multipartFile.getContentType());
+			System.out.println(multipartFile.getName());
+			System.out.println(multipartFile.getOriginalFilename());
+			System.out.println(multipartFile.getSize());
+			try {
+				String uuid = UUID.randomUUID().toString();
+				String savefileName = "C:/Temp" + File.separator + uuid + "_" + multipartFile.getOriginalFilename();
+
+				multipartFile.transferTo(new File(savefileName));
+				return new ResponseEntity<Void>(HttpStatus.OK);
+			} catch (Exception e) {
+				return exceptionHandling(e);
+			}
+		//}
+		//return null;
+    }
 }

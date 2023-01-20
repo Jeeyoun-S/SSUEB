@@ -1,4 +1,6 @@
-package com.ssafy.reservation.basic.request;
+package com.ssafy.reservation.matching.request;
+
+import javax.persistence.Column;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -18,7 +20,8 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 @ApiModel("ReservationDignosis")
-public class ReservationDignosis {
-	int no;
-	String reservationDignosisRecord;
+public class MatchingConfirm {
+	int reservationNo;
+    String consultantId;
+    int matchingCost;
 }

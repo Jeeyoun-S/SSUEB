@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.db.entity.Matching;
+import com.ssafy.db.entity.Reservation;
 import com.ssafy.reservation.basic.request.ReservationDignosis;
 import com.ssafy.reservation.basic.request.ReservationReivew;
+import com.ssafy.reservation.matching.request.MatchingConfirm;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -40,7 +42,7 @@ public class MatchingController {
 	}
 	
 	@PostMapping()
-	@ApiOperation(value = "예약 생성", notes = "입력한 정보에 따라 예약을 생성한다", response = Matching.class) 
+	@ApiOperation(value = "견적 제안 생성", notes = "입력한 정보에 따라 견적 제안을 생성한다", response = Matching.class) 
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),
         @ApiResponse(code = 401, message = "인증 실패"),
@@ -49,9 +51,80 @@ public class MatchingController {
     })
 	public ResponseEntity<?> createMatching(@RequestBody Matching matching) {
 		try {
-			Matching res = null;
-			//System.out.println(res);
-			return new ResponseEntity<Matching>(res, HttpStatus.OK);
+			Matching result = mService.createMatching(matching);
+			return new ResponseEntity<Matching>(result, HttpStatus.OK);
+		} catch (Exception e) {
+			return exceptionHandling(e);
+		}
+	}
+	
+	@DeleteMapping("/{no}")
+	@ApiOperation(value = "견적 삭제", notes = "해당 no에 해당하는 견적을 삭제한다.", response = Void.class) 
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "성공"),
+        @ApiResponse(code = 401, message = "인증 실패"),
+        @ApiResponse(code = 404, message = "사용자 없음"),
+        @ApiResponse(code = 500, message = "서버 오류")
+    })
+	public ResponseEntity<?> deleteReservation(@PathVariable int no) {
+		try {
+			mService.deleteMatching(no);
+			return new ResponseEntity<Void>(HttpStatus.OK);
+		} catch (Exception e) {
+			return exceptionHandling(e);
+		}
+	}
+	
+	
+	@GetMapping("/consultant/{consultantId}")
+	@ApiOperation(value = "해당 전문가의 견적 내역", notes = "해당 전문가가 제안한 견적들의 목록을 쭉 불러온다.", response = Matching.class) 
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "성공"),
+        @ApiResponse(code = 401, message = "인증 실패"),
+        @ApiResponse(code = 404, message = "사용자 없음"),
+        @ApiResponse(code = 500, message = "서버 오류")
+    })
+	public ResponseEntity<?> readSendMatching(@PathVariable String consultantId) {
+		try {
+			List<Matching> result = mService.readSendMatching(consultantId);
+			//System.out.println(result);
+			return new ResponseEntity<List<Matching>>(result, HttpStatus.OK);
+		} catch (Exception e) {
+			return exceptionHandling(e);
+		}
+	}
+	
+	@GetMapping("/partner/{reservationNo}")
+	@ApiOperation(value = "해당 예약에 대한 견적 정보", notes = "유저의 특정 예약에 대해 들어온 견적들에 대한 정보를 쭉 불러온다", response = Matching.class) 
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "성공"),
+        @ApiResponse(code = 401, message = "인증 실패"),
+        @ApiResponse(code = 404, message = "사용자 없음"),
+        @ApiResponse(code = 500, message = "서버 오류")
+    })
+	public ResponseEntity<?> readReceiveMatching(@PathVariable int reservationNo) {
+		try {
+			List<Matching> result = mService.readReceiveMatching(reservationNo);
+			//System.out.println(result);
+			return new ResponseEntity<List<Matching>>(result, HttpStatus.OK);
+		} catch (Exception e) {
+			return exceptionHandling(e);
+		}
+	}
+	
+	@PutMapping("/confirm")
+	@ApiOperation(value = "예약 매칭 확정", notes = "유저와 전문가의 예약을 확정하고 예약테이블에 내용을 갱신한 후 그 예약과 관련된 견적들을 전부 삭제한다.", response = Void.class) 
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "성공"),
+        @ApiResponse(code = 401, message = "인증 실패"),
+        @ApiResponse(code = 404, message = "사용자 없음"),
+        @ApiResponse(code = 500, message = "서버 오류")
+    })
+	public ResponseEntity<?> confirmMatching(@RequestBody MatchingConfirm matchingConfirm) {
+		try {
+			System.out.println(matchingConfirm);
+			mService.confirmMatching(matchingConfirm.getReservationNo(), matchingConfirm.getConsultantId(), matchingConfirm.getMatchingCost());
+			return new ResponseEntity<Void>(HttpStatus.OK);
 		} catch (Exception e) {
 			return exceptionHandling(e);
 		}

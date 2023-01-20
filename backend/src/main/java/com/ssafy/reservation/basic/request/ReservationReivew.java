@@ -19,6 +19,7 @@ import lombok.ToString;
 @ToString
 @ApiModel("ReservationReivew")
 public class ReservationReivew {
+	int no;
 	//@ApiModelProperty(name="리뷰 평가", example="전문가 분이 친절해요")
 	String reviewComment;
 	//@ApiModelProperty(name="리뷰 점수", example="3")

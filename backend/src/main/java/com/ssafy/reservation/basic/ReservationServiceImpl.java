@@ -7,12 +7,16 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ssafy.db.entity.Attach;
 import com.ssafy.db.entity.Reservation;
 
 @Service
 public class ReservationServiceImpl implements ReservationService {
 	@Autowired
 	ReservationRepo repo;
+	
+	@Autowired
+	AttachRepo aRepo;
 
 	@Override
 	public Reservation createReservation(Reservation reservation) throws SQLException {
@@ -22,6 +26,11 @@ public class ReservationServiceImpl implements ReservationService {
 	@Override
 	public Reservation readReservation(int no) throws SQLException {
 		return repo.findById(no).get();
+	}
+	
+	@Override
+	public Attach createAttach(int reservationNo, String attachFile) throws SQLException {
+		return aRepo.save(new Attach(0, reservationNo, attachFile));
 	}
 
 	@Override

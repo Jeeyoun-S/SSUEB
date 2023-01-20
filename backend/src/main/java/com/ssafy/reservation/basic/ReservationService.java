@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
+import com.ssafy.db.entity.Attach;
 import com.ssafy.db.entity.Reservation;
 
 public interface ReservationService {
@@ -14,6 +15,7 @@ public interface ReservationService {
 	void writeDignosis(int no, String reservationDignosisRecord) throws SQLException;
 	void writeReview(int no, String reviewComment, int reviewGrade, int reservationOpen) throws SQLException;
 	
+	Attach createAttach(int reservationNo, String attachFile) throws SQLException;
 	
 	List<Reservation> getPartnerConfirmedReservation(String userId) throws SQLException;
 	List<Reservation> getConsultantConfirmedReservation(String consultantId) throws SQLException;

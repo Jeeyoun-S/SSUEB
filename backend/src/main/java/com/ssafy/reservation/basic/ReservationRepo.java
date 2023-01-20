@@ -34,4 +34,10 @@ public interface ReservationRepo extends JpaRepository<Reservation,Integer>{
 	@Transactional
 	@Query(value = "UPDATE reservation r set r.review_comment = ?2, r.review_grade = ?3, r.reservation_open = ?4 where r.no = ?1", nativeQuery = true)
 	void writeReview(int no, String reviewComment, int reviewGrade, int reservationOpen);
+
+	//매칭 확정 -> matchingserviceImple에서사용
+	@Modifying
+	@Transactional
+	@Query(value = "UPDATE reservation r set r.consultant_id = ?2, r.reservation_cost = ?3 where r.no= ?1", nativeQuery = true)
+	void confirmMatching(int reservationNo, String consultantId, int matchingCost);
 }
