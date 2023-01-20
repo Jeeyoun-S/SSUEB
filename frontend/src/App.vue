@@ -6,28 +6,28 @@
 </template>
 
 <script>
-import TheSidebar from '@/views/TheSidebar.vue';
+import TheSidebar from "@/views/TheSidebar.vue";
 
 export default {
-  name: 'app',
+  name: "app",
   components: {
-    TheSidebar
+    TheSidebar,
   },
   data() {
     return {
-      isShowSidebar: true // 사이드바가 보이면 true, 안 보이면 false
-    }
+      isShowSidebar: true, // 사이드바가 보이면 true, 안 보이면 false
+    };
   },
   created() {
     // 회원가입 페이지에서는 Sidebar가 안 보이게 설정
-    if (document.location.pathname === '/join') {
+    if (document.location.pathname === "/join") {
       this.isShowSidebar = false;
     }
 
     //SweetAlert2 테스트
     //this.$swal.fire('SweetAlert2 테스트입니다.')
-  }
-}
+  },
+};
 </script>
 
 <style>
@@ -44,6 +44,6 @@ export default {
   overflow: auto;
   white-space: nowrap;
 
-  font-family: 'SUIT-Regular';
+  font-family: "SUIT-Regular";
 }
 </style>
