@@ -9,7 +9,7 @@
           <v-col cols="12">
             <v-text-field
               label="이메일"
-              v-model="loginInfo.userId"
+              v-model="loginInfo.id"
               required
             ></v-text-field>
           </v-col>
@@ -17,7 +17,7 @@
             <v-text-field
               label="비밀번호"
               type="Password"
-              v-model="loginInfo.userPassword"
+              v-model="loginInfo.password"
               required
             ></v-text-field>
           </v-col>
@@ -45,8 +45,8 @@ export default {
     return {
       isLoginFail: false,
       loginInfo: {
-        userId: null,
-        userPassword: null,
+        id: null,
+        password: null,
       },
     };
   },
@@ -60,8 +60,8 @@ export default {
     async login() {
       console.log(
         "#21# loginInfo 값 확인: ",
-        this.loginInfo.userId,
-        this.loginInfo.userPassword
+        this.loginInfo.id,
+        this.loginInfo.password
       );
       await this.excuteLogin(this.loginInfo);
     },

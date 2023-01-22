@@ -18,7 +18,6 @@ const userStore = {
     SET_USER_TOKEN: (state, userToken) => {
       state.isLogin = true;
       state.userToken = userToken;
-      console.log("#userStore# 현재 로그인한 사용자의 토큰: ", userToken);
     },
   },
   actions: {
@@ -27,7 +26,7 @@ const userStore = {
         loginInfo,
         ({ data }) => {
           // if) 로그인 성공
-          if (data.message == "success") {
+          if (data.response == "success") {
             let token = data["token"];
             console.log(
               "#userStore - excuteLogin# 로그인 성공 - token: ",
