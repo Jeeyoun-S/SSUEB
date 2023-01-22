@@ -17,7 +17,7 @@ export default {
 </script>
 
 <style>
-.login {
-  margin-left: 1000;
-}
+/* .login {
+  margin-left: 40%;
+} */
 </style>

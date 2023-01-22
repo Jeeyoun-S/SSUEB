@@ -58,6 +58,11 @@ export default {
     ...mapActions(userStore, ["excuteLogin"]),
     // 로그인 동작
     async login() {
+      console.log(
+        "#21# loginInfo 값 확인: ",
+        this.loginInfo.userId,
+        this.loginInfo.userPassword
+      );
       await this.excuteLogin(this.loginInfo);
     },
   },
