@@ -55,7 +55,7 @@ public class UserLoginController {
 	 * @param UserLoginPostReq
 	 * @return UserToken
 	 */
-	@PostMapping("/auth")
+	@PostMapping("/")
 	@ApiOperation(value = "로그인 - JWT 토큰 발급")
 	@ApiImplicitParams({
 		@ApiImplicitParam(name = "id", value = "유저 email", required = true),
