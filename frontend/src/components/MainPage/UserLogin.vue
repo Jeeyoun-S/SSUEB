@@ -72,7 +72,7 @@ export default {
   },
   components: {},
   computed: {
-    ...mapState(userStore, ["isLogin", "isLoginFail", "userToken"]),
+    ...mapState(userStore, ["isLogin", "userToken"]),
   },
   methods: {
     ...mapActions(userStore, ["excuteLogin"]),
