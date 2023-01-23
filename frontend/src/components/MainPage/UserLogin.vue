@@ -89,9 +89,4 @@ export default {
 };
 </script>
 
-<style scoped>
-.login {
-  width: 341px;
-  height: 438px;
-}
-</style>
+<style scoped></style>

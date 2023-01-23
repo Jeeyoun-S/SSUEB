@@ -1,8 +1,8 @@
 <template>
   여기가 메인페이지
-  <div class="login">
-    <UserLogin v-show="!isLogin"></UserLogin>
-    <user-alert v-show="isLogin"></user-alert>
+  <div>
+    <UserLogin class="card" v-show="!isLogin"></UserLogin>
+    <user-alert class="card" v-show="isLogin"></user-alert>
   </div>
 </template>
 
@@ -26,7 +26,8 @@ export default {
 </script>
 
 <style>
-/* .login {
-  margin-left: 40%;
-} */
+.card {
+  width: 341px;
+  height: 438px;
+}
 </style>
