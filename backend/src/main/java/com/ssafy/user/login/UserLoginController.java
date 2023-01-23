@@ -1,4 +1,4 @@
-package com.ssafy.user;
+package com.ssafy.user.login;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
