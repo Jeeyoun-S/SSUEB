@@ -46,18 +46,9 @@ public class User {
 	
 	@Column(name = "user_joindate")
 	String userJoindate;
-	//Timestamp userJoindate;
-	
-	// [01.20일자] 컬럼 삭제
-//	@Column(name = "user_role")
-//	int userRole;
 	
 	@Column(name = "user_delete_flag")
 	int userDeleteFlag;
-	
-	// [01.20일자] 컬럼 삭제
-//	@Column(name = "user_token")
-//	String userToken;
 	
 	@Column(name = "user_alert_flag")
 	int userAlertFlag;
