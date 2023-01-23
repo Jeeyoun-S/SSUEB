@@ -44,7 +44,7 @@ public class UserAuthController {
 	 * @return UserAuthResponse
 	 */
 	@GetMapping("/permit/{id}")
-	@PreAuthorize("hasAnyRole('CONSULTANT')")
+	@PreAuthorize("hasAnyRole('CONSULTANT', 'ADMIN')")
 	public ResponseEntity<UserAuthResponse> getUserInfo(@PathVariable String id) {
 		return ResponseEntity.ok(userAuthService.getUserWithAuthorities(id));
 	}
