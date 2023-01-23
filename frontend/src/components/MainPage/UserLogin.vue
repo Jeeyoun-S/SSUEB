@@ -91,6 +91,7 @@ export default {
 
 <style scoped>
 .login {
-  width: 280px;
+  width: 341px;
+  height: 438px;
 }
 </style>
