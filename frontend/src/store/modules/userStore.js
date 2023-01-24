@@ -23,7 +23,7 @@ const userStore = {
     },
   },
   actions: {
-    // 로그인
+    // [@Method] 로그인
     async excuteLogin({ commit }, loginInfo) {
       await login(
         loginInfo,
@@ -49,7 +49,7 @@ const userStore = {
           } else {
             console.log("#userStore - excuteLogin# 로그인 실패");
             commit("SET_IS_LOGIN", false);
-            commit("SET_USER_TOKEN", null);
+            commit("SET_IS_VALID_TOKEN", false);
           }
         },
         (error) => {
@@ -57,9 +57,17 @@ const userStore = {
         }
       );
     },
-    // 모든 권한 허용
+    // [@Method] 모든 권한 허용
     async checkAnyPermit({ commit }) {
       console.log("# 모든 권한 허용: ", this.userId, commit);
+    },
+    // [@Method] 로그아웃
+    async excuteLogout({ commit }) {
+      console.log("#userStore - excuteLogout# 로그아웃 동작");
+      commit("SET_IS_LOGIN", false);
+      commit("SET_IS_VALID_TOKEN", false);
+      sessionStorage.clear;
+      //console.log("#21# sessionStorage 확인: ", sessionStorage.getItem);
     },
   },
 };
