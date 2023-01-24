@@ -18,15 +18,20 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+
+const userStore = "userStore";
+
 export default {
   name: "UserAlert",
   data() {},
   components: {},
   computed: {},
   methods: {
+    ...mapActions(userStore, ["checkAnyPermit"]),
+    // 모든 권한 허용
     async checkAny() {
-      console.log("#UserAlert 페이지# 모든 권한 허용 실행");
-      //await this.excuteLogin(this.loginInfo);
+      await this.checkAnyPermit();
     },
     async checkPermit() {
       console.log("#UserAlert 페이지# 전문가, 관리자 권한 허용 실행");

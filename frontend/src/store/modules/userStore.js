@@ -6,19 +6,24 @@ const userStore = {
   namespaced: true,
   state: {
     isLogin: false,
-    userToken: null,
+    isValidToken: false,
+    userId: null,
   },
   getters: {},
   mutations: {
     SET_IS_LOGIN: (state, isLogin) => {
       state.isLogin = isLogin;
     },
-    SET_USER_TOKEN: (state, userToken) => {
+    SET_IS_VALID_TOKEN: (state, isValidToken) => {
+      state.isValidToken = isValidToken;
+    },
+    SET_USER_ID: (state, userId) => {
       state.isLogin = true;
-      state.userToken = userToken;
+      state.userId = userId;
     },
   },
   actions: {
+    // 로그인
     async excuteLogin({ commit }, loginInfo) {
       await login(
         loginInfo,
@@ -33,10 +38,12 @@ const userStore = {
 
             // 로그인 성공에 따른 값 저장
             commit("SET_IS_LOGIN", true);
-            commit("SET_USER_TOKEN", token);
+            commit("SET_IS_VALID_TOKEN", true);
+            sessionStorage.setItem("token", token);
 
-            // token 복호화
+            // token 복호화 > userId 저장
             console.log("#21# token 내용: ", VueJwtDecode.decode(token));
+            commit("SET_USER_ID", VueJwtDecode.decode(token).sub);
 
             // else) 로그인 실패
           } else {
@@ -49,6 +56,10 @@ const userStore = {
           console.log(error);
         }
       );
+    },
+    // 모든 권한 허용
+    async checkAnyPermit({ commit }) {
+      console.log("# 모든 권한 허용: ", this.userId, commit);
     },
   },
 };
