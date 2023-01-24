@@ -1,4 +1,4 @@
-import { login } from "@/api/user";
+import { login, partPermit } from "@/api/user";
 // ! JWT 디코드 설치 필요: npm i vue-jwt-decode
 import VueJwtDecode from "vue-jwt-decode";
 
@@ -8,6 +8,7 @@ const userStore = {
     isLogin: false,
     isValidToken: false,
     userId: null,
+    userInfo: null,
   },
   getters: {},
   mutations: {
@@ -20,6 +21,11 @@ const userStore = {
     SET_USER_ID: (state, userId) => {
       state.isLogin = true;
       state.userId = userId;
+      console.log("#SET_USER_ID# userId 확인: ", state.userId);
+    },
+    SET_USER_INFO: (state, userInfo) => {
+      state.userInfo = userInfo;
+      console.log("#SET_USER_INFO# userInfo 확인: ", state.userInfo);
     },
   },
   actions: {
@@ -43,7 +49,9 @@ const userStore = {
 
             // token 복호화 > userId 저장
             console.log("#21# token 내용: ", VueJwtDecode.decode(token));
-            commit("SET_USER_ID", VueJwtDecode.decode(token).sub);
+            let email = VueJwtDecode.decode(token).sub;
+            console.log("#21# token 복호화 이메일 확인: ", email);
+            commit("SET_USER_ID", email);
 
             // else) 로그인 실패
           } else {
@@ -59,7 +67,25 @@ const userStore = {
     },
     // [@Method] 모든 권한 허용
     async checkAnyPermit({ commit }) {
-      console.log("# 모든 권한 허용: ", this.userId, commit);
+      console.log("#userStore - checkAnyPermit# 모든 권한 허용 동작", commit);
+    },
+    // [@Method] 전문가, 관리자 권한만 허용
+    async checkPartPermit({ commit }, userId) {
+      console.log(
+        "#userStore - checkPartPermit# 전문가, 관리자 권한만 허용 동작"
+      );
+
+      await partPermit(
+        userId,
+        ({ data }) => {
+          console.log("#userStore - checkPartPermit# 성공");
+          commit("SET_USER_INFO", data);
+        },
+        (error) => {
+          console.log("#userStore - checkPartPermit# 실패");
+          console.log(error);
+        }
+      );
     },
     // [@Method] 로그아웃
     async excuteLogout({ commit }) {
