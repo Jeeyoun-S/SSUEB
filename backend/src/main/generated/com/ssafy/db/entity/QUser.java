@@ -10,9 +10,7 @@ import com.querydsl.core.types.Path;
 
 
 /**
- * [skeleton-code]
  * QUser is a Querydsl query type for User
- * - user 엔티티 변경에 따라 오류 발생되는 _super(24번째 줄), id(29번째 줄) 임시 주석처리 함 
  */
 @Generated("com.querydsl.codegen.EntitySerializer")
 public class QUser extends EntityPathBase<User> {
@@ -21,20 +19,25 @@ public class QUser extends EntityPathBase<User> {
 
     public static final QUser user = new QUser("user");
 
-    //public final QBaseEntity _super = new QBaseEntity(this);
+    public final StringPath id = createString("id");
 
-    public final StringPath department = createString("department");
+    public final NumberPath<Integer> userAlertFlag = createNumber("userAlertFlag", Integer.class);
 
-    //inherited
-    //public final NumberPath<Long> id = _super.id;
+    public final NumberPath<Integer> userDeleteFlag = createNumber("userDeleteFlag", Integer.class);
 
-    public final StringPath name = createString("name");
+    public final StringPath userJoindate = createString("userJoindate");
 
-    public final StringPath password = createString("password");
+    public final StringPath userName = createString("userName");
 
-    public final StringPath position = createString("position");
+    public final StringPath userNickname = createString("userNickname");
 
-    public final StringPath userId = createString("userId");
+    public final StringPath userPassword = createString("userPassword");
+
+    public final StringPath userPhone = createString("userPhone");
+
+    public final NumberPath<Integer> userRole = createNumber("userRole", Integer.class);
+
+    public final StringPath userToken = createString("userToken");
 
     public QUser(String variable) {
         super(User.class, forVariable(variable));
