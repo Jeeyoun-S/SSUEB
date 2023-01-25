@@ -1,4 +1,4 @@
-import { login, partPermit } from "@/api/user";
+import { login, anyPermit, partPermit } from "@/api/user";
 // ! JWT 디코드 설치 필요: npm i vue-jwt-decode
 import VueJwtDecode from "vue-jwt-decode";
 
@@ -67,7 +67,20 @@ const userStore = {
     },
     // [@Method] 모든 권한 허용
     async checkAnyPermit({ commit }) {
-      console.log("#userStore - checkAnyPermit# 모든 권한 허용 동작", commit);
+      console.log("#userStore - checkAnyPermit# 모든 권한 허용 동작");
+      const sessionToken = sessionStorage.getItem("token");
+
+      await anyPermit(
+        sessionToken,
+        ({ data }) => {
+          console.log("#userStore - checkAnyPermit# 성공");
+          commit("SET_USER_INFO", data);
+        },
+        (error) => {
+          console.log("#userStore - checkAnyPermit# 실패");
+          console.log(error);
+        }
+      );
     },
     // [@Method] 전문가, 관리자 권한만 허용
     async checkPartPermit({ commit }, userId) {
