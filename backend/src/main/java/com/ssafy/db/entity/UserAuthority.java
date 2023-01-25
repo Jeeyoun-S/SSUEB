@@ -3,6 +3,7 @@ package com.ssafy.db.entity;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.Id;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,6 +16,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class UserAuthority {
 	
+	@Id
 	@Column(name = "user_id")
     String userId;
 	
