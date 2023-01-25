@@ -1,11 +1,5 @@
 package com.ssafy.db.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import lombok.Getter;
-import lombok.Setter;
-
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -16,7 +10,11 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-import org.springframework.security.core.GrantedAuthority;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * user 테이블 모델 정의 
@@ -46,7 +44,7 @@ public class User {
 	
 	@Column(name = "user_joindate")
 	String userJoindate;
-	
+
 	@Column(name = "user_delete_flag")
 	int userDeleteFlag;
 	

@@ -36,7 +36,7 @@ public class Consultant {
 	String consultantLicenseNumber;
 	
 	@Column(name = "consultant_license_copy_image")
-	int consultantLicenseCopyImage;
+	String consultantLicenseCopyImage;
 	
 	@Column(name = "consultant_reservation_count")
 	int consultantReservationCount;
