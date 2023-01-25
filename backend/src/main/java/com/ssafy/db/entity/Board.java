@@ -46,6 +46,9 @@ public class Board {
 	@Column(name = "board_views")
 	int boardViews;
 	
-	@Column(name = "board_consultant_flag")
-	int boardConsultantFlag;
+	@Column(name = "board_flag")
+	int boardFlag;
+	
+	@Column(name = "board_file")
+	String boardFile;
 }
