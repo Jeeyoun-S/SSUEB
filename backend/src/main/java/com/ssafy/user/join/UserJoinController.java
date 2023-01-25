@@ -14,6 +14,9 @@ import com.ssafy.user.join.request.ConsultantJoinRequest;
 import com.ssafy.user.join.request.JoinRequest;
 import com.ssafy.user.join.response.BasicResponse;
 import com.ssafy.user.join.response.JoinResponse;
+import com.ssafy.user.login.UserLoginController;
+import com.ssafy.user.login.request.UserLoginPostRequest;
+import com.ssafy.user.login.response.UserLoginPostResponse;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -35,6 +38,9 @@ public class UserJoinController {
 	@Autowired
 	UserJoinRepository userJoinRepository;
 	
+	@Autowired
+	UserLoginController userLoginController;
+	
 	@PostMapping("/partner")
 	@ApiOperation(value = "반려인 회원가입", notes = "반려인의 정보를 입력받아 회원 정보에 추가하고 로그인한다.")
 	@ApiResponses(value = {
@@ -48,13 +54,28 @@ public class UserJoinController {
 		// User Table에 넣기
 		boolean result = userJoinService.joinUser(joinRequest);
 		
+		// 아이디 변수 생성
+		String userId = joinRequest.getId();
+		
+		// 권한 설정하기
+		userJoinService.grantAuthority(userId, "ROLE_USER");
+		
 		// DB에 넣었다면
 		if (result) {
 		
 			// 로그인하기
-		
-			// response 값 생성 및 반환
-			return ResponseEntity.status(200).body(new JoinResponse("success", "회원가입에 성공했습니다."));
+			ResponseEntity<UserLoginPostResponse> resultLogin = userLoginController.authorize(new UserLoginPostRequest(userId, joinRequest.getUserPassword()));
+			
+			// 로그인 성공
+			if (resultLogin.getBody().getResponse().equals("success")) {
+				return ResponseEntity.status(200).body(new JoinResponse("success", "회원가입에 성공했습니다."));
+			}
+			
+			// 로그인 실패
+			else {
+				return ResponseEntity.status(200).body(new JoinResponse("success", "회원가입에 성공했으나, 로그인에 실패했습니다."));
+			}
+			
 		}
 		return ResponseEntity.status(200).body(new JoinResponse("failure", "회원가입에 실패했습니다."));
 	}
@@ -78,6 +99,12 @@ public class UserJoinController {
 			// User Table에 넣기
 			boolean resultUser = userJoinService.joinUser(joinRequest);
 			
+			// 아이디 변수 생성
+			String userId = joinRequest.getId();
+			
+			// 권한 설정하기
+			userJoinService.grantAuthority(userId, "ROLE_CONSULTANT");
+			
 			// DB에 정보 넣기 성공
 			if (resultUser) {
 				
@@ -86,8 +113,18 @@ public class UserJoinController {
 				
 				if (resultConsultant) {
 					
-					// response 값 생성 및 반환
-					return ResponseEntity.status(200).body(new JoinResponse("success", "회원가입에 성공했습니다."));
+					// 로그인하기
+					ResponseEntity<UserLoginPostResponse> resultLogin = userLoginController.authorize(new UserLoginPostRequest(userId, joinRequest.getUserPassword()));
+					
+					// 로그인 성공
+					if (resultLogin.getBody().getResponse().equals("success")) {
+						return ResponseEntity.status(200).body(new JoinResponse("success", "회원가입에 성공했습니다."));
+					}
+					
+					// 로그인 실패
+					else {
+						return ResponseEntity.status(200).body(new JoinResponse("success", "회원가입에 성공했으나, 로그인에 실패했습니다."));
+					}
 				}
 				
 			}
