@@ -1,11 +1,16 @@
 <template>
   <div class="join">
     <div class="join-inner">
-      <div class="join-inner-item">    
-          <LogoVer1></LogoVer1>
-          <v-sheet elevation="2" class="mx-auto sheet" height="290" width="300" rounded>
-
-          </v-sheet>
+      <div class="join-inner-item">
+        <LogoVer1></LogoVer1>
+        <v-sheet
+          elevation="2"
+          class="mx-auto sheet"
+          height="290"
+          width="300"
+          rounded
+        >
+        </v-sheet>
       </div>
       <v-sheet elevation="2" class="join-inner-item mx-auto sheet" rounded>
         <h2>회원가입</h2>
@@ -21,23 +26,23 @@
 </template>
 
 <script>
-import LogoVer1 from '@/views/LogoVer1.vue';
-import UserJoinConsult from '@/components/UserJoin/UserJoinConsultant.vue';
-import UserJoinPartner from '@/components/UserJoin/UserJoinPartner.vue';
+import LogoVer1 from "@/views/LogoVer1.vue";
+import UserJoinConsult from "@/components/UserJoin/UserJoinConsultant.vue";
+import UserJoinPartner from "@/components/UserJoin/UserJoinPartner.vue";
 
 export default {
-  name: 'UserJoin',
+  name: "UserJoin",
   components: {
     LogoVer1,
     UserJoinConsult,
-    UserJoinPartner
+    UserJoinPartner,
   },
   data() {
     return {
-      joinTab: 'partner'
-    }
-  }
-}
+      joinTab: "partner",
+    };
+  },
+};
 </script>
 
 <style scoped>
@@ -57,7 +62,7 @@ export default {
   padding: 30px;
 }
 .join .join-inner .join-inner-item {
-  height: 600px;
+  height: 1000px;
   width: 335px;
 
   display: flex;

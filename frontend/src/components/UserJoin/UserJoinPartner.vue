@@ -1,5 +1,4 @@
 <template>
-  {{ validatePhone }}
   <v-form class="form"> 
     <v-text-field v-model="info.email" class="mb-2" :rules="rules.email" label="이메일" variant="underlined" color="primary" required></v-text-field>
     <v-text-field v-model="info.password" class="mb-2" :rules="rules.password" label="비밀번호" type="Password" variant="underlined" color="primary" required></v-text-field>
