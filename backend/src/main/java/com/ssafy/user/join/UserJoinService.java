@@ -21,4 +21,10 @@ public interface UserJoinService {
 	 * **/
 	public boolean joinConsultant(String id, ConsultantJoinRequest consultantJoinRequest);
 	
+	/**
+	 * 권한 부여
+	 * @param userId 사용자 아이디
+	 * @param authorityName 권한 이름 (ROLE_ADMIN, ROLE_CONSULTANT, ROLE_USER)
+	 * **/
+	public boolean grantAuthority(String userId, String authorityName);
 }

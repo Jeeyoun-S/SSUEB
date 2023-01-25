@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.ssafy.common.util.ParameterCheck;
 import com.ssafy.db.entity.Consultant;
 import com.ssafy.db.entity.User;
+import com.ssafy.db.entity.UserAuthority;
 import com.ssafy.user.join.request.ConsultantJoinRequest;
 import com.ssafy.user.join.request.JoinRequest;
 
@@ -36,7 +37,6 @@ public class UserJoinServiceImpl implements UserJoinService {
 		String nickname = joinRequest.getUserNickname();
 		String name = joinRequest.getUserName();
 		String phone = joinRequest.getUserPhone();
-		int role = joinRequest.getUserRole();
 		int alertFlag = joinRequest.getUserAlertFlag();
 		
 		// 아이디 유효성 검사
@@ -124,6 +124,15 @@ public class UserJoinServiceImpl implements UserJoinService {
 		
 		// consultant를 DB에 넣어주기
 		userJoinRepository.save(consultant);
+		
+		return true;
+	}
+
+	@Override
+	public boolean grantAuthority(String userId, String authorityName) {
+		
+		// 사용자 권한 저장하기
+		userJoinRepository.save(new UserAuthority(userId, authorityName));
 		
 		return true;
 	}

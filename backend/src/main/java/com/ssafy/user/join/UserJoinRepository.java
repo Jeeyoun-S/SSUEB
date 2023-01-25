@@ -4,6 +4,7 @@ import org.springframework.data.repository.Repository;
 
 import com.ssafy.db.entity.Consultant;
 import com.ssafy.db.entity.User;
+import com.ssafy.db.entity.UserAuthority;
 
 public interface UserJoinRepository extends Repository<User, String> {
 
@@ -16,7 +17,6 @@ public interface UserJoinRepository extends Repository<User, String> {
 	/**
 	 * 전문가 정보를 Consultant 테이블에 추가
 	 * @param consultant Consultant 테이블 정보
-	 * @return 넣은 consultant 값
 	 * **/
 	void save(Consultant consultant);
 	
@@ -26,4 +26,10 @@ public interface UserJoinRepository extends Repository<User, String> {
 	 * @return id에 해당하는 User 정보
 	 * **/
 	User findById(String id);
+	
+	/**
+	 * 사용자 권한 테이블에 권한 추가
+	 * @param userAuthority 사용자 권한 정보
+	 * **/
+	void save(UserAuthority userAuthority);
 }
