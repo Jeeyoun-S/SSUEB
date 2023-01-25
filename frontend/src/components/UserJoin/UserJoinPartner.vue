@@ -1,13 +1,13 @@
 <template>
-  <v-form class="form"> 
+  <v-form class="form" lazy-validation> 
     <v-text-field v-model="info.email" class="mb-2" :rules="rules.email" label="이메일" variant="underlined" color="primary" required></v-text-field>
     <v-text-field v-model="info.password" class="mb-2" :rules="rules.password" label="비밀번호" type="Password" variant="underlined" color="primary" required></v-text-field>
     <v-text-field v-model="info.name" class="mb-2" :rules="rules.name" label="이름" variant="underlined" color="primary" required></v-text-field>
     <v-text-field v-model="info.nickname" class="mb-2" :rules="rules.nickname" label="닉네임" variant="underlined" color="primary" required></v-text-field>
     <v-text-field v-model="info.phone" ref="userPhone" class="mb-2" :rules="rules.phone" label="휴대폰 번호" variant="underlined" color="primary" required></v-text-field>
-    <v-btn variant="tonal" rounded="0" @click="phoneAuth()" block>휴대폰 인증</v-btn>
+    <v-btn variant="tonal" rounded="0" @click="phoneAuth()" :disabled="phoneDisable" block>{{ phoneButton }}</v-btn>
     <v-radio-group v-model="info.alertFlag" inline>
-      <v-radio label="카카오톡" size="small" value="0"></v-radio>
+      <v-radio label="카카오톡" value="0"></v-radio>
       <v-radio label="이메일" value="1"></v-radio>
       <v-radio label="문자" value="2"></v-radio>
     </v-radio-group>
@@ -16,6 +16,8 @@
 </template>
 
 <script>
+import { sendPhoneAuth } from "@/api/userJoin"
+
 export default {
   name: 'UserJoinPartner',
   data() {
@@ -59,11 +61,36 @@ export default {
           v => !!v || '휴대폰 번호는 필수 입력 사항입니다.',
           v => this.valid.phone.test(v) || "'-' 없이 숫자 11자리로 입력해 주세요.",
         ]
-      }
+      },
+      phoneDisable: true,
+      isPhoneAuth: false,
+      phoneButton: "휴대폰 인증"
     }
   },
   methods: {
-  }
+    phoneAuth() {
+      console.log("휴대폰 인증 시작");
+      sendPhoneAuth({
+        userPhone: this.info.phone,
+      });
+    }
+  },
+  watch: {
+    info: {
+      handler: function() {
+        this.$refs.userPhone.validate().then(
+          (v) => {
+            if (v.length > 0) {
+              this.phoneDisable = true;
+            } else {
+              this.phoneDisable = false;
+            }
+          }
+        )
+      },
+      deep: true
+    },
+  },
 }
 </script>
 
