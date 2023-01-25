@@ -67,7 +67,6 @@ public class UserJoinServiceImpl implements UserJoinService {
 								user.setUserNickname(nickname);
 								user.setUserName(name);
 								user.setUserPhone(phone);
-								user.setUserRole(role);
 								user.setUserAlertFlag(alertFlag);
 								
 								// DB에 전달 받은 회원정보 저장해 두기
