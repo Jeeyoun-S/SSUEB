@@ -11,10 +11,20 @@ async function login(loginInfo, success, fail) {
     .catch(fail);
 }
 
-// [GET] 전문가, 관리자 권한만 허용
-async function partPermit(userId, success, fail) {
-  console.log("#user - api# 일부 권한 허용 params: ", userId);
-  await api.get(`/user/auth/permit/${userId}`).then(success).catch(fail);
+// [GET] 전문가, 관리자 권한만 허용 + header에 token 넣어야 함
+async function partPermit(userId, token, success, fail) {
+  console.log("#user - api# 일부 권한 허용 params - userId: ", userId);
+  console.log("#user - api# 일부 권한 허용 params - token: ", token);
+
+  await api
+    .get(`/user/auth/permit/${userId}`, {
+      // header에 authorization bearer token 넣기
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then(success)
+    .catch(fail);
 }
 
 export { login, partPermit };

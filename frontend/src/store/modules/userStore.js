@@ -74,9 +74,11 @@ const userStore = {
       console.log(
         "#userStore - checkPartPermit# 전문가, 관리자 권한만 허용 동작"
       );
+      const sessionToken = sessionStorage.getItem("token");
 
       await partPermit(
         userId,
+        sessionToken,
         ({ data }) => {
           console.log("#userStore - checkPartPermit# 성공");
           commit("SET_USER_INFO", data);
