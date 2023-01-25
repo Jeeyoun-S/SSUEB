@@ -20,6 +20,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
@@ -31,6 +32,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ssafy.user.phone.request.Message;
 import com.ssafy.user.phone.request.MessageApiRequest;
 import com.ssafy.user.phone.response.MessageApiResponse;
+import com.ssafy.user.phone.response.PhoneSendResponse;
 
 @Service("UserPhoneService")
 public class UserPhoneServiceImpl implements UserPhoneService {
@@ -48,7 +50,7 @@ public class UserPhoneServiceImpl implements UserPhoneService {
 	private StringRedisTemplate stringRedisTemplate;
 	
 	@Override
-	public ResponseEntity<MessageApiResponse> sendSMS(String userPhone, String authNumber) throws InvalidKeyException, IllegalStateException, UnsupportedEncodingException, NoSuchAlgorithmException, JsonProcessingException, URISyntaxException {
+	public ResponseEntity<PhoneSendResponse> sendSMS(String userPhone, String authNumber) throws InvalidKeyException, IllegalStateException, UnsupportedEncodingException, NoSuchAlgorithmException, JsonProcessingException, URISyntaxException {
 		
 		// 요청을 보낼 URL
 		String path = "/sms/v2/services/"+serviceId+"/messages";
@@ -80,7 +82,17 @@ public class UserPhoneServiceImpl implements UserPhoneService {
 		restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory());
 		ResponseEntity<MessageApiResponse> response = restTemplate.postForEntity(uri, body, MessageApiResponse.class);
 		
-		return response;
+		// 요청에 대한 응답을 받아서 성공, 실패 확인
+		String result = response.getBody().getStatusName();
+		
+		// 메세지 전송에 성공한 경우
+		if (result.equals("success")) {
+			return new ResponseEntity<PhoneSendResponse>(new PhoneSendResponse("success", "인증번호를 전송했습니다."), HttpStatus.OK);
+		} 
+		
+		// 메세지 전송에 실패한 경우
+		return new ResponseEntity<PhoneSendResponse>(new PhoneSendResponse("failure", "인증번호를 전송에 실패했습니다. 전화번호를 다시 확인해 주세요."), HttpStatus.OK);
+		
 	}
 	
 	@Override

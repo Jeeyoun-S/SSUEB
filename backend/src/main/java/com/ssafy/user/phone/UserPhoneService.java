@@ -10,7 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.ssafy.user.phone.response.MessageApiResponse;
+import com.ssafy.user.phone.response.PhoneSendResponse;
 
 @Service
 public interface UserPhoneService {
@@ -21,7 +21,7 @@ public interface UserPhoneService {
 	 * @param userPhone 사용자 휴대폰 번호
 	 * @param authNumber 인증 번호
 	 * **/
-	public ResponseEntity<MessageApiResponse> sendSMS(String userPhone, String authNumber)
+	public ResponseEntity<PhoneSendResponse> sendSMS(String userPhone, String authNumber)
 			throws InvalidKeyException, IllegalStateException, UnsupportedEncodingException, NoSuchAlgorithmException,
 			JsonProcessingException, URISyntaxException;
 	

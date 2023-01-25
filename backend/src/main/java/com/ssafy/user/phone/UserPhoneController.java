@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.ssafy.common.util.ParameterCheck;
 import com.ssafy.user.join.response.BasicResponse;
-import com.ssafy.user.phone.response.MessageApiResponse;
+import com.ssafy.user.phone.response.PhoneSendResponse;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -48,7 +48,7 @@ public class UserPhoneController {
 		String authNumber = userPhoneService.makeAuthNumber(userPhone);
 		
 		// SMS 전송 API 요청 보내기
-		ResponseEntity<MessageApiResponse> apiResponse = userPhoneService.sendSMS(userPhone, authNumber);
+		ResponseEntity<PhoneSendResponse> apiResponse = userPhoneService.sendSMS(userPhone, authNumber);
 		
 		return apiResponse;
 	}
