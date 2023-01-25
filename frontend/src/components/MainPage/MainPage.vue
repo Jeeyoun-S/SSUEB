@@ -7,8 +7,8 @@
 </template>
 
 <script>
-import UserLogin from "./UserLogin.vue";
-import UserAlert from "./UserAlert.vue";
+import UserLogin from "../UserLogin/UserLogin.vue";
+import UserAlert from "../UserLogin/UserAlert.vue";
 import { mapState } from "vuex";
 
 const userStore = "userStore";

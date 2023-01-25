@@ -84,6 +84,15 @@ export default {
         this.loginInfo.password
       );
       await this.excuteLogin(this.loginInfo);
+
+      // 로그인 실패 시 alert창 띄우기
+      if (!this.isLogin) {
+        this.$swal.fire(
+          "FAIL",
+          "아이디와 비밀번호를 다시 입력해주세요.",
+          "warning"
+        );
+      }
     },
   },
 };
