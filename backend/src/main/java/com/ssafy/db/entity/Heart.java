@@ -13,6 +13,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import io.swagger.annotations.ApiModelProperty;
+
 /**
  * like 테이블 모델 정의
  */
@@ -26,11 +28,14 @@ import javax.persistence.Table;
 public class Heart {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@ApiModelProperty(value = "PK, AI")
     int no;
 	
 	@Column(name = "board_no")
+	@ApiModelProperty(value = "좋아요를 누른 게시글 번호")
     int boardNo;
 	
 	@Column(name = "user_id")
+	@ApiModelProperty(value = "유저 아이디")
     String userId;
 }
