@@ -40,8 +40,8 @@ public class Board {
 	//String boardWritetime;
 	Timestamp boardWritetime;
 	
-	@Column(name = "board_likenum")
-	int boardLikenum;
+	@Column(name = "board_heartnum")
+	int boardHeartnum;
 	
 	@Column(name = "board_views")
 	int boardViews;
