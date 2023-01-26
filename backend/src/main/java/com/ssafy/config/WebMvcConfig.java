@@ -1,5 +1,7 @@
 package com.ssafy.config;
 
+import javax.servlet.Filter;
+
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -7,11 +9,9 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CommonsRequestLoggingFilter;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
-import javax.servlet.Filter;
 
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
@@ -75,4 +75,13 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registration.addUrlPatterns("/api/*");
         return registration;
     }
+    
+    // 8081에서 오는 요청은 허용
+    @Override
+	public void addCorsMappings(CorsRegistry registry) {
+		registry.addMapping("/**").allowedHeaders("*")
+		.allowedOrigins("http://localhost:8081", "https://localhost:8081")
+		.allowedMethods("GET", "HEAD", "POST", "PUT", "DELETE", "PATCH");
+	}
+
 }

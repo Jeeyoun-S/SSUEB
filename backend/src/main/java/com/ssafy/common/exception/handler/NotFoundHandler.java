@@ -33,19 +33,20 @@ public class NotFoundHandler {
 	 
 	@ExceptionHandler(NoHandlerFoundException.class)
 	public ResponseEntity<String> renderDefaultPage(NoHandlerFoundException ex) {
-		String url = ex.getRequestURL();
-		if(url.startsWith("/api/")) {
-			return ResponseEntity.notFound().build();
-		}else {
-			try {
-				ClassPathResource classPathResource = new ClassPathResource(defaultFile);
-				InputStream inputStream = classPathResource.getInputStream();
-    				String body = StreamUtils.copyToString(inputStream, Charset.defaultCharset());
-			    return ResponseEntity.ok().contentType(MediaType.TEXT_HTML).body(body);
-			} catch (IOException e) {
-				e.printStackTrace();
-				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("There was an error completing the action.");
-			}
-		}
+//		String url = ex.getRequestURL();
+//		if(url.startsWith("/api/")) {
+//			return ResponseEntity.notFound().build();
+//		}else {
+//			try {
+//				ClassPathResource classPathResource = new ClassPathResource(defaultFile);
+//				InputStream inputStream = classPathResource.getInputStream();
+//    				String body = StreamUtils.copyToString(inputStream, Charset.defaultCharset());
+//			    return ResponseEntity.ok().contentType(MediaType.TEXT_HTML).body(body);
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("There was an error completing the action.");
+//			}
+//		}
+		return null; 
 	}
 }

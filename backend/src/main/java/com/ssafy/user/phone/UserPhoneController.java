@@ -43,7 +43,7 @@ public class UserPhoneController {
 	@ApiOperation(value = "휴대폰 인증 전송", notes = "사용자의 휴대폰 인증을 위해 인증 메세지를 전송한다.")
 	@ApiImplicitParam(name = "userPhone", value = "휴대폰 번호", required = true)
 	public ResponseEntity<?> phoneAuth(String userPhone) throws InvalidKeyException, IllegalStateException, UnsupportedEncodingException, NoSuchAlgorithmException, JsonProcessingException, URISyntaxException {
-		
+		System.out.println("인증번호 생성 시작");
 		// 인증번호 생성
 		String authNumber = userPhoneService.makeAuthNumber(userPhone);
 		
@@ -66,7 +66,7 @@ public class UserPhoneController {
 		String realNumber = valueOperations.get(userPhone);
 		
 		// 가져온 value 값과 입력 받은 인증번호가 같으면 success
-		if (realNumber.equals(authNumber)) {
+		if (realNumber != null && realNumber.equals(authNumber)) {
 			return new ResponseEntity<BasicResponse>(new BasicResponse("success"), HttpStatus.OK);
 		}
 		

@@ -15,6 +15,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
  * user 테이블 모델 정의 
@@ -23,6 +24,7 @@ import lombok.Setter;
 @Table(name = "user")
 @Getter
 @Setter
+@ToString
 public class User {
 	@Id
     //@GeneratedValue(strategy = GenerationType.IDENTITY)
