@@ -1,7 +1,10 @@
 package com.ssafy.db.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,10 +17,13 @@ import javax.persistence.Table;
  * like 테이블 모델 정의
  */
 @Entity
-@Table(name = "like")
+@Table(name = "heart")
 @Getter
 @Setter
-public class Like {
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
+public class Heart {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int no;

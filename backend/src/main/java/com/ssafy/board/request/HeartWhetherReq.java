@@ -1,4 +1,4 @@
-package com.ssafy.board.response;
+package com.ssafy.board.request;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -17,10 +17,8 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@ApiModel("LikeRequest")
-public class LikeReq {
-	int no;
+@ApiModel("HeartWhetherReq")
+public class HeartWhetherReq {
 	int boardNo;
 	String userId;
-	int flag;
 }

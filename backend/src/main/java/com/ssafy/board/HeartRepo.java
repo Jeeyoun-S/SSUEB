@@ -10,9 +10,9 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.ssafy.db.entity.Board;
-import com.ssafy.db.entity.Like;
+import com.ssafy.db.entity.Heart;
 
 @Repository
-public interface LikeRepo extends JpaRepository<Like,Integer>{
-	
+public interface HeartRepo extends JpaRepository<Heart,Integer>{
+	boolean existsByBoardNoAndUserId(int boardNo, String userId);
 }

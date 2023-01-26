@@ -1,7 +1,10 @@
 package com.ssafy.db.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.sql.Timestamp;
 
@@ -19,6 +22,9 @@ import javax.persistence.Table;
 @Table(name = "board")
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
 public class Board {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,11 +43,10 @@ public class Board {
 	String boardContent;
 	
 	@Column(name = "board_writetime")
-	//String boardWritetime;
-	Timestamp boardWritetime;
+	String boardWritetime;
 	
-	@Column(name = "board_likenum")
-	int boardLikenum;
+	@Column(name = "board_heartnum")
+	int boardHeartnum;
 	
 	@Column(name = "board_views")
 	int boardViews;

@@ -6,9 +6,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ssafy.board.request.BoardFixReq;
 import com.ssafy.board.response.BoardSummary;
 import com.ssafy.db.entity.Board;
-import com.ssafy.db.entity.Like;
+import com.ssafy.db.entity.Heart;
 import com.ssafy.db.entity.Reply;
 
 
@@ -18,7 +19,7 @@ public class BoardServiceImpl implements BoardService {
 	BoardRepo bRepo;
 	
 	@Autowired
-	LikeRepo lRepo;
+	HeartRepo hRepo;
 	
 	@Autowired
 	ReplyRepo rRepo;
@@ -49,7 +50,10 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public Board fixBoard(Board board) throws SQLException {//이게 no을 유지하면서 저장하면 그대로 바꿔주는듯 -> 프론트와 알아서 잘 맞춰서
+	public Board fixBoard(BoardFixReq bfr) throws SQLException {//이게 no을 유지하면서 저장하면 그대로 바꿔주는듯 -> 프론트와 알아서 잘 맞춰서
+		Board board = bRepo.findById(bfr.getNo()).get();
+		board.setBoardContent(bfr.getBoardContent());
+		board.setBoardTitle(bfr.getBoardTitle());
 		return bRepo.save(board);
 	}
 
@@ -66,13 +70,31 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public Like createLike(Like like) throws SQLException {
-		return lRepo.save(like);
+	public Heart createLike(Heart heart) throws SQLException {
+		//좋아요+1
+		Board board = bRepo.findById(heart.getBoardNo()).get();
+		board.setBoardHeartnum(board.getBoardHeartnum()+1);
+		bRepo.save(board);
+		
+		//좋아요 기록 저장
+		return hRepo.save(heart);
 	}
 
 	@Override
 	public void deleteLike(int no) throws SQLException {
-		lRepo.deleteById(no);
+		//좋아요-1
+		Board board = bRepo.findById(no).get();
+		if(board.getBoardHeartnum() > 0) {
+			board.setBoardHeartnum(board.getBoardHeartnum()-1);
+			bRepo.save(board);
+		}
+		//좋아요 기록 삭제
+		hRepo.deleteById(no);
+	}
+	
+	@Override
+	public boolean whetherLike(int boardNo, String userId) throws SQLException {
+		return hRepo.existsByBoardNoAndUserId(boardNo, userId);
 	}
 
 	@Override
@@ -92,7 +114,9 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public List<BoardSummary> readPopular() throws SQLException {
-		return bRepo.findTop5ByOrderByBoardLikenumDesc();
+		return bRepo.findTop5ByOrderByBoardHeartnumDesc();
 	}
+
+	
 	
 }
