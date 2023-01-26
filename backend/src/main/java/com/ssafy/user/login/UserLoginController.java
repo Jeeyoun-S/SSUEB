@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.common.jwt.JwtAuthenticationFilter;
 import com.ssafy.common.jwt.JwtTokenProvider;
+import com.ssafy.common.util.ParameterCheck;
 import com.ssafy.user.login.request.UserLoginPostRequest;
 import com.ssafy.user.login.response.UserLoginPostResponse;
 
@@ -37,6 +38,8 @@ public class UserLoginController {
 	
 	@Autowired
 	PasswordEncoder passwordEncoder;
+	
+	ParameterCheck parameterCheck = new ParameterCheck(); 
 	
 	// for. JWT
 	private final JwtTokenProvider jwtTokenProvider;
@@ -71,6 +74,17 @@ public class UserLoginController {
 			logger.info("## [Controller]: authorize - 로그인 실행 {}, {}", loginInfo.getId(), loginInfo.getPassword());
 //			logger.info("#21# 암호화 비밀번호: {}", passwordEncoder.encode(loginInfo.getPassword()));
 			
+			// # 입력값 검증
+			// i) id - 비어 있지 않은지 && ID 규칙에 맞는지
+			if(parameterCheck.isEmpty(loginInfo.getId()) || !parameterCheck.isValidId(loginInfo.getId())) {
+				return ResponseEntity.ok(UserLoginPostResponse.of(401, "failure", "id 또는 password를 다시 입력해 주세요.", null));
+			}
+			// ii) pw - 비어 있지 않은지 && PW 규칙에 맞는지 
+			if (parameterCheck.isEmpty(loginInfo.getPassword()) || !parameterCheck.isValidPassword(loginInfo.getPassword())) {
+				return ResponseEntity.ok(UserLoginPostResponse.of(401, "failure", "id 또는 password를 다시 입력해 주세요.", null));
+			}
+			
+			// # 로그인
 			// i) 입력받은 loginInfo(id, pw)를 사용하여 Authentication 토큰 생성 
 			UsernamePasswordAuthenticationToken authenticationToken = 
 					new UsernamePasswordAuthenticationToken(loginInfo.getId(), loginInfo.getPassword());
