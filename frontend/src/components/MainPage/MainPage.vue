@@ -1,9 +1,43 @@
 <template>
-  <div>
-    <UserLogin class="card" v-show="!isLogin"></UserLogin>
-    <user-alert class="card" v-show="isLogin"></user-alert>
+  <div class="main-page">
+    <div class="main-center">
+      <div class="main-center-item first">
+        <v-sheet color="white" elevation="1" height="200" width="780">
+          <v-img
+            class="rounded-lg image"
+            :src="require('@/assets/main/wind.gif')"
+          ></v-img>
+        </v-sheet>
+      </div>
+      <div class="main-center-item second">
+        <v-sheet color="white" elevation="1" height="200" width="780">
+          <v-img
+            class="rounded-lg image"
+            :src="require('@/assets/main/startle.gif')"
+          ></v-img>
+        </v-sheet>
+      </div>
+      <div class="main-center-item third">
+        <v-sheet color="white" elevation="1" height="200" width="780">
+          <v-img
+            class="rounded-lg image"
+            :src="require('@/assets/main/walk.gif')"
+          ></v-img>
+        </v-sheet>
+      </div>
+    </div>
+    <div class="main-right">
+      <div class="main-right-item top">
+        <UserLogin class="card" v-show="!isLogin"></UserLogin>
+        <UserAlert class="card" v-show="isLogin"></UserAlert>
+      </div>
+      <div class="main-right-item bottom">
+        <v-sheet color="white" elevation="1" height="200" width="300"></v-sheet>
+      </div>
+    </div>
   </div>
-  <div style="margin-top: 50px; margin-bottom: 70px">
+
+  <!-- <div v-show="false" style="margin-top: 50px; margin-bottom: 70px">
     <v-row class="pt-3" justify="center">
       <v-col cols="3" class="mx-3">
         <v-img
@@ -53,7 +87,7 @@
         </div>
       </div>
     </v-row>
-  </div>
+  </div> -->
 </template>
 
 <script>
@@ -75,26 +109,41 @@ export default {
 };
 </script>
 
-<style>
-.main-content-card {
-  border-radius: 5%;
-  /* background-image: url("@/assets/img/main3.jpg"); */
-  box-shadow: 0px 3px 1px -2px rgb(0 0 0 / 20%),
-    0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%);
+<style scoped>
+.main-page {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  justify-content: flex-start;
 }
-.background-color-filter {
-  width: 100%;
-  height: 100%;
-  background-color: #2fbdd6;
-  opacity: 0.8;
-  border-radius: 5%;
-  padding: 30px;
-  color: white;
+.main-page .main-right {
+  /* display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: right;
+
+  margin-right: 50px; */
 }
-.card {
-  width: 300px;
-  height: 430px;
-  margin-left: 285%;
-  margin-bottom: 95%;
+.main-page .main-right .main-right-item {
+  /* margin-bottom: 1%; */
+}
+.main-page .main-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  width: 780px;
+  margin-right: 50px;
+}
+
+.main-page .main-center .main-center-item.first,
+.second {
+  margin-bottom: 2.6%;
+}
+.main-page .main-center .main-center-item .image {
+  width: 200px;
+  height: 200px;
+  background-size: cover;
 }
 </style>

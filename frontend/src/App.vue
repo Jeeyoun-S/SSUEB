@@ -35,7 +35,7 @@ export default {
 .main {
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: flex-start;
   justify-content: left;
 
   /* 가로 스크롤 설정 */
@@ -44,5 +44,6 @@ export default {
   white-space: nowrap;
 
   font-family: "SUIT-Regular";
+  padding-top: 50px;
 }
 </style>
