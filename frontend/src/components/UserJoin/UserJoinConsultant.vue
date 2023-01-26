@@ -1,5 +1,5 @@
 <template>
-  <v-form class="form"> 
+  <v-form class="form" ref="form"> 
     <v-text-field v-model="info.email" class="mb-2" :rules="rules.email" label="이메일" variant="underlined" color="primary" required></v-text-field>
     <v-text-field v-model="info.password" class="mb-2" :rules="rules.password" label="비밀번호" variant="underlined" color="primary" required></v-text-field>
     <v-text-field v-model="info.name" class="mb-2" :rules="rules.name" label="이름" variant="underlined" color="primary" required></v-text-field>
@@ -12,7 +12,7 @@
     <v-text-field v-model="licenseNumber" class="mb-2" label="반려동물행동지도사 자격번호" variant="underlined" color="primary" required></v-text-field>
     <v-file-input accept="image/png, image/jpeg, .pdf" label="반려동물행동지도사 자격증 사본" variant="underlined" color="primary" small-chips></v-file-input>
     <v-combobox v-model="info.petType" :items="petType" label="상담 가능한 동물" variant="underlined" color="primary" multiple chips></v-combobox>
-    <v-btn variant="outlined" size="large" rounded="0" block>회원가입 신청</v-btn>
+    <v-btn variant="outlined" size="large" rounded="0" @click="validate()" block>회원가입 신청</v-btn>
   </v-form>
 </template>
 
@@ -25,10 +25,10 @@ export default {
         email: null,
         password: null,
         name: null,
-        phone: null,
         petType: [],
         licenseNumber: null
       },
+      userPhone: null,
       petType: ['개', '고양이', '토끼', '기니피그', '패럿', '햄스터'],
       valid: {
         email: /^[a-zA-Z0-9_+.-]+@([a-zA-Z0-9-]+\.)+[a-zA-Z0-9-.]{2,4}$/,
@@ -55,6 +55,21 @@ export default {
           v => !!v || '휴대폰 번호는 필수 입력 사항입니다.',
           v => this.valid.phone.test(v) || "'-' 없이 숫자 11자리로 입력해 주세요.",
         ]
+      },
+      phoneDisable: true,
+    }
+  },
+  computed: {
+    phoneAuthStates() {
+      return this.$store.getters.getPhoneAuthStates;
+    },
+  },
+  methods: {
+    async validate() {
+      const { valid } = await this.$refs.form.validate();
+
+      if (valid && this.phoneAuthStates) {
+        console.log("회원가입 되는 상태입니다~");
       }
     }
   }

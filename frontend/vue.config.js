@@ -9,7 +9,7 @@ module.exports = defineConfig({
   },
   // # CORS 오류 해결을 위하여 proxy 추가
   devServer: {
-    proxy: "http://localhost:8080/api",
+    // proxy: "http://localhost:8080/api",
     //proxy: process.env.VUE_APP_API_BASE_URL,
   },
 });
