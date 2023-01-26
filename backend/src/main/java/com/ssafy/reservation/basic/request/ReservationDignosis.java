@@ -19,6 +19,8 @@ import lombok.ToString;
 @ToString
 @ApiModel("ReservationDignosis")
 public class ReservationDignosis {
+	@ApiModelProperty(value = "해당 상담테이블 번호", example="1")
 	int no;
+	@ApiModelProperty(value = "전문가가 작성한 진단서", example="까비는 아주 건강합니다")
 	String reservationDignosisRecord;
 }

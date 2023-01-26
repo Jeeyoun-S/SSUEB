@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ssafy.db.entity.Reservation;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -37,11 +39,12 @@ public class ReservationPartnerController {
 	}
 
 	@GetMapping("/{userId}")
-	@ApiOperation(value = "유저 확정 예약 목록", notes = "해당 유저의 확정된 예약 목록을 가져온다.", response = Reservation.class) 
+	@ApiOperation(value = "유저 확정 예약 목록", notes = "해당 유저의 확정된 예약 목록을 가져온다.", response = Reservation.class)
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "userId", value = "확정된 예약 목록을 가져오고 싶은 유저", required = true),
+	})
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),
-        @ApiResponse(code = 401, message = "인증 실패"),
-        @ApiResponse(code = 404, message = "사용자 없음"),
         @ApiResponse(code = 500, message = "서버 오류")
     })
 	public ResponseEntity<?> getPartnerConfirmedReservation(@PathVariable String userId) {
@@ -57,10 +60,11 @@ public class ReservationPartnerController {
 	
 	@GetMapping("/unconfirm/{userId}")
 	@ApiOperation(value = "유저 미확정 예약 목록", notes = "해당 유저의 확정되지 않은 예약 목록을 가져온다.", response = Reservation.class) 
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "userId", value = "확정되지 않은 예약 목록을 가져오고 싶은 유저", required = true),
+	})
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),
-        @ApiResponse(code = 401, message = "인증 실패"),
-        @ApiResponse(code = 404, message = "사용자 없음"),
         @ApiResponse(code = 500, message = "서버 오류")
     })
 	public ResponseEntity<?> getPartnerUnconfirmedReservation(@PathVariable String userId) {
@@ -75,10 +79,11 @@ public class ReservationPartnerController {
 	
 	@GetMapping("/past/{userId}")
 	@ApiOperation(value = "유저의 지난 상담 내역", notes = "해당 유저의 예전에 상담한(이미 완료된) 내역을 불러온다.", response = Reservation.class) 
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "userId", value = "이전 상담 기록을 가져오고 싶은 유저", required = true),
+	})
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),
-        @ApiResponse(code = 401, message = "인증 실패"),
-        @ApiResponse(code = 404, message = "사용자 없음"),
         @ApiResponse(code = 500, message = "서버 오류")
     })
 	public ResponseEntity<?> getPartnerPastReservation(@PathVariable String userId) {

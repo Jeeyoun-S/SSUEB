@@ -27,6 +27,8 @@ import com.ssafy.reservation.basic.request.ReservationDignosis;
 import com.ssafy.reservation.basic.request.ReservationReivew;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
@@ -48,12 +50,10 @@ public class ReservationController {
 	}
 	
 	@PostMapping()
-	@ApiOperation(value = "예약 생성", notes = "입력한 정보에 따라 예약을 생성한다. 2023-01-17 16:50:31 \n"
-			+ "no, finish, open, registertime은 공란으로 하면 알아서 default 값이 들어간다.", response = Reservation.class) 
+	@ApiOperation(value = "예약 생성", notes = "입력한 정보에 따라 예약을 생성한다."
+			+ "no, finish, open, registertime은 공란으로 하면 알아서 default 값이 들어간다.", response = Reservation.class)
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),
-        @ApiResponse(code = 401, message = "인증 실패"),
-        @ApiResponse(code = 404, message = "사용자 없음"),
         @ApiResponse(code = 500, message = "서버 오류")
     })
 	public ResponseEntity<?> createReservation(@RequestBody Reservation reservation) {
@@ -68,11 +68,12 @@ public class ReservationController {
 	}
 	
 	@DeleteMapping("/{no}")
-	@ApiOperation(value = "예약 삭제", notes = "해당 no에 해당하는 예약을 삭제한다.", response = Void.class) 
+	@ApiOperation(value = "예약 삭제", notes = "해당 no에 해당하는 예약을 삭제한다.", response = Void.class)
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "no", value = "삭제하고자 하는 상담예약의 번호", required = true),
+	})
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),
-        @ApiResponse(code = 401, message = "인증 실패"),
-        @ApiResponse(code = 404, message = "사용자 없음"),
         @ApiResponse(code = 500, message = "서버 오류")
     })
 	public ResponseEntity<?> deleteReservation(@PathVariable int no) {
@@ -86,10 +87,11 @@ public class ReservationController {
 	
 	@PutMapping("/finish/{no}")
 	@ApiOperation(value = "상담 완료", notes = "상담을 완료하고 해당 no에 해당하는 예약 테이블의 finish flag를 1로 바꾼다", response = Void.class) 
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "no", value = "상담을 종료하고자 하는 상담예약의 번호", required = true),
+	})
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),
-        @ApiResponse(code = 401, message = "인증 실패"),
-        @ApiResponse(code = 404, message = "사용자 없음"),
         @ApiResponse(code = 500, message = "서버 오류")
     })
 	public ResponseEntity<?> finishReservation(@PathVariable int no) {
@@ -103,10 +105,11 @@ public class ReservationController {
 	
 	@GetMapping("/{no}")
 	@ApiOperation(value = "예약 상세 정보 읽기", notes = "해당 no에 해당하는 예약에 관한 정보를 모두 불러온다.", response = Reservation.class) 
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "no", value = "상세 정보를 가져오고 싶은 예약 테이블의 번호", required = true),
+	})
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),
-        @ApiResponse(code = 401, message = "인증 실패"),
-        @ApiResponse(code = 404, message = "사용자 없음"),
         @ApiResponse(code = 500, message = "서버 오류")
     })
 	public ResponseEntity<?> readReservation(@PathVariable int no) {
@@ -123,8 +126,6 @@ public class ReservationController {
 	@ApiOperation(value = "진단서 작성", notes = "상담을 완료하고 해당 no에 해당하는 예약 테이블에 진단 기록을 저장한다.", response = Void.class) 
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),
-        @ApiResponse(code = 401, message = "인증 실패"),
-        @ApiResponse(code = 404, message = "사용자 없음"),
         @ApiResponse(code = 500, message = "서버 오류")
     })
 	public ResponseEntity<?> writeDignosis(@RequestBody ReservationDignosis reservationDignosis) {
@@ -140,8 +141,6 @@ public class ReservationController {
 	@ApiOperation(value = "리뷰 작성", notes = "상담을 완료하고 해당 no에 해당하는 예약 테이블에 리뷰 점수와 내용을 기록한다", response = Void.class) 
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),
-        @ApiResponse(code = 401, message = "인증 실패"),
-        @ApiResponse(code = 404, message = "사용자 없음"),
         @ApiResponse(code = 500, message = "서버 오류")
     })
 	public ResponseEntity<?> writeReview(@RequestBody ReservationReivew review) {
@@ -157,8 +156,6 @@ public class ReservationController {
 	@ApiOperation(value = "공개된 상담 기록 보기", notes = "공개된 상담 정보를 모두 가져온다.", response = Reservation.class) 
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),
-        @ApiResponse(code = 401, message = "인증 실패"),
-        @ApiResponse(code = 404, message = "사용자 없음"),
         @ApiResponse(code = 500, message = "서버 오류")
     })
 	public ResponseEntity<?> readOpenReservation() {
@@ -178,8 +175,6 @@ public class ReservationController {
     @ApiOperation(value="업로드",notes = "", response = Void.class)
 	@ApiResponses({
         @ApiResponse(code = 200, message = "성공"),
-        @ApiResponse(code = 401, message = "인증 실패"),
-        @ApiResponse(code = 404, message = "사용자 없음"),
         @ApiResponse(code = 500, message = "서버 오류")
     })
     public ResponseEntity<?> save(@RequestPart(value = "files")  MultipartFile multipartFile){

@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ssafy.db.entity.Reservation;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -39,10 +41,11 @@ public class ReservationConsultantController {
 	
 	@GetMapping("/{consultantId}")
 	@ApiOperation(value = "전문가 확정 예약 목록", notes = "해당 전문가의 확정된 예약 목록을 가져온다.", response = Reservation.class) 
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "consultantId", value = "확정된 예약 목록을 가져오고 싶은 전문가의 아이디", required = true),
+	})
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),
-        @ApiResponse(code = 401, message = "인증 실패"),
-        @ApiResponse(code = 404, message = "사용자 없음"),
         @ApiResponse(code = 500, message = "서버 오류")
     })
 	public ResponseEntity<?> getConsultantConfirmedReservation(@PathVariable String consultantId) {
@@ -59,8 +62,6 @@ public class ReservationConsultantController {
 	@ApiOperation(value = "전문가 미확정 예약 목록", notes = "전문가가 견적을 제안할 확정되지 않은 예약 목록을 가져온다.", response = Reservation.class) 
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),
-        @ApiResponse(code = 401, message = "인증 실패"),
-        @ApiResponse(code = 404, message = "사용자 없음"),
         @ApiResponse(code = 500, message = "서버 오류")
     })
 	public ResponseEntity<?> getConsultantUnconfirmedReservation() {
@@ -75,10 +76,11 @@ public class ReservationConsultantController {
 	
 	@GetMapping("/past/{consultantId}")
 	@ApiOperation(value = "전문가의 지난 상담 내역", notes = "해당 전문가의 예전에 상담한(이미 완료된) 내역을 불러온다.", response = Reservation.class) 
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "consultantId", value = "예전에 상담한 기록을 가져오고 싶은 전문가의 아이디", required = true),
+	})
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),
-        @ApiResponse(code = 401, message = "인증 실패"),
-        @ApiResponse(code = 404, message = "사용자 없음"),
         @ApiResponse(code = 500, message = "서버 오류")
     })
 	public ResponseEntity<?> getConsultantPastReservation(@PathVariable String consultantId) {

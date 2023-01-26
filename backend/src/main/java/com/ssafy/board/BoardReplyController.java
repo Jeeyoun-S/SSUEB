@@ -20,6 +20,8 @@ import com.ssafy.db.entity.Board;
 import com.ssafy.db.entity.Reply;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -41,10 +43,11 @@ public class BoardReplyController {
 	
 	@GetMapping("/{boardNo}")
 	@ApiOperation(value = "해당 글의 댓글 불러오기", notes = "boardNo에 해당하는 게시글에 달린 댓글을 전부 가져온다", response = Reply.class) 
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "boardNo", value = "댓글들을 가져오고자 하는 게시글의 번호", required = true),
+	})
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),
-        @ApiResponse(code = 401, message = "인증 실패"),
-        @ApiResponse(code = 404, message = "사용자 없음"),
         @ApiResponse(code = 500, message = "서버 오류")
     })
 	public ResponseEntity<?> readReply(@PathVariable int boardNo) {
@@ -60,8 +63,6 @@ public class BoardReplyController {
 	@ApiOperation(value = "댓글 작성하기", notes = "해당 게시판에 댓글을 작성한다.", response = Reply.class) 
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),
-        @ApiResponse(code = 401, message = "인증 실패"),
-        @ApiResponse(code = 404, message = "사용자 없음"),
         @ApiResponse(code = 500, message = "서버 오류")
     })
 	public ResponseEntity<?> createReply(@RequestBody Reply reply) {
@@ -75,10 +76,11 @@ public class BoardReplyController {
 	
 	@DeleteMapping("/community/{no}")
 	@ApiOperation(value = "댓글 삭제하기", notes = "no에 해당하는 댓글을 삭제한다", response = Void.class) 
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "no", value = "삭제하고 싶은 댓글의 번호", required = true),
+	})
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),
-        @ApiResponse(code = 401, message = "인증 실패"),
-        @ApiResponse(code = 404, message = "사용자 없음"),
         @ApiResponse(code = 500, message = "서버 오류")
     })
 	public ResponseEntity<?> deleteReply(@PathVariable int no) {

@@ -19,7 +19,10 @@ import lombok.ToString;
 @ToString
 @ApiModel("BoardFixReq")
 public class BoardFixReq {
+	@ApiModelProperty(value = "수정할 게시글 번호")
 	int no;
+	@ApiModelProperty(value = "수정할 게시글 제목")
 	String boardTitle;
+	@ApiModelProperty(value = "수정할 게시글 내용")
 	String boardContent;
 }

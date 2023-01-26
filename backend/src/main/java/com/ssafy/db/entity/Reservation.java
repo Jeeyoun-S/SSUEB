@@ -44,7 +44,7 @@ public class Reservation{
 	@ApiModelProperty(value = "반려동물의 종")
     String reservationPetType;
 	@Column(name="reservation_date")
-	@ApiModelProperty(value = "상담 날짜")
+	@ApiModelProperty(value = "상담 날짜", example = "2023-02-22 22:22:22")
 	String reservationDate;
 	@Column(name="reservation_register_time")
 	@ApiModelProperty(value = "상담신청을 등록한 날짜")
