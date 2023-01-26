@@ -23,7 +23,6 @@ export default {
     if (document.location.pathname === "/join") {
       this.isShowSidebar = false;
     }
-
     //SweetAlert2 테스트
     //this.$swal.fire('SweetAlert2 테스트입니다.')
   },

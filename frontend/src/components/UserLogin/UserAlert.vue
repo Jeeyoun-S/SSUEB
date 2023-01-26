@@ -1,5 +1,5 @@
 <template>
-  <v-card class="card">
+  <v-card outlined>
     <v-card-title
       ><span class="headline">로그인 성공!</span> <v-spacer></v-spacer
     ></v-card-title>

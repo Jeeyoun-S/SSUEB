@@ -1,43 +1,45 @@
 <template>
-  <v-card class="login">
-    <v-card-title
-      ><span class="headline">로그인</span> <v-spacer></v-spacer
-    ></v-card-title>
-    <v-card-tex>
-      <v-container>
-        <v-row>
-          <v-col cols="12">
-            <v-text-field
-              v-model="loginInfo.id"
-              :rules="rules.id"
-              label="이메일"
-              required
-            ></v-text-field>
-          </v-col>
-          <v-col cols="12">
-            <v-text-field
-              v-model="loginInfo.password"
-              :rules="rules.password"
-              type="Password"
-              label="비밀번호"
-              required
-            ></v-text-field>
-          </v-col>
-          <v-col v-if="isLoginFail"
-            >아이디 또는 비밀번호를 다시 입력해주세요</v-col
-          >
-        </v-row>
-      </v-container>
-    </v-card-tex>
+  <v-card outlined>
+    <!-- title -->
+    <v-card-title class="title"
+      ><span class="headline">로그인</span></v-card-title
+    >
+    <!-- container -->
+    <v-container>
+      <v-text-field
+        v-model="loginInfo.id"
+        :rules="rules.id"
+        label="이메일"
+        required
+      ></v-text-field>
+      <v-text-field
+        v-model="loginInfo.password"
+        :rules="rules.password"
+        type="Password"
+        label="비밀번호"
+        required
+      ></v-text-field>
+      <v-btn width="100%" elevation="3" outline block @click="login"
+        >로그인</v-btn
+      >
+    </v-container>
+    <v-card-text>간편 로그인 및 회원가입 --------------</v-card-text>
+    <!-- 소셜 로그인 -->
     <v-card-actions>
-      <v-spacer></v-spacer>
-      <v-btn width="100%" @click="login">로그인</v-btn>
+      <kakao-dialog></kakao-dialog>
+      <naver-dialog></naver-dialog>
     </v-card-actions>
+    <router-link :to="{ name: 'userJoin' }">
+      <!-- <v-btn class="mx-2" text> 시세 </v-btn> -->
+      <v-btn text elevation="0" class="joinBtn"> 회원가입 </v-btn>
+    </router-link>
   </v-card>
 </template>
 
 <script>
 import { mapState, mapActions } from "vuex";
+import KakaoDialog from "./KakaoDialog.vue";
+import NaverDialog from "./NaverDialog.vue";
 
 const userStore = "userStore";
 
@@ -70,13 +72,13 @@ export default {
       },
     };
   },
-  components: {},
+  components: { KakaoDialog, NaverDialog },
   computed: {
     ...mapState(userStore, ["isLogin", "userToken"]),
   },
   methods: {
     ...mapActions(userStore, ["excuteLogin"]),
-    // 로그인 동작
+    // [@Method] 로그인
     async login() {
       console.log(
         "#21# loginInfo 값 확인: ",
@@ -98,4 +100,13 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.title {
+  margin-left: 37%;
+  margin-top: 5;
+}
+.joinBtn {
+  margin-left: 70%;
+  margin-top: 5%;
+}
+</style>
