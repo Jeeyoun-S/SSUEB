@@ -34,6 +34,5 @@ public class Reply {
 	String replyContent;
 	
 	@Column(name = "reply_writetime")
-	//String replyWritetime;
-	Timestamp replyWritetime;
+	String replyWritetime;
 }
