@@ -13,7 +13,7 @@ import com.querydsl.core.types.Path;
  * QLike is a Querydsl query type for Like
  */
 @Generated("com.querydsl.codegen.EntitySerializer")
-public class QLike extends EntityPathBase<Like> {
+public class QLike extends EntityPathBase<Heart> {
 
     private static final long serialVersionUID = 846264921L;
 
@@ -26,15 +26,15 @@ public class QLike extends EntityPathBase<Like> {
     public final StringPath userId = createString("userId");
 
     public QLike(String variable) {
-        super(Like.class, forVariable(variable));
+        super(Heart.class, forVariable(variable));
     }
 
-    public QLike(Path<? extends Like> path) {
+    public QLike(Path<? extends Heart> path) {
         super(path.getType(), path.getMetadata());
     }
 
     public QLike(PathMetadata metadata) {
-        super(Like.class, metadata);
+        super(Heart.class, metadata);
     }
 
 }
