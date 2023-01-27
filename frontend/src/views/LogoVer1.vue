@@ -1,10 +1,10 @@
 <template>
-  <v-sheet elevation="2" class="mx-auto sheet logo" height="290" width="300" rounded>
+  <div class="logo">
     <div class="logo-inner">
       <img class="big" :src="logoImage" />
       <h1>SSUEB</h1>
     </div>
-  </v-sheet>
+  </div>
 </template>
 
 <script>
