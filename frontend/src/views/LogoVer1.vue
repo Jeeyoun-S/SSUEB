@@ -1,10 +1,7 @@
 <template>
-  <v-sheet elevation="2" class="mx-auto sheet logo" height="290" width="300" rounded>
-    <div class="logo-inner">
-      <img class="big" :src="logoImage" />
-      <h1>SSUEB</h1>
-    </div>
-  </v-sheet>
+  <div class="logo-ver1">
+    <img :src="logoImageVer1" />
+  </div>
 </template>
 
 <script>
@@ -12,7 +9,7 @@ export default {
   name: 'LogoVer1',
   data() {
     return {
-      logoImage: require('@/assets/logo_crop.jpg')
+      logoImageVer1: require('@/assets/logo/logo_ver1.png')
     }
   }
 }

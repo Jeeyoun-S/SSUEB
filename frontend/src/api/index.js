@@ -3,7 +3,9 @@ import axios from "axios";
 // local vue api axios instance
 function apiInstance() {
   const instance = axios.create({
-    baseURL: process.env.VUE_APP_API_BASE_URL,
+    // # CORS 오류 해결을 위하여 baseURL 주석 처리 (vue.config.js 파일 참고)
+    baseURL: "http://localhost:8080/api",
+    //baseURL: process.env.VUE_APP_API_BASE_URL,
     headers: {
       "Content-Type": "application/json;charset=utf-8",
     },
