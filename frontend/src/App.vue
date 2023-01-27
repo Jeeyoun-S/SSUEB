@@ -46,6 +46,6 @@ export default {
   white-space: nowrap;
 
   font-family: "SUIT-Regular";
-  padding-top: 50px;
+  padding: 48px;
 }
 </style>

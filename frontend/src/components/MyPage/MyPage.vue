@@ -1,10 +1,15 @@
 <template>
-  마이페이지입니다.
+  <MyPagePartner></MyPagePartner>
 </template>
 
 <script>
-export default {
+import MyPagePartner from '@/components/MyPage/MyPagePartner.vue'
 
+export default {
+  name: 'MyPage',
+  components: {
+    MyPagePartner
+  }
 }
 </script>
 

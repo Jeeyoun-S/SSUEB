@@ -2,28 +2,25 @@
   <div class="main-page">
     <div class="main-center">
       <div class="main-center-item first">
-        <v-sheet color="white" elevation="1" height="200" width="780">
-          <v-img
-            class="rounded-lg image"
-            :src="require('@/assets/main/wind.gif')"
-          ></v-img>
-        </v-sheet>
+        <img class="image" :src="require('@/assets/main/wind.gif')" />
+        <div class="explain one">
+          <h2>SSUEB's Service</h2>
+          <p>무슨 내용 적을지 고민해 봅시다.</p>
+        </div>
       </div>
       <div class="main-center-item second">
-        <v-sheet color="white" elevation="1" height="200" width="780">
-          <v-img
-            class="rounded-lg image"
-            :src="require('@/assets/main/startle.gif')"
-          ></v-img>
-        </v-sheet>
+        <div class="explain two">
+          <h2>SSUEB's User</h2>
+          <p>무슨 내용 적을지 고민해 봅시다.</p>
+        </div>
+        <img class="image" :src="require('@/assets/main/startle.gif')" />
       </div>
       <div class="main-center-item third">
-        <v-sheet color="white" elevation="1" height="200" width="780">
-          <v-img
-            class="rounded-lg image"
-            :src="require('@/assets/main/walk.gif')"
-          ></v-img>
-        </v-sheet>
+        <img class="image" :src="require('@/assets/main/walk.gif')" />
+        <div class="explain three">
+          <h2>SSUEB's Happiness</h2>
+          <p>무슨 내용 적을지 고민해 봅시다.</p>
+        </div>
       </div>
     </div>
     <div class="main-right">
@@ -31,8 +28,8 @@
         <UserLogin class="card" v-show="!isLogin"></UserLogin>
         <UserAlert class="card" v-show="isLogin"></UserAlert>
       </div>
-      <div class="main-right-item bottom">
-        <v-sheet color="white" elevation="1" height="200" width="300"></v-sheet>
+      <div class="main-right-item border-sheet-two bottom">
+        
       </div>
     </div>
   </div>
@@ -113,37 +110,73 @@ export default {
 .main-page {
   display: flex;
   flex-direction: row;
-  align-items: baseline;
+  align-items: center;
   justify-content: flex-start;
 }
 .main-page .main-right {
-  /* display: flex;
-  flex-direction: row;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: right;
+  justify-content: space-between;
 
-  margin-right: 50px; */
+  width: 290px;
+  height: 654.4px;
 }
 .main-page .main-right .main-right-item {
+  width: 280px;
+  height: 200px;
   /* margin-bottom: 1%; */
 }
 .main-page .main-center {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
 
-  width: 780px;
-  margin-right: 50px;
+  width: 730px;
+  height: 654.4px;
+  margin-right: 48px;
 }
+.main-page .main-center .main-center-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
 
-.main-page .main-center .main-center-item.first,
+  width: 730px;
+  height: 200px;
+}
+/* .main-page .main-center .main-center-item.first,
 .second {
   margin-bottom: 2.6%;
-}
-.main-page .main-center .main-center-item .image {
+} */
+.main-page .main-center .main-center-item img {
   width: 200px;
   height: 200px;
-  background-size: cover;
+
+  border-radius: 10px;
+  object-fit: cover;
+}
+.main-page .main-center .main-center-item .explain {
+  width: 500px;
+  height: 200px;
+  
+  border-radius: 10px;
+  padding: 35px;
+}
+.main-page .main-center .main-center-item .explain h2 {
+  font-size: 30px;
+  font-family: 'Patua One', cursive;
+  font-weight: lighter;
+}
+.main-page .main-center .main-center-item .explain.one {
+  background-color: #E8EBF6;
+}
+.main-page .main-center .main-center-item .explain.two {
+  color: white;
+  background-color: #3D6EC5;
+}
+.main-page .main-center .main-center-item .explain.three {
+  background-color: #E3E3E3;
 }
 </style>
