@@ -3,11 +3,11 @@
     <UserJoinBasicInfo @info="updateBasicInfo"></UserJoinBasicInfo>
     <UserJoinPhone @userPhone="updatePhone"></UserJoinPhone>
     <v-text-field v-model="info.consultantLicenseNumber" class="mb-2" label="반려동물행동지도사 자격번호" variant="underlined" color="primary" required></v-text-field>
-    <v-file-input v-model="info.consultantLicenseCopyImage" accept="image/png, image/jpeg, .pdf" label="반려동물행동지도사 자격증 사본" variant="underlined" color="primary" small-chips></v-file-input>
-    <v-combobox v-model="info.consultPetType" :items="petType" label="상담 가능한 동물" variant="underlined" color="primary" multiple chips></v-combobox>
+    <v-file-input v-model="info.consultantLicenseCopyImage" accept="image/png, image/jpeg, .pdf" label="반려동물행동지도사 자격증 사본" variant="underlined" color="primary" small-chips show-size></v-file-input>
+    <v-combobox v-model="petCheck" :items="petType" label="상담 가능한 동물" variant="underlined" color="primary" multiple chips></v-combobox>
     <v-radio-group v-model="info.userAlertFlag" color="primary" inline>
       <v-label>알림방법</v-label>
-      <v-radio label="카카오톡" size="small" value="0"></v-radio>
+      <v-radio label="카카오톡" value="0"></v-radio>
       <v-radio label="이메일" value="1"></v-radio>
       <v-radio label="문자" value="2"></v-radio>
     </v-radio-group>
@@ -38,7 +38,8 @@ export default {
         consultantLicenseNumber: null,
         consultantLicenseCopyImage: null
       },
-      petType: ['개', '고양이', '토끼', '기니피그', '패럿', '햄스터'],
+      petCheck: [],
+      petType: ['개', '고양이', '토끼', '패럿', '기니피그', '햄스터'],
     }
   },
   computed: {
@@ -51,7 +52,32 @@ export default {
       const { valid } = await this.$refs.form.validate();
 
       if (valid && this.phoneAuthStates) {
-        joinConsultant(this.info);
+
+        // 펫 타입 확인
+        if (this.petCheck.includes("개")) this.info.consultPetType.push("1");
+        else this.info.consultPetType.push("0");
+        if (this.petCheck.includes("고양이")) this.info.consultPetType.push("1");
+        else this.info.consultPetType.push("0");
+        if (this.petCheck.includes("토끼")) this.info.consultPetType.push("1");
+        else this.info.consultPetType.push("0");
+        if (this.petCheck.includes("패럿")) this.info.consultPetType.push("1");
+        else this.info.consultPetType.push("0");
+        if (this.petCheck.includes("기니피그")) this.info.consultPetType.push("1");
+        else this.info.consultPetType.push("0");
+        if (this.petCheck.includes("햄스터")) this.info.consultPetType.push("1");
+        else this.info.consultPetType.push("0");
+        
+        this.info.consultPetType = this.info.consultPetType.join("");
+        console.log("#출력 ", this.info);
+
+        // info를 formData 형식으로 바꿔서 보낸다.
+        var formData = new FormData();
+
+        for (var key in this.info) {
+          formData.append(key, this.info[key]);
+        }
+
+        joinConsultant(formData);
       }
     },
     updatePhone(userPhone) {

@@ -97,7 +97,7 @@ async function sendPhoneAuth(phoneNumber) {
 //     }
 //   })
 // }
-
+confirmPhoneAuth
 // [GET] 휴대폰 인증번호 확인
 async function confirmPhoneAuth(authNumber, userPhone) {
   await api
@@ -158,9 +158,16 @@ async function joinPartner(joinRequest) {
 }
 
 // [POST] 전문가 회원가입 진행
-async function joinConsultant(joinRequest) {
+async function joinConsultant(formData) {
+  formData;
+
   await api
-  .post(`/user/join/consultant`, JSON.stringify(joinRequest))
+  .post(`/user/join/consultant`, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data; charset=utf-8",
+    }
+  }
+  )
   .then((res) => {
     // 회원가입 성공
     if (res.data.response == "success") {

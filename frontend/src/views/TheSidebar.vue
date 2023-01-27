@@ -1,21 +1,22 @@
 <template>
   <div class="sidebar">
-    <v-sheet
-      elevation="2"
-      class="mx-auto sheet"
-      height="100"
-      width="230"
-      rounded
-    ></v-sheet>
-    <v-card class="mx-auto" max-width="230">
+    <div class="border-sheet-one sheet">
+      <LogoVer2></LogoVer2>
+    </div>
+    <v-card class="mx-auto border-sheet-one" max-width="230">
       <v-list active-color="primary" :items="items" mandatory link></v-list>
     </v-card>
   </div>
 </template>
 
 <script>
+import LogoVer2 from '@/views/LogoVer2.vue'
+
 export default {
   name: "TheSidebar",
+  components: {
+    LogoVer2
+  }, 
   data() {
     return {
       items: [
@@ -89,10 +90,20 @@ export default {
 </script>
 
 <style>
+@import "@/css/sheet.css";
 .sidebar {
-  padding: 0px 50px;
+  padding-right: 48px;
+  font-family: 'NanumSquareNeo-Variable';
 }
 .sidebar .sheet {
-  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 20px;
+  
+  height: 100px;
+  width: 230px;
 }
 </style>

@@ -1,9 +1,6 @@
 <template>
-  <div class="logo">
-    <div class="logo-inner">
-      <img class="big" :src="logoImage" />
-      <h1>SSUEB</h1>
-    </div>
+  <div class="logo-ver1">
+    <img :src="logoImageVer1" />
   </div>
 </template>
 
@@ -12,7 +9,7 @@ export default {
   name: 'LogoVer1',
   data() {
     return {
-      logoImage: require('@/assets/logo_crop.jpg')
+      logoImageVer1: require('@/assets/logo/logo_ver1.png')
     }
   }
 }

@@ -1,5 +1,5 @@
 <template>
-  <v-card outlined>
+  <v-card width="280" outlined>
     <!-- title -->
     <v-card-title class="title"
       ><span class="headline">로그인</span></v-card-title
