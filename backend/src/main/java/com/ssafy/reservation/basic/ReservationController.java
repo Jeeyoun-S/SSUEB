@@ -26,6 +26,7 @@ import com.ssafy.db.entity.Reservation;
 import com.ssafy.reservation.basic.request.ReservationDignosis;
 import com.ssafy.reservation.basic.request.ReservationReivew;
 
+import io.github.techgnious.IVCompressor;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -43,6 +44,7 @@ public class ReservationController {
 	
 	@Autowired
 	ReservationService reservationService;
+	
 	
 	private ResponseEntity<String> exceptionHandling(Exception e) {
 		e.printStackTrace();
@@ -178,6 +180,7 @@ public class ReservationController {
         @ApiResponse(code = 500, message = "서버 오류")
     })
     public ResponseEntity<?> save(@RequestPart(value = "files")  MultipartFile multipartFile){
+		IVCompressor compress=new IVCompressor();
 		//for(MultipartFile multipartFile : multipartFiles) {
 			System.out.println(multipartFile.getContentType());
 			System.out.println(multipartFile.getName());
@@ -186,7 +189,6 @@ public class ReservationController {
 			try {
 				String uuid = UUID.randomUUID().toString();
 				String savefileName = "C:/Temp" + File.separator + uuid + "_" + multipartFile.getOriginalFilename();
-
 				multipartFile.transferTo(new File(savefileName));
 				return new ResponseEntity<Void>(HttpStatus.OK);
 			} catch (Exception e) {

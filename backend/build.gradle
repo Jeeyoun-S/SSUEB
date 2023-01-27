@@ -184,6 +184,9 @@ dependencies {
     annotationProcessor("org.projectlombok:lombok:1.18.20")
 
     testCompile('org.springframework.boot:spring-boot-starter-test')
+    
+    // https://mvnrepository.com/artifact/io.github.techgnious/IVCompressor
+	implementation group: 'io.github.techgnious', name: 'IVCompressor', version: '2.0.2'
 }
 
 test {

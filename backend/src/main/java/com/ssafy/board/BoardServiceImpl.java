@@ -41,7 +41,7 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public List<BoardSummary> readBoardTitleLike(String titleLike) throws SQLException {
-		return bRepo.findByBoardTitleLike(titleLike);
+		return bRepo.findByBoardTitleContains(titleLike);
 	}
 
 	@Override
