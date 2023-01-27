@@ -84,3 +84,7 @@ $RECYCLE.BIN/
 
 # Naver Cloud Platform Key
 env.properties
+
+# log
+.log
+.gz
