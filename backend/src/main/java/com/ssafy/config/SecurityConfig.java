@@ -80,7 +80,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // 인증이 필요한 URL과 필요하지 않은 URL에 대하여 설정
         		.authorizeRequests()
         		// 일단 모두 all로 체크
-        		.antMatchers("/**").permitAll()		
+        		.antMatchers("/**").permitAll()
         		.antMatchers("/api/auth/authenticate").permitAll()		
 //        		.antMatchers("/api/user/join").permitAll()				// /api/user/join URL인 경우 모든 요청 허용
         		.anyRequest().authenticated()							// 그 외의 요청은 모두 인증 필요
