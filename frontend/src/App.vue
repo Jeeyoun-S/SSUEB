@@ -1,6 +1,7 @@
 <template>
   <div class="main">
-    <TheSidebar v-show="isShowSidebar"></TheSidebar>
+    <!-- <TheSidebar v-show="isShowSidebar"></TheSidebar> -->
+    <TheSidebar v-show="$router.name != 'userJoin'"></TheSidebar>
     <router-view />
   </div>
 </template>
@@ -19,6 +20,7 @@ export default {
     };
   },
   created() {
+    console.log("# 라우터 이름: ", this.$router.name);
     // 회원가입 페이지에서는 Sidebar가 안 보이게 설정
     if (document.location.pathname === "/join") {
       this.isShowSidebar = false;

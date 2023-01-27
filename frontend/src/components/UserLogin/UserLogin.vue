@@ -29,14 +29,23 @@
       <kakao-dialog></kakao-dialog>
       <naver-dialog></naver-dialog>
     </v-card-actions>
+    <!-- <v-btn text elevation="0" class="joinBtn" @click="moveJoin">
+      회원가입
+    </v-btn> -->
+    <!-- <a :href="'http://localhost:8080/join'">A 회원가입</a> -->
+    <!-- <router-link :to="{ name: 'userJoin' }">
+      <v-btn text elevation="0" class="joinBtn" @click="moveJoin">
+        회원가입
+      </v-btn>
+    </router-link> -->
     <router-link :to="{ name: 'userJoin' }">
-      <!-- <v-btn class="mx-2" text> 시세 </v-btn> -->
       <v-btn text elevation="0" class="joinBtn"> 회원가입 </v-btn>
     </router-link>
   </v-card>
 </template>
 
 <script>
+import router from "@/router";
 import { mapState, mapActions } from "vuex";
 import KakaoDialog from "./KakaoDialog.vue";
 import NaverDialog from "./NaverDialog.vue";
@@ -95,6 +104,10 @@ export default {
           "warning"
         );
       }
+    },
+    // [@Method] 회원가입 페이지로 이동
+    moveJoin() {
+      router.push({ path: "/join" });
     },
   },
 };
