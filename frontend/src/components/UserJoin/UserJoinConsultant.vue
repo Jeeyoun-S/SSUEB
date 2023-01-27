@@ -1,62 +1,44 @@
 <template>
-  <v-form class="form" ref="form"> 
-    <v-text-field v-model="info.email" class="mb-2" :rules="rules.email" label="이메일" variant="underlined" color="primary" required></v-text-field>
-    <v-text-field v-model="info.password" class="mb-2" :rules="rules.password" label="비밀번호" variant="underlined" color="primary" required></v-text-field>
-    <v-text-field v-model="info.name" class="mb-2" :rules="rules.name" label="이름" variant="underlined" color="primary" required></v-text-field>
-    <v-text-field v-model="info.phone" class="mb-2" :rules="rules.phone" label="휴대폰 번호" variant="underlined" color="primary" required></v-text-field>
-    <v-radio-group v-model="info.alertFlag"  color="primary" inline>
+  <v-form class="form" ref="form">
+    <UserJoinBasicInfo @info="updateBasicInfo"></UserJoinBasicInfo>
+    <UserJoinPhone @userPhone="updatePhone"></UserJoinPhone>
+    <v-text-field v-model="info.consultantLicenseNumber" class="mb-2" label="반려동물행동지도사 자격번호" variant="underlined" color="primary" required></v-text-field>
+    <v-file-input v-model="info.consultantLicenseCopyImage" accept="image/png, image/jpeg, .pdf" label="반려동물행동지도사 자격증 사본" variant="underlined" color="primary" small-chips></v-file-input>
+    <v-combobox v-model="info.consultPetType" :items="petType" label="상담 가능한 동물" variant="underlined" color="primary" multiple chips></v-combobox>
+    <v-radio-group v-model="info.userAlertFlag" color="primary" inline>
+      <v-label>알림방법</v-label>
       <v-radio label="카카오톡" size="small" value="0"></v-radio>
       <v-radio label="이메일" value="1"></v-radio>
       <v-radio label="문자" value="2"></v-radio>
     </v-radio-group>
-    <v-text-field v-model="licenseNumber" class="mb-2" label="반려동물행동지도사 자격번호" variant="underlined" color="primary" required></v-text-field>
-    <v-file-input accept="image/png, image/jpeg, .pdf" label="반려동물행동지도사 자격증 사본" variant="underlined" color="primary" small-chips></v-file-input>
-    <v-combobox v-model="info.petType" :items="petType" label="상담 가능한 동물" variant="underlined" color="primary" multiple chips></v-combobox>
     <v-btn variant="outlined" size="large" rounded="0" @click="validate()" block>회원가입 신청</v-btn>
   </v-form>
 </template>
 
 <script>
+import UserJoinPhone from '@/components/UserJoin/UserJoinPhone.vue'
+import UserJoinBasicInfo from '@/components/UserJoin/UserJoinBasicInfo.vue'
+import { joinConsultant } from '@/api/userJoin.js'
+
 export default {
   name: 'UserJoinConsultant',
+  components: {
+    UserJoinPhone,
+    UserJoinBasicInfo
+  },
   data() {
     return {
       info: {
-        email: null,
-        password: null,
-        name: null,
-        petType: [],
-        licenseNumber: null
+        id: null,
+        userPassword: null,
+        userName: null,
+        userAlertFlag: "0",
+        userPhone: null,
+        consultPetType: [],
+        consultantLicenseNumber: null,
+        consultantLicenseCopyImage: null
       },
-      userPhone: null,
       petType: ['개', '고양이', '토끼', '기니피그', '패럿', '햄스터'],
-      valid: {
-        email: /^[a-zA-Z0-9_+.-]+@([a-zA-Z0-9-]+\.)+[a-zA-Z0-9-.]{2,4}$/,
-        password: /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[~!@$!%*#^?&])(?!.*[^a-zA-z0-9~!@$!%*#^?&]).{10,20}$/,
-        name: /^[가-힣|a-z|A-Z]{1,22}$/,
-        phone: /^[0-9]{11}$/,
-      },
-      rules: {
-        email: [
-          v => !!v || '이메일은 필수 입력 사항입니다.',
-          v => this.valid.email.test(v) || '이메일 형식으로 입력해 주세요.',
-          v => v.length <= 30 || '30자 이하로 입력해 주세요.',
-        ],
-        password: [
-          v => !!v || '비밀번호는 필수 입력 사항입니다.',
-          v => this.valid.password.test(v) || '영어, 숫자, 특수문자를 포함해 10~20자로 입력해 주세요.',
-        ],
-        name: [
-          v => !!v || '이름은 필수 입력 사항입니다.',
-          v => v.length <= 22 || '22자 이하로 입력해 주세요.',
-          v => this.valid.name.test(v) || '숫자, 특수문자는 입력 불가능합니다.',
-        ],
-        phone: [
-          v => !!v || '휴대폰 번호는 필수 입력 사항입니다.',
-          v => this.valid.phone.test(v) || "'-' 없이 숫자 11자리로 입력해 주세요.",
-        ]
-      },
-      phoneDisable: true,
     }
   },
   computed: {
@@ -69,15 +51,21 @@ export default {
       const { valid } = await this.$refs.form.validate();
 
       if (valid && this.phoneAuthStates) {
-        console.log("회원가입 되는 상태입니다~");
+        joinConsultant(this.info);
       }
+    },
+    updatePhone(userPhone) {
+      this.info.userPhone = userPhone;
+    },
+    updateBasicInfo(info) {
+      this.info.id = info.id
+      this.info.userPassword = info.userPassword
+      this.info.userName = info.userName
     }
   }
 }
 </script>
 
-<style>
-.form {
-  width: 320px;
-}
+<style scoped>
+@import "@/css/form.css";
 </style>

@@ -40,7 +40,6 @@ export default {
   justify-content: left;
 
   /* 가로 스크롤 설정 */
-  overflow: scroll;
   overflow: auto;
   white-space: nowrap;
 
