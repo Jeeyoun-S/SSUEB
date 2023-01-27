@@ -1,6 +1,7 @@
 <template>
   <div class="main">
-    <TheSidebar v-show="isShowSidebar"></TheSidebar>
+    <!-- <TheSidebar v-show="isShowSidebar"></TheSidebar> -->
+    <TheSidebar v-show="$router.name != 'userJoin'"></TheSidebar>
     <router-view />
   </div>
 </template>
@@ -19,11 +20,11 @@ export default {
     };
   },
   created() {
+    console.log("# 라우터 이름: ", this.$router.name);
     // 회원가입 페이지에서는 Sidebar가 안 보이게 설정
     if (document.location.pathname === "/join") {
       this.isShowSidebar = false;
     }
-
     //SweetAlert2 테스트
     //this.$swal.fire('SweetAlert2 테스트입니다.')
   },
@@ -36,7 +37,7 @@ export default {
 .main {
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: flex-start;
   justify-content: left;
 
   /* 가로 스크롤 설정 */
@@ -44,5 +45,6 @@ export default {
   white-space: nowrap;
 
   font-family: "SUIT-Regular";
+  padding-top: 50px;
 }
 </style>
