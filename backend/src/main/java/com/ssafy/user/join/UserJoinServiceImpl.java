@@ -129,10 +129,14 @@ public class UserJoinServiceImpl implements UserJoinService {
 	}
 
 	@Override
-	public boolean grantAuthority(String userId, String authorityName) {
+	public boolean grantAuthority(String id, String authorityName) {
 		
+		System.out.println("id " + id);
 		// 사용자 권한 저장하기
-		userJoinRepository.save(new UserAuthority(userId, authorityName));
+		UserAuthority userAuthority = new UserAuthority();
+		userAuthority.setId(id);
+		userAuthority.setAuthorityName(authorityName);
+		userJoinRepository.save(userAuthority);
 		
 		return true;
 	}

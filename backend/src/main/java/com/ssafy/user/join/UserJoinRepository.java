@@ -31,5 +31,5 @@ public interface UserJoinRepository extends Repository<User, String> {
 	 * 사용자 권한 테이블에 권한 추가
 	 * @param userAuthority 사용자 권한 정보
 	 * **/
-	void save(UserAuthority userAuthority);
+	UserAuthority save(UserAuthority userAuthority);
 }
