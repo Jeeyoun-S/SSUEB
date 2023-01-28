@@ -18,4 +18,12 @@ public interface UserLoginRepository extends JpaRepository<User, Long> {
 	// ? @EntityGraph: 쿼리 수행 시 Lazy 조회가 아닌 Eager 조회로 authorities 정보를 같이 가져옴
 	@EntityGraph(attributePaths = "authorities")
 	Optional<User> findOneWithAuthoritiesById(String userId);
+	
+	/** 
+	 * userId를 통해 이미 계정이 있는 사용자인지 체크 (for. OAuth)
+	 * @param userId
+	 * @return Optional<User>
+	 */
+	//Optional<User> findByUserId(String userId);
+	Optional<User> findById(String userId);
 }
