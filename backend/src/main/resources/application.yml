@@ -1,5 +1,6 @@
 build:
   date: '@build.date@'
+# for. JWT 
 jwt:
   expiration: 1296000000
   secret: dyAeHubOOc8KaOfYB6XEQoEj1QzRlVgtjNL8PYs1A1tymZvvqkcEU7L1imkKHeDa
@@ -44,6 +45,9 @@ server:
 spa:
   default-file: /dist/index.html
 spring:
+  # for. oauth 정보 가져오기
+  profiles:
+    include: oauth
   data:
     web:
       pageable:
@@ -57,6 +61,7 @@ spring:
   devtools:
     livereload:
       enabled: true
+  # JPA 
   jpa:
     hibernate:
       ddl-auto: update
