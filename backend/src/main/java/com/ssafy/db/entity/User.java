@@ -12,7 +12,6 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.ssafy.db.entity.auth.Role;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -24,7 +23,6 @@ import lombok.ToString;
  */
 @Entity
 @Table(name = "user")
-@Builder
 @Getter
 @Setter
 @ToString
@@ -72,25 +70,4 @@ public class User {
 	public User() {
 		
 	}
-	
-	// for. OAuth
-	private Role role;
-	
-	@Builder
-	public User(String name, String email, Role role) {
-		this.userName = name; 
-		this.id = email; 
-		this.role = role; 
-	}
-
-	public User update(String name) {
-		this.userName = name;
-		
-		return this; 
-	}
-	
-	public String getRoleKey() {
-		return this.role.getKey(); 
-	}
-	// -------------------
 }

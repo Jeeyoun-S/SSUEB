@@ -48,7 +48,6 @@ spring:
   # for. oauth 정보 가져오기
   profiles:
     include: oauth
-  # -------
   data:
     web:
       pageable:
