@@ -23,4 +23,10 @@ public interface MatchingRepo extends JpaRepository<Matching,Integer>{
     @Query(value = "delete from matching where reservation_no = ?1", nativeQuery = true)
 	//상담-견적의 매칭이 확립되면 남은 견적들을 모두 삭제한다.
     void deleteByReservationNo(int reservationNo);
+	
+	@Transactional
+    @Modifying
+    @Query(value = "delete from matching where ?1 < reservation_date and reservation_date < ?2 and consultant_id = ?3", nativeQuery = true)
+	//상담-견적의 매칭이 확립되면 남은 견적들을 모두 삭제한다.
+    void deleteByDateTime(String before, String after, String consultantId);
 }

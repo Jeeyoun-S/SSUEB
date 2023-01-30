@@ -57,4 +57,10 @@ public interface ReservationRepo extends JpaRepository<Reservation,Integer>{
 	@Transactional
 	@Query(value = "UPDATE reservation r set r.consultant_id = ?2, r.reservation_cost = ?3 where r.no= ?1", nativeQuery = true)
 	void confirmMatching(int reservationNo, String consultantId, int matchingCost);//유저가 여러 견적 제안 중 하나를 고르면 그 정보가 해당 reservationNo의 상담에 들어간다.
+	
+	//매칭이 확정된 전문가의 그 시간과 30분 이내의 견적 지우기
+	@Modifying
+	@Transactional
+	@Query(value = "UPDATE reservation r set r.consultant_id = ?2, r.reservation_cost = ?3 where r.no= ?1", nativeQuery = true)
+	void deleteMatching(int reservationNo, String consultantId, int matchingCost);
 }
