@@ -2,8 +2,6 @@
   <div class="main-page">
     <div class="main-center">
       <div class="main-center-item first">
-        <!-- #OAuth# kakao token -->
-        <v-card-title>{{ $route.query.code }}</v-card-title>
         <v-sheet color="white" elevation="1" height="200" width="780">
           <!-- <v-img
             class="rounded-lg image"
@@ -93,20 +91,41 @@
 </template>
 
 <script>
+import { mapState, mapActions } from "vuex";
 import UserLogin from "../UserLogin/UserLogin.vue";
 import UserAlert from "../UserLogin/UserAlert.vue";
-import { mapState } from "vuex";
 
 const userStore = "userStore";
 
 export default {
   name: "mainPage",
+  data() {
+    return {
+      kakaoCode: null,
+    };
+  },
+  created() {
+    // #OAuth - Kakao# Kakao 인가 코드 받기
+    this.kakaoCode = this.$route.query.code;
+    // console.log("#21# 코드 확인: ", this.kakaoCode);
+    if (this.kakaoCode != null) {
+      this.kakao();
+    }
+  },
   components: {
     UserLogin,
     UserAlert,
   },
   computed: {
     ...mapState(userStore, ["isLogin"]),
+  },
+  methods: {
+    ...mapActions(userStore, ["socialKakao"]),
+    // #OAuth - Kakao# 받은 인가 코드 Back-end로 전달
+    async kakao() {
+      await this.socialKakao(this.kakaoCode);
+      this.kakaoCode = null;
+    },
   },
 };
 </script>

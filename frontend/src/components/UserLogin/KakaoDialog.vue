@@ -1,5 +1,4 @@
 <template>
-  <!-- <v-btn depressed icon elevation="2" large>kakao</v-btn> -->
   <v-btn
     depressed
     elevation="2"
@@ -15,17 +14,14 @@
 export default {
   name: "KakaoDialog",
   data() {
-    return {
-      id: process.env.VUE_APP_OAUTH_KAKAO_CLIENT,
-      uri: process.env.VUE_APP_OAUTH_KAKAO_REDIRECT_URI,
-    };
+    return {};
   },
   components: {},
   computed: {},
   methods: {
     kakaoLogin() {
       window.location.replace(
-        `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${this.id}&redirect_uri=${this.uri}`
+        `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.VUE_APP_OAUTH_KAKAO_CLIENT}&redirect_uri=${process.env.VUE_APP_OAUTH_KAKAO_REDIRECT_URI}`
       );
     },
   },
