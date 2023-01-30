@@ -172,6 +172,33 @@ public class ReservationController {
 	
 	
 	
+	@GetMapping("/date-validation/{userId}")
+	@ApiOperation(value = "해당 유저의 상담 예정 시간들", notes = "종료되지 않은 예약들의 예정 시간들을 모두 가져온다.", response = String.class)
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "userId", value = "해당 유저의 상담 예약이 있는 시간대", required = true),
+	})
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "성공"),
+        @ApiResponse(code = 500, message = "서버 오류")
+    })
+	public ResponseEntity<?> readDateValidtaion(@PathVariable String userId) {
+		try {
+			List<String> result = reservationService.getDateValidation(userId);
+			//System.out.println(result);
+			return new ResponseEntity<List<String>>(result, HttpStatus.OK);
+		} catch (Exception e) {
+			return exceptionHandling(e);
+		}
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	@PostMapping("/save")
     @ApiOperation(value="업로드",notes = "", response = Void.class)

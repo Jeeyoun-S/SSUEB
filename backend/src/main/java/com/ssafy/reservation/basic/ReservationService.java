@@ -41,4 +41,7 @@ public interface ReservationService {
 	//전문가가 지금까지 해온 상담 기록을 가져온다
 	List<Reservation> getConsultantPastReservation(String consultantId) throws SQLException;
 	
+	//해당 유저의 예약 예정 시간들
+	List<String> getDateValidation(String userId) throws SQLException;
+	
 }

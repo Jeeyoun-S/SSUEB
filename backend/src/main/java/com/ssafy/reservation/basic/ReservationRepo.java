@@ -63,4 +63,7 @@ public interface ReservationRepo extends JpaRepository<Reservation,Integer>{
 	@Transactional
 	@Query(value = "UPDATE reservation r set r.consultant_id = ?2, r.reservation_cost = ?3 where r.no= ?1", nativeQuery = true)
 	void deleteMatching(int reservationNo, String consultantId, int matchingCost);
+	
+	@Query(value = "select reservation_date from reservation where user_id = ?1 and reservation_finish = 0", nativeQuery = true)
+	List<String> readDateValidation(String userId);
 }

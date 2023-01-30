@@ -88,4 +88,9 @@ public class ReservationServiceImpl implements ReservationService {
 	public List<Reservation> getConsultantPastReservation(String consultantId) throws SQLException {
 		return repo.findByConsultantIdAndReservationFinish(consultantId, 1);
 	}
+
+	@Override
+	public List<String> getDateValidation(String userId) throws SQLException {
+		return repo.readDateValidation(userId);
+	}
 }

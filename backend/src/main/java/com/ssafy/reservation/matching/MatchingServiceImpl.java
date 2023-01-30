@@ -72,7 +72,7 @@ public class MatchingServiceImpl implements MatchingService {
 	    cal.add(Calendar.MINUTE, -60);
 	    String before = sdf.format(cal.getTime());//30분 후 시간
 	    
-	    
+	    //이 시간 내의 전문가의 견적 삭제
 	    mRepo.deleteByDateTime(before, after, consultantId);
 		
 	}
