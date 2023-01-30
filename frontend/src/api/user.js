@@ -12,10 +12,18 @@ async function login(loginInfo, success, fail) {
 }
 
 // [POST] Kakao 소셜 로그인
-async function kakaoLogin(code, success, fail) {
-  console.log("#user - kakaoLogin# 카카오 로그인 인가 code: ", code);
+// async function kakaoLogin(code, success, fail) {
+//   console.log("#user - kakaoLogin# 카카오 로그인 인가 code: ", code);
+//   await api
+//     .post(`/user/login/kakao`, JSON.stringify(code))
+//     .then(success)
+//     .catch(fail);
+// }
+// [POST] 소셜 로그인 정보 전달
+async function socialLogin(info, success, fail) {
+  console.log("#user - socialLogin# 소셜 로그인 params - info: ", info);
   await api
-    .post(`/user/login/kakao`, JSON.stringify(code))
+    .post(`/user/login/kakao`, JSON.stringify(info))
     .then(success)
     .catch(fail);
 }
@@ -50,4 +58,5 @@ async function partPermit(userId, token, success, fail) {
     .catch(fail);
 }
 
-export { login, kakaoLogin, anyPermit, partPermit };
+// export { login, kakaoLogin, socialLogin, anyPermit, partPermit };
+export { login, socialLogin, anyPermit, partPermit };

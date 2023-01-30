@@ -1,4 +1,5 @@
 import axios from "axios";
+import user from "@/api/user.js";
 
 // #Kakao API#
 // Kakao Token을 발급받기 위한 API
@@ -11,9 +12,6 @@ const kakao_api_auth = axios.create({
 // Kakao 사용자 정보를 가져오기 위한 API
 const kakao_api_info = axios.create({
   baseURL: "https://kapi.kakao.com",
-  //   headers: {
-  //     "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
-  //   },
 });
 
 // [POST] #Kakao# token 발급받기
@@ -45,7 +43,17 @@ async function getKakaoUserInfo(token, success, fail) {
         Authorization: `Bearer ${token}`,
       },
     })
-    .then(success)
+    .then((success) => {
+      // success 안에 data 백엔드로 보내기
+      const nickname = success.properties.nickname;
+      const id = success.kakao_account.email;
+
+      const info = {
+        id: id,
+        nickname: nickname,
+      };
+      user.socialLogin(info);
+    })
     .catch(fail);
 }
 
