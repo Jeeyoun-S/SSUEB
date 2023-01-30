@@ -1,11 +1,19 @@
 import axios from "axios";
 
-// const kakao_api = "https://kauth.kakao.com";
-const kakao_api = axios.create({
+// #Kakao API#
+// Kakao Token을 발급받기 위한 API
+const kakao_api_auth = axios.create({
   baseURL: "https://kauth.kakao.com",
   headers: {
     "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
   },
+});
+// Kakao 사용자 정보를 가져오기 위한 API
+const kakao_api_info = axios.create({
+  baseURL: "https://kapi.kakao.com",
+  //   headers: {
+  //     "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
+  //   },
 });
 
 // [POST] #Kakao# token 발급받기
@@ -21,7 +29,24 @@ async function getKakaoToken(kakaoInfo, success, fail) {
     client_secret: kakaoInfo.client_secret,
   };
 
-  await kakao_api.post(`/oauth/token`, params).then(success).catch(fail);
+  await kakao_api_auth.post(`/oauth/token`, params).then(success).catch(fail);
 }
 
-export { getKakaoToken };
+// [GET] #Kakao# 현재 로그인한 Kakao 사용자 정보 가져오기
+async function getKakaoUserInfo(token, success, fail) {
+  console.log(
+    "#userOAuth - api# 현재 로그인한 Kakao 정보 가져오기 위한 token: ",
+    token
+  );
+  await kakao_api_info
+    .get(`/v2/user/me`, {
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then(success)
+    .catch(fail);
+}
+
+export { getKakaoToken, getKakaoUserInfo };

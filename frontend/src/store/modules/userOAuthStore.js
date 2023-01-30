@@ -1,4 +1,4 @@
-import { getKakaoToken } from "@/api/userOAuth";
+import { getKakaoToken, getKakaoUserInfo } from "@/api/userOAuth";
 
 const userOAuthStore = {
   namespaced: true,
@@ -7,13 +7,15 @@ const userOAuthStore = {
   },
   getters: {},
   mutations: {
+    // #Kakao# 발급받은 Kakao Token SET
     SET_KAKAO_TOKEN: (state, kakaoToken) => {
       state.kakaoToken = kakaoToken;
-      console.log("#SET_KAKAO_TOKEN# kakaoToken 확인: ", state.kakaoToken);
+      // #Kakao# 현재 로그인한 Kakao 사용자 정보 가져오기
+      getKakaoUserInfo(kakaoToken);
     },
   },
   actions: {
-    // [@Method] Kakao Token 발급받기
+    // [@Method] #Kakao# Kakao Token 발급받기
     async excuteKakaoToken({ commit }, code) {
       commit;
       const kakaoInfo = {
@@ -28,15 +30,34 @@ const userOAuthStore = {
         kakaoInfo,
         ({ data }) => {
           console.log(
-            "#userOAuthStore - getKakaoToken# 발급받은 kakao token 확인: ",
+            "#userOAuthStore - getKakaoToken# Kakao Token 발급 성공: ",
             data
           );
+          // 발급받은 access-token을 통해 현재 로그인한 사용자 정보 가져오기
+          commit("SET_KAKAO_TOKEN", data.access_token);
         },
         (error) => {
           console.log(error);
         }
       );
     },
+    // [@Method] #Kakao# 현재 로그인한 Kakao 사용자 정보 가져오기
+    // excuteKakaoUserInfo({ commit }, token) {
+    //   console.log("#21# 동작아러미나런일");
+    //   commit;
+    //   getKakaoUserInfo(
+    //     token,
+    //     ({ data }) => {
+    //       console.log(
+    //         "#userOAuthStore - getKakaoUserInfo# 현재 로그인한 Kakao 사용자 정보 가져오기 성공: ",
+    //         data
+    //       );
+    //     },
+    //     (error) => {
+    //       console.log(error);
+    //     }
+    //   );
+    // },
   },
 };
 
