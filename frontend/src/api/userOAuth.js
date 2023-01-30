@@ -45,13 +45,14 @@ async function getKakaoUserInfo(token, success, fail) {
     })
     .then((success) => {
       // success 안에 data 백엔드로 보내기
-      const nickname = success.properties.nickname;
-      const id = success.kakao_account.email;
+      const nickname = success.data.properties.nickname;
+      const id = success.data.kakao_account.email;
 
       const info = {
         id: id,
         nickname: nickname,
       };
+      console.log("#21# 오디걌냐고: ", info);
       user.socialLogin(info);
     })
     .catch(fail);
