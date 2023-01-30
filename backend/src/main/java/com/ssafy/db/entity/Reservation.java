@@ -48,7 +48,7 @@ public class Reservation{
     int reservationOpen;
 	@Column(name="reservation_finish")
     int reservationFinish;
-	@Column(name="review_grage")
+	@Column(name="review_grade")
     int reviewGrade;
 	@Column(name="review_comment")
     String reviewComment;

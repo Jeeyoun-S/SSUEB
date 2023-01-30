@@ -10,9 +10,13 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.common.jwt.JwtAuthenticationFilter;
@@ -72,7 +76,7 @@ public class UserLoginController {
 		
 		try {
 			logger.info("## [Controller]: authorize - 로그인 실행 {}, {}", loginInfo.getId(), loginInfo.getPassword());
-//			logger.info("#21# 암호화 비밀번호: {}", passwordEncoder.encode(loginInfo.getPassword()));
+			logger.info("#21# 암호화 비밀번호: {}", passwordEncoder.encode(loginInfo.getPassword()));
 			
 			// # 입력값 검증
 			// i) id - 비어 있지 않은지 && ID 규칙에 맞는지
@@ -116,7 +120,26 @@ public class UserLoginController {
 			e.printStackTrace();
 			return ResponseEntity.ok(UserLoginPostResponse.of(401, "failure", "id 또는 password를 다시 입력해 주세요.", null));
 		}
-		
 	}
 	
+	/** 
+	 * OAuth2_Kakao 소셜 로그인
+	 * @param String
+	 * @return UserLoginPostResponse
+	 */
+	@PostMapping("/kakao")
+	@ApiOperation(value = "소셜 로그인 - OAuth2 kakao")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "code", value = "카카오 서버에서 발급한 인가 code", required = true)
+	})
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, response = UserLoginPostResponse.class, message = "로그인에 성공했습니다."),
+			@ApiResponse(code = 401, response = UserLoginPostResponse.class, message = "id 또는 password를 다시 입력해 주세요.")
+	})
+	public ResponseEntity<UserLoginPostResponse> kakao(@RequestBody @ApiParam(value = "카카오 인가 code", required = true) String code) {
+		logger.info("#[Controller]: kakao# 카카오 로그인 실행 code: {}", code);
+		
+		return ResponseEntity.ok(UserLoginPostResponse.of(200, "success", "로그인에 성공했습니다.", null));
+	}
+		
 }

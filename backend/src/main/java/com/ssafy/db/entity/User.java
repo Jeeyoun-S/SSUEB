@@ -65,9 +65,4 @@ public class User {
 			joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
 			inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "authority_name")})
 	Set<Authority> authorities;
-	
-	// for. 회원가입 (UserJoinServiceImple에서 사용)
-	public User() {
-		
-	}
 }

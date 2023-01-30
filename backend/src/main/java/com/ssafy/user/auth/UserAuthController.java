@@ -16,8 +16,6 @@ import com.ssafy.user.auth.response.UserAuthResponse;
 import com.ssafy.user.auth.service.UserAuthService;
 
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
 @Api(tags = {"User Auth Controller"}, description = "권한검증 API")
