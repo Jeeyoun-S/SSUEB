@@ -96,6 +96,7 @@ import UserLogin from "../UserLogin/UserLogin.vue";
 import UserAlert from "../UserLogin/UserAlert.vue";
 
 const userStore = "userStore";
+const userOAuthStore = "userOAuthStore";
 
 export default {
   name: "mainPage",
@@ -107,7 +108,8 @@ export default {
   created() {
     // #OAuth - Kakao# Kakao 인가 코드 받기
     this.kakaoCode = this.$route.query.code;
-    // console.log("#21# 코드 확인: ", this.kakaoCode);
+    console.log("#21# 코드 확인: ", this.kakaoCode);
+
     if (this.kakaoCode != null) {
       this.kakao();
     }
@@ -120,11 +122,14 @@ export default {
     ...mapState(userStore, ["isLogin"]),
   },
   methods: {
-    ...mapActions(userStore, ["socialKakao"]),
-    // #OAuth - Kakao# 받은 인가 코드 Back-end로 전달
+    //...mapActions(userStore, ["socialKakao"]),
+    ...mapActions(userOAuthStore, ["excuteKakaoToken"]),
+
+    // #OAuth - Kakao# 받은 인가 코드를 사용하여 Kakao Token 발급요청
     async kakao() {
-      await this.socialKakao(this.kakaoCode);
-      this.kakaoCode = null;
+      await this.excuteKakaoToken(this.kakaoCode);
+      //await this.socialKakao(this.kakaoCode);
+      this.kakaoCode = null; // 받은 인가 code 초기화
     },
   },
 };
