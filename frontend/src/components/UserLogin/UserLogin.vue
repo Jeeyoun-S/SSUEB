@@ -29,7 +29,9 @@
       <kakao-dialog></kakao-dialog>
       <naver-dialog></naver-dialog>
     </v-card-actions>
-    <v-btn text elevation="0" class="joinBtn"><a href="http://localhost:8081/join">회원가입</a></v-btn>
+    <v-btn text elevation="0" class="joinBtn"
+      ><a href="http://localhost:8081/join">회원가입</a></v-btn
+    >
   </v-card>
 </template>
 

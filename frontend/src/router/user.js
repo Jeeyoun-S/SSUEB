@@ -3,6 +3,11 @@ import MyPage from "@/components/MyPage/MyPage.vue";
 import userJoin from "@/components/UserJoin/UserJoin.vue";
 
 const user = [
+  // {
+  //   path: "/",
+  //   name: "mainPage",
+  //   component: MainPage,
+  // },
   {
     path: "/",
     name: "mainPage",

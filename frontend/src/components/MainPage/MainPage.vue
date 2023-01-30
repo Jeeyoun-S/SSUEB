@@ -2,27 +2,29 @@
   <div class="main-page">
     <div class="main-center">
       <div class="main-center-item first">
+        <!-- #OAuth# kakao token -->
+        <v-card-title>{{ $route.query.code }}</v-card-title>
         <v-sheet color="white" elevation="1" height="200" width="780">
-          <v-img
+          <!-- <v-img
             class="rounded-lg image"
             :src="require('@/assets/main/wind.gif')"
-          ></v-img>
+          ></v-img> -->
         </v-sheet>
       </div>
       <div class="main-center-item second">
         <v-sheet color="white" elevation="1" height="200" width="780">
-          <v-img
+          <!-- <v-img
             class="rounded-lg image"
             :src="require('@/assets/main/startle.gif')"
-          ></v-img>
+          ></v-img> -->
         </v-sheet>
       </div>
       <div class="main-center-item third">
         <v-sheet color="white" elevation="1" height="200" width="780">
-          <v-img
+          <!-- <v-img
             class="rounded-lg image"
             :src="require('@/assets/main/walk.gif')"
-          ></v-img>
+          ></v-img> -->
         </v-sheet>
       </div>
     </div>
