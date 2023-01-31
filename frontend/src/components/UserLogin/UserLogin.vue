@@ -12,7 +12,7 @@
           label="이메일"
           variant="outlined"
           required
-          class="pb-3"
+          class="pb-2"
         ></v-text-field>
         <v-text-field
           v-model="loginInfo.password"
@@ -23,7 +23,7 @@
           label="비밀번호"
           variant="outlined"
           required
-          class="pb-3"
+          class="pb-2"
         ></v-text-field>
         <v-btn variant="outlined" block @click="login" rounded="0" size="large">로그인</v-btn>
       </v-form>
@@ -31,7 +31,7 @@
 
     <!-- 소셜 로그인 -->
     <div class="social-login">
-      <div>간편 로그인 및 회원가입 -----------</div>
+      <div>간편 로그인 및 회원가입 -------------</div>
       <div class="icon">
         <kakao-dialog></kakao-dialog>
         <naver-dialog></naver-dialog>
