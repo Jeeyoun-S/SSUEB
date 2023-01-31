@@ -1,5 +1,7 @@
 package com.ssafy.user.join;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -28,6 +30,10 @@ import io.swagger.annotations.ApiResponses;
 @RequestMapping("/api/user/join")
 @Api(tags = {"User Join"}, description = "사용자 회원가입 API")
 public class UserJoinController {
+	
+	
+	private static final Logger logger = LoggerFactory.getLogger(UserJoinController.class);
+
 	
 	// 유효성 검사
 	ParameterCheck parameterCheck = new ParameterCheck();
@@ -135,7 +141,7 @@ public class UserJoinController {
 	@ApiOperation(value = "사용자 아이디 중복 확인", notes = "사용자가 회원가입하기 전에 아이디 중복을 확인한다.")
 	@ApiImplicitParam(name = "id", value = "사용자 아이디", required = true)
 	public ResponseEntity<BasicResponse> duplicateId(String id) {
-		
+		logger.info("#21# 아이디 중복 진행: {}", id);
 		// 입력 받은 id가 DB에 있는지 조회
 		User user = userJoinRepository.findById(id);
 		

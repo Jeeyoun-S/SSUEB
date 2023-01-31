@@ -118,7 +118,7 @@ public class UserJoinServiceImpl implements UserJoinService {
 		consultant.setConsultantLicenseNumber(consultantJoinRequest.getConsultantLicenseNumber());
 		System.out.println(consultantJoinRequest.getConsultPetType());
 		consultant.setConsultantLicenseCopyImage(licenseName);
-		consultant.setConsultPetType(consultantJoinRequest.getConsultPetType());
+		consultant.setConsultantPetType(consultantJoinRequest.getConsultPetType());
 		consultant.setId(id);
 		consultant.setConsultantRate((double) 0);
 		

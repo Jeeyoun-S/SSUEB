@@ -20,8 +20,8 @@ public class Consultant {
     //@GeneratedValue(strategy = GenerationType.IDENTITY)
     String id;
 	
-	@Column(name = "consult_pet_type")
-    String consultPetType;
+	@Column(name = "consultant_pet_type")
+    String consultantPetType;
 	
 	@Column(name = "consultant_intro")
     String consultantIntro;

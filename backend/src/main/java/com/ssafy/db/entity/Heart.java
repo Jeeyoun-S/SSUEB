@@ -11,13 +11,13 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
- * like 테이블 모델 정의
+ * heart(좋아요) 테이블 모델 정의
  */
 @Entity
-@Table(name = "like")
+@Table(name = "heart")
 @Getter
 @Setter
-public class Like {
+public class Heart {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     int no;

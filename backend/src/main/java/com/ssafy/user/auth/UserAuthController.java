@@ -16,6 +16,7 @@ import com.ssafy.user.auth.response.UserAuthResponse;
 import com.ssafy.user.auth.service.UserAuthService;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 
 @Api(tags = {"User Auth Controller"}, description = "권한검증 API")
 @RestController
@@ -33,6 +34,7 @@ public class UserAuthController {
 	 * @return UserAuthResponse
 	 */
 	@GetMapping("/permit")
+	@ApiOperation(value = "권한 검증 - 모든 권한 허용")
 	@PreAuthorize("hasAnyRole('USER', 'CONSULTANT', 'ADMIN')")
 	public ResponseEntity<UserAuthResponse> getMyUserInfo(HttpServletRequest request) {
 		return ResponseEntity.ok(userAuthService.getMyUserWithAuthorities());
@@ -44,9 +46,11 @@ public class UserAuthController {
 	 * @return UserAuthResponse
 	 */
 	@GetMapping("/permit/{id}")
+	@ApiOperation(value = "권한 검증 - 전문가, 관리자 권한만 허용")
 	@PreAuthorize("hasAnyRole('CONSULTANT', 'ADMIN')")
 	public ResponseEntity<UserAuthResponse> getUserInfo(@PathVariable String id) {
 		return ResponseEntity.ok(userAuthService.getUserWithAuthorities(id));
 	}
+	
 	
 }
