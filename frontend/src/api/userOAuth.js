@@ -62,13 +62,10 @@ async function getKakaoUserInfo(token, success, fail) {
         duplicateResult = res;
       });
       if (duplicateResult == true) {
-        // 회원가입 store에 id, nickname 저장
-        // userJoinStore.commit("SET_SOCIAL_USER_INFO", info);
-        // userJoinStore.mutations("SET_SOCIAL_USER_INFO", info);
-        // store.dispatch("SET_SOCIAL_USER_INFO", info);
-
-        // store.dispatch("setSocialUserInfo", info);
-        store.dispatch("setSocialUserInfo", id);
+        // 소셜 로그인 유저 정보(userSocialStore) store에 id, nickname 저장
+        store.dispatch("setSocialUserInfo", info);
+        // store.dispatch("setSocialUserInfo", id);
+        // store.dispatch("setSocialUserInfo", id);
         // location.href = `${process.env.VUE_APP_BASE_URL}/join`;
         // router.push("/join");
       }

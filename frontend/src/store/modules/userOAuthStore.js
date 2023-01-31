@@ -41,23 +41,6 @@ const userOAuthStore = {
         }
       );
     },
-    // [@Method] #Kakao# 현재 로그인한 Kakao 사용자 정보 가져오기
-    // excuteKakaoUserInfo({ commit }, token) {
-    //   console.log("#21# 동작아러미나런일");
-    //   commit;
-    //   getKakaoUserInfo(
-    //     token,
-    //     ({ data }) => {
-    //       console.log(
-    //         "#userOAuthStore - getKakaoUserInfo# 현재 로그인한 Kakao 사용자 정보 가져오기 성공: ",
-    //         data
-    //       );
-    //     },
-    //     (error) => {
-    //       console.log(error);
-    //     }
-    //   );
-    // },
   },
 };
 

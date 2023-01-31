@@ -126,20 +126,17 @@ export default {
     },
   },
   created() {
-    console.log("# 실행된다.");
+    // #21#
+    // 회원가입 페이지 실행 시 소셜 로그인 info 적용
     console.log("# 아이디 ", this.socialUserInfo);
-    this.info.id = this.socialUserInfo;
+    this.info.id = this.socialUserInfo.id;
   },
-  // beforeCreate() {
-  //   console.log("# 실행된다.");
-  //   console.log("# 아이디 ", this.socialUserInfo);
-  //   this.info.id = this.socialUserInfo;
-  // },
   computed: {
     // ...mapState(userJoinStore, ["socialUserInfo"]), // #21#
     socialUserInfo() {
-      return this.$store.getters.getSocialUserInfo;
+      // return this.$store.getters.getSocialUserInfo;
       // return this.$store.state.socialUserInfo;
+      return this.$store.getters.getSocialUserInfo;
     },
   },
 };

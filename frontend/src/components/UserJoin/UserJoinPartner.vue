@@ -1,5 +1,5 @@
 <template>
-  <v-form class="forms" ref="form" lazy-validation> 
+  <v-form class="forms" ref="form" lazy-validation>
     <UserJoinBasicInfo @info="updateBasicInfo"></UserJoinBasicInfo>
     <v-text-field
       v-model="info.userNickname"
