@@ -26,7 +26,6 @@ import com.ssafy.common.jwt.JwtTokenProvider;
 import com.ssafy.common.util.ParameterCheck;
 import com.ssafy.db.entity.User;
 import com.ssafy.user.join.UserJoinController;
-import com.ssafy.user.join.UserJoinRepository;
 import com.ssafy.user.join.response.BasicResponse;
 import com.ssafy.user.login.request.UserKakaoUserPostRequest;
 import com.ssafy.user.login.request.UserLoginPostRequest;
@@ -105,7 +104,7 @@ public class UserLoginController {
 			// i) 입력받은 loginInfo(id, pw)를 사용하여 Authentication 토큰 생성 
 			UsernamePasswordAuthenticationToken authenticationToken = 
 					new UsernamePasswordAuthenticationToken(loginInfo.getId(), loginInfo.getPassword());
-//			logger.info("#21# i) 토큰생성: {}", authenticationToken);
+			logger.info("#21# i) 토큰생성: {}", authenticationToken);
 
 			
 			// ii) i에서 만든 authenticationToken을 사용하여 Authentication 객체를 생성하기 위하여 authenticate 메소드가 실행될 때

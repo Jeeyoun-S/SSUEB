@@ -5,6 +5,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -100,7 +101,10 @@ public class UserPhoneServiceImpl implements UserPhoneService {
 		
 		// 6자리 인증번호 생성
 		Random random = new Random();
-		String authNumber = String.valueOf(random.nextInt(1000000));
+		
+		// 6자리로 형식 맞추기
+		DecimalFormat df = new DecimalFormat("000000");
+		String authNumber = String.valueOf(df.format(random.nextInt(1000000)));
 		
 		// Redis에 인증번호 저장, 4분이 지나면 없어진다.
 		ValueOperations<String, String> valueOperations = stringRedisTemplate.opsForValue();
