@@ -1,8 +1,6 @@
 import axios from "axios";
 import { socialLogin } from "./user.js";
 import { duplicateId } from "./userJoin.js";
-// import router from "@/router/index.js";
-// import { userJoinStore } from "@/store/modules/userJoinStore";
 import store from "@/store/index.js";
 
 // #Kakao API#
@@ -64,10 +62,7 @@ async function getKakaoUserInfo(token, success, fail) {
       if (duplicateResult == true) {
         // 소셜 로그인 유저 정보(userSocialStore) store에 id, nickname 저장
         store.dispatch("setSocialUserInfo", info);
-        // store.dispatch("setSocialUserInfo", id);
-        // store.dispatch("setSocialUserInfo", id);
         // location.href = `${process.env.VUE_APP_BASE_URL}/join`;
-        // router.push("/join");
       }
       // * 있다면 > 회원정보 업데이트
       else {
