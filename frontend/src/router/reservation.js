@@ -2,7 +2,7 @@ import CreateReservation from "@/components/CreateReservation/CreateReservation.
 
 const reservation = [
   {
-    path: "create-reservation",
+    path: "/create-reservation",
     name: "createReservation",
     component: CreateReservation,
   },

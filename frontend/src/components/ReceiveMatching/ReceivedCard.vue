@@ -7,6 +7,9 @@
       <v-icon large color="orange darken-2">mdi-star</v-icon>
 
     </v-sheet>
+    <div class="tempClassName">
+      <img class="image" :src="require('@/assets/placeholder/placeholder_person.jpg')" />
+    </div>
 </template>
      
 <script>
