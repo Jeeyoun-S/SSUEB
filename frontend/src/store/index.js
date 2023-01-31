@@ -10,6 +10,9 @@ import meetingRoomStore from "@/store/modules/meetingRoomStore.js";
 import reservationStore from "@/store/modules/reservationStore.js";
 import userJoinStore from "@/store/modules/userJoinStore.js";
 
+// for. OAuth 소셜 로그인
+import userOAuthStore from "./modules/userOAuthStore";
+
 // for. 페이지 refresh 시 vuex store 값 유지
 // [기존 code] 주석 처리
 // import { createStore } from "vuex";
@@ -33,7 +36,9 @@ const store = new Vuex.Store({
     communityStore: communityStore,
     meetingRoomStore: meetingRoomStore,
     reservationStore: reservationStore,
-    userJoinStore: userJoinStore
+    userJoinStore: userJoinStore,
+    // for. OAuth 소셜 로그인
+    userOAuthStore: userOAuthStore,
   },
   // vuex plugin 명시
   plugins: [

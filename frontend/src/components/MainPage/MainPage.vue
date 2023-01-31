@@ -88,20 +88,46 @@
 </template>
 
 <script>
+import { mapState, mapActions } from "vuex";
 import UserLogin from "../UserLogin/UserLogin.vue";
 import UserAlert from "../UserLogin/UserAlert.vue";
-import { mapState } from "vuex";
 
 const userStore = "userStore";
+const userOAuthStore = "userOAuthStore";
 
 export default {
   name: "mainPage",
+  data() {
+    return {
+      kakaoCode: null,
+    };
+  },
+  created() {
+    // #OAuth - Kakao# Kakao 인가 코드 받기
+    this.kakaoCode = this.$route.query.code;
+    console.log("#21# 코드 확인: ", this.kakaoCode);
+
+    if (this.kakaoCode != null) {
+      this.kakao();
+    }
+  },
   components: {
     UserLogin,
     UserAlert,
   },
   computed: {
     ...mapState(userStore, ["isLogin"]),
+  },
+  methods: {
+    //...mapActions(userStore, ["socialKakao"]),
+    ...mapActions(userOAuthStore, ["excuteKakaoToken"]),
+
+    // #OAuth - Kakao# 받은 인가 코드를 사용하여 Kakao Token 발급요청
+    async kakao() {
+      await this.excuteKakaoToken(this.kakaoCode);
+      //await this.socialKakao(this.kakaoCode);
+      this.kakaoCode = null; // 받은 인가 code 초기화
+    },
   },
 };
 </script>
@@ -119,13 +145,12 @@ export default {
   align-items: center;
   justify-content: space-between;
 
-  width: 290px;
+  width: 300px;
   height: 654.4px;
 }
-.main-page .main-right .main-right-item {
-  width: 280px;
-  height: 200px;
-  /* margin-bottom: 1%; */
+.main-page .main-right .main-right-item.bottom {
+  width: 300px;
+  height: 130px;
 }
 .main-page .main-center {
   display: flex;
@@ -135,7 +160,7 @@ export default {
 
   width: 730px;
   height: 654.4px;
-  margin-right: 48px;
+  margin-right: 40px;
 }
 .main-page .main-center .main-center-item {
   display: flex;

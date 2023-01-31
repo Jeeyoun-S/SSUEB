@@ -11,6 +11,12 @@ async function login(loginInfo, success, fail) {
     .catch(fail);
 }
 
+// [POST] Kakao 소셜 로그인 정보(email(id), nickname) 전달
+function socialLogin(info, success, fail) {
+  console.log("#user - socialLogin# 소셜 로그인 params - info: ", info);
+  api.post(`/user/login/kakao`, JSON.stringify(info)).then(success).catch(fail);
+}
+
 // [GET] 모든 권한 허용 + header에 token 넣어야 함
 async function anyPermit(token, success, fail) {
   console.log("#user - anyPermit# 모든 권한 허용 params - token: ", token);
@@ -41,4 +47,5 @@ async function partPermit(userId, token, success, fail) {
     .catch(fail);
 }
 
-export { login, anyPermit, partPermit };
+// export { login, kakaoLogin, socialLogin, anyPermit, partPermit };
+export { login, socialLogin, anyPermit, partPermit };

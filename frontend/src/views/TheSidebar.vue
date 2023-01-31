@@ -10,13 +10,13 @@
 </template>
 
 <script>
-import LogoVer2 from '@/views/LogoVer2.vue'
+import LogoVer2 from "@/views/LogoVer2.vue";
 
 export default {
   name: "TheSidebar",
   components: {
-    LogoVer2
-  }, 
+    LogoVer2,
+  },
   data() {
     return {
       items: [
@@ -93,7 +93,7 @@ export default {
 @import "@/css/sheet.css";
 .sidebar {
   padding-right: 48px;
-  font-family: 'NanumSquareNeo-Variable';
+  font-family: "NanumSquareNeo-Variable";
 }
 .sidebar .sheet {
   display: flex;
@@ -102,7 +102,7 @@ export default {
   justify-content: center;
 
   margin-bottom: 20px;
-  
+
   height: 100px;
   width: 230px;
 }
