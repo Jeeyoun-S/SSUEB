@@ -128,8 +128,8 @@ public class ParameterCheck {
 	}
 	
 	/**
-	 * 펫 타입 정보 확인
-	 * @param petType 확인할 펫타입
+	 * 상담 가능한 반려동물 정보 확인
+	 * @param petType 확인할  값
 	 * @return 2진법 6자리가 맞다면 true, 그 외는 false
 	 * **/
 	public boolean isValidPetType(String petType) {
@@ -160,7 +160,7 @@ public class ParameterCheck {
 	 * @param file 확인할 파일
 	 * @return 파일 확장자가  png, jpg, pdf라면 true, 그 외는 false
 	 * **/
-	public boolean isValidExtension(MultipartFile file) {
+	public boolean isValidImage(MultipartFile file, boolean pdfValid) {
 		
 		// 파일명 전체
 		String fileName = file.getOriginalFilename();
@@ -169,6 +169,8 @@ public class ParameterCheck {
 		String extension = fileName.substring(fileName.lastIndexOf(".") + 1);
 		
 		if (extension.equals("png") || extension.equals("jpg") || extension.equals("jfif") || extension.equals("pjpeg") || extension.equals("jpeg") || extension.equals("pjp")) {
+			return true;
+		} else if (pdfValid && extension.equals("pdf")) {
 			return true;
 		} return false;
 	}

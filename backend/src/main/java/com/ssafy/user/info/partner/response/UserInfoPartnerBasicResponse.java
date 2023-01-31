@@ -1,4 +1,4 @@
-package com.ssafy.user.info.partner.request;
+package com.ssafy.user.info.partner.response;
 
 import java.util.List;
 

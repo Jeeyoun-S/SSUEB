@@ -1,7 +1,6 @@
 package com.ssafy.user.pet;
 
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.user.pet.request.PetRequest;
 
@@ -28,9 +27,4 @@ public interface UserPetService {
 	 * **/
 	public boolean modifyPet(int no, PetRequest petRequest);
 	
-	/**
-	 * 이미지 파일 저장하기
-	 * @param imageFile 저장할 파일
-	 * **/
-	public String saveImage(MultipartFile imageFile);
 }

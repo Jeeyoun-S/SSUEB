@@ -13,12 +13,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.db.entity.Pet;
 import com.ssafy.db.entity.User;
+import com.ssafy.db.entity.UserAuthority;
 import com.ssafy.user.info.partner.repository.InfoPetRepository;
 import com.ssafy.user.info.partner.repository.PartnerUserRepository;
-import com.ssafy.user.info.partner.request.UserInfoPartnerBasicResponse;
-import com.ssafy.user.info.partner.request.UserInfoPartnerBasicResponse.UserPartnerInfoData;
-import com.ssafy.user.info.partner.request.UserInfoResponse;
-import com.ssafy.user.info.partner.request.UserPetResponse;
+import com.ssafy.user.info.partner.repository.UserAuthorityCheckRepository;
+import com.ssafy.user.info.partner.response.UserInfoPartnerBasicResponse;
+import com.ssafy.user.info.partner.response.UserInfoPartnerBasicResponse.UserPartnerInfoData;
+import com.ssafy.user.info.partner.response.UserInfoResponse;
+import com.ssafy.user.info.partner.response.UserPetResponse;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -35,6 +37,9 @@ public class UserInfoPartnerController {
 	@Autowired
 	InfoPetRepository infoPetRepository;
 	
+	@Autowired
+	UserAuthorityCheckRepository userAuthorityCheckRepository;
+	
 	@GetMapping("/partner/{id}")
 	@ApiOperation(value = "반려인 회원 정보 조회", notes = "반려인 아이디를 받아 마이페이지에 보여줄 정보를 조회한다.")
 	@ApiImplicitParam(name = "id", value = "사용자 아이디", required = true)
@@ -42,7 +47,17 @@ public class UserInfoPartnerController {
 		
 		// token 관련해서 어떻게 할 건지 결정 X, 그래서 id 유효성 검사 생략된 상태
 		
-		UserInfoPartnerBasicResponse UserInfoPartnerBasicResponse = new UserInfoPartnerBasicResponse();
+		// 받아온 사용자가 반려인이 맞는지 확인
+		Optional<UserAuthority> userAuthority = userAuthorityCheckRepository.findById(id);
+		if (userAuthority.isPresent()) {
+			if (!userAuthority.get().getAuthorityName().equals("ROLE_USER")) {
+				return ResponseEntity.status(200).body(new UserInfoPartnerBasicResponse("failure", "반려인으로 가입된 사용자가 아닙니다.", null));
+			}
+		} else {
+			return ResponseEntity.status(200).body(new UserInfoPartnerBasicResponse("failure", "존재하지 않는 사용자입니다.", null));
+		}
+		
+		// 반환할 data를 저장할 객체 생성
 		UserPartnerInfoData userPartnerInfoData = new UserPartnerInfoData();
 		
 		// 회원 정보 가져오기
@@ -82,9 +97,11 @@ public class UserInfoPartnerController {
 			}
 			
 			// 응답값에 넣어주기
-			userPartnerInfoData.setPetInfo(petInfo);;
+			userPartnerInfoData.setPetInfo(petInfo);
 		}
 		
-		return null;
+		UserInfoPartnerBasicResponse UserInfoPartnerBasicResponse = new UserInfoPartnerBasicResponse("success", "회원정보 조회에 성공했습니다.", userPartnerInfoData);
+		
+		return ResponseEntity.status(200).body(UserInfoPartnerBasicResponse);
 	}
 }

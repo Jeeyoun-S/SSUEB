@@ -8,7 +8,10 @@ import com.ssafy.db.entity.User;
 
 public interface PartnerUserRepository extends JpaRepository<User, String> {
 	
-	/****/
+	/**
+	 * ID로 회원정보 불러오기
+	 * @param id 사용자 아이디
+	 * **/
 	Optional<User> findById(String id);
 	
 }

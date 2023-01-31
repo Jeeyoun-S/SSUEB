@@ -1,14 +1,13 @@
 package com.ssafy.user.pet;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.UUID;
 import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ssafy.common.util.ImageFile;
 import com.ssafy.common.util.ParameterCheck;
 import com.ssafy.db.entity.Pet;
 import com.ssafy.user.pet.request.PetRequest;
@@ -21,13 +20,15 @@ public class UserPetServiceImpl implements UserPetService {
 	
 	ParameterCheck parameterCheck = new ParameterCheck();
 	
+	ImageFile imageCheck = new ImageFile();
+	
 	@Override
 	public boolean isValidPetInfo(PetRequest petRequest, boolean checkEmpty) {
 		
 		// 파일 크기 및 확장자 유효성 검사
 		MultipartFile petImage = petRequest.getPetImage();
 		if (petImage != null)
-			if (!(parameterCheck.isValidFileSize(5000000, petImage) && parameterCheck.isValidExtension(petImage))) return false;
+			if (!parameterCheck.isValidImage(petImage, false)) return false;
 		
 		// 반려동물 이름
 		if (checkEmpty && petRequest.getPetName() == null) return false;
@@ -53,13 +54,16 @@ public class UserPetServiceImpl implements UserPetService {
 	@Override
 	public boolean addPet(String id, PetRequest petRequest) {
 		
-		// 이미지 저장하기
-		String petImageName = saveImage(petRequest.getPetImage());
+		// 파일 생성
+		MultipartFile imageFile = petRequest.getPetImage();
+		
+		// 이미지 크기 100KB 이하로 조절해서 저정하기
+		String imageName = imageCheck.saveMultipartFile100KB(imageFile, "C:\\Users\\SSAFY");
 		
 		// Pet Entity 생성
 		Pet pet = new Pet();
 		pet.setUserId(id);
-		pet.setPetImage(petImageName);
+		pet.setPetImage(imageName);
 		pet.setPetName(petRequest.getPetName());
 		pet.setPetType(petRequest.getPetType());
 		pet.setPetVariety(petRequest.getPetVariety());
@@ -77,49 +81,43 @@ public class UserPetServiceImpl implements UserPetService {
 		// Pet Entity 생성
 		Pet pet = petRepository.findByNo(no);
 		
+		System.out.println("### 여기 오긴 왔다.");
+		System.out.println(petRequest.getPetImage());
+		
 		if (petRequest.getPetImage() != null) {
 			
-			// 이미지 저장하기
-			String petImageName = saveImage(petRequest.getPetImage());
-			pet.setPetImage(petImageName);
+			System.out.println("### 파일 수정까지 옴");
+			
+			// 기존 파일 가져오기
+			String beforeFileName = pet.getPetImage();
+			
+			// 기존 파일 삭제하기
+			File file = new File("C:\\Users\\SSAFY\\"+beforeFileName);
+			file.delete();
+			
+			// 파일
+			MultipartFile imageFile = petRequest.getPetImage();
+			
+			// 이미지 크기 100KB 이하로 조절해서 저정하기
+			String imageName = imageCheck.saveMultipartFile100KB(imageFile, "C:\\Users\\SSAFY");
+			
+			pet.setPetImage(imageName);
 		}
 		
-		if (petRequest.getPetName() != null) pet.setPetName(petRequest.getPetName());
-		if (petRequest.getPetType() != null) pet.setPetType(petRequest.getPetType());
-		if (petRequest.getPetVariety() != null) pet.setPetVariety(petRequest.getPetVariety());
-		if (petRequest.getPetBirth() != null) pet.setPetBirth(petRequest.getPetBirth());
-		if (petRequest.getPetInfo() != null) pet.setPetInfo(petRequest.getPetInfo());
+		if (petRequest.getPetName() != null && !petRequest.getPetName().equals(""))
+			pet.setPetName(petRequest.getPetName());
+		if (petRequest.getPetType() != null && !petRequest.getPetType().equals(""))
+			pet.setPetType(petRequest.getPetType());
+		if (petRequest.getPetVariety() != null && !petRequest.getPetVariety().equals(""))
+			pet.setPetVariety(petRequest.getPetVariety());
+		if (petRequest.getPetBirth() != null && !petRequest.getPetBirth().equals(""))
+			pet.setPetBirth(petRequest.getPetBirth());
+		if (petRequest.getPetInfo() != null && !petRequest.getPetInfo().equals(""))
+			pet.setPetInfo(petRequest.getPetInfo());
 		
 		Pet result = petRepository.save(pet);
 		if (result != null) return true;
 		return false;
 	}
 	
-	@Override
-	public String saveImage(MultipartFile imageFile) {
-		
-		// 확장자 추출
-		String fileName = imageFile.getOriginalFilename();
-		String extension = fileName.substring(fileName.lastIndexOf("."));
-		
-		// 파일명 생성
-		String imageName = UUID.randomUUID().toString() + extension;
-		
-		// 저장 경로 설정하기 : 현재는 빠르게 확인하기 위해 사용자 주소로 설정해 두었음.
-		String path = "C:\\Users\\SSAFY";
-		
-		// File 객체 생성
-		File target = new File(path, imageName);
-		
-		// 폴더로 옮겨주기
-		try {
-			imageFile.transferTo(target);
-		} catch (IllegalStateException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		return imageName;
-	}
 }

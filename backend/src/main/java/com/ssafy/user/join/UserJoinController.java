@@ -105,7 +105,7 @@ public class UserJoinController {
 			// 파일 크기 및 확장자 확인
 			MultipartFile image = consultantJoinRequest.getConsultantLicenseCopyImage();
 			
-			if (parameterCheck.isValidFileSize(5000000, image) && parameterCheck.isValidExtension(image)) {
+			if (parameterCheck.isValidFileSize(5000000, image) && parameterCheck.isValidImage(image, true)) {
 				
 				// User Table에 넣기
 				boolean resultUser = userJoinService.joinUser(joinRequest, 1);

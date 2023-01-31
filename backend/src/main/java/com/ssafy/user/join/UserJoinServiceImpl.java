@@ -1,14 +1,11 @@
 package com.ssafy.user.join;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.UUID;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ssafy.common.util.ImageFile;
 import com.ssafy.common.util.ParameterCheck;
 import com.ssafy.db.entity.Consultant;
 import com.ssafy.db.entity.User;
@@ -38,6 +35,8 @@ public class UserJoinServiceImpl implements UserJoinService {
 	
 	@Autowired
 	PasswordEncoder passwordEncoder;
+	
+	ImageFile imageCheck = new ImageFile();
 	
 	@Override
 	public boolean joinUser(JoinRequest joinRequest, int role) {
@@ -105,29 +104,11 @@ public class UserJoinServiceImpl implements UserJoinService {
 		// 이미지 파일 가져오기
 		MultipartFile licenseImage = consultantJoinRequest.getConsultantLicenseCopyImage();
 		
-		// 파일 이름 가져오기
-		String fileName = licenseImage.getOriginalFilename();
+		// 파일 이름 만들기
+		String licenseName = imageCheck.makeFilename(licenseImage.getOriginalFilename());
 		
-		// 파일 이름에서 확장자만 가져오기
-		String extension = fileName.substring(fileName.lastIndexOf("."));
-		
-		// 파일명 생성하기
-		String licenseName = UUID.randomUUID().toString() + extension;
-		
-		// 저장 경로 설정하기 : 현재는 빠르게 확인하기 위해 사용자 주소로 설정해 두었음.
-		String path = "C:\\Users\\SSAFY";
-		
-		// File 객체 생성
-		File target = new File(path, licenseName);
-		
-		// 폴더로 옮겨주기
-		try {
-			licenseImage.transferTo(target);
-		} catch (IllegalStateException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		// 파일 저장하기
+		imageCheck.saveImage(licenseImage, licenseName, "C:\\Users\\SSAFY");
 		
 		// Consultant DTO 생성
 		Consultant consultant = new Consultant();

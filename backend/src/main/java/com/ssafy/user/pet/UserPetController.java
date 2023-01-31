@@ -6,10 +6,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.common.util.ParameterCheck;
 import com.ssafy.user.pet.request.PetRequest;
 import com.ssafy.user.pet.response.PetBasicResponse;
 
@@ -27,6 +27,8 @@ public class UserPetController {
 	
 	@Autowired
 	UserPetRepository petRepository;
+	
+	ParameterCheck parameterCheck = new ParameterCheck();
 	
 	@PostMapping(value = "/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ApiOperation(value = "반려동물 등록", notes = "반려동물 정보를 입력 받아 사용자의 반려동물로 추가한다.")
@@ -62,11 +64,12 @@ public class UserPetController {
 		}
 	}
 	
-	@PutMapping("/{no}")
+	@PostMapping(value = "no/{no}")
 	@ApiOperation(value = "반려동물 정보 수정", notes = "반려동물 정보 일부를 입력 받아 정보를 수정한다.")
 	@ApiImplicitParam(name = "no", value = "반려동물 번호", dataType = "int", example = "0", required = true)
 	public ResponseEntity<PetBasicResponse> modifyPet(@PathVariable int no, PetRequest petRequest) {
 		
+		System.out.println(petRequest);
 		
 		// 입력 받은 정보 유효성 검사 (생일, 품종, 파일)
 		if (userPetService.isValidPetInfo(petRequest, false)) {
