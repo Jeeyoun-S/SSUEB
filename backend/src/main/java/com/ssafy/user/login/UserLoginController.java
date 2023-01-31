@@ -1,5 +1,7 @@
 package com.ssafy.user.login;
 
+import java.io.Console;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ssafy.common.jwt.JwtAuthenticationFilter;
 import com.ssafy.common.jwt.JwtTokenProvider;
 import com.ssafy.common.util.ParameterCheck;
+import com.ssafy.db.entity.User;
+import com.ssafy.user.join.UserJoinController;
+import com.ssafy.user.join.UserJoinRepository;
+import com.ssafy.user.join.response.BasicResponse;
+import com.ssafy.user.login.request.UserKakaoUserPostRequest;
 import com.ssafy.user.login.request.UserLoginPostRequest;
 import com.ssafy.user.login.response.UserLoginPostResponse;
 
@@ -43,19 +50,25 @@ public class UserLoginController {
 	@Autowired
 	PasswordEncoder passwordEncoder;
 	
+	// for. 입력값 검증 
 	ParameterCheck parameterCheck = new ParameterCheck(); 
 	
 	// for. JWT
-	private final JwtTokenProvider jwtTokenProvider;
-	private final AuthenticationManagerBuilder authenticationManagerBuilder;
+	@Autowired
+	JwtTokenProvider jwtTokenProvider; 
+	@Autowired
+	AuthenticationManagerBuilder authenticationManagerBuilder;
+//	private final JwtTokenProvider jwtTokenProvider;
+//	private final AuthenticationManagerBuilder authenticationManagerBuilder;
+//	public UserLoginController(
+//			JwtTokenProvider jwtTokenProvider,
+//			AuthenticationManagerBuilder authenticationManagerBuilder) {
+//		this.jwtTokenProvider = jwtTokenProvider; 
+//		this.authenticationManagerBuilder = authenticationManagerBuilder;
+//	}
 	
-	public UserLoginController(
-			JwtTokenProvider jwtTokenProvider,
-			AuthenticationManagerBuilder authenticationManagerBuilder) {
-		this.jwtTokenProvider = jwtTokenProvider; 
-		this.authenticationManagerBuilder = authenticationManagerBuilder;
-	}
-	
+	@Autowired
+	UserJoinController userJoinController;
 	
 	/** 
 	 * id와 pw를 통해 로그인 실행, 성공 시 JWT token 반환
@@ -130,16 +143,41 @@ public class UserLoginController {
 	@PostMapping("/kakao")
 	@ApiOperation(value = "소셜 로그인 - OAuth2 kakao")
 	@ApiImplicitParams({
-		@ApiImplicitParam(name = "code", value = "카카오 서버에서 발급한 인가 code", required = true)
+		@ApiImplicitParam(name = "code", value = "현재 로그인한 Kakao 사용자 정보", required = true)
 	})
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, response = UserLoginPostResponse.class, message = "로그인에 성공했습니다."),
 			@ApiResponse(code = 401, response = UserLoginPostResponse.class, message = "id 또는 password를 다시 입력해 주세요.")
 	})
-	public ResponseEntity<UserLoginPostResponse> kakao(@RequestBody @ApiParam(value = "카카오 인가 code", required = true) String code) {
-		logger.info("#[Controller]: kakao# 카카오 로그인 실행 code: {}", code);
+//	public ResponseEntity<UserLoginPostResponse> kakao(@RequestBody @ApiParam(value = "Kakao 사용자 정보", required = true) UserKakaoUserPostRequest info) {
+	public String kakao(@RequestBody @ApiParam(value = "Kakao 사용자 정보", required = true) UserKakaoUserPostRequest info) {
+		logger.info("#[Controller]: kakao# 현재 로그인한 Kakao 사용자 정보: {}", info);
 		
-		return ResponseEntity.ok(UserLoginPostResponse.of(200, "success", "로그인에 성공했습니다.", null));
+		// i) token 복호화 -> 카카오로부터 전달받은 사용자 정보 얻기
+		// ii) 얻은 id가 이미 회원가입 되어 있는지 확인
+		// iii) 카카오로부터 얻은 정보(id, nickname) return
+		// ------ 여기까지 Front에서 처리
+		
+		// * 만약 이 아이디로 회원가입한 사용자가 없다면
+		ResponseEntity<BasicResponse> duplicateIdResult = userJoinController.duplicateId(info.getId());
+		logger.info("#21# 반환 확인: {}", duplicateIdResult.getBody().getResponse());
+		
+		if (duplicateIdResult.getBody().getResponse().equals("success")) {
+			return "redirect:http://localhost:8081/join";
+		}
+		// * 기존 사용자 정보가 있다면 user id, nickname 카카오 계정으로 변경..? 
+		else {
+			return "redirect:http://localhost:8081/";
+		}
+		// iv) 회원가입 페이지로 front 연결 
+		
+		// * 있다면..? update? 
+		
+		// v) 회원가입 페이지에서 추가 정보 받은 후 
+		// vi) 회원가입 진행 
+		// vii) 로그인 진행
+		
+//		return ResponseEntity.ok(UserLoginPostResponse.of(200, "success", "로그인에 성공했습니다.", null));
 	}
 		
 }
