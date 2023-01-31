@@ -2,6 +2,8 @@ import axios from "axios";
 import { socialLogin } from "./user.js";
 import { duplicateId } from "./userJoin.js";
 // import router from "@/router/index.js";
+// import { userJoinStore } from "@/store/modules/userJoinStore";
+import store from "@/store/index.js";
 
 // #Kakao API#
 // Kakao Token을 발급받기 위한 API
@@ -60,7 +62,14 @@ async function getKakaoUserInfo(token, success, fail) {
         duplicateResult = res;
       });
       if (duplicateResult == true) {
-        location.href = `${process.env.VUE_APP_BASE_URL}/join`;
+        // 회원가입 store에 id, nickname 저장
+        // userJoinStore.commit("SET_SOCIAL_USER_INFO", info);
+        // userJoinStore.mutations("SET_SOCIAL_USER_INFO", info);
+        // store.dispatch("SET_SOCIAL_USER_INFO", info);
+
+        // store.dispatch("setSocialUserInfo", info);
+        store.dispatch("setSocialUserInfo", id);
+        // location.href = `${process.env.VUE_APP_BASE_URL}/join`;
       }
       // * 있다면 > 회원정보 업데이트
       else {

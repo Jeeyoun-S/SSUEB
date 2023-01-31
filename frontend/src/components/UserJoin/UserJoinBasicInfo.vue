@@ -8,6 +8,19 @@
     color="primary"
     required
   ></v-text-field>
+  <!-- #21# Kakao User 정보 출력 -->
+  <!-- <v-text-field
+    v-model="info.id"
+    class="mb-2"
+    :rules="rules.email"
+    label="이메일"
+    variant="underlined"
+    color="primary"
+    required
+    >{{ socialUserInfo }}</v-text-field
+  > -->
+  <!--#21#-->
+  <!-- <v-text-field>{{ socialUserInfo }}</v-text-field> -->
   <v-text-field
     v-model="info.userPassword"
     :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
@@ -33,10 +46,15 @@
 
 <script>
 import { duplicateId } from "@/api/userJoin.js";
+// import { mapState } from "vuex"; // #21#
+
+// const userJoinStore = "userJoinStore"; // #21#
 
 export default {
   name: "UserJoinBasicInfo",
   data() {
+    // #21#
+    // console.log("#21# Kakao User 있나ㅏ: ", userJoinStore);
     return {
       info: {
         id: null,
@@ -105,6 +123,23 @@ export default {
         }
       },
       deep: true,
+    },
+  },
+  created() {
+    console.log("# 실행된다.");
+    console.log("# 아이디 ", this.socialUserInfo);
+    this.info.id = this.socialUserInfo;
+  },
+  // beforeCreate() {
+  //   console.log("# 실행된다.");
+  //   console.log("# 아이디 ", this.socialUserInfo);
+  //   this.info.id = this.socialUserInfo;
+  // },
+  computed: {
+    // ...mapState(userJoinStore, ["socialUserInfo"]), // #21#
+    socialUserInfo() {
+      // return this.$store.getters.getSocialUserInfo;
+      return this.$store.state.socialUserInfo;
     },
   },
 };
