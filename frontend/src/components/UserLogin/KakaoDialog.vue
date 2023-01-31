@@ -1,13 +1,7 @@
 <template>
-  <v-btn
-    depressed
-    elevation="2"
-    large
-    class="kakaoBtn"
-    color="yellow"
-    @click="kakaoLogin"
-    >KAKAO</v-btn
-  >
+  <div class="sns-login">
+    <img :src="require('@/assets/login/kakao_logo.png')" @click="kakaoLogin" />
+  </div>
 </template>
 
 <script>
@@ -29,7 +23,11 @@ export default {
 </script>
 
 <style>
-.kakaoBtn {
-  margin-left: 22%;
+.sns-login img {
+  width: 45px;
+  height: 45px;
+}
+.sns-login img:hover {
+  cursor: pointer;
 }
 </style>

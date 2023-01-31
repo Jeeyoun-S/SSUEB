@@ -1,5 +1,5 @@
 <template>
-  <v-form class="form" ref="form" lazy-validation> 
+  <v-form class="forms" ref="form" lazy-validation> 
     <UserJoinBasicInfo @info="updateBasicInfo"></UserJoinBasicInfo>
     <v-text-field v-model="info.userNickname" class="mb-2" :rules="ruleNickname" label="닉네임" variant="underlined" color="primary" required></v-text-field>
     <UserJoinPhone @userPhone="updatePhone"></UserJoinPhone>
