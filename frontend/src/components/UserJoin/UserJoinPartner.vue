@@ -79,10 +79,7 @@ export default {
       async handler() {
         // 공백 제거
         if (this.info.userNickname)
-          this.info.userNickname = await this.info.userNickname.replace(
-            " ",
-            ""
-          );
+          this.info.userNickname = await this.info.userNickname.replace(" ", "");
       },
       deep: true,
     },

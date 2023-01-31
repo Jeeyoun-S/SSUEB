@@ -3,7 +3,7 @@
     <div class="border-sheet-one sheet">
       <LogoVer2></LogoVer2>
     </div>
-    <v-card class="mx-auto border-sheet-one" max-width="230">
+    <v-card class="mx-auto border-sheet-one" max-width="230zzz">
       <v-list active-color="primary" :items="items" mandatory link></v-list>
     </v-card>
   </div>

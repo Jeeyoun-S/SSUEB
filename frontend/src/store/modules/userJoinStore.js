@@ -51,10 +51,10 @@ const userJoinStore = {
       commit("UPDATE_PHONE_CONFIRM", phoneNumber);
     },
     // #21#
-    async setSocialUserInfo({ commit }, info) {
-      await commit("SET_SOCIAL_USER_INFO", info);
-      console.log("#21# user 정보 저장된거 맞냥: ", this.state.socialUserInfo);
-      // location.href = `${process.env.VUE_APP_BASE_URL}/join`;
+    async setSocialUserInfo(context, info) {
+      await context.commit("SET_SOCIAL_USER_INFO", info);
+      console.log("#21# user 정보 저장된거 맞냥: ", context.state.socialUserInfo);
+      location.href = `${process.env.VUE_APP_BASE_URL}/join`;
     },
   },
 };

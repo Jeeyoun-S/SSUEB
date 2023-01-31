@@ -39,7 +39,7 @@ export default {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-  justify-content: left;
+  justify-content: center;
 
   /* 가로 스크롤 설정 */
   overflow: auto;

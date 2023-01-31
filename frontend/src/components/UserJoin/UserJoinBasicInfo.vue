@@ -125,6 +125,13 @@ export default {
       deep: true,
     },
   },
+  computed: {
+    // ...mapState(userJoinStore, ["socialUserInfo"]), // #21#
+    socialUserInfo() {
+      return this.$store.getters.getSocialUserInfo;
+      // return this.$store.state.socialUserInfo;
+    },
+  },
   created() {
     console.log("# 실행된다.");
     console.log("# 아이디 ", this.socialUserInfo);
@@ -135,13 +142,6 @@ export default {
   //   console.log("# 아이디 ", this.socialUserInfo);
   //   this.info.id = this.socialUserInfo;
   // },
-  computed: {
-    // ...mapState(userJoinStore, ["socialUserInfo"]), // #21#
-    socialUserInfo() {
-      // return this.$store.getters.getSocialUserInfo;
-      return this.$store.state.socialUserInfo;
-    },
-  },
 };
 </script>
 
