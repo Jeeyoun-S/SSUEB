@@ -7,7 +7,7 @@ const userOAuthStore = {
   },
   getters: {},
   mutations: {
-    // #Kakao# 발급받은 Kakao Token SET
+    // #Kakao# 발급받은 Kakao Token 저장
     SET_KAKAO_TOKEN: (state, kakaoToken) => {
       state.kakaoToken = kakaoToken;
       // #Kakao# 현재 로그인한 Kakao 사용자 정보 가져오기

@@ -1,4 +1,5 @@
-import { login, kakaoLogin, anyPermit, partPermit } from "@/api/user";
+import { login, anyPermit, partPermit } from "@/api/user";
+// import { login, kakaoLogin, anyPermit, partPermit } from "@/api/user";
 // ! JWT 디코드 설치 필요: npm i vue-jwt-decode
 import VueJwtDecode from "vue-jwt-decode";
 
@@ -65,25 +66,10 @@ const userStore = {
         }
       );
     },
-    // [@Method] Kakao 소셜 로그인
-    async socialKakao({ commit }, code) {
-      commit;
-      await kakaoLogin(
-        code,
-        ({ data }) => {
-          // if) 로그인 성공
-          if (data.response == "success") {
-            console.log("#userStore - kakaoLogin# 카카오 로그인 성공");
-
-            // else) 로그인 실패
-          } else {
-            console.log("#userStore - kakaoLogin# 카카오 로그인 실패");
-          }
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
+    // [@Method] Kakao, Naver 소셜 로그인 성공 시 저장
+    excuteSocialLogin({ commit }) {
+      commit("SET_IS_LOGIN", true);
+      commit("SET_IS_VALID_TOKEN", true);
     },
     // [@Method] 모든 권한 허용
     async checkAnyPermit({ commit }) {

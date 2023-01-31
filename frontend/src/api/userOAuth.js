@@ -1,7 +1,10 @@
 import axios from "axios";
-import { socialLogin } from "./user.js";
+// import { socialUserInfoUpdate } from "./user.js";
 import { duplicateId } from "./userJoin.js";
 import store from "@/store/index.js";
+// import userStore from "@/store/modules/userStore.js";
+// import { testUser } from "@/store/modules/userStore.js";
+// import { mapActions } from "vuex";
 
 // #Kakao API#
 // Kakao Token을 발급받기 위한 API
@@ -38,6 +41,8 @@ async function getKakaoUserInfo(token, success, fail) {
     "#userOAuth - api# 현재 로그인한 Kakao 정보 가져오기 위한 token: ",
     token
   );
+  const kakaoToken = token;
+
   await kakao_api_info
     .get(`/v2/user/me`, {
       headers: {
@@ -64,10 +69,15 @@ async function getKakaoUserInfo(token, success, fail) {
         store.dispatch("setSocialUserInfo", info);
         // location.href = `${process.env.VUE_APP_BASE_URL}/join`;
       }
-      // * 있다면 > 회원정보 업데이트
+      // * 있다면 > 로그인
       else {
         // 현재 로그인한 사용자 정보를 Back-end로 전달 (user.js 내 socialLogin 함수 호출)
-        socialLogin(info);
+        // socialUserInfoUpdate(info);
+        // location.href = `${process.env.VUE_APP_BASE_URL}/`;
+        //
+        // 로그인 성공에 따른 값 저장 > isLogin,isValidToken, sessionStorage
+        store.dispatch("userStore/excuteSocialLogin", null, { root: true });
+        sessionStorage.setItem("token", kakaoToken);
       }
     })
     .catch(fail);
