@@ -2,6 +2,8 @@ package com.ssafy.common.util;
 
 import java.util.regex.Pattern;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class ParameterCheck {
 	
 	/**
@@ -87,7 +89,7 @@ public class ParameterCheck {
 	}
 	
 	/**
-	 * phone number가 유효한지 확인
+	 * userAlertFlag가 유효한지 확인
 	 * @param userAlertFlag 알람방식 : 카카오(0), 이메일(1), 문자(2)
 	 * @return 유효하다면 true, 유효하지 않다면 false
 	 * **/
@@ -126,9 +128,9 @@ public class ParameterCheck {
 	}
 	
 	/**
-	 * 펫 타입 정보 확인
-	 * @param petType 확인할 펫타입
-	 * @return 펫 타입 
+	 * 상담 가능한 반려동물 정보 확인
+	 * @param petType 확인할  값
+	 * @return 2진법 6자리가 맞다면 true, 그 외는 false
 	 * **/
 	public boolean isValidPetType(String petType) {
 		
@@ -137,5 +139,39 @@ public class ParameterCheck {
 			return true;
 		} return false;
 		
+	}
+	
+	/**
+	 * 파일이 byte 크기 이하인지 확인
+	 * @param size size 이하인지 확인
+	 * @param file 확인할 파일
+	 * @return 2진법 6자리가 맞다면 true, 그 외는 false
+	 * **/
+	public boolean isValidFileSize(int size, MultipartFile file) {
+		
+		if (file.getSize() <= size) {
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * 파일의 확장자가 png, jpg, pdf인지 확인
+	 * @param file 확인할 파일
+	 * @return 파일 확장자가  png, jpg, pdf라면 true, 그 외는 false
+	 * **/
+	public boolean isValidImage(MultipartFile file, boolean pdfValid) {
+		
+		// 파일명 전체
+		String fileName = file.getOriginalFilename();
+		
+		// 확장자만 추출
+		String extension = fileName.substring(fileName.lastIndexOf(".") + 1);
+		
+		if (extension.equals("png") || extension.equals("jpg") || extension.equals("jfif") || extension.equals("pjpeg") || extension.equals("jpeg") || extension.equals("pjp")) {
+			return true;
+		} else if (pdfValid && extension.equals("pdf")) {
+			return true;
+		} return false;
 	}
 }

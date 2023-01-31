@@ -47,6 +47,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 		Optional<User> temp = userLoginRepository.findOneWithAuthoritiesById(userId);
 //		logger.info("#21# find 실행 결과 확인: id - {}", temp.get().getId());
         
+		logger.info("#21# 어디갔냥 권한: {}", userLoginRepository.findOneWithAuthoritiesById(userId));
 		return userLoginRepository.findOneWithAuthoritiesById(userId)
                 .map(user -> createUser(userId, user))
         		.orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다."));
@@ -61,10 +62,11 @@ public class CustomUserDetailsService implements UserDetailsService {
 		}
 		
 		// ii) 활성화일 경우
+		logger.info("#21# 권한 확인: {}, {}", user.getAuthorities(), user.toString());
 		List<GrantedAuthority> grantedAuthorities = user.getAuthorities().stream()
 				.map(authority -> new SimpleGrantedAuthority(authority.getAuthorityName()))
 				.collect(Collectors.toList());
-//		logger.info("#21# 권한 확인: {}", grantedAuthorities);
+		logger.info("#21# 권한 확인: {}", grantedAuthorities);
 		
 //		UserDetails details = new org.springframework.security.core.userdetails.User(user.getId(), user.getUserPassword(), grantedAuthorities);
 //		logger.info("#21# userdetails 확인: {}", details);

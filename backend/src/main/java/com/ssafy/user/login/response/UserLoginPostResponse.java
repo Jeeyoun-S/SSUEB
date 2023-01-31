@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
  * user 로그인 API ([POST] /api/user/auth) 요청에 대한 응답값 정의.
@@ -16,6 +17,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 @ApiModel("UserLoginPostResponse")
 public class UserLoginPostResponse extends BaseResponseBody{
 	
