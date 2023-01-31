@@ -11,21 +11,10 @@ async function login(loginInfo, success, fail) {
     .catch(fail);
 }
 
-// [POST] Kakao 소셜 로그인
-// async function kakaoLogin(code, success, fail) {
-//   console.log("#user - kakaoLogin# 카카오 로그인 인가 code: ", code);
-//   await api
-//     .post(`/user/login/kakao`, JSON.stringify(code))
-//     .then(success)
-//     .catch(fail);
-// }
-// [POST] 소셜 로그인 정보 전달
-async function socialLogin(info, success, fail) {
+// [POST] Kakao 소셜 로그인 정보(email(id), nickname) 전달
+function socialLogin(info, success, fail) {
   console.log("#user - socialLogin# 소셜 로그인 params - info: ", info);
-  await api
-    .post(`/user/login/kakao`, JSON.stringify(info))
-    .then(success)
-    .catch(fail);
+  api.post(`/user/login/kakao`, JSON.stringify(info)).then(success).catch(fail);
 }
 
 // [GET] 모든 권한 허용 + header에 token 넣어야 함

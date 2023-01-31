@@ -1,5 +1,5 @@
 import axios from "axios";
-import user from "@/api/user.js";
+import { socialLogin } from "./user.js";
 
 // #Kakao API#
 // Kakao Token을 발급받기 위한 API
@@ -44,16 +44,15 @@ async function getKakaoUserInfo(token, success, fail) {
       },
     })
     .then((success) => {
-      // success 안에 data 백엔드로 보내기
       const nickname = success.data.properties.nickname;
       const id = success.data.kakao_account.email;
-
       const info = {
         id: id,
         nickname: nickname,
       };
-      console.log("#21# 오디걌냐고: ", info);
-      user.socialLogin(info);
+      // console.log("#userOAuth - api# 현재 로그인한 사용자 정보: ", info);
+      // 현재 로그인한 사용자 정보를 Back-end로 전달 (user.js 내 socialLogin 함수 호출)
+      socialLogin(info);
     })
     .catch(fail);
 }
