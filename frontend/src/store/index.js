@@ -44,7 +44,7 @@ const store = new Vuex.Store({
   plugins: [
     createPersistedState({
       // ! localStorage에 저장할 store만을 path에 등록
-      paths: ["userStore"],
+      paths: ["userStore", "userJoinStore"],
     }),
   ],
 });

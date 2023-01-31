@@ -54,7 +54,7 @@ const userJoinStore = {
     async setSocialUserInfo({ commit }, info) {
       await commit("SET_SOCIAL_USER_INFO", info);
       console.log("#21# user 정보 저장된거 맞냥: ", this.state.socialUserInfo);
-      // location.href = `${process.env.VUE_APP_BASE_URL}/join`;
+      location.href = `${process.env.VUE_APP_BASE_URL}/join`;
     },
   },
 };

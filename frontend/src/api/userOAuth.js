@@ -70,6 +70,7 @@ async function getKakaoUserInfo(token, success, fail) {
         // store.dispatch("setSocialUserInfo", info);
         store.dispatch("setSocialUserInfo", id);
         // location.href = `${process.env.VUE_APP_BASE_URL}/join`;
+        // router.push("/join");
       }
       // * 있다면 > 회원정보 업데이트
       else {

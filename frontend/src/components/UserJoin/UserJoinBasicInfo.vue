@@ -138,8 +138,8 @@ export default {
   computed: {
     // ...mapState(userJoinStore, ["socialUserInfo"]), // #21#
     socialUserInfo() {
-      // return this.$store.getters.getSocialUserInfo;
-      return this.$store.state.socialUserInfo;
+      return this.$store.getters.getSocialUserInfo;
+      // return this.$store.state.socialUserInfo;
     },
   },
 };
