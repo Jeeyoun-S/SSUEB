@@ -107,7 +107,7 @@ async function sendPhoneAuth(phoneNumber) {
 //     }
 //   })
 // }
-confirmPhoneAuth
+confirmPhoneAuth;
 // [GET] 휴대폰 인증번호 확인
 async function confirmPhoneAuth(authNumber, userPhone) {
   await api
@@ -151,8 +151,8 @@ async function joinPartner(joinRequest) {
           } else {
             // 로그인 성공 > 로그인 후 메인화면으로 이동
           }
-          location.href="http://localhost:8081/";
-        })
+          location.href = "http://localhost:8081/";
+        });
       }
 
       // 회원가입 실패
@@ -173,36 +173,35 @@ async function joinConsultant(formData) {
   formData;
 
   await api
-  .post(`/user/join/consultant`, formData, {
-    headers: {
-      "Content-Type": "multipart/form-data; charset=utf-8;",
-    }
-  }
-  )
-  .then((res) => {
-    // 회원가입 성공
-    if (res.data.response == "success") {
-      Swal.fire(
-        '회원가입 신청 완료',
-        '가입신청이 완료됐습니다. 7일 이내에 자격 심사 후 선택하신 알림방법으로 안내드릴 예정입니다.',
-        'success'
-      ).then(() => {
-        // 메인페이지로 이동
-        location.href="http://localhost:8081/";
-      })
-    }
-    
-    // 회원가입 실패
-    else {
-      Swal.fire(
-        '회원가입 실패',
-        '회원가입을 하지 못했습니다. 다시 시도해 주시기 바랍니다.',
-        'error'
-      ).then(() => {
-        // 회원가입 창으로 이동
-      })
-    }
-  })
+    .post(`/user/join/consultant`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data; charset=utf-8;",
+      },
+    })
+    .then((res) => {
+      // 회원가입 성공
+      if (res.data.response == "success") {
+        Swal.fire(
+          "회원가입 신청 완료",
+          "가입신청이 완료됐습니다. 7일 이내에 자격 심사 후 선택하신 알림방법으로 안내드릴 예정입니다.",
+          "success"
+        ).then(() => {
+          // 메인페이지로 이동
+          location.href = "http://localhost:8081/";
+        });
+      }
+
+      // 회원가입 실패
+      else {
+        Swal.fire(
+          "회원가입 실패",
+          "회원가입을 하지 못했습니다. 다시 시도해 주시기 바랍니다.",
+          "error"
+        ).then(() => {
+          // 회원가입 창으로 이동
+        });
+      }
+    });
 }
 
 // [GET] 아이디 중복 확인

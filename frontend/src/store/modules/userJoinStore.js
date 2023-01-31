@@ -2,7 +2,7 @@ const userJoinStore = {
   state: {
     phoneAuthMessage: "휴대폰 인증",
     phoneAuthStates: false,
-    phoneConfirm: null
+    phoneConfirm: null,
   },
   getters: {
     getPhoneAuthMessage(state) {
@@ -13,7 +13,7 @@ const userJoinStore = {
     },
     getPhoneConfirm(state) {
       return state.phoneConfirm;
-    }
+    },
   },
   mutations: {
     UPDATE_PHONE_AUTH_MESSAGE(state, payload) {
@@ -22,23 +22,23 @@ const userJoinStore = {
     },
     UPDATE_PHONE_CONFIRM(state, payload) {
       state.phoneConfirm = payload;
-    }
+    },
   },
   actions: {
-    resetPhoneAuthMessage({commit}) {
-      commit('UPDATE_PHONE_AUTH_MESSAGE', {
+    resetPhoneAuthMessage({ commit }) {
+      commit("UPDATE_PHONE_AUTH_MESSAGE", {
         message: "휴대폰 인증",
         states: false,
       });
     },
-    updatePhoneAuthMessage({commit}, phoneNumber) {
-      commit('UPDATE_PHONE_AUTH_MESSAGE', {
+    updatePhoneAuthMessage({ commit }, phoneNumber) {
+      commit("UPDATE_PHONE_AUTH_MESSAGE", {
         message: "휴대폰 인증 완료",
         states: true,
       });
-      commit('UPDATE_PHONE_CONFIRM', phoneNumber);
-    }
-  }
-}
+      commit("UPDATE_PHONE_CONFIRM", phoneNumber);
+    },
+  },
+};
 
-export default userJoinStore
+export default userJoinStore;
