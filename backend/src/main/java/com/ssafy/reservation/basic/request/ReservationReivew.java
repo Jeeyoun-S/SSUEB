@@ -19,7 +19,7 @@ import lombok.ToString;
 @ToString
 @ApiModel("ReservationReivew")
 public class ReservationReivew {
-	@ApiModelProperty(value = "PK, AI")
+	@ApiModelProperty(value = "해당 상담테이블 번호")
 	int no;
 	@ApiModelProperty(name="리뷰 평가", example="전문가 분이 친절해요")
 	String reviewComment;

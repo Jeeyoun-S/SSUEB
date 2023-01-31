@@ -41,17 +41,25 @@ public class ReservationServiceImpl implements ReservationService {
 
 	@Override
 	public void finishReservation(int no) throws SQLException {
-		repo.finishReservation(no);
+		Reservation reserve = repo.findById(no).get();
+		reserve.setReservationFinish(1);
+		repo.save(reserve);
 	}
 	
 	@Override
 	public void writeDignosis(int no, String reservationDignosisRecord) throws SQLException {
-		repo.writeDignosis(no, reservationDignosisRecord);
+		Reservation reserve = repo.findById(no).get();
+		reserve.setReservationDignosisRecord(reservationDignosisRecord);
+		repo.save(reserve);
 	}
 	
 	@Override
 	public void writeReview(int no, String reviewComment, int reviewGrade, int reservationOpen) throws SQLException {
-		repo.writeReview(no, reviewComment, reviewGrade, reservationOpen);
+		Reservation reserve = repo.findById(no).get();
+		reserve.setReviewComment(reviewComment);
+		reserve.setReviewGrade(reviewGrade);
+		reserve.setReservationOpen(reservationOpen);
+		repo.save(reserve);
 	}
 	
 	@Override
