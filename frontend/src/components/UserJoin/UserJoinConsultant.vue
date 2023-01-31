@@ -1,5 +1,5 @@
 <template>
-  <v-form class="forms" ref="form">
+  <v-form class="form" ref="form">
     <UserJoinBasicInfo @info="updateBasicInfo"></UserJoinBasicInfo>
     <UserJoinPhone @userPhone="updatePhone"></UserJoinPhone>
     <v-text-field v-model="info.consultantLicenseNumber" :rules="consultantRule.license" class="mb-2" label="반려동물행동지도사 자격번호" variant="underlined" color="primary" required></v-text-field>

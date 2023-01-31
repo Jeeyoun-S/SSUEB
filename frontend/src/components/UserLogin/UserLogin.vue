@@ -1,44 +1,38 @@
 <template>
-  <div class="login border-sheet-two">
+  <v-card width="280" outlined>
     <!-- title -->
-    <h2>로그인</h2>
-
+    <v-card-title class="title"
+      ><span class="headline">로그인</span></v-card-title
+    >
     <!-- container -->
-    <v-sheet class="mx-auto" width="250">
-      <v-form ref="form">
-        <v-text-field
-          v-model="loginInfo.id"
-          :rules="rules.id"
-          label="이메일"
-          variant="outlined"
-          required
-          class="pb-2"
-        ></v-text-field>
-        <v-text-field
-          v-model="loginInfo.password"
-          :rules="rules.password"
-          :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-          :type="showPassword ? 'text' : 'password'"
-          @click:append="showPassword = !showPassword"
-          label="비밀번호"
-          variant="outlined"
-          required
-          class="pb-2"
-        ></v-text-field>
-        <v-btn variant="outlined" block @click="login" rounded="0" size="large">로그인</v-btn>
-      </v-form>
-    </v-sheet>
-
+    <v-container>
+      <v-text-field
+        v-model="loginInfo.id"
+        :rules="rules.id"
+        label="이메일"
+        required
+      ></v-text-field>
+      <v-text-field
+        v-model="loginInfo.password"
+        :rules="rules.password"
+        type="Password"
+        label="비밀번호"
+        required
+      ></v-text-field>
+      <v-btn width="100%" elevation="3" outline block @click="login"
+        >로그인</v-btn
+      >
+    </v-container>
+    <v-card-text>간편 로그인 및 회원가입 --------------</v-card-text>
     <!-- 소셜 로그인 -->
-    <div class="social-login">
-      <div>간편 로그인 및 회원가입 -------------</div>
-      <div class="icon">
-        <kakao-dialog></kakao-dialog>
-        <naver-dialog></naver-dialog>
-      </div>
-      <v-btn color="primary" variant="outlined" @click="moveJoin()" rounded="0" width="100%">이메일로 회원가입하러 가기</v-btn>
-    </div>
-  </div>
+    <v-card-actions>
+      <kakao-dialog></kakao-dialog>
+      <naver-dialog></naver-dialog>
+    </v-card-actions>
+    <v-btn text elevation="0" class="joinBtn"
+      ><a href="http://localhost:8081/join">회원가입</a></v-btn
+    >
+  </v-card>
 </template>
 
 <script>
@@ -64,7 +58,7 @@ export default {
       },
       rules: {
         id: [
-          (v) => !!v || "아이디는 필수 입력 사항입니다.",
+          (v) => !!v || "아이디은 필수 입력 사항입니다.",
           (v) => this.valid.email.test(v) || "이메일 형식으로 입력해 주세요.",
           (v) => v.length <= 30 || "30자 이하로 입력해 주세요.",
         ],
@@ -75,7 +69,6 @@ export default {
             "영어, 숫자, 특수문자를 포함해 10~20자로 입력해 주세요.",
         ],
       },
-      showPassword: false,
     };
   },
   components: { KakaoDialog, NaverDialog },
@@ -86,8 +79,6 @@ export default {
     ...mapActions(userStore, ["excuteLogin"]),
     // [@Method] 로그인
     async login() {
-      await this.$refs.form.validate();
-
       console.log(
         "#21# loginInfo 값 확인: ",
         this.loginInfo.id,
@@ -104,39 +95,17 @@ export default {
         );
       }
     },
-    moveJoin() {
-      location.href="http://localhost:8081/join";
-    }
   },
 };
 </script>
 
 <style scoped>
-.login {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-around;
-
-  padding: 15px;
-  width: 300px;
-  height: 500px;
+.title {
+  margin-left: 37%;
+  margin-top: 5;
 }
-.login .social-login {
-  width: 250px;
-  height: 160px;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-around;
-}
-.login .social-login .icon {
-  width: 110px;
-
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
+.joinBtn {
+  margin-left: 70%;
+  margin-top: 5%;
 }
 </style>
