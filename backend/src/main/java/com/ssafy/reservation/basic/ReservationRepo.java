@@ -52,17 +52,12 @@ public interface ReservationRepo extends JpaRepository<Reservation,Integer>{
 	@Query(value = "UPDATE reservation r set r.review_comment = ?2, r.review_grade = ?3, r.reservation_open = ?4 where r.no = ?1", nativeQuery = true)
 	void writeReview(int no, String reviewComment, int reviewGrade, int reservationOpen);//해당 no의 상담 기록에 리뷰를 작성한다
 
-	//매칭 확정 -> matchingserviceImple에서사용
-	@Modifying
-	@Transactional
-	@Query(value = "UPDATE reservation r set r.consultant_id = ?2, r.reservation_cost = ?3 where r.no= ?1", nativeQuery = true)
-	void confirmMatching(int reservationNo, String consultantId, int matchingCost);//유저가 여러 견적 제안 중 하나를 고르면 그 정보가 해당 reservationNo의 상담에 들어간다.
+//	//매칭 확정 -> matchingserviceImple에서사용 -> reservation_date를 가져오는 작업 때문에 그냥 가져와서 save하는 업데이트 방식을 쓰기로 함
+//	@Modifying
+//	@Transactional
+//	@Query(value = "UPDATE reservation r set r.consultant_id = ?2, r.reservation_cost = ?3 where r.no= ?1", nativeQuery = true)
+//	void confirmMatching(int reservationNo, String consultantId, int matchingCost);//유저가 여러 견적 제안 중 하나를 고르면 그 정보가 해당 reservationNo의 상담에 들어간다.
 	
-	//매칭이 확정된 전문가의 그 시간과 30분 이내의 견적 지우기
-	@Modifying
-	@Transactional
-	@Query(value = "UPDATE reservation r set r.consultant_id = ?2, r.reservation_cost = ?3 where r.no= ?1", nativeQuery = true)
-	void deleteMatching(int reservationNo, String consultantId, int matchingCost);
 	
 	@Query(value = "select reservation_date from reservation where user_id = ?1 and reservation_finish = 0", nativeQuery = true)
 	List<String> readDateValidation(String userId);

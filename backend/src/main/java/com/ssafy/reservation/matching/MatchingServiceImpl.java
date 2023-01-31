@@ -49,6 +49,7 @@ public class MatchingServiceImpl implements MatchingService {
 	@Override
 	public void confirmMatching(int reservationNo, String consultantId, int matchingCost) throws ParseException,SQLException{	
 		//중요내용(컨설턴트 아이디, 가격)을 예약 테이블로 옮기고
+		//원래는 Repo에서 쿼리문으로 업데이트 했는데 바꾼 이유
 		Reservation res = rRepo.findById(reservationNo).get();
 		res.setConsultantId(consultantId);
 		res.setReservationCost(matchingCost);
