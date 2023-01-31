@@ -38,5 +38,4 @@ public class UserAuthService {
                         .orElseThrow(() -> new NotFoundUserException("User not found"))
         );
     }
-
 }

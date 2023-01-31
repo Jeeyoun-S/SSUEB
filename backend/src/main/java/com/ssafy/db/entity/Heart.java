@@ -11,7 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
- * heart 테이블 모델 정의
+ * heart(좋아요) 테이블 모델 정의
  */
 @Entity
 @Table(name = "heart")

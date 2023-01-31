@@ -112,6 +112,7 @@ public class UserJoinServiceImpl implements UserJoinService {
 		
 		// Consultant DTO 생성
 		Consultant consultant = new Consultant();
+		
 		consultant.setId(id);
 		consultant.setConsultantPetType(consultantJoinRequest.getConsultPetType());
 		consultant.setConsultantIntro(null);

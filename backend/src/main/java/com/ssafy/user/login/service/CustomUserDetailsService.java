@@ -9,6 +9,7 @@ import javax.transaction.Transactional;
 import org.hibernate.graph.GraphNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -26,12 +27,12 @@ public class CustomUserDetailsService implements UserDetailsService {
 	
 	private static final Logger logger = LoggerFactory.getLogger(CustomUserDetailsService.class);
 
-	
-	private final UserLoginRepository userLoginRepository;
-	
-	public CustomUserDetailsService(UserLoginRepository userLoginRepository) {
-		this.userLoginRepository = userLoginRepository; 
-	}
+	@Autowired
+	UserLoginRepository userLoginRepository;
+//	private final UserLoginRepository userLoginRepository;
+//	public CustomUserDetailsService(UserLoginRepository userLoginRepository) {
+//		this.userLoginRepository = userLoginRepository; 
+//	}
 
 	/** 
 	 * 로그인 시 DB에서 유저정보와 권한정보를 가져와 userdetails.User 객체를 생성하여 반환
@@ -53,7 +54,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
 	private org.springframework.security.core.userdetails.User createUser(String userId, User user) {
-		logger.info("#21# createUser 실행: {}, {}", userId, user.getUserActivated());
+//		logger.info("#21# createUser 실행: {}, {}", userId, user.getUserActivated());
 		// 해당 user의 활성화 여부 확인
 		// i) 비활성화일 경우
 		if (user.getUserActivated() == 1) {
