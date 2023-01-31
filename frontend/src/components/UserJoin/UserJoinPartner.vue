@@ -52,9 +52,17 @@ export default {
       validNickname: /^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣|a-z|A-Z|0-9]{1,22}$/,
     };
   },
+  // #21#
+  created() {
+    // 회원가입 페이지 실행 시 소셜 로그인 info 적용
+    this.info.userNickname = this.socialUserInfo.nickname;
+  },
   computed: {
     phoneAuthStates() {
       return this.$store.getters.getPhoneAuthStates;
+    },
+    socialUserInfo() {
+      return this.$store.getters.getSocialUserInfo;
     },
   },
   methods: {
