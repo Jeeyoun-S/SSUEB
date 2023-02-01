@@ -1,5 +1,7 @@
 package com.ssafy.user.login;
 
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,11 +21,13 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ssafy.common.jwt.JwtAuthenticationFilter;
 import com.ssafy.common.jwt.JwtTokenProvider;
 import com.ssafy.common.util.ParameterCheck;
+import com.ssafy.db.entity.Consultant;
 import com.ssafy.user.join.UserJoinController;
 import com.ssafy.user.join.response.BasicResponse;
 import com.ssafy.user.login.request.UserKakaoUserPostRequest;
 import com.ssafy.user.login.request.UserLoginPostRequest;
 import com.ssafy.user.login.response.UserLoginPostResponse;
+import com.ssafy.user.login.service.UserLoginService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -54,6 +59,9 @@ public class UserLoginController {
 	@Autowired
 	UserJoinController userJoinController;
 	
+	@Autowired
+	UserLoginService userLoginService;
+	
 	/** 
 	 * id와 pw를 통해 로그인 실행, 성공 시 JWT token 반환
 	 * @param UserLoginPostReq
@@ -73,7 +81,7 @@ public class UserLoginController {
 		
 		try {
 			logger.info("## [Controller]: authorize - 로그인 실행 {}, {}", loginInfo.getId(), loginInfo.getPassword());
-			logger.info("#21# 암호화 비밀번호: {}", passwordEncoder.encode(loginInfo.getPassword()));
+//			logger.info("#21# 암호화 비밀번호: {}", passwordEncoder.encode(loginInfo.getPassword()));
 			
 			// # 입력값 검증
 			// i) id - 비어 있지 않은지 && ID 규칙에 맞는지
@@ -96,7 +104,20 @@ public class UserLoginController {
 			//     CustomUserDetailsService 에 loadUserByUsername 메소드가 실행됨
 			Authentication authentication = 
 					authenticationManagerBuilder.getObject().authenticate(authenticationToken);
-//			logger.info("#21# ii) authentication 객체 생성: {}", authentication);
+			logger.info("#21# ii) authentication 객체 생성: {}", authentication);
+			
+			// ii-1) 전문가 권한인 경우 자격증 검증 값 확인
+			Optional<? extends GrantedAuthority> authority =  authentication.getAuthorities().stream().findFirst();
+			String authorityStr = authority.get().getAuthority();
+//			logger.info("#21# ii-1) 전문가 자격증 검증: {}", authorityStr);
+			if (authorityStr.equals("ROLE_CONSULTANT")) {
+				// 전문가 자격증 검증 컬럼 확인
+				logger.info("#21# id에 해당되는 전문가 정보: {}", userLoginService.getConsultantById(loginInfo.getId()));
+				Consultant consultant = userLoginService.getConsultantById(loginInfo.getId());
+				if (consultant.getConsultantCertified() == 0) {
+					return ResponseEntity.ok(UserLoginPostResponse.of(401, "unverified", "자격증 미검증 상태입니다.", null));
+				}
+			}
 			
 			// iii) ii에 생성한 Authentication 객체를 사용하여 
 			//      - SecurityContext에 저장

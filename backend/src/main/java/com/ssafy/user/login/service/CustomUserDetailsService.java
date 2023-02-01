@@ -29,10 +29,6 @@ public class CustomUserDetailsService implements UserDetailsService {
 
 	@Autowired
 	UserLoginRepository userLoginRepository;
-//	private final UserLoginRepository userLoginRepository;
-//	public CustomUserDetailsService(UserLoginRepository userLoginRepository) {
-//		this.userLoginRepository = userLoginRepository; 
-//	}
 
 	/** 
 	 * 로그인 시 DB에서 유저정보와 권한정보를 가져와 userdetails.User 객체를 생성하여 반환
@@ -47,7 +43,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 		Optional<User> temp = userLoginRepository.findOneWithAuthoritiesById(userId);
 //		logger.info("#21# find 실행 결과 확인: id - {}", temp.get().getId());
         
-		logger.info("#21# 어디갔냥 권한: {}", userLoginRepository.findOneWithAuthoritiesById(userId));
+//		logger.info("#21# 어디갔냥 권한: {}", userLoginRepository.findOneWithAuthoritiesById(userId));
 		return userLoginRepository.findOneWithAuthoritiesById(userId)
                 .map(user -> createUser(userId, user))
         		.orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다."));
@@ -62,7 +58,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 		}
 		
 		// ii) 활성화일 경우
-		logger.info("#21# 권한 확인: {}, {}", user.getAuthorities(), user.toString());
+//		logger.info("#21# 권한 확인: {}, {}", user.getAuthorities(), user.toString());
 		List<GrantedAuthority> grantedAuthorities = user.getAuthorities().stream()
 				.map(authority -> new SimpleGrantedAuthority(authority.getAuthorityName()))
 				.collect(Collectors.toList());

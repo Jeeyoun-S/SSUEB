@@ -2,6 +2,7 @@ package com.ssafy.db.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,6 +16,7 @@ import javax.persistence.Table;
 @Table(name = "consultant")
 @Getter
 @Setter
+@ToString
 public class Consultant {
 	@Id
     //@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,4 +42,7 @@ public class Consultant {
 	
 	@Column(name = "consultant_reservation_count")
 	int consultantReservationCount;
+	
+	@Column(name = "consultant_certified")
+	int consultantCertified;
 }

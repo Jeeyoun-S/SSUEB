@@ -55,6 +55,7 @@ public class JwtTokenProvider implements InitializingBean {
 	 * @return String
 	 */
 	public String createToken(Authentication authentication) {
+		// 해당 ID의 권한 가져오기
 		String authorities = authentication.getAuthorities().stream()
 				.map(GrantedAuthority::getAuthority)
 				.collect(Collectors.joining(","));
