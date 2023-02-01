@@ -151,7 +151,7 @@ async function joinPartner(joinRequest) {
           } else {
             // 로그인 성공 > 로그인 후 메인화면으로 이동
           }
-          location.href = "http://localhost:8081/";
+          location.href = process.env.VUE_APP_BASE_URL;
         });
       }
 
@@ -187,7 +187,7 @@ async function joinConsultant(formData) {
           "success"
         ).then(() => {
           // 메인페이지로 이동
-          location.href = "http://localhost:8081/";
+          location.href = process.env.VUE_APP_BASE_URL;
         });
       }
 

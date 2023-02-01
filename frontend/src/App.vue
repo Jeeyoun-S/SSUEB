@@ -34,18 +34,19 @@ export default {
 
 <style>
 @import "@/css/font.css";
-
+* {
+  font-family: "SUIT-Regular";
+}
 .main {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-  justify-content: center;
+  justify-content: left;
 
   /* 가로 스크롤 설정 */
   overflow: auto;
   white-space: nowrap;
 
-  font-family: "SUIT-Regular";
   padding: 48px;
 }
 </style>

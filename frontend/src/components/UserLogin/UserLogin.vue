@@ -105,7 +105,7 @@ export default {
       }
     },
     moveJoin() {
-      location.href="http://localhost:8081/join";
+      location.href=`${process.env.VUE_APP_BASE_URL}/join`;
     }
   },
 };

@@ -139,7 +139,7 @@ export default {
   align-items: center;
   justify-content: flex-start;
 }
-.main-page .main-right {
+.main-right {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -148,11 +148,11 @@ export default {
   width: 300px;
   height: 654.4px;
 }
-.main-page .main-right .main-right-item.bottom {
+.main-right .main-right-item.bottom {
   width: 300px;
   height: 130px;
 }
-.main-page .main-center {
+.main-center {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -162,7 +162,7 @@ export default {
   height: 654.4px;
   margin-right: 40px;
 }
-.main-page .main-center .main-center-item {
+.main-center .main-center-item {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -175,33 +175,33 @@ export default {
 .second {
   margin-bottom: 2.6%;
 } */
-.main-page .main-center .main-center-item img {
+.main-center .main-center-item img {
   width: 200px;
   height: 200px;
 
   border-radius: 10px;
   object-fit: cover;
 }
-.main-page .main-center .main-center-item .explain {
+.main-center .main-center-item .explain {
   width: 500px;
   height: 200px;
   
   border-radius: 10px;
   padding: 35px;
 }
-.main-page .main-center .main-center-item .explain h2 {
+.main-center .main-center-item .explain h2 {
   font-size: 30px;
   font-family: 'Patua One', cursive;
   font-weight: lighter;
 }
-.main-page .main-center .main-center-item .explain.one {
+.main-center .main-center-item .explain.one {
   background-color: #E8EBF6;
 }
-.main-page .main-center .main-center-item .explain.two {
+.main-center .main-center-item .explain.two {
   color: white;
   background-color: #3D6EC5;
 }
-.main-page .main-center .main-center-item .explain.three {
+.main-center .main-center-item .explain.three {
   background-color: #E3E3E3;
 }
 </style>

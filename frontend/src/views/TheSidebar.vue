@@ -3,7 +3,7 @@
     <div class="border-sheet-one sheet">
       <LogoVer2></LogoVer2>
     </div>
-    <v-card class="mx-auto border-sheet-one" max-width="230zzz">
+    <v-card class="mx-auto border-sheet-one" max-width="230">
       <v-list active-color="primary" :items="items" mandatory link></v-list>
     </v-card>
   </div>
@@ -93,7 +93,6 @@ export default {
 @import "@/css/sheet.css";
 .sidebar {
   padding-right: 48px;
-  font-family: "NanumSquareNeo-Variable";
 }
 .sidebar .sheet {
   display: flex;
@@ -105,5 +104,8 @@ export default {
 
   height: 100px;
   width: 230px;
+}
+.sidebar .v-list-item-title {
+  font-family: 'NanumSquareNeo-Variable';
 }
 </style>
