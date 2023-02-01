@@ -1,7 +1,6 @@
 import { login, anyPermit, partPermit } from "@/api/user";
-// import { login, kakaoLogin, anyPermit, partPermit } from "@/api/user";
-// ! JWT 디코드 설치 필요: npm i vue-jwt-decode
-import VueJwtDecode from "vue-jwt-decode";
+import VueJwtDecode from "vue-jwt-decode"; // ! JWT 디코드 설치 필요: npm i vue-jwt-decode
+import store from "@/store/index.js";
 
 const userStore = {
   namespaced: true,
@@ -115,6 +114,9 @@ const userStore = {
       commit("SET_IS_VALID_TOKEN", false);
       sessionStorage.clear;
       //console.log("#21# sessionStorage 확인: ", sessionStorage.getItem);
+
+      // userSocialStore에 저장된 소셜 로그인 정보(email, nickname) 초기화
+      store.dispatch("initSocialUserInfo");
     },
   },
 };
