@@ -77,8 +77,6 @@ export default {
       duplicateIdCheck: false,
       lastCheckId: null,
       showPassword: false,
-      // socialAccess: false, // #21# 비밀번호 안보이게 소셜 로그인을 통해 접근했다면
-      // socialAccess: true, // #21#
     };
   },
   emits: ["info"],

@@ -83,6 +83,7 @@ export default {
           (v) => v.length >= 1 || "상담 가능한 동물을 하나 이상 선택해 주세요.",
         ],
       },
+      socialAccess: true, // #21#
     };
   },
   computed: {
@@ -123,7 +124,46 @@ export default {
           else formData.append(key, this.info[key]);
         }
 
-        joinConsultant(formData);
+        //joinConsultant(formData);
+        joinConsultant(formData, this.socialAccess); // #21# 소셜 로그인 접근 판단을 위하여 socialAccess 추가 전달
+      }
+      // #21# 소셜 로그인 접근 회원가입
+      else if (
+        !valid &&
+        this.phoneAuthStates &&
+        this.info.userPassword == null
+      ) {
+        console.log("#21# 동작댓당");
+        // 펫 타입 확인
+        if (this.petCheck.includes("개")) this.info.consultPetType.push("1");
+        else this.info.consultPetType.push("0");
+        if (this.petCheck.includes("고양이"))
+          this.info.consultPetType.push("1");
+        else this.info.consultPetType.push("0");
+        if (this.petCheck.includes("토끼")) this.info.consultPetType.push("1");
+        else this.info.consultPetType.push("0");
+        if (this.petCheck.includes("패럿")) this.info.consultPetType.push("1");
+        else this.info.consultPetType.push("0");
+        if (this.petCheck.includes("기니피그"))
+          this.info.consultPetType.push("1");
+        else this.info.consultPetType.push("0");
+        if (this.petCheck.includes("햄스터"))
+          this.info.consultPetType.push("1");
+        else this.info.consultPetType.push("0");
+
+        this.info.consultPetType = this.info.consultPetType.join("");
+
+        // info를 formData 형식으로 바꿔서 보낸다.
+        var formDataSocial = new FormData();
+        this.info.userPassword = "social";
+
+        for (var keySocial in this.info) {
+          if (keySocial == "consultantLicenseCopyImage")
+            formDataSocial.append(keySocial, this.info[keySocial][0]);
+          else formDataSocial.append(keySocial, this.info[keySocial]);
+        }
+
+        joinConsultant(formDataSocial, this.socialAccess);
       }
     },
     updatePhone(userPhone) {
@@ -133,6 +173,7 @@ export default {
       this.info.id = info.id;
       this.info.userPassword = info.userPassword;
       this.info.userName = info.userName;
+      this.socialAccess = info.socialAccess; // #21# false면 소셜 로그인 접근
     },
   },
   watch: {

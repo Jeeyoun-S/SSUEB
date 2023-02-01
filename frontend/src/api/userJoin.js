@@ -178,8 +178,16 @@ async function joinPartner(joinRequest, socialAccess) {
 }
 
 // [POST] 전문가 회원가입 진행
-async function joinConsultant(formData) {
-  formData;
+async function joinConsultant(formData, socialAccess) {
+  // formData;
+  // ! 소셜 로그인을 통한 회원가입 접근 (비밀번호 없음)
+  if (socialAccess == false) {
+    // Kakao: email(id) + client-secret 키로 비밀번호 생성
+    const id = formData.id.substring(0, 6);
+    const key = process.env.VUE_APP_OAUTH_KAKAO_CLIENT_SECRET.substring(0, 6);
+    // console.log("#21# 비밀번호 생성: ", id + key + "#");
+    formData.userPassword = id + key + "#1";
+  }
 
   await api
     .post(`/user/join/consultant`, formData, {

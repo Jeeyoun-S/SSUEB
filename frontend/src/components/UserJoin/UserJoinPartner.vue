@@ -91,7 +91,6 @@ export default {
       this.info.userPassword = info.userPassword;
       this.info.userName = info.userName;
       this.socialAccess = info.socialAccess; // #21# false면 소셜 로그인 접근
-      // console.log("#21# access 잘 가져왔낭: ", this.socialAccess);
     },
   },
   watch: {
