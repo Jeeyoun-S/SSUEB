@@ -21,7 +21,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 
-@Api(tags = {"User Pet"}, description = "반려동물  API")
+@Api(tags = {"User/Pet"}, description = "반려동물  API")
 @RestController
 @RequestMapping("/api/user/pet")
 public class UserPetController {

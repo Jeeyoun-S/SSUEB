@@ -18,7 +18,7 @@ import com.ssafy.user.auth.service.UserAuthService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 
-@Api(tags = {"User Auth Controller"}, description = "권한검증 API")
+@Api(tags = {"User/Auth"}, description = "권한검증 API")
 @RestController
 @RequestMapping("/api/user/auth")
 public class UserAuthController {
