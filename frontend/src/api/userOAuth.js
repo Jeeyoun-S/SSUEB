@@ -37,7 +37,7 @@ async function getKakaoUserInfo(token, success, fail) {
     "#userOAuth - api# 현재 로그인한 Kakao 정보 가져오기 위한 token: ",
     token
   );
-  const kakaoToken = token;
+  // const kakaoToken = token;
 
   await kakao_api_info
     .get(`/v2/user/me`, {
@@ -55,21 +55,28 @@ async function getKakaoUserInfo(token, success, fail) {
       };
       console.log("#userOAuth - api# 현재 로그인한 사용자 정보: ", info);
 
-      // * 만약 이 아이디로 회원가입한 사용자가 없다면 > 회원가입 페이지로 이동
       var duplicateResult = false; // 현재 로그인한 사용자 id(email) 중복 확인 (이미 회원가입된 사용자인지 확인)
       await duplicateId(info.id).then((res) => {
         duplicateResult = res;
       });
+      // * 만약 이 아이디로 회원가입한 사용자가 없다면 > 회원가입 페이지로 이동
       if (duplicateResult == true) {
         // 소셜 로그인 유저 정보(userSocialStore) store에 id, nickname 저장
         store.dispatch("setSocialUserInfo", info);
-        // location.href = `${process.env.VUE_APP_BASE_URL}/join`;
       }
       // * 있다면 > 로그인
       else {
-        // 로그인 성공에 따른 값 저장 > isLogin,isValidToken, sessionStorage
-        store.dispatch("userStore/excuteSocialLogin", null, { root: true });
-        sessionStorage.setItem("token", kakaoToken);
+        // 로그인 JWT 토큰 발행 > (userStore 내 로그인 함수 호출)
+        // Kakao: email(id) + client-secret 키로 비밀번호 생성
+        const kakaoId = id.substring(0, 6);
+        const kakaoKey =
+          process.env.VUE_APP_OAUTH_KAKAO_CLIENT_SECRET.substring(0, 6);
+        const kakaoPassword = kakaoId + kakaoKey + "#1";
+        const loginInfo = {
+          id: id,
+          password: kakaoPassword,
+        };
+        store.dispatch("userStore/excuteLogin", loginInfo, { root: true });
       }
     })
     .catch(fail);

@@ -15,9 +15,8 @@ const userOAuthStore = {
     },
   },
   actions: {
-    // [@Method] #Kakao# Kakao Token 발급받기
+    // [@Method] #Kakao# Kakao Token 발급받기 (Kakao 인가 코드 사용)
     async excuteKakaoToken({ commit }, code) {
-      commit;
       const kakaoInfo = {
         grant_type: "authorization_code",
         client_id: process.env.VUE_APP_OAUTH_KAKAO_CLIENT,
