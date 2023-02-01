@@ -32,7 +32,7 @@ import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
-@Api(tags = {"User Login and Auth"}, description = "로그인 및 Token 발급  API")
+@Api(tags = {"User/Login"}, description = "로그인 및 Token 발급  API")
 @RestController
 @RequestMapping("/api/user/login")
 public class UserLoginController {

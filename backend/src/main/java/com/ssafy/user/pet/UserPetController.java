@@ -6,10 +6,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.common.util.ParameterCheck;
+import com.ssafy.user.pet.request.PetModifyRequest;
 import com.ssafy.user.pet.request.PetRequest;
 import com.ssafy.user.pet.response.PetBasicResponse;
 
@@ -17,7 +21,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 
-@Api(tags = {"User Pet"}, description = "반려동물  API")
+@Api(tags = {"User/Pet"}, description = "반려동물  API")
 @RestController
 @RequestMapping("/api/user/pet")
 public class UserPetController {
@@ -64,12 +68,20 @@ public class UserPetController {
 		}
 	}
 	
-	@PostMapping(value = "no/{no}")
+	@PutMapping(value = "/{no}")
 	@ApiOperation(value = "반려동물 정보 수정", notes = "반려동물 정보 일부를 입력 받아 정보를 수정한다.")
 	@ApiImplicitParam(name = "no", value = "반려동물 번호", dataType = "int", example = "0", required = true)
-	public ResponseEntity<PetBasicResponse> modifyPet(@PathVariable int no, PetRequest petRequest) {
+	public ResponseEntity<PetBasicResponse> modifyPet(@PathVariable(value = "no") int no, PetModifyRequest petModifyRequest, @RequestPart(value = "petImage", required = false) MultipartFile petImage) {
 		
-		System.out.println(petRequest);
+		System.out.println(petModifyRequest);
+		
+		PetRequest petRequest = new PetRequest();
+		petRequest.setPetImage(petImage);
+		petRequest.setPetBirth(petModifyRequest.getPetBirth());
+		petRequest.setPetInfo(petModifyRequest.getPetInfo());
+		petRequest.setPetName(petModifyRequest.getPetName());
+		petRequest.setPetType(petModifyRequest.getPetType());
+		petRequest.setPetVariety(petModifyRequest.getPetVariety());
 		
 		// 입력 받은 정보 유효성 검사 (생일, 품종, 파일)
 		if (userPetService.isValidPetInfo(petRequest, false)) {

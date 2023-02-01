@@ -163,14 +163,11 @@ public class ParameterCheck {
 	public boolean isValidImage(MultipartFile file, boolean pdfValid) {
 		
 		// 파일명 전체
-		String fileName = file.getOriginalFilename();
+		String contentType = file.getContentType();
 		
-		// 확장자만 추출
-		String extension = fileName.substring(fileName.lastIndexOf(".") + 1);
-		
-		if (extension.equals("png") || extension.equals("jpg") || extension.equals("jfif") || extension.equals("pjpeg") || extension.equals("jpeg") || extension.equals("pjp")) {
+		if (contentType.equals("image/jpeg") || contentType.equals("image/png")) {
 			return true;
-		} else if (pdfValid && extension.equals("pdf")) {
+		} else if (pdfValid && contentType.equals("application/pdf")) {
 			return true;
 		} return false;
 	}
