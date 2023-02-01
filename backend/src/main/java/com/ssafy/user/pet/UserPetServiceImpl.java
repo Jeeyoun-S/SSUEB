@@ -44,7 +44,7 @@ public class UserPetServiceImpl implements UserPetService {
 		// 생일 확인
 		String birth = petRequest.getPetBirth();
 		if (birth != null)
-			if (!Pattern.matches("^[0-9]{4}-[0-9]{2}-[0-9]{2}$", birth)) {
+			if (!Pattern.matches("^\\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$", birth)) {
 				return false;
 			}
 		
