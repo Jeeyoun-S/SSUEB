@@ -8,6 +8,7 @@
     color="primary"
     required
   ></v-text-field>
+  <!-- #21# disabled 추가: 소셜 로그인을 통해 접근한 경우 비밀번호 비활성화 -->
   <v-text-field
     v-model="info.userPassword"
     :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
@@ -18,6 +19,7 @@
     label="비밀번호"
     variant="underlined"
     color="primary"
+    :disabled="!socialAccess"
     required
   ></v-text-field>
   <v-text-field
@@ -72,6 +74,8 @@ export default {
       duplicateIdCheck: false,
       lastCheckId: null,
       showPassword: false,
+      // socialAccess: false, // #21# 비밀번호 안보이게 소셜 로그인을 통해 접근했다면
+      socialAccess: true, // #21#
     };
   },
   emits: ["info"],
@@ -108,8 +112,10 @@ export default {
     },
   },
   created() {
-    // 회원가입 페이지 실행 시 소셜 로그인 info 적용
+    // 소셜 로그인을 통해 회원가입 페이지로 접근 하였다면 > 소셜 로그인 info 적용
     this.info.id = this.socialUserInfo.id;
+    // 비밀번호 입력칸 비활성화
+    if (this.socialUserInfo.id != null) this.socialAccess = false;
   },
   computed: {
     socialUserInfo() {
