@@ -37,22 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint; 
 	@Autowired
 	private JwtAccessDeniedHandler jwtAccessDeniedHandler;
-//	private final JwtTokenProvider jwtTokenProvider;
-//	private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
-//	private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
-//    
-//	public SecurityConfig(
-//			JwtTokenProvider jwtTokenProvider,
-//			JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint,
-//			JwtAccessDeniedHandler jwtAccessDeniedHandler) 
-//	{
-//		this.jwtTokenProvider = jwtTokenProvider;
-//		this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint; 
-//		this.jwtAccessDeniedHandler = jwtAccessDeniedHandler; 
-//	}
-	// -----
     
-	
     // Password 인코딩 방식에 BCrypt 암호화 방식 사용
     @Bean
     public PasswordEncoder passwordEncoder() {
