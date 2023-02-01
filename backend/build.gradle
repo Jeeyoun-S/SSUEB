@@ -170,9 +170,16 @@ dependencies {
 
     testImplementation("com.jayway.jsonpath:json-path:2.4.0")
 
-    implementation("com.auth0:java-jwt:3.10.3")
+	// for. JWT 토큰 - [기존 com.auth0.java-jwt:3.10.3을 삭제하고 -> jsonwebtoken::jjwt 토큰으로 변경]
+    implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
+	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.2'
+	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.2'
+	
+	// for. OAUTH - 소셜 로그인
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+    implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
     
-    implementation("io.springfox:springfox-swagger2:3.0.0")
+    implementation("io.springfox:springfox-swagger3:3.0.0")
     implementation("io.springfox:springfox-swagger-ui:3.0.0")
     implementation("io.springfox:springfox-data-rest:3.0.0")
     implementation("io.springfox:springfox-bean-validators:3.0.0")
@@ -184,6 +191,15 @@ dependencies {
     annotationProcessor("org.projectlombok:lombok:1.18.20")
 
     testCompile('org.springframework.boot:spring-boot-starter-test')
+    
+    // 파일 업로드
+	implementation group: 'commons-fileupload', name: 'commons-fileupload', version: '1.4'
+	
+	// redis
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    
+    // 파일 Resizing
+    compile group: 'io.github.techgnious', name: 'IVCompressor', version: '2.0.0'
 }
 
 test {
