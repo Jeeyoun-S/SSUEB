@@ -8,7 +8,7 @@
             width="100"
             :src="require('@/assets/placeholder/placeholder_dog.png')"
           />
-          <h4>충직한 로이</h4>
+          <h4>깜찍한 로이</h4>
         </div>
         <v-pagination v-model="page" :length="6"></v-pagination>
       </div>
@@ -42,17 +42,19 @@
         ></v-textarea>
       </v-container>
 
-      <!--파일 인풋 여러개하면 화면 넘어감...
-      원래 이렇게 하면 카운터로 표시되어야 하는데... 일단 패스-->
+      <!--파일 인풋 여러개하면 화면 넘어감...-->
       <v-file-input
+        v-model="files"
         counter
         multiple
         show-size
-        small-chips
+        chips
         truncate-length="15"
       ></v-file-input>
+      <v-btn variant="flat" color="primary" @click="select"> 파일 보내기 </v-btn>
     </v-sheet>
     <v-sheet width="500" height="350" elevation="2" rounded>
+      <br />
       <p>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 상담 예약을 위해, 상담일정 확정 시점까지
         기입한 반려동물의 정보가 <br />
@@ -65,17 +67,19 @@
           <v-radio label="동의" value="radio1-yes"></v-radio>
           <v-radio label="비동의" value="radio1-no"></v-radio>
         </v-radio-group>
-        <hr />
         <br />
         <p>
-          상담 제의 등록시, 이와 관련된 알람을 보내드립니다. (필수) <br />
-          이에 동의하십니까?
+          &nbsp;상담 제의 등록시, 이와 관련된 알람을 보내드립니다. (필수) <br />
+          &nbsp;이에 동의하십니까?
         </p>
         <v-radio-group v-model="radio2" inline color="primary">
           <v-radio label="동의" value="radio2-yes"></v-radio>
           <v-radio label="비동의" value="radio2-no"></v-radio>
         </v-radio-group>
-        <v-btn variant="flat" color="primary"> 신청하기 </v-btn>
+        <div align = "right">
+          <v-btn variant="flat" color="primary" @click="registed"> 신청하기 </v-btn>
+        </div>
+
       </v-container>
     </v-sheet>
   </div>
@@ -83,6 +87,7 @@
 
 <script>
 import { mapState } from "vuex";
+import axios from "axios";
 
 const reservationStore = "reservationStore";
 
@@ -92,11 +97,49 @@ export default {
     ...mapState(reservationStore),
   },
   data: () => ({
+    files:[],
     page: 1,
     rules: [(v) => v.length <= 500 || "최대 500자"],
     radio1: "radio1-yes",
     radio2: "radio2-yes",
   }),
+  methods: {
+
+    registed() {
+      this.$swal.fire(
+        '상담 등록 완료',
+  '신규 상담 등록이 완료되었습니다. <br /> 전문가가 상담에 대한 제안을 보내면 받은 상담 제안 메뉴에서 확인 후 수락해 상담 예약을 확정할 수 있습니다.<br /> 상담 제안이 오면 메인페이지의 알림창에서 확인이 가능합니다.',
+  'success'
+      )
+    },
+
+      select() {
+        console.log(this.files)
+        const frm = new FormData();
+        for(let i=0; i<this.files.length; i++){
+          frm.append(this.files[i].name, this.files[i].key);
+        }
+        const API_URL = `http://localhost:5000/reservation`;
+        const api = axios.create({
+          baseURL: API_URL,
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        });
+        api
+        .post("/save", null, {
+          params: {
+            file:this.files,
+          },
+        })
+        .then(() => {
+          console.log("왜됨?");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      }
+  }
 };
 </script>
 

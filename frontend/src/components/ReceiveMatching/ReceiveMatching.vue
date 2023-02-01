@@ -5,18 +5,18 @@
     </v-col>
   </v-row>
 </template>
-  
+
 <script>
-import ReceivedCard from '@/components/ReceivedMatching/ReceivedCard.vue'
+import ReceivedCard from "@/components/ReceiveMatching/ReceivedCard.vue";
 
 export default {
-  name: 'ReceivedMatching',
+  name: "ReceiveMatching",
   components: {
-    ReceivedCard
-  }
-}
+    ReceivedCard,
+  },
+};
 </script>
-  
+
 <style>
-  
+
 </style>

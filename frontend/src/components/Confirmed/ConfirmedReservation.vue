@@ -1,15 +1,18 @@
 <template>
-    <div>
-  
-    </div>
-  </template>
-  
-  <script>
-  export default {
-    name: 'ConfirmedReservation'
-  }
-  </script>
-  
-  <style>
-  
-  </style>
+  <confirmed-card></confirmed-card>
+</template>
+
+<script>
+import ConfirmedCard from "./ConfirmedCard.vue";
+
+export default {
+  name: "ConfirmedReservation",
+  components: { 
+    ConfirmedCard,
+   },
+};
+</script>
+
+<style>
+
+</style>
