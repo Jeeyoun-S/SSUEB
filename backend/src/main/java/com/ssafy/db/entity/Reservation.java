@@ -27,7 +27,7 @@ import lombok.ToString;
 public class Reservation{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@ApiModelProperty(value = "PK, AI")
+	@ApiModelProperty(value = "PK, AI", dataType = "int", example="0")
     int no;
 	
 	@Column(name="consultant_id")
@@ -39,7 +39,7 @@ public class Reservation{
     String userId;
 	
 	@Column(name="reservation_pet_no")
-	@ApiModelProperty(value = "상담받을 반려동물의 번호")
+	@ApiModelProperty(value = "상담받을 반려동물의 번호", dataType = "int", example="0")
     int reservationPetNo;
 	
 	@Column(name="reservation_pet_type")
@@ -63,15 +63,15 @@ public class Reservation{
     String reservationDignosisRecord;
 	
 	@Column(name="reservation_open")
-	@ApiModelProperty(value = "상담정보 공개 여부")
+	@ApiModelProperty(value = "상담정보 공개 여부", dataType = "int", example="0")
     int reservationOpen;
 	
 	@Column(name="reservation_finish")
-	@ApiModelProperty(value = "상담 종료 여부")
+	@ApiModelProperty(value = "상담 종료 여부", dataType = "int", example="0")
     int reservationFinish;
 	
 	@Column(name="review_grade")
-	@ApiModelProperty(value = "리뷰 점수")
+	@ApiModelProperty(value = "리뷰 점수", dataType = "int", example="0")
     int reviewGrade;
 	
 	@Column(name="review_comment")
@@ -79,7 +79,7 @@ public class Reservation{
     String reviewComment;
 	
 	@Column(name="reservation_cost")
-	@ApiModelProperty(value = "상담 가격")
+	@ApiModelProperty(value = "상담 가격", dataType = "int", example="0")
     int reservationCost;
     
 }

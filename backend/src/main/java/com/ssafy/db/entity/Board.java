@@ -25,9 +25,10 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class Board {
+	
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-	@ApiModelProperty(value = "PK, AI")
+	@ApiModelProperty(value = "PK, AI", dataType = "int", example="0")
     int no;
 	
 	@Column(name = "user_id")
@@ -51,15 +52,15 @@ public class Board {
 	String boardWritetime;
 	
 	@Column(name = "board_heartnum")
-	@ApiModelProperty(value = "좋아요를 받은 횟수")
+	@ApiModelProperty(value = "좋아요를 받은 횟수", dataType = "int", example="0")
 	int boardHeartnum;
 	
 	@Column(name = "board_views")
-	@ApiModelProperty(value = "조회수")
+	@ApiModelProperty(value = "조회수", dataType = "int", example="0")
 	int boardViews;
 	
 	@Column(name = "board_flag")
-	@ApiModelProperty(value = "0:어드민, 1:전문가, 2:유저 - 누가 작성한지")
+	@ApiModelProperty(value = "0:어드민, 1:전문가, 2:유저 - 누가 작성한지", dataType = "int", example="0")
 	int boardFlag;
 	
 	@Column(name = "board_file")

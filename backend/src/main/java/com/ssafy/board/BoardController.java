@@ -77,7 +77,7 @@ public class BoardController {
 	@GetMapping("/community/{no}")
 	@ApiOperation(value = "자유게시판 글 상세정보", notes = "해당 no에 대한 자유게시판 글의 상세정보를 불러온다.", response = Board.class) 
 	@ApiImplicitParams({
-		@ApiImplicitParam(name = "no", value = "상세정보를 가져오고자 하는 게시글의 번호", required = true),
+		@ApiImplicitParam(name = "no", value = "상세정보를 가져오고자 하는 게시글의 번호", dataType = "int", example = "0", required = true),
 	})
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),
@@ -125,7 +125,7 @@ public class BoardController {
 	@DeleteMapping("/community/{no}")
 	@ApiOperation(value = "자유게시판 글 삭제하기", notes = "자유게시판의 no에 해당하는 글을 삭제한다", response = Void.class) 
 	@ApiImplicitParams({
-		@ApiImplicitParam(name = "no", value = "삭제하고자 하는 게시글의 번호", required = true),
+		@ApiImplicitParam(name = "no", value = "삭제하고자 하는 게시글의 번호", dataType = "int", example = "0", required = true),
 	})
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),
@@ -162,7 +162,7 @@ public class BoardController {
 	@PutMapping("/view-cnt/{no}")
 	@ApiOperation(value = "글 조회수 증가", notes = "해당 no에 해당하는 글의 조회수를 1 증가시킨다.", response = Board.class) 
 	@ApiImplicitParams({
-		@ApiImplicitParam(name = "no", value = "조회수를 1 올리고자 하는 글의 번호", required = true),
+		@ApiImplicitParam(name = "no", value = "조회수를 1 올리고자 하는 글의 번호", dataType = "int", example = "0", required = true),
 	})
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),

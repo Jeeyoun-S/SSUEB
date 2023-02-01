@@ -19,12 +19,16 @@ import lombok.ToString;
 @ToString
 @ApiModel("LikeRequest")
 public class HeartReq {
-	@ApiModelProperty(value = "PK, AI")
+	
+	@ApiModelProperty(value = "PK, AI", dataType = "int", example="0")
 	int no;
-	@ApiModelProperty(value = "좋아요를 누른 게시글 번호")
+	
+	@ApiModelProperty(value = "좋아요를 누른 게시글 번호", dataType = "int", example="0")
 	int boardNo;
+	
 	@ApiModelProperty(value = "좋아요를 누른 사람", example="aa@a")
 	String userId;
-	@ApiModelProperty(value = "좋아요가 눌려 있는지 - 1이면 눌러있음 -> 삭제요청, 0이면 안눌려있음 -> 좋아요 누름요청")
+	
+	@ApiModelProperty(value = "좋아요가 눌려 있는지 - 1이면 눌러있음 -> 삭제요청, 0이면 안눌려있음 -> 좋아요 누름요청", dataType = "int", example="0")
 	int flag;
 }

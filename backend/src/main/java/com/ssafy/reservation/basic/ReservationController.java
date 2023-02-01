@@ -77,7 +77,7 @@ public class ReservationController {
 	@DeleteMapping("/{no}")
 	@ApiOperation(value = "예약 삭제", notes = "해당 no에 해당하는 예약을 삭제한다.", response = Void.class)
 	@ApiImplicitParams({
-		@ApiImplicitParam(name = "no", value = "삭제하고자 하는 상담예약의 번호", required = true),
+		@ApiImplicitParam(name = "no", value = "삭제하고자 하는 상담예약의 번호", dataType = "int", example = "0", required = true),
 	})
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),
@@ -95,7 +95,7 @@ public class ReservationController {
 	@PutMapping("/finish/{no}")
 	@ApiOperation(value = "상담 완료", notes = "상담을 완료하고 해당 no에 해당하는 예약 테이블의 finish flag를 1로 바꾼다", response = Void.class) 
 	@ApiImplicitParams({
-		@ApiImplicitParam(name = "no", value = "상담을 종료하고자 하는 상담예약의 번호", required = true),
+		@ApiImplicitParam(name = "no", value = "상담을 종료하고자 하는 상담예약의 번호", dataType = "int", example = "0", required = true),
 	})
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),
@@ -113,7 +113,7 @@ public class ReservationController {
 	@GetMapping("/{no}")
 	@ApiOperation(value = "예약 상세 정보 읽기", notes = "해당 no에 해당하는 예약에 관한 정보를 모두 불러온다.", response = Reservation.class) 
 	@ApiImplicitParams({
-		@ApiImplicitParam(name = "no", value = "상세 정보를 가져오고 싶은 예약 테이블의 번호", required = true),
+		@ApiImplicitParam(name = "no", value = "상세 정보를 가져오고 싶은 예약 테이블의 번호", dataType = "int", example = "0", required = true),
 	})
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),

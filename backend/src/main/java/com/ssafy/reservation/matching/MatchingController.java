@@ -1,7 +1,6 @@
 package com.ssafy.reservation.matching;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,13 +11,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.db.entity.Matching;
-import com.ssafy.db.entity.Reservation;
-import com.ssafy.reservation.basic.request.ReservationDignosis;
-import com.ssafy.reservation.basic.request.ReservationReivew;
 import com.ssafy.reservation.matching.request.MatchingConfirm;
 
 import io.swagger.annotations.Api;
@@ -61,7 +56,7 @@ public class MatchingController {
 	@DeleteMapping("/{no}")
 	@ApiOperation(value = "견적 삭제", notes = "해당 no에 해당하는 견적을 삭제한다.", response = Void.class) 
 	@ApiImplicitParams({
-		@ApiImplicitParam(name = "no", value = "삭제하고자 하는 견적의 번호", required = true),
+		@ApiImplicitParam(name = "no", value = "삭제하고자 하는 견적의 번호", dataType = "int", example = "0", required = true),
 	})
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),
@@ -99,7 +94,7 @@ public class MatchingController {
 	@GetMapping("/partner/{reservationNo}")
 	@ApiOperation(value = "해당 예약에 대한 견적 정보", notes = "유저의 특정 예약에 대해 들어온 견적들에 대한 정보를 쭉 불러온다", response = Matching.class) 
 	@ApiImplicitParams({
-		@ApiImplicitParam(name = "reservationNo", value = "해당 번호의 상담 예약에 들어온 견적들을 리턴한다", required = true),
+		@ApiImplicitParam(name = "reservationNo", value = "해당 번호의 상담 예약에 들어온 견적들을 리턴한다", dataType = "int", example = "0", required = true),
 	})
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),
