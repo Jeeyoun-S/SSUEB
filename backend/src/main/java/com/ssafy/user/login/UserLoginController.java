@@ -1,7 +1,5 @@
 package com.ssafy.user.login;
 
-import java.io.Console;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,19 +10,14 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.common.jwt.JwtAuthenticationFilter;
 import com.ssafy.common.jwt.JwtTokenProvider;
 import com.ssafy.common.util.ParameterCheck;
-import com.ssafy.db.entity.User;
 import com.ssafy.user.join.UserJoinController;
 import com.ssafy.user.join.response.BasicResponse;
 import com.ssafy.user.login.request.UserKakaoUserPostRequest;
@@ -57,14 +50,6 @@ public class UserLoginController {
 	JwtTokenProvider jwtTokenProvider; 
 	@Autowired
 	AuthenticationManagerBuilder authenticationManagerBuilder;
-//	private final JwtTokenProvider jwtTokenProvider;
-//	private final AuthenticationManagerBuilder authenticationManagerBuilder;
-//	public UserLoginController(
-//			JwtTokenProvider jwtTokenProvider,
-//			AuthenticationManagerBuilder authenticationManagerBuilder) {
-//		this.jwtTokenProvider = jwtTokenProvider; 
-//		this.authenticationManagerBuilder = authenticationManagerBuilder;
-//	}
 	
 	@Autowired
 	UserJoinController userJoinController;
@@ -135,12 +120,12 @@ public class UserLoginController {
 	}
 	
 	/** 
-	 * OAuth2_Kakao 소셜 로그인
+	 * OAuth2_Kakao, Naver 소셜 로그인
 	 * @param String
-	 * @return UserLoginPostResponse
+	 * @return 
 	 */
-	@PostMapping("/kakao")
-	@ApiOperation(value = "소셜 로그인 - OAuth2 kakao")
+	@PostMapping("/social")
+	@ApiOperation(value = "소셜 로그인 - OAuth2 kakao, naver")
 	@ApiImplicitParams({
 		@ApiImplicitParam(name = "code", value = "현재 로그인한 Kakao 사용자 정보", required = true)
 	})
