@@ -25,7 +25,9 @@
           required
           class="pb-2"
         ></v-text-field>
-        <v-btn variant="outlined" block @click="login" rounded="0" size="large">로그인</v-btn>
+        <v-btn variant="outlined" block @click="login" rounded="0" size="large"
+          >로그인</v-btn
+        >
       </v-form>
     </v-sheet>
 
@@ -36,7 +38,14 @@
         <kakao-dialog></kakao-dialog>
         <naver-dialog></naver-dialog>
       </div>
-      <v-btn color="primary" variant="outlined" @click="moveJoin()" rounded="0" width="100%">이메일로 회원가입하러 가기</v-btn>
+      <v-btn
+        color="primary"
+        variant="outlined"
+        @click="moveJoin()"
+        rounded="0"
+        width="100%"
+        >이메일로 회원가입하러 가기</v-btn
+      >
     </div>
   </div>
 </template>
@@ -94,19 +103,10 @@ export default {
         this.loginInfo.password
       );
       await this.excuteLogin(this.loginInfo);
-
-      // 로그인 실패 시 alert창 띄우기
-      if (!this.isLogin) {
-        this.$swal.fire(
-          "FAIL",
-          "아이디와 비밀번호를 다시 입력해주세요.",
-          "warning"
-        );
-      }
     },
     moveJoin() {
-      location.href="http://localhost:8081/join";
-    }
+      location.href = "http://localhost:8081/join";
+    },
   },
 };
 </script>
