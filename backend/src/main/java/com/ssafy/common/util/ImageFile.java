@@ -1,15 +1,16 @@
 package com.ssafy.common.util;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
 
+import javax.imageio.ImageIO;
+
+import org.imgscalr.Scalr;
 import org.springframework.web.multipart.MultipartFile;
 
 import io.github.techgnious.IVCompressor;
-import io.github.techgnious.dto.ImageFormats;
-import io.github.techgnious.dto.ResizeResolution;
-import io.github.techgnious.exception.ImageException;
 
 public class ImageFile {
 	
@@ -19,19 +20,47 @@ public class ImageFile {
 	ParameterCheck parameterCheck = new ParameterCheck();
 	
 	/**
-	 * IVCompressor를 이용한 이미지 압축 및 저장
+	 * 300X300으로 이미지 저장하기
 	 * @param imageFile 압축할 이미지 파일
+	 * @return 저장 결과
 	 * **/
-	public void compressorResizing(MultipartFile imageFile, String filename) {
+	public boolean saveImage300(MultipartFile imageFile, String filename, String path) {
+
 		try {
+			// 이미지 읽기
+			BufferedImage inputImage = ImageIO.read(imageFile.getInputStream());
 			
-			compressor.resizeAndSaveImageToAPath(imageFile.getBytes(), filename, ImageFormats.JPEG, "C:\\Users\\SSAFY", ResizeResolution.R480P);
+			// 원본 가로 세로 길이
+			int oldWidth = inputImage.getWidth();
+			int oldHeight = inputImage.getHeight();
 			
-		} catch (ImageException e) {
-			e.printStackTrace();
+			// 변경 후 길이
+			int newWidth = Math.min(oldWidth, oldHeight);
+			int newHeight = newWidth;
+			
+			// 이미지 Crop (더 짧은 변 1:1 비율, 중심 기준)
+			// param 1) BufferedImage 변환할 이미지 파일  2) int crop할 떄 중심 x 3) int crop할 때 중심 y 4) int crop 후 너비 5) int crop 후 높이
+			BufferedImage imageCrop = Scalr.crop(inputImage, (oldWidth-newWidth)/2, (oldHeight-newHeight)/2, newWidth, newHeight);
+			
+			// 이미지 Resize (크기 300으로 조절)
+			// param 1) BufferedImage 변환할 이미지 파일 2) int resize 후 너비 3) int resize 후 높이
+			BufferedImage imageResize = Scalr.resize(imageCrop, 300, 300);
+			
+			// 확장자 가져오기
+			String extension = filename.substring(filename.lastIndexOf(".") + 1);
+			
+			// 경로 설정해서 파일 객체 생성
+			File file = new File("C:/Users/SSAFY/" + filename);
+			
+			// 저장하기
+			boolean result = ImageIO.write(imageResize, extension.toUpperCase(), file);
+			return result;
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+			
+		return false;
 		
 	}
 	
@@ -81,26 +110,4 @@ public class ImageFile {
 		}
 	}
 	
-	/**
-	 * 100KB 이하로 이미지 파일 저장하기
-	 * @param imageFile 저장할 파일 
-	 * **/
-	public String saveMultipartFile100KB(MultipartFile imageFile, String path) {
-		
-		// 파일명 생성
-		String imageName = makeFilename(imageFile.getOriginalFilename());
-		
-		// 이미지 크기 100KB 이상이면 Resizing
-		if (!parameterCheck.isValidFileSize(100000, imageFile)) {
-			imageName = makeFilnameWithExtension(".jpeg");
-			compressorResizing(imageFile, imageName);
-		}
-		// 그 외에는 바로 저장
-		else {
-			imageName = makeFilename(imageFile.getOriginalFilename());
-			saveImage(imageFile, imageName, path);
-		}
-		
-		return imageName;
-	}
 }

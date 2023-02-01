@@ -73,8 +73,6 @@ public class UserPetController {
 	@ApiImplicitParam(name = "no", value = "반려동물 번호", dataType = "int", example = "0", required = true)
 	public ResponseEntity<PetBasicResponse> modifyPet(@PathVariable(value = "no") int no, PetModifyRequest petModifyRequest, @RequestPart(value = "petImage", required = false) MultipartFile petImage) {
 		
-		System.out.println(petModifyRequest);
-		
 		PetRequest petRequest = new PetRequest();
 		petRequest.setPetImage(petImage);
 		petRequest.setPetBirth(petModifyRequest.getPetBirth());

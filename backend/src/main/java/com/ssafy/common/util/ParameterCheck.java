@@ -93,7 +93,7 @@ public class ParameterCheck {
 	 * @param userAlertFlag 알람방식 : 카카오(0), 이메일(1), 문자(2)
 	 * @return 유효하다면 true, 유효하지 않다면 false
 	 * **/
-	public boolean isValueAlertFlag(int userAlertFlag) {
+	public boolean isValidAlertFlag(int userAlertFlag) {
 		
 		// 0, 1, 2 중 하나
 		if (userAlertFlag == 0 || userAlertFlag == 1 || userAlertFlag == 2) {
