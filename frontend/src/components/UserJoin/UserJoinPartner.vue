@@ -50,6 +50,7 @@ export default {
         (v) => this.validNickname.test(v) || "특수문자는 입력 불가능합니다.",
       ],
       validNickname: /^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣|a-z|A-Z|0-9]{1,22}$/,
+      socialAccess: true, // #21#
     };
   },
   // #21#
@@ -70,7 +71,16 @@ export default {
       const { valid } = await this.$refs.form.validate();
 
       if (valid && this.phoneAuthStates) {
-        joinPartner(this.info);
+        // joinPartner(this.info);
+        joinPartner(this.info, this.socialAccess); // #21# 소셜 로그인 접근 여부 확인을 위해 코드 변경
+      }
+      // #21# 소셜 로그인 접근 회원가입
+      else if (
+        !valid &&
+        this.phoneAuthStates &&
+        this.info.userPassword == null
+      ) {
+        joinPartner(this.info, this.socialAccess);
       }
     },
     updatePhone(userPhone) {
@@ -80,6 +90,8 @@ export default {
       this.info.id = info.id;
       this.info.userPassword = info.userPassword;
       this.info.userName = info.userName;
+      this.socialAccess = info.socialAccess; // #21# false면 소셜 로그인 접근
+      // console.log("#21# access 잘 가져왔낭: ", this.socialAccess);
     },
   },
   watch: {
