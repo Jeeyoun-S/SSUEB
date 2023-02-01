@@ -16,8 +16,7 @@ logging:
         tiles: INFO
       springframework:
         web: DEBUG
-      sringframework:
-        boot: DEBUG
+#        boot: DEBUG
         security: DEBUG
     root: INFO
 management:
@@ -79,6 +78,13 @@ spring:
     resources:
       add-mappings: false
       static-locations: classpath:/dist/
+  # MultipartFile
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 100MB
+      location: C:/Temp
+  
 springfox:
   documentation:
     swagger:

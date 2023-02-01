@@ -30,7 +30,7 @@ import io.swagger.annotations.ApiResponses;
 
 @RestController
 @RequestMapping("/api/user/join")
-@Api(tags = { "User Join" }, description = "사용자 회원가입 API")
+@Api(tags = { "User/Join" }, description = "사용자 회원가입 API")
 public class UserJoinController {
 	
 	// 유효성 검사

@@ -26,7 +26,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 
-@Api(tags = {"User Info"}, description = "회원정보 API")
+@Api(tags = {"User/Info"}, description = "회원정보 API")
 @RestController
 @RequestMapping("/api/user/info")
 public class UserInfoPartnerController {
