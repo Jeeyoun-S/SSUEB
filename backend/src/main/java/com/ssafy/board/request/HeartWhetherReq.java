@@ -19,8 +19,10 @@ import lombok.ToString;
 @ToString
 @ApiModel("HeartWhetherReq")
 public class HeartWhetherReq {
-	@ApiModelProperty(value = "좋아요를 눌렀는지의 글")
+	
+	@ApiModelProperty(value = "좋아요를 눌렀는지의 글", dataType = "int", example="0")
 	int boardNo;
+	
 	@ApiModelProperty(value = "좋아요를 눌렀는지의 유저")
 	String userId;
 }
