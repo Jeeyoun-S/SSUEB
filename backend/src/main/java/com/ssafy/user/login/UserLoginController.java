@@ -22,9 +22,9 @@ import com.ssafy.common.jwt.JwtAuthenticationFilter;
 import com.ssafy.common.jwt.JwtTokenProvider;
 import com.ssafy.common.util.ParameterCheck;
 import com.ssafy.db.entity.Consultant;
+import com.ssafy.db.entity.User;
 import com.ssafy.user.join.UserJoinController;
-import com.ssafy.user.join.response.BasicResponse;
-import com.ssafy.user.login.request.UserKakaoUserPostRequest;
+import com.ssafy.user.join.repository.JoinUserRepository;
 import com.ssafy.user.login.request.UserLoginPostRequest;
 import com.ssafy.user.login.response.UserLoginPostResponse;
 import com.ssafy.user.login.service.UserLoginService;
@@ -58,6 +58,8 @@ public class UserLoginController {
 	
 	@Autowired
 	UserJoinController userJoinController;
+	@Autowired
+	JoinUserRepository joinUserRepository;
 	
 	@Autowired
 	UserLoginService userLoginService;
@@ -91,6 +93,12 @@ public class UserLoginController {
 			// ii) pw - 비어 있지 않은지 && PW 규칙에 맞는지 
 			if (parameterCheck.isEmpty(loginInfo.getPassword()) || !parameterCheck.isValidPassword(loginInfo.getPassword())) {
 				return ResponseEntity.ok(UserLoginPostResponse.of(401, "failure", "id 또는 password를 다시 입력해 주세요.", null));
+			}
+			
+			// # 소셜 로그인 ID 여부 검증
+			Optional<User> user = joinUserRepository.findById(loginInfo.getId());
+			if (user.get().getUserIsSocialId() == 1) {
+				return ResponseEntity.ok(UserLoginPostResponse.of(401, "failure", "소셜 로그인을 이용해 주세요.", null));
 			}
 			
 			// # 로그인
