@@ -57,6 +57,9 @@ public class User {
 	@Column(name = "user_activated")
 	int userActivated;
 	
+	@Column(name = "user_is_social_id")
+	int userIsSocialId;
+	
 	// for. add JWT - 인증 권한 테이블 
 	@ManyToMany
 	@JoinTable(
