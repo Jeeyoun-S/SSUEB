@@ -35,7 +35,7 @@
         <br />
         <p>로렌 입숨 어쩌구</p>
       </v-col>
-      <hr />
+      <vl />
       <v-col align = "center">
         <img
           class="image"
@@ -69,11 +69,13 @@ export default {
 </script>
 
 <style>
-hr{ 
-  
+vl{ 
   border:         none;
   border-left:    1px solid hsla(200, 10%, 50%,100);
   height:         27vh;
   width:          1px;       
+}
+.a-card {
+    margin: 15px;
 }
 </style>

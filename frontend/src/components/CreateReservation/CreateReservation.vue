@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-sheet width="550" height="350" elevation="2" rounded>
+    <v-sheet class="a-sheet" width="550" height="350" elevation="2" rounded>
       <div>
         <h3>&nbsp; 상담할 반려동물 선택하기</h3>
         <div class="text-center">
@@ -14,7 +14,7 @@
       </div>
     </v-sheet>
 
-    <v-sheet width="550" height="350" elevation="2" rounded>
+    <v-sheet class="a-sheet" width="550" height="350" elevation="2" rounded>
       <div class="text-center">
         <h1>시간 선택</h1>
       </div>
@@ -22,7 +22,7 @@
   </div>
 
   <div>
-    <v-sheet width="500" height="350" elevation="2" rounded>
+    <v-sheet class="a-sheet" width="500" height="350" elevation="2" rounded>
       <h3>&nbsp; 상담 내용 작성하기</h3>
 
       <v-container fluid>
@@ -39,6 +39,7 @@
           maxlength="500"
           oninput="javascript: if (this.value.length > this.maxLength) 
             this.value = this.value.slice(0, this.maxLength);"
+          v-model="reservation.reservationConsultContent"
         ></v-textarea>
       </v-container>
 
@@ -50,10 +51,11 @@
         show-size
         chips
         truncate-length="15"
+        accept="video/*, image/*"
       ></v-file-input>
       <v-btn variant="flat" color="primary" @click="select"> 파일 보내기 </v-btn>
     </v-sheet>
-    <v-sheet width="500" height="350" elevation="2" rounded>
+    <v-sheet class="a-sheet" width="500" height="350" elevation="2" rounded>
       <br />
       <p>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 상담 예약을 위해, 상담일정 확정 시점까지
@@ -97,11 +99,18 @@ export default {
     ...mapState(reservationStore),
   },
   data: () => ({
-    files:[],
+    files:null,
     page: 1,
     rules: [(v) => v.length <= 500 || "최대 500자"],
-    radio1: "radio1-yes",
-    radio2: "radio2-yes",
+    radio1: "radio1-no",
+    radio2: "radio2-no",
+    reservation:{
+      userId: null,
+      reservationPetNo: 0,
+      reservationPetType: null,
+      reservationDate: null, //YYYY-MM-DD HH-mm-ss ex)2023-02-22 22:22:22
+      reservationConsultContent:null,
+    }
   }),
   methods: {
 
@@ -114,33 +123,41 @@ export default {
     },
 
       select() {
-        console.log(this.files)
-        const frm = new FormData();
-        for(let i=0; i<this.files.length; i++){
-          frm.append(this.files[i].name, this.files[i].key);
+        console.log(this.reservation.reservationConsultContent)
+        if(!this.files){
+          console.log("file이 없다")
+          return;
         }
-        const API_URL = `http://localhost:5000/reservation`;
-        const api = axios.create({
-          baseURL: API_URL,
-          headers: {
-            'Content-Type': 'multipart/form-data'
+        const frm = new FormData();
+
+        for(let i=0; i<this.files.length; i++){
+          if(this.files[i].type.startsWith('image') || this.files[i].type.startsWith('video')){
+            frm.append("files", this.files[i]);
           }
-        });
-        api
-        .post("/save", null, {
-          params: {
-            file:this.files,
-          },
+          else{
+            console.log("잘못된 확장자")
+          }
+        }
+
+        if(frm.getAll("files").length == 0){
+          alert("유효하지 않은 파일들입니다.")
+          return;
+        }
+
+        axios.post(`http://localhost:5000/api/reservation/save`, frm, {
+          headers: {'Content-Type': 'multipart/form-data'}
+        }).then(() => {
+          console.log("업로드 완료!")
+        }).catch(error => {
+          alert(error.message)
         })
-        .then(() => {
-          console.log("왜됨?");
-        })
-        .catch((err) => {
-          console.log(err);
-        });
       }
   }
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.a-sheet {
+  margin: 15px;
+}
+</style>
