@@ -9,7 +9,6 @@ import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 
 /**
- * [skeleton-code] 
  * 모델 간 공통 사항 정의.
  */
 @Getter
