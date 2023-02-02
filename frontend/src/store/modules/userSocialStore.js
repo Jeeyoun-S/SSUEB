@@ -1,6 +1,9 @@
 const userSocialStore = {
   state: {
-    socialUserInfo: null,
+    socialUserInfo: {
+      id: null,
+      nickname: null,
+    },
   },
   getters: {
     getSocialUserInfo(state) {
