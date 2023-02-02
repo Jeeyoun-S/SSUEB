@@ -43,6 +43,7 @@ export default {
         userNickname: null,
         userAlertFlag: "0",
         userPhone: null,
+        userIsSocialId: "0",
       },
       ruleNickname: [
         (v) => !!v || "닉네임은 필수 입력 사항입니다.",
