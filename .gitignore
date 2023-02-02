@@ -80,6 +80,7 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/vue,vuejs,macos,windows
+<<<<<<< HEAD
 /.metadata/
 
 # Naver Cloud Platform Key
@@ -91,6 +92,8 @@ env.properties
 
 # OAuth Key
 application-oauth.yml
+=======
 
 # Vue env file
 .env
+>>>>>>> origin/develop/front
