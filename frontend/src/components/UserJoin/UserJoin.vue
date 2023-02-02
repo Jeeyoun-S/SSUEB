@@ -5,7 +5,13 @@
       <h2>회원가입</h2>
     </div>
     <div class="join-form border-sheet-two">
-      <v-tabs class="join-form-tab" v-model="joinTab" color="primary" align-tabs="center" grow>
+      <v-tabs
+        class="join-form-tab"
+        v-model="joinTab"
+        color="primary"
+        align-tabs="center"
+        grow
+      >
         <v-tab value="partner">반려인</v-tab>
         <v-tab value="consultant">전문가</v-tab>
       </v-tabs>
@@ -18,7 +24,7 @@
 </template>
 
 <script>
-import LogoVer2 from '@/views/LogoVer2.vue'
+import LogoVer2 from "@/views/LogoVer2.vue";
 import UserJoinConsult from "@/components/UserJoin/UserJoinConsultant.vue";
 import UserJoinPartner from "@/components/UserJoin/UserJoinPartner.vue";
 
@@ -27,14 +33,14 @@ export default {
   components: {
     UserJoinConsult,
     UserJoinPartner,
-    LogoVer2
+    LogoVer2,
   },
   data() {
     return {
       joinTab: "partner",
     };
   },
-}
+};
 </script>
 
 <style>
@@ -67,7 +73,7 @@ export default {
   justify-content: center;
 
   margin-bottom: 20px;
-  
+
   height: 200px;
   width: 435px;
 }

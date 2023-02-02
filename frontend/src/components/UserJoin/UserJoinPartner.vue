@@ -1,5 +1,5 @@
 <template>
-  <v-form class="forms" ref="form" lazy-validation> 
+  <v-form class="forms" ref="form" lazy-validation>
     <UserJoinBasicInfo @info="updateBasicInfo"></UserJoinBasicInfo>
     <v-text-field
       v-model="info.userNickname"
@@ -43,6 +43,7 @@ export default {
         userNickname: null,
         userAlertFlag: "0",
         userPhone: null,
+        userIsSocialId: "0",
       },
       ruleNickname: [
         (v) => !!v || "닉네임은 필수 입력 사항입니다.",
@@ -50,11 +51,20 @@ export default {
         (v) => this.validNickname.test(v) || "특수문자는 입력 불가능합니다.",
       ],
       validNickname: /^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣|a-z|A-Z|0-9]{1,22}$/,
+      socialAccess: true, // #21#
     };
+  },
+  // #21#
+  created() {
+    // 회원가입 페이지 실행 시 소셜 로그인 info 적용
+    this.info.userNickname = this.socialUserInfo.nickname;
   },
   computed: {
     phoneAuthStates() {
       return this.$store.getters.getPhoneAuthStates;
+    },
+    socialUserInfo() {
+      return this.$store.getters.getSocialUserInfo;
     },
   },
   methods: {
@@ -62,7 +72,16 @@ export default {
       const { valid } = await this.$refs.form.validate();
 
       if (valid && this.phoneAuthStates) {
-        joinPartner(this.info);
+        // joinPartner(this.info);
+        joinPartner(this.info, this.socialAccess); // #21# 소셜 로그인 접근 여부 확인을 위해 코드 변경
+      }
+      // #21# 소셜 로그인 접근 회원가입
+      else if (
+        !valid &&
+        this.phoneAuthStates &&
+        this.info.userPassword == null
+      ) {
+        joinPartner(this.info, this.socialAccess);
       }
     },
     updatePhone(userPhone) {
@@ -72,6 +91,7 @@ export default {
       this.info.id = info.id;
       this.info.userPassword = info.userPassword;
       this.info.userName = info.userName;
+      this.socialAccess = info.socialAccess; // #21# false면 소셜 로그인 접근
     },
   },
   watch: {
