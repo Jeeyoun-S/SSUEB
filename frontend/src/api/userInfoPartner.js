@@ -35,4 +35,81 @@ async function getUserPartnerInfo(id) {
   })
 }
 
-export { getUserPartnerInfo };
+// [POST] 반려동물 등록
+async function registerPetInfo(petInfo, id) {
+  var result = true;
+
+  for (let key of petInfo.keys()) {
+    console.log(key, ":", petInfo.get(key));
+  }
+
+  await api.post(`/user/pet/${id}`, petInfo, {
+    headers: {
+      "Content-Type": "multipart/form-data; charset=utf-8;",
+    },
+  }).then((res) => {
+    if (res.data.response == "success") {
+      console.log("#반려동물 등록 성공");
+      
+      Swal.fire({
+        title: 'SUCCESS',
+        text: '반려동물을 등록했습니다.',
+        icon: 'success'
+      });
+
+      result = false;
+      console.log(petInfo);
+      store.dispatch("addPetInfo", res.data.data);
+
+    } else {
+      console.log("#반려동물 등록 실패");
+      
+      Swal.fire({
+        title: 'FAIL',
+        text: '반려동물을 등록에 실패했습니다. 등록 정보를 다시 확인해 주세요.',
+        icon: 'error'
+      });
+    }
+  })
+
+  return await Promise.resolve(result);
+}
+
+// [PUT] 반려동물 수정
+async function modifyPetInfo(petInfo, petNo) {
+  console.log("수정으로 왔따")
+  console.log(petInfo)
+
+  for (var key of petInfo.keys()) {
+    console.log(key, ":", petInfo.get(key));
+  }
+  
+  await api.put(`/user/pet/${petNo}`, petInfo, {
+    headers: {
+      "Content-Type": "multipart/form-data; charset=utf-8;",
+    },
+  })
+  .then((res) => {
+    if (res.data.response == "success") {
+      console.log("#반려동물 수정 성공");
+    } else {
+      console.log("#반려동물 수정 실패");
+    }
+  })
+}
+
+// [DELETE] 반려동물 삭제
+async function removePetInfo(petNo) {
+  await api.delete(`/user/pet/${petNo}`)
+  .then((res) => {
+    if (res.data.response == "success") {
+      console.log("#반려동물 삭제 성공");
+      
+      store.dispatch("deletePetInfo", petNo);
+    } else {
+      console.log("#반려동물 삭제 실패");
+    }
+  })
+}
+
+export { getUserPartnerInfo, registerPetInfo, modifyPetInfo, removePetInfo };

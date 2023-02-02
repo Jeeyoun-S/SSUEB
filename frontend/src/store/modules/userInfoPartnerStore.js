@@ -23,6 +23,19 @@ const userInfoPartnerStore = {
     },
     SET_PET_INFO(state, payload) {
       state.petInfo = payload;
+    },
+    ADD_PET_INFO(state, payload) {
+      state.petInfo.push(payload);
+    },
+    DELETE_PET_INFO(state, payload) {
+      const petInfoArray = state.petInfo;
+
+      for (let i=0; i<petInfoArray.length; i++) {
+        if (petInfoArray[i].no == payload)  {
+          state.petInfo.splice(i, 1);
+          break;
+        }
+      }
     }
   },
   actions: {
@@ -32,6 +45,12 @@ const userInfoPartnerStore = {
     },
     getPetInfo({ commit }, petInfo) {
       commit("SET_PET_INFO", petInfo);
+    },
+    addPetInfo({ commit }, petOneInfo) {
+      commit("ADD_PET_INFO", petOneInfo);
+    },
+    deletePetInfo({ commit }, petNo) {
+      commit("DELETE_PET_INFO", petNo);
     }
   },
 };

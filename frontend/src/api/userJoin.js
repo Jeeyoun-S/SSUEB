@@ -170,8 +170,6 @@ async function joinPartner(joinRequest) {
 
 // [POST] 전문가 회원가입 진행
 async function joinConsultant(formData) {
-  formData;
-
   await api
     .post(`/user/join/consultant`, formData, {
       headers: {

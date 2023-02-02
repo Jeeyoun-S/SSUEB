@@ -1,6 +1,6 @@
 <template>
   <div class="logo-ver2">
-    <a href="http://localhost:8081/"><img :src="logoImageVer2" /></a>
+    <a href="/"><img :src="logoImageVer2" /></a>
   </div>
 </template>
 

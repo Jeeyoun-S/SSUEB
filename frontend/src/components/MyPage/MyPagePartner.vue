@@ -1,7 +1,7 @@
 <template>
   <div class="mypage">
     <div class="mypage-title border-sheet-four">
-      <h2>회원정보</h2>
+      <h2>회원 정보</h2>
     </div>
     <div class="mypage-info">
       <v-sheet class="mypage-info-item" height="400" width="500" elevation="2" rounded>
@@ -39,22 +39,26 @@
           <v-radio label="이메일" value="1"></v-radio>
           <v-radio label="문자" value="2"></v-radio>
         </v-radio-group>
-        <v-btn variant="outlined" color="primary" rounded="0" block>로그아웃</v-btn>
+        <!-- <v-btn variant="outlined" color="primary" rounded="0" block>로그아웃</v-btn>
         <v-btn variant="outlined" color="error" rounded="0" block>회원탈퇴</v-btn>
+        <v-btn variant="outlined" rounded="0" block>회원 정보 수정</v-btn> -->
       </v-sheet>
       <v-sheet class="mypage-info-item" height="300" width="500" elevation="2" rounded>
         
       </v-sheet>
     </div>
     <div class="mypage-title border-sheet-four">
-      <h2>반려동물</h2>
-      <MyPagePartnerPet></MyPagePartnerPet>
+      <h2>반려동물 정보 <MyPagePetRegister></MyPagePetRegister></h2>
+    </div>
+    <div class="mypage-pet-item">
+      <MyPagePetItem></MyPagePetItem>
     </div>
   </div>
 </template>
 
 <script>
-import MyPagePartnerPet from '@/components/MyPage/MyPagePartnerPet.vue'
+import MyPagePetRegister from '@/components/MyPage/MyPagePetRegister.vue'
+import MyPagePetItem from '@/components/MyPage/MyPagePetItem.vue'
 import { getUserPartnerInfo } from '@/api/userInfoPartner.js'
 import { mapState } from "vuex";
 const userStore = "userStore";
@@ -73,15 +77,13 @@ export default {
     }
   },
   components: {
-    MyPagePartnerPet
+    MyPagePetRegister,
+    MyPagePetItem
   },
   computed: {
     ...mapState(userStore, ["userId"]),
     getPartnerInfo() {
       return this.$store.getters.getPartnerInfo;
-    },
-    getPetInfo() {
-      return this.$store.getters.getPetInfo;
     },
   },
   created() {
@@ -116,5 +118,15 @@ export default {
 }
 .mypage .mypage-info .mypage-info-item {
   padding: 20px;
+}
+
+.mypage .mypage-pet-item {
+  width: 1070px;
+
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
 }
 </style>
