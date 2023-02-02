@@ -72,7 +72,7 @@ public class UserJoinServiceImpl implements UserJoinService {
 							
 							if (isDebug) System.out.println("#알람 방식 번호 문제 "+alertFlag);
 							// 알림 방식 유효성 검사
-							if (parameterCheck.isValueAlertFlag(alertFlag)) {
+							if (parameterCheck.isValidAlertFlag(alertFlag)) {
 								// 비밀번호 암호화하기
 								password = passwordEncoder.encode(joinRequest.getUserPassword());
 								
