@@ -139,50 +139,5 @@ public class UserLoginController {
 			return ResponseEntity.ok(UserLoginPostResponse.of(401, "failure", "id 또는 password를 다시 입력해 주세요.", null));
 		}
 	}
-	
-	/** 
-	 * OAuth2_Kakao, Naver 소셜 로그인
-	 * @param String
-	 * @return 
-	 */
-	@PostMapping("/social")
-	@ApiOperation(value = "소셜 로그인 - OAuth2 kakao, naver")
-	@ApiImplicitParams({
-		@ApiImplicitParam(name = "code", value = "현재 로그인한 Kakao 사용자 정보", required = true)
-	})
-	@ApiResponses(value = {
-			@ApiResponse(code = 200, response = UserLoginPostResponse.class, message = "로그인에 성공했습니다."),
-			@ApiResponse(code = 401, response = UserLoginPostResponse.class, message = "id 또는 password를 다시 입력해 주세요.")
-	})
-//	public ResponseEntity<UserLoginPostResponse> kakao(@RequestBody @ApiParam(value = "Kakao 사용자 정보", required = true) UserKakaoUserPostRequest info) {
-	public String kakao(@RequestBody @ApiParam(value = "Kakao 사용자 정보", required = true) UserKakaoUserPostRequest info) {
-		logger.info("#[Controller]: kakao# 현재 로그인한 Kakao 사용자 정보: {}", info);
-		
-		// i) token 복호화 -> 카카오로부터 전달받은 사용자 정보 얻기
-		// ii) 얻은 id가 이미 회원가입 되어 있는지 확인
-		// iii) 카카오로부터 얻은 정보(id, nickname) return
-		// ------ 여기까지 Front에서 처리
-		
-		// * 만약 이 아이디로 회원가입한 사용자가 없다면
-		ResponseEntity<BasicResponse> duplicateIdResult = userJoinController.duplicateId(info.getId());
-		logger.info("#21# 반환 확인: {}", duplicateIdResult.getBody().getResponse());
-		
-		if (duplicateIdResult.getBody().getResponse().equals("success")) {
-			return "redirect:http://localhost:8081/join";
-		}
-		// * 기존 사용자 정보가 있다면 user id, nickname 카카오 계정으로 변경..? 
-		else {
-			return "redirect:http://localhost:8081/";
-		}
-		// iv) 회원가입 페이지로 front 연결 
-		
-		// * 있다면..? update? 
-		
-		// v) 회원가입 페이지에서 추가 정보 받은 후 
-		// vi) 회원가입 진행 
-		// vii) 로그인 진행
-		
-//		return ResponseEntity.ok(UserLoginPostResponse.of(200, "success", "로그인에 성공했습니다.", null));
-	}
 		
 }
