@@ -136,7 +136,6 @@ async function confirmPhoneAuth(authNumber, userPhone) {
 
 // [GET] 반려인 회원가입 진행
 async function joinPartner(joinRequest, socialAccess) {
-  console.log("#21# userIsSocialId 확인: ", joinRequest);
   // ! 소셜 로그인을 통한 회원가입 접근 (비밀번호 없음)
   if (socialAccess == false) {
     const id = joinRequest.id.substring(0, 6);
@@ -180,9 +179,6 @@ async function joinPartner(joinRequest, socialAccess) {
 // [POST] 전문가 회원가입 진행
 async function joinConsultant(formData, socialAccess) {
   // formData;
-  // console.log("#21# 전문가 회원가입 form 확인: ", formData.get("id"));
-  // console.log("#21# 전문가 회원가입 form 확인: ", formData.get("userPassword"));
-
   // ! 소셜 로그인을 통한 회원가입 접근
   if (socialAccess == false) {
     const id = formData.get("id").substring(0, 6);

@@ -17,8 +17,7 @@ const kakao_api_info = axios.create({
 
 // [POST] #Kakao# token 발급받기
 async function getKakaoToken(kakaoInfo, success, fail) {
-  console.log("#userOAuth - api# Kakao token 발급을 위한 params: ", kakaoInfo);
-
+  // console.log("#userOAuth - api# Kakao token 발급을 위한 params: ", kakaoInfo);
   // x-www-form-urlencoded 형식으로 파라미터 보내기
   const params = {
     grant_type: kakaoInfo.grant_type,
@@ -33,12 +32,10 @@ async function getKakaoToken(kakaoInfo, success, fail) {
 
 // [GET] #Kakao# 현재 로그인한 Kakao 사용자 정보 가져오기
 async function getKakaoUserInfo(token, success, fail) {
-  console.log(
-    "#userOAuth - api# 현재 로그인한 Kakao 정보 가져오기 위한 token: ",
-    token
-  );
-  // const kakaoToken = token;
-
+  // console.log(
+  //   "#userOAuth - api# 현재 로그인한 Kakao 정보 가져오기 위한 token: ",
+  //   token
+  // );
   await kakao_api_info
     .get(`/v2/user/me`, {
       headers: {
@@ -53,7 +50,7 @@ async function getKakaoUserInfo(token, success, fail) {
         id: id,
         nickname: nickname,
       };
-      console.log("#userOAuth - api# 현재 로그인한 사용자 정보: ", info);
+      // console.log("#userOAuth - api# 현재 로그인한 사용자 정보: ", info);
 
       var duplicateResult = false; // 현재 로그인한 사용자 id(email) 중복 확인 (이미 회원가입된 사용자인지 확인)
       await duplicateId(info.id).then((res) => {
@@ -67,7 +64,6 @@ async function getKakaoUserInfo(token, success, fail) {
       // * 있다면 > 로그인
       else {
         // 로그인 JWT 토큰 발행 > (userStore 내 로그인 함수 호출)
-        // Kakao: email(id) + client-secret 키로 비밀번호 생성
         const kakaoId = id.substring(0, 6);
         const kakaoKey =
           process.env.VUE_APP_OAUTH_KAKAO_CLIENT_SECRET.substring(0, 6);

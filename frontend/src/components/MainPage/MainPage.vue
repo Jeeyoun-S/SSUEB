@@ -103,8 +103,6 @@ export default {
   created() {
     // #OAuth - Kakao# Kakao 인가 코드 받기
     this.kakaoCode = this.$route.query.code;
-    // console.log("#21# Kakao 인가 코드 확인: ", this.kakaoCode);
-
     if (this.kakaoCode != null) {
       this.kakao();
     }

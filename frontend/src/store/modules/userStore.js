@@ -48,10 +48,10 @@ const userStore = {
           // if) 로그인 성공
           if (data.response == "success") {
             let token = data["token"];
-            console.log(
-              "#userStore - excuteLogin# 로그인 성공 - token: ",
-              token
-            );
+            // console.log(
+            //   "#userStore - excuteLogin# 로그인 성공 - token: ",
+            //   token
+            // );
 
             // 로그인 성공에 따른 값(로그인 여부, 토큰 여부, 권한) 저장
             commit("SET_IS_LOGIN", true);
@@ -60,14 +60,12 @@ const userStore = {
             sessionStorage.setItem("token", token);
 
             // token 복호화 > userId 저장
-            console.log("#21# token 내용: ", VueJwtDecode.decode(token));
             let email = VueJwtDecode.decode(token).sub;
-            console.log("#21# token 복호화 이메일 확인: ", email);
             commit("SET_USER_ID", email);
 
             // else) 로그인 실패
           } else {
-            console.log("#userStore - excuteLogin# 로그인 실패");
+            // console.log("#userStore - excuteLogin# 로그인 실패");
             commit("SET_IS_LOGIN", false);
             commit("SET_IS_VALID_TOKEN", false);
 

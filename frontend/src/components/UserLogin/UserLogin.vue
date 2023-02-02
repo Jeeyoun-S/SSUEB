@@ -97,11 +97,6 @@ export default {
     // [@Method] 로그인
     async login() {
       await this.$refs.form.validate();
-      // console.log(
-      //   "#21# loginInfo 값 확인: ",
-      //   this.loginInfo.id,
-      //   this.loginInfo.password
-      // );
       await this.excuteLogin(this.loginInfo);
     },
     moveJoin() {

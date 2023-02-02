@@ -28,10 +28,10 @@ const userOAuthStore = {
       await getKakaoToken(
         kakaoInfo,
         ({ data }) => {
-          console.log(
-            "#userOAuthStore - getKakaoToken# Kakao Token 발급 성공: ",
-            data
-          );
+          // console.log(
+          //   "#userOAuthStore - getKakaoToken# Kakao Token 발급 성공: ",
+          //   data
+          // );
           // 발급받은 access-token을 통해 현재 로그인한 사용자 정보 가져오기
           commit("SET_KAKAO_TOKEN", data.access_token);
         },
