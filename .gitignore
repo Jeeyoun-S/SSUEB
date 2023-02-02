@@ -79,4 +79,13 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+# OAuth Key
+application-oauth.yml
+
+# Naver Cloud Platform Key
+env.properties
+
+# Vue env file
+.env
+
 # End of https://www.toptal.com/developers/gitignore/api/vue,vuejs,macos,windows

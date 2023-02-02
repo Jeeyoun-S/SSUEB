@@ -1,30 +1,52 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view/>
+  <div class="main">
+    <TheSidebar v-show="isShowSidebar"></TheSidebar>
+    <!-- <TheSidebar v-show="$router.name !== 'userJoin'"></TheSidebar> -->
+    <router-view />
+  </div>
 </template>
 
+<script>
+import TheSidebar from "@/views/TheSidebar.vue";
+
+export default {
+  name: "app",
+  components: {
+    TheSidebar,
+  },
+  data() {
+    return {
+      isShowSidebar: true, // 사이드바가 보이면 true, 안 보이면 false
+    };
+  },
+  created() {
+    // console.log("# 라우터 이름: ", this.$router.name);
+    // console.log("# 라우터 이름: ", document.location.pathname);
+    // 회원가입 페이지에서는 Sidebar가 안 보이게 설정
+    if (document.location.pathname == "/join") {
+      this.isShowSidebar = false;
+    }
+    //SweetAlert2 테스트
+    //this.$swal.fire('SweetAlert2 테스트입니다.')
+  },
+};
+</script>
+
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
+@import "@/css/font.css";
+* {
+  font-family: "SUIT-Regular";
 }
+.main {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: left;
 
-nav {
-  padding: 30px;
-}
+  /* 가로 스크롤 설정 */
+  overflow: auto;
+  white-space: nowrap;
 
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-nav a.router-link-exact-active {
-  color: #42b983;
+  padding: 48px;
 }
 </style>
