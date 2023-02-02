@@ -14,4 +14,10 @@ public interface PartnerUserRepository extends JpaRepository<User, String> {
 	 * **/
 	Optional<User> findById(String id);
 	
+	/**
+	 * 사용자 정보 update
+	 * @param user 사용자 정보
+	 * **/
+	User save(User user);
+	
 }
