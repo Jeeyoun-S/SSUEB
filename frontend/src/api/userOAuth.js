@@ -75,6 +75,7 @@ async function getKakaoUserInfo(token, success, fail) {
         const loginInfo = {
           id: id,
           password: kakaoPassword,
+          socialButton: 1,
         };
         store.dispatch("userStore/excuteLogin", loginInfo, { root: true });
       }

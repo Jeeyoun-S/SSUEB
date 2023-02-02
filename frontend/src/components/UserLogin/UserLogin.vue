@@ -65,6 +65,7 @@ export default {
       loginInfo: {
         id: null,
         password: null,
+        socialButton: 0,
       },
       valid: {
         email: /^[a-zA-Z0-9_+.-]+@([a-zA-Z0-9-]+\.)+[a-zA-Z0-9-.]{2,4}$/,
@@ -96,12 +97,11 @@ export default {
     // [@Method] 로그인
     async login() {
       await this.$refs.form.validate();
-
-      console.log(
-        "#21# loginInfo 값 확인: ",
-        this.loginInfo.id,
-        this.loginInfo.password
-      );
+      // console.log(
+      //   "#21# loginInfo 값 확인: ",
+      //   this.loginInfo.id,
+      //   this.loginInfo.password
+      // );
       await this.excuteLogin(this.loginInfo);
     },
     moveJoin() {
