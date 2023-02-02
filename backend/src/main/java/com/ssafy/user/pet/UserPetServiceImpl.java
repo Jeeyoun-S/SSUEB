@@ -25,22 +25,23 @@ public class UserPetServiceImpl implements UserPetService {
 	@Override
 	public boolean isValidPetInfo(PetRequest petRequest, boolean checkEmpty) {
 		
+		System.out.println("파일");
 		// 파일 크기 및 확장자 유효성 검사
 		MultipartFile petImage = petRequest.getPetImage();
 		if (petImage != null)
 			if (!parameterCheck.isValidImage(petImage, false)) return false;
-		
+		System.out.println("이름");
 		// 반려동물 이름
 		if (checkEmpty && petRequest.getPetName() == null) return false;
-		
+		System.out.println("대분류");
 		// 반려동물 대분류
 		String petType = petRequest.getPetType();
 		if (checkEmpty && petType == null) return false;
 		if (petType != null)
-			if (!(petType.equals("강아지") || petType.equals("고양이") || petType.equals("토끼") || petType.equals("페럿") || petType.equals("기니피그") || petType.equals("햄스터"))) {
+			if (!(petType.equals("개") || petType.equals("고양이") || petType.equals("토끼") || petType.equals("패럿") || petType.equals("기니피그") || petType.equals("햄스터"))) {
 				return false;
 			}
-		
+		System.out.println("생일");
 		// 생일 확인
 		String birth = petRequest.getPetBirth();
 		if (birth != null)
@@ -52,22 +53,28 @@ public class UserPetServiceImpl implements UserPetService {
 	}
 	
 	@Override
-	public boolean addPet(String id, PetRequest petRequest) {
+	public Pet addPet(String id, PetRequest petRequest) {
+		
+		boolean result = true;
+		String imageName = null;
 		
 		// 파일 생성
-		MultipartFile imageFile = petRequest.getPetImage();
-		
-		// 파일 이름 생성
-		String imageName = imageCheck.makeFilename(imageFile.getOriginalFilename());
-		
-		// 이미지 크기 300px:300px로 조절해서 저장하기
-		boolean result = imageCheck.saveImage300(imageFile, imageName, "C:\\Users\\SSAFY");
+		if (petRequest.getPetImage() != null) {
+			
+			MultipartFile imageFile = petRequest.getPetImage();
+			
+			// 파일 이름 생성
+			imageName = imageCheck.makeFilename(imageFile.getOriginalFilename());
+			
+			// 이미지 크기 300px:300px로 조절해서 저장하기
+			result = imageCheck.saveImage300(imageFile, imageName, "C:\\Users\\SSAFY");
+		}
 		
 		if (result) {
 			// Pet Entity 생성
 			Pet pet = new Pet();
 			pet.setUserId(id);
-			pet.setPetImage(imageName);
+			if (imageName != null) pet.setPetImage(imageName);
 			pet.setPetName(petRequest.getPetName());
 			pet.setPetType(petRequest.getPetType());
 			pet.setPetVariety(petRequest.getPetVariety());
@@ -75,10 +82,10 @@ public class UserPetServiceImpl implements UserPetService {
 			pet.setPetInfo(petRequest.getPetInfo());
 			
 			Pet saveResult = petRepository.save(pet);
-			if (saveResult != null) return true;
+			return saveResult;
 		}
 		
-		return false;
+		return null;
 	}
 	
 	@Override

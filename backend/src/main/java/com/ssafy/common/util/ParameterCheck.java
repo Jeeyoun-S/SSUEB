@@ -122,7 +122,7 @@ public class ParameterCheck {
 	public boolean isSpecialChar(String value) {
 		
 		// 특수문자가 없는지 확인
-		if (Pattern.matches("[^`~!@#$%^&*|\\\\\\'\\\";:\\/?]+", value)) {
+		if (Pattern.matches("[^`~!@#$%^&*|\\\\\\'\\\";:\\/?<>{}+-_()]+", value)) {
 			return false;
 		} return true;
 	}

@@ -21,6 +21,6 @@ public class UserInfoPartnerRequest {
 	@ApiModelProperty(value = "사용자 휴대폰 번호")
 	String userPhone;
 	
-	@ApiModelProperty(value = "사용자 알람 수신 방법")
+	@ApiModelProperty(value = "사용자 알람 수신 방법", dataType = "int", example = "0")
 	int userAlertFlag;
 }

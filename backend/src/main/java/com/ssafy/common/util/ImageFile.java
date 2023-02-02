@@ -71,7 +71,7 @@ public class ImageFile {
 	public String makeFilename(String originalName) {
 		
 		// 확장자 추출
-		String extension = originalName.substring(originalName.lastIndexOf("."));
+		String extension = originalName.substring(originalName.lastIndexOf(".")).toLowerCase();
 		
 		// 파일명 생성
 		String imageName = UUID.randomUUID().toString() + extension;
@@ -86,7 +86,7 @@ public class ImageFile {
 	 * **/
 	public String makeFilnameWithExtension(String extension) {
 		
-		return UUID.randomUUID().toString() + extension;
+		return UUID.randomUUID().toString() + extension.toLowerCase();
 	}
 	
 	/**
