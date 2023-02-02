@@ -83,8 +83,8 @@ export default {
           (v) => v.length >= 1 || "상담 가능한 동물을 하나 이상 선택해 주세요.",
         ],
       },
-      socialAccess: true, // #21#
-      formData: new FormData(), // #21#
+      socialAccess: true,
+      formData: new FormData(),
     };
   },
   computed: {
@@ -117,21 +117,13 @@ export default {
         this.info.consultPetType = this.info.consultPetType.join("");
 
         // info를 formData 형식으로 바꿔서 보낸다.
-        // var formData = new FormData(); // #21# 기존 코드 주석처리
-        // for (var key in this.info) {
-        //   if (key == "consultantLicenseCopyImage")
-        //     formData.append(key, this.info[key][0]);
-        //   else formData.append(key, this.info[key]);
-        // }
-        //joinConsultant(formData);
-
         for (var key in this.info) {
           if (key == "consultantLicenseCopyImage")
             this.formData.append(key, this.info[key][0]);
           else this.formData.append(key, this.info[key]);
         }
-        // joinConsultant(formData, this.socialAccess); // #21# 소셜 로그인 접근 판단을 위하여 socialAccess 추가 전달
-        joinConsultant(this.formData, this.socialAccess); // #21#
+
+        joinConsultant(this.formData, this.socialAccess);
       }
       // #21# 소셜 로그인 접근 회원가입
       else if (
@@ -159,19 +151,13 @@ export default {
         this.info.consultPetType = this.info.consultPetType.join("");
 
         // info를 formData 형식으로 바꿔서 보낸다.
-        // var formDataSocial = new FormData();
-        // for (var keySocial in this.info) {
-        //   if (keySocial == "consultantLicenseCopyImage")
-        //     formDataSocial.append(keySocial, this.info[keySocial][0]);
-        //   else formDataSocial.append(keySocial, this.info[keySocial]);
-        // }
-        // joinConsultant(formDataSocial, this.socialAccess);
         for (var keySocial in this.info) {
           if (keySocial == "consultantLicenseCopyImage")
             this.formData.append(keySocial, this.info[keySocial][0]);
           else this.formData.append(keySocial, this.info[keySocial]);
         }
-        joinConsultant(this.formData, this.socialAccess); // #21#
+
+        joinConsultant(this.formData, this.socialAccess);
       }
     },
     updatePhone(userPhone) {
