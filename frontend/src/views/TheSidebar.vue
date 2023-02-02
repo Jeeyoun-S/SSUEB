@@ -93,7 +93,6 @@ export default {
 @import "@/css/sheet.css";
 .sidebar {
   padding-right: 48px;
-  font-family: "NanumSquareNeo-Variable";
 }
 .sidebar .sheet {
   display: flex;
@@ -105,5 +104,8 @@ export default {
 
   height: 100px;
   width: 230px;
+}
+.sidebar .v-list-item-title {
+  font-family: 'NanumSquareNeo-Variable';
 }
 </style>

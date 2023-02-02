@@ -28,9 +28,7 @@
         <UserLogin class="card" v-show="!isLogin"></UserLogin>
         <UserAlert class="card" v-show="isLogin"></UserAlert>
       </div>
-      <div class="main-right-item border-sheet-two bottom">
-        
-      </div>
+      <div class="main-right-item border-sheet-two bottom"></div>
     </div>
   </div>
 
@@ -105,8 +103,6 @@ export default {
   created() {
     // #OAuth - Kakao# Kakao 인가 코드 받기
     this.kakaoCode = this.$route.query.code;
-    console.log("#21# 코드 확인: ", this.kakaoCode);
-
     if (this.kakaoCode != null) {
       this.kakao();
     }
@@ -119,13 +115,11 @@ export default {
     ...mapState(userStore, ["isLogin"]),
   },
   methods: {
-    //...mapActions(userStore, ["socialKakao"]),
     ...mapActions(userOAuthStore, ["excuteKakaoToken"]),
 
     // #OAuth - Kakao# 받은 인가 코드를 사용하여 Kakao Token 발급요청
     async kakao() {
       await this.excuteKakaoToken(this.kakaoCode);
-      //await this.socialKakao(this.kakaoCode);
       this.kakaoCode = null; // 받은 인가 code 초기화
     },
   },
@@ -139,7 +133,7 @@ export default {
   align-items: center;
   justify-content: flex-start;
 }
-.main-page .main-right {
+.main-right {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -148,12 +142,11 @@ export default {
   width: 290px;
   height: 654.4px;
 }
-.main-page .main-right .main-right-item {
-  width: 280px;
-  height: 200px;
-  /* margin-bottom: 1%; */
+.main-right .main-right-item.bottom {
+  width: 300px;
+  height: 130px;
 }
-.main-page .main-center {
+.main-center {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -163,7 +156,7 @@ export default {
   height: 654.4px;
   margin-right: 48px;
 }
-.main-page .main-center .main-center-item {
+.main-center .main-center-item {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -176,33 +169,33 @@ export default {
 .second {
   margin-bottom: 2.6%;
 } */
-.main-page .main-center .main-center-item img {
+.main-center .main-center-item img {
   width: 200px;
   height: 200px;
 
   border-radius: 10px;
   object-fit: cover;
 }
-.main-page .main-center .main-center-item .explain {
+.main-center .main-center-item .explain {
   width: 500px;
   height: 200px;
-  
+
   border-radius: 10px;
   padding: 35px;
 }
-.main-page .main-center .main-center-item .explain h2 {
+.main-center .main-center-item .explain h2 {
   font-size: 30px;
-  font-family: 'Patua One', cursive;
+  font-family: "Patua One", cursive;
   font-weight: lighter;
 }
-.main-page .main-center .main-center-item .explain.one {
-  background-color: #E8EBF6;
+.main-center .main-center-item .explain.one {
+  background-color: #e8ebf6;
 }
-.main-page .main-center .main-center-item .explain.two {
+.main-center .main-center-item .explain.two {
   color: white;
-  background-color: #3D6EC5;
+  background-color: #3d6ec5;
 }
 .main-page .main-center .main-center-item .explain.three {
-  background-color: #E3E3E3;
+  background-color: #e3e3e3;
 }
 </style>

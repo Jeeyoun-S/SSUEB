@@ -1,13 +1,7 @@
 <template>
-  <v-btn
-    depressed
-    elevation="2"
-    large
-    class="kakaoBtn"
-    color="yellow"
-    @click="kakaoLogin"
-    >KAKAO</v-btn
-  >
+  <div class="sns-login">
+    <img :src="require('@/assets/login/kakao_logo.png')" @click="kakaoLogin" />
+  </div>
 </template>
 
 <script>
@@ -19,6 +13,7 @@ export default {
   components: {},
   computed: {},
   methods: {
+    // Kakao 인가 code 받기 (userOAuthStore로 전달)
     kakaoLogin() {
       window.location.replace(
         `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.VUE_APP_OAUTH_KAKAO_CLIENT}&redirect_uri=${process.env.VUE_APP_OAUTH_KAKAO_REDIRECT_URI}`
@@ -29,7 +24,11 @@ export default {
 </script>
 
 <style>
-.kakaoBtn {
-  margin-left: 22%;
+.sns-login img {
+  width: 45px;
+  height: 45px;
+}
+.sns-login img:hover {
+  cursor: pointer;
 }
 </style>
