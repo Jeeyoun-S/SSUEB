@@ -55,34 +55,37 @@ public class UserJoinController {
 		
 		// User Table에 넣기
 		boolean result = userJoinService.joinUser(joinRequest, 0);
-
-		// 아이디 변수 생성
-		String id = joinRequest.getId();
-
-		// 권한 설정하기
-		boolean resultAuthority = userJoinService.grantAuthority(id, "ROLE_USER");
-
-		// DB에 넣었다면
-		if (result && resultAuthority) {
-
-			// 로그인하기
+		
+		if (result) {
+			
+			// 아이디 변수 생성
+			String id = joinRequest.getId();
+			
+			// 권한 설정하기
+			boolean resultAuthority = userJoinService.grantAuthority(id, "ROLE_USER");
+			
+			// DB에 넣었다면
+			if (result && resultAuthority) {
+				
+				// 로그인하기
 //			UserLoginPostRequest loginInfo = new UserLoginPostRequest(userId, joinRequest.getUserPassword());
-			// ResponseEntity<UserLoginPostResponse> resultLogin =
-			// userLoginController.authorize(new UserLoginPostRequest(userId,
-			// joinRequest.getUserPassword()));
+				// ResponseEntity<UserLoginPostResponse> resultLogin =
+				// userLoginController.authorize(new UserLoginPostRequest(userId,
+				// joinRequest.getUserPassword()));
 //			ResponseEntity<UserLoginPostResponse> resultLogin = userLoginController.authorize(loginInfo);
 //			logger.info("#21# resultLogin 값 확인: {}", resultLogin.getBody());
-
-			// 로그인 성공
+				
+				// 로그인 성공
 //			if (resultLogin.getBody().getResponse().equals("success")) {
 //				return ResponseEntity.status(200).body(new JoinResponse("success", "회원가입에 성공했습니다."));
 //			}
-
-			// 로그인 실패
+				
+				// 로그인 실패
 //			else {
 				return ResponseEntity.status(200).body(new JoinResponse("success", "회원가입에 성공했으나, 로그인에 실패했습니다."));
 //			}
-
+				
+			}
 		}
 		return ResponseEntity.status(200).body(new JoinResponse("failure", "회원가입에 실패했습니다."));
 	}
