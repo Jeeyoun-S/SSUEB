@@ -82,7 +82,7 @@ public class UserLoginController {
 	public ResponseEntity<UserLoginPostResponse> authorize(@RequestBody @ApiParam(value = "로그인 시 필요한 회원정보(email(ID), PW)", required = true) UserLoginPostRequest loginInfo) {
 		
 		try {
-			logger.info("## [Controller]: authorize - 로그인 실행 {}, {}", loginInfo.getId(), loginInfo.getPassword());
+			logger.info("## [Controller]: authorize - 로그인 실행 {}", loginInfo);
 //			logger.info("#21# 암호화 비밀번호: {}", passwordEncoder.encode(loginInfo.getPassword()));
 			
 			// # 입력값 검증
@@ -97,7 +97,7 @@ public class UserLoginController {
 			
 			// # 소셜 로그인 ID 여부 검증
 			Optional<User> user = joinUserRepository.findById(loginInfo.getId());
-			if (user.get().getUserIsSocialId() == 1) {
+			if (user.get().getUserIsSocialId() == 1 && loginInfo.getSocialButton()==0) {
 				return ResponseEntity.ok(UserLoginPostResponse.of(401, "failure", "소셜 로그인을 이용해 주세요.", null));
 			}
 			
