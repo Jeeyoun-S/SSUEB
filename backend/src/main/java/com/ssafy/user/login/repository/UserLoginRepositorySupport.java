@@ -1,6 +1,8 @@
 package com.ssafy.user.login.repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import com.ssafy.db.entity.Consultant;
+import com.ssafy.db.entity.QConsultant;
 import com.ssafy.db.entity.QUser;
 import com.ssafy.db.entity.User;
 
@@ -16,6 +18,7 @@ public class UserLoginRepositorySupport {
     @Autowired
     private JPAQueryFactory jpaQueryFactory;
     QUser qUser = QUser.user;
+    QConsultant qConsultant = QConsultant.consultant; 
 
     /** 
 	 * id에 해당되는 유저정보 조회
@@ -26,5 +29,16 @@ public class UserLoginRepositorySupport {
     	
     	if (user == null) return Optional.empty(); 
     	return Optional.ofNullable(user);
+    }
+    
+    /** 
+	 * 전문가 자격증 검증 값 조회 - id에 해당되는 전문가 정보 조회
+	 * @param userId 조회할 유저 id
+	 */
+    public Optional<Consultant> findConsultantById(String userId) {
+    	Consultant consultant = jpaQueryFactory.select(qConsultant).from(qConsultant).where(qConsultant.id.eq(userId)).fetchOne();
+    	
+    	if (consultant == null) return Optional.empty(); 
+    	return Optional.ofNullable(consultant);
     }
 }

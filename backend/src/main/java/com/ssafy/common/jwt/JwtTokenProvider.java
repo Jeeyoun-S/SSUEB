@@ -21,8 +21,8 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.stream.Collectors;
 
+// token을 생성하고 유효성을 검증하며, 토큰에서 정보를 꺼내 spring security Authentication(인증) 객체를 생성하는 역할 
 @Component
-// JWT Token의 생성 및 유효성 검증 등을 담당하는 클래스 
 public class JwtTokenProvider implements InitializingBean {
 	
 	public static final Logger logger = LoggerFactory.getLogger(JwtTokenProvider.class);
@@ -55,6 +55,7 @@ public class JwtTokenProvider implements InitializingBean {
 	 * @return String
 	 */
 	public String createToken(Authentication authentication) {
+		// 해당 ID의 권한 가져오기
 		String authorities = authentication.getAuthorities().stream()
 				.map(GrantedAuthority::getAuthority)
 				.collect(Collectors.joining(","));
@@ -77,7 +78,7 @@ public class JwtTokenProvider implements InitializingBean {
 	 * @return UsernamePasswordAuthenticationToken
 	 */
 	public Authentication getAuthentication(String token) {
-		// i) token을 사용하여 claims 생성
+		// i) token을 사용하여 claims 생성 
 		Claims claims = Jwts
 				.parserBuilder()
 				.setSigningKey(key)
@@ -91,10 +92,10 @@ public class JwtTokenProvider implements InitializingBean {
 				.map(SimpleGrantedAuthority::new)
 				.collect(Collectors.toList()); 
 		
-		// iii) 권한 정보를 사용하여 user 객체 생성
+		// iii) DB를 거치지 않고 token에서 값(권한 정보)을 사용하여 user 객체 생성
 		User principal = new User(claims.getSubject(), "", authorities); 
 		
-		// iv) user 객체, 토큰, 권한정보를 사용하여 최종적으로 Authentication 객체를 반환
+		// iv) user 객체, 토큰, 권한정보를 사용하여 최종적으로 Authentication(인증) 객체를 반환
 		return new UsernamePasswordAuthenticationToken(principal, token, authorities);
 	}
 	

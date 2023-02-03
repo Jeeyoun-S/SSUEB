@@ -24,4 +24,6 @@ public class JoinRequest {
 	@ApiModelProperty(value = "알람방식: 카카오(0), 이메일(1), 문자(2)", required = true, example = "0")
 	int userAlertFlag;
 
+	@ApiModelProperty(value = "소셜 로그인 ID: 소셜 ID 아님(0), 소셜 ID 맞음(1)", required = true, example = "0")
+	int userIsSocialId;
 }

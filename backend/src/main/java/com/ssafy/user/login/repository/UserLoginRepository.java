@@ -1,5 +1,6 @@
 package com.ssafy.user.login.repository;
 
+import com.ssafy.db.entity.Consultant;
 import com.ssafy.db.entity.User;
 
 import org.springframework.data.jpa.repository.EntityGraph;
@@ -24,6 +25,5 @@ public interface UserLoginRepository extends JpaRepository<User, Long> {
 	 * @param userId
 	 * @return Optional<User>
 	 */
-	//Optional<User> findByUserId(String userId);
 	Optional<User> findById(String userId);
 }
