@@ -4,7 +4,8 @@
       <h2>회원 정보</h2>
     </div>
     <div class="mypage-info">
-      <MyPagePartnerInfo></MyPagePartnerInfo>
+      <MyPagePartnerInfo v-if="getInfoVersion"></MyPagePartnerInfo>
+      <MyPagePartnerInfoModify v-else></MyPagePartnerInfoModify>
     </div>
     <div class="mypage-title border-sheet-four">
       <h2>반려동물 정보 <MyPagePetRegister></MyPagePetRegister></h2>
@@ -16,9 +17,10 @@
 </template>
 
 <script>
-import MyPagePetRegister from '@/components/MyPage/MyPagePetRegister.vue'
-import MyPagePetItem from '@/components/MyPage/MyPagePetItem.vue'
-import MyPagePartnerInfo from '@/components/MyPage/MyPagePartnerInfo.vue'
+import MyPagePetRegister from '@/components/MyPage/MyPagePartner/MyPagePetRegister.vue'
+import MyPagePetItem from '@/components/MyPage/MyPagePartner/MyPagePetItem.vue'
+import MyPagePartnerInfo from '@/components/MyPage/MyPagePartner/MyPagePartnerInfo.vue'
+import MyPagePartnerInfoModify from '@/components/MyPage/MyPagePartner/MyPagePartnerInfoModify.vue'
 import { getUserPartnerInfo } from '@/api/userInfoPartner.js'
 import { mapState } from "vuex";
 const userStore = "userStore";
@@ -27,25 +29,23 @@ export default {
   name: 'MyPagePartner',
   data() {
     return {
-      userInfo: {
-        id: "ssafy@ssafy.com",
-        userName: "김싸피",
-        userPhone: "010-8888-8888",
-        userNickname: "인싸피",
-        userAlertFlag: "0"
-      }
+      infoVer: true
     }
   },
   components: {
     MyPagePetRegister,
     MyPagePetItem,
-    MyPagePartnerInfo
+    MyPagePartnerInfo,
+    MyPagePartnerInfoModify
   },
   computed: {
     ...mapState(userStore, ["userId"]),
     getPartnerInfo() {
       return this.$store.getters.getPartnerInfo;
     },
+    getInfoVersion() {
+      return this.$store.getters.getInfoVersion;
+    }
   },
   created() {
     if (this.getPartnerInfo.id != this.userId) {

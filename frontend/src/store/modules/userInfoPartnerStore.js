@@ -7,7 +7,8 @@ const userInfoPartnerStore = {
       userNickname: null,
       userAlertFlag: null
     },
-    petInfo: []
+    petInfo: [],
+    infoVer: true
   },
   getters: {
     getPartnerInfo(state) {
@@ -15,6 +16,9 @@ const userInfoPartnerStore = {
     },
     getPetInfo(state) {
       return state.petInfo;
+    },
+    getInfoVersion(state) {
+      return state.infoVer;
     }
   },
   mutations: {
@@ -50,6 +54,9 @@ const userInfoPartnerStore = {
           break;
         }
       }
+    },
+    UPDATE_INFO_VERSION(state) {
+      state.infoVer = !state.infoVer;
     }
   },
   actions: {
@@ -68,6 +75,9 @@ const userInfoPartnerStore = {
     },
     async updatePetInfo({ commit }, petOneInfo) {
       commit("UPDATE_PET_INFO", petOneInfo);
+    },
+    updateInfoVersion({ commit }) {
+      commit("UPDATE_INFO_VERSION");
     }
   },
 };

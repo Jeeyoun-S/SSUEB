@@ -22,7 +22,7 @@
 
 <script>
 import { modifyPetInfo, removePetInfo } from "@/api/userInfoPartner.js";
-import MyPagePetModify from "@/components/MyPage/MyPagePetModify.vue";
+import MyPagePetModify from "@/components/MyPage/MyPagePartner/MyPagePetModify.vue";
 
 export default {
   name: "MyPagePetItem",

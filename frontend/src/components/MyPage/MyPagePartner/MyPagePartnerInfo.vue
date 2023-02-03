@@ -43,6 +43,8 @@
 </template>
 
 <script>
+import { checkPassword } from "@/api/userInfoPartner.js";
+
 export default {
   name: 'MyPagePartnerInfo',
   data() {
@@ -63,7 +65,7 @@ export default {
   },
   methods: {
     modifyPartnerInfo() {
-      
+      checkPassword(this.getPartnerInfo.id);
     }
   }
 }

@@ -14,7 +14,11 @@ const userStore = {
     userInfo: null, // 권한 검증 후 받아오는 user 정보를 저장하기 위한 state
     userAuth: null, // 현재 로그인한 사용자의 권한
   },
-  getters: {},
+  getters: {
+    getUserId: (state) => {
+      return state.userId;
+    }
+  },
   mutations: {
     SET_IS_LOGIN: (state, isLogin) => {
       state.isLogin = isLogin;
