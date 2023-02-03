@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -30,6 +31,7 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
 @Api(tags = {"Reservation/Basic/Consultant"}, description = "전문가 예약 목록 관련 API")
 @RestController
 @RequestMapping("/api/reservation/consultant")
+@CrossOrigin("*")
 public class ReservationConsultantController {
 	
 	@Autowired

@@ -11,6 +11,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ssafy.db.entity.Consultant;
 import com.ssafy.db.entity.Matching;
 import com.ssafy.db.entity.Reservation;
 import com.ssafy.reservation.basic.ReservationRepo;
@@ -24,15 +25,24 @@ public class MatchingServiceImpl implements MatchingService {
 	@Autowired
 	ReservationRepo rRepo;
 	
+	@Autowired
+	ConsultantRepo cRepo;
+	
 	@Override
 	public Matching createMatching(Matching matching) throws SQLException {
 		//추가기능 -> consultant의 consultant_reservation_count + 1 해주기
+		Consultant consultant = cRepo.findById(matching.getConsultantId()).get();
+		consultant.changeCount(1);
+		cRepo.save(consultant);
 		return mRepo.save(matching);
 	}
 
 	@Override
 	public void deleteMatching(int no) throws SQLException {
 		//추가기능 -> consultant의 consultant_reservation_count - 1 해주기
+		Consultant consultant = cRepo.findById(mRepo.findById(no).get().getConsultantId()).get();
+		consultant.changeCount(-1);
+		cRepo.save(consultant);
 		mRepo.deleteById(no);
 	}
 
@@ -72,6 +82,10 @@ public class MatchingServiceImpl implements MatchingService {
 	    String after = sdf.format(cal.getTime());//30분 전 시간
 	    cal.add(Calendar.MINUTE, -60);
 	    String before = sdf.format(cal.getTime());//30분 후 시간
+	    
+	    Consultant consultant = cRepo.findById(consultantId).get();
+	    consultant.changeCount(-1 * mRepo.getCountByDateTime(before, after, consultantId));
+	    cRepo.save(consultant);
 	    
 	    //이 시간 내의 전문가의 견적 삭제
 	    mRepo.deleteByDateTime(before, after, consultantId);
