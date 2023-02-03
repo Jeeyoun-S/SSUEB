@@ -16,7 +16,7 @@ public class UserAuthService {
 	UserLoginRepository userLoginRepository;
 
 	/** 
-	 * userId를 기준으로 정보 가져오기
+	 * userId를 기준으로 user 객체와 권한정보 가져오기
 	 * @param userId
 	 * @return UserAuthResponse
 	 */
@@ -26,7 +26,7 @@ public class UserAuthService {
     }
 
 	/** 
-	 * Security Context에 저장된 userId의 정보만 가져오기
+	 * 현재 Security Context에 저장된 userId의 user 객체와 권한정보 가져오기 
 	 * @param void
 	 * @return UserAuthResponse
 	 */
