@@ -73,11 +73,11 @@ public class UserJoinServiceImpl implements UserJoinService {
 							
 							if (isDebug) System.out.println("#알람 방식 번호 문제 "+alertFlag);
 							// 알림 방식 유효성 검사
-							if (parameterCheck.isValueAlertFlag(alertFlag)) {
+							if (parameterCheck.isValidAlertFlag(alertFlag)) {
 
 								if (isDebug) System.out.println("#소셜로그인 ID 여부 번호 문제 " + isSocialID); // #21#
 								// 소셜로그인 ID 여부 유효성 검사 
-								if (parameterCheck.isValueAlertFlag(isSocialID)) {
+								if (parameterCheck.isValidAlertFlag(isSocialID)) {
 									// 비밀번호 암호화하기
 									password = passwordEncoder.encode(joinRequest.getUserPassword());
 									
