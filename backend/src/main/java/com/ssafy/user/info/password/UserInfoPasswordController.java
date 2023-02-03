@@ -4,15 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.user.join.response.BasicResponse;
 
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
 @Api(tags = {"User/Info"}, description = "회원정보 API")
@@ -28,11 +26,10 @@ public class UserInfoPasswordController {
 	
 	@PostMapping("/password")
 	@ApiOperation(value = "회원 비밀번호 확인", notes = "회원정보 수정 전 사용자의 비밀번호를 확인한다.")
-	@ApiImplicitParams({
-		@ApiImplicitParam(name = "id", value = "사용자 아이디", required = true),
-		@ApiImplicitParam(name = "password", value = "사용자 비밀번호", required = true)
-	})
-	public ResponseEntity<BasicResponse> modifyPartnerInfo(@RequestParam(value = "id") String id, @RequestParam(value = "password") String password) {
+	public ResponseEntity<BasicResponse> checkPassword(@RequestBody UserInfoPasswordRequest userInfoPasswordRequest) {
+		
+		String id = userInfoPasswordRequest.getId();
+		String password = userInfoPasswordRequest.getPassword();
 		
 		// DB에서 비밀번호 가져오기
 		String originalPW = userInfoPasswordRepository.findById(id).getUserPassword();
