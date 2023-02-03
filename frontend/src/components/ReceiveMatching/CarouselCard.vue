@@ -37,6 +37,10 @@
 <script>
 export default {
   name: "CarouselCard",
+
+  mounted(){
+    console.log("carousel")
+  }
 };
 </script>
 
