@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.common.util.ParameterCheck;
+import com.ssafy.db.entity.Pet;
 import com.ssafy.user.pet.request.PetModifyRequest;
 import com.ssafy.user.pet.request.PetRequest;
 import com.ssafy.user.pet.response.PetBasicResponse;
@@ -40,18 +41,18 @@ public class UserPetController {
 	public ResponseEntity<PetBasicResponse> registerPet(@PathVariable String id, PetRequest petRequest) {
 		
 		// token 관련해서 어떻게 할 건지 결정 X, 그래서 id 유효성 검사 생략된 상태
-		
+		System.out.println(petRequest);
 		// 입력 받은 정보 유효성 검사 (생일, 품종, 파일)
 		if (userPetService.isValidPetInfo(petRequest, true)) {
 			
 			// DB에 넣기
-			boolean result = userPetService.addPet(id, petRequest);
-			if (result) {
-				return ResponseEntity.status(200).body(new PetBasicResponse("success", "반려동물 등록에 성공했습니다."));
+			Pet result = userPetService.addPet(id, petRequest);
+			if (result != null) {
+				return ResponseEntity.status(200).body(new PetBasicResponse("success", "반려동물 등록에 성공했습니다.", result));
 			}
 		}
 		
-		return ResponseEntity.status(200).body(new PetBasicResponse("failure", "반려동물 등록에 실패했습니다."));
+		return ResponseEntity.status(200).body(new PetBasicResponse("failure", "반려동물 등록에 실패했습니다.", null));
 	}
 	
 	@DeleteMapping("/{no}")
@@ -62,9 +63,9 @@ public class UserPetController {
 		// DB에서 no 삭제
 		int deleteNo = petRepository.deleteByNo(no);
 		if (deleteNo > 0) {
-			return ResponseEntity.status(200).body(new PetBasicResponse("success", "반려동물을 삭제했습니다."));
+			return ResponseEntity.status(200).body(new PetBasicResponse("success", "반려동물을 삭제했습니다.", null));
 		} else {
-			return ResponseEntity.status(200).body(new PetBasicResponse("failure", "존재하지 않는 반려동물입니다."));
+			return ResponseEntity.status(200).body(new PetBasicResponse("failure", "존재하지 않는 반려동물입니다.", null));
 		}
 	}
 	
@@ -89,11 +90,11 @@ public class UserPetController {
 			// DB에 넣기
 			boolean result = userPetService.modifyPet(no, petRequest);
 			if (result) {
-				return ResponseEntity.status(200).body(new PetBasicResponse("success", "반려동물 정보를 수정했습니다."));
+				return ResponseEntity.status(200).body(new PetBasicResponse("success", "반려동물 정보를 수정했습니다.", null));
 			}
 		}
 		
-		return ResponseEntity.status(200).body(new PetBasicResponse("failure", "반려동물 정보 수정에 실패했습니다."));
+		return ResponseEntity.status(200).body(new PetBasicResponse("failure", "반려동물 정보 수정에 실패했습니다.", null));
 	}
 	
 }

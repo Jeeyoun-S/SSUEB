@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.common.util.ParameterCheck;
+import com.ssafy.db.entity.Consultant;
 import com.ssafy.db.entity.User;
+import com.ssafy.user.join.repository.JoinConsultantRepository;
 import com.ssafy.user.join.repository.JoinUserRepository;
 import com.ssafy.user.join.request.ConsultantJoinRequest;
 import com.ssafy.user.join.request.JoinRequest;
@@ -44,6 +46,9 @@ public class UserJoinController {
 
 	@Autowired
 	UserLoginController userLoginController;
+	
+	@Autowired
+	JoinConsultantRepository joinConsultantRepository;
 	
 	@Transactional
 	@PostMapping("/partner")
@@ -87,6 +92,7 @@ public class UserJoinController {
 				
 			}
 		}
+		
 		return ResponseEntity.status(200).body(new JoinResponse("failure", "회원가입에 실패했습니다."));
 	}
 	
@@ -169,6 +175,32 @@ public class UserJoinController {
 		
 		// DB에 입력받은 id가 있거나 유효하지 않은 id인 경우
 		return ResponseEntity.status(200).body(new BasicResponse("failure"));
+	}
+	
+	@PostMapping("/consultant/accept")
+	@ApiOperation(value = "전문가 회원가입 수락", notes = "전문가의 자격 검증이 끝난 뒤, 회원가입을 수락한다.")
+	@ApiImplicitParam(name = "id", value = "전문가 아이디", required = true)
+	public ResponseEntity<BasicResponse> acceptConsultant(String id) {
+		
+		if (!parameterCheck.isEmpty(id) && parameterCheck.isValidId(id)) {
+			
+			// 입력 받은 id가 DB에 있는지 조회
+			Optional<Consultant> optionalConsultant = joinConsultantRepository.findById(id);
+				
+			// DB에 입력받은 id가 있는 경우
+			if (optionalConsultant.isPresent()) {
+				
+				Consultant consultant = optionalConsultant.get();
+				consultant.setConsultantCertified(1);
+				joinConsultantRepository.save(consultant);
+				
+				return ResponseEntity.status(200).body(new BasicResponse("success"));
+			}
+		}
+		
+		// DB에 입력받은 id가 있거나 유효하지 않은 id인 경우
+		return ResponseEntity.status(200).body(new BasicResponse("failure"));
+		
 	}
 
 }

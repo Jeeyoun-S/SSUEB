@@ -54,18 +54,18 @@ node {
     download = true
     version = '14.17.0'
     // Set the work directory where node_modules should be located
-    nodeModulesDir = file("${project.projectDir}/../frontend")
+    nodeModulesDir = file("${project.projectDir}/src/main/resources/static")
 }
 
 configurations {
     providedRuntime
 }
 
-/*task npmInstall(type: NpmTask, overwrite: true) {
+/*task create(type: NpmTask, overwrite: true) {
     args = ['install']
 }*/
 
-task webpack(type: NpmTask, dependsOn: 'npmInstall') {
+task webpack(type: NpmTask, dependsOn: 'create') {
     args = ['run','build']
 }
 
@@ -200,6 +200,7 @@ dependencies {
     
     // 파일 Resizing
     compile group: 'io.github.techgnious', name: 'IVCompressor', version: '2.0.0'
+    implementation group: 'org.imgscalr', name: 'imgscalr-lib', version: '4.2'
 }
 
 test {

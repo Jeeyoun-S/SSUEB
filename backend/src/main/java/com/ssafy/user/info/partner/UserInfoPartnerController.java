@@ -6,21 +6,27 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.ssafy.common.util.ParameterCheck;
 import com.ssafy.db.entity.Pet;
 import com.ssafy.db.entity.User;
 import com.ssafy.db.entity.UserAuthority;
 import com.ssafy.user.info.partner.repository.InfoPetRepository;
 import com.ssafy.user.info.partner.repository.PartnerUserRepository;
 import com.ssafy.user.info.partner.repository.UserAuthorityCheckRepository;
+import com.ssafy.user.info.partner.request.UserInfoPartnerRequest;
 import com.ssafy.user.info.partner.response.UserInfoPartnerBasicResponse;
 import com.ssafy.user.info.partner.response.UserInfoPartnerBasicResponse.UserPartnerInfoData;
 import com.ssafy.user.info.partner.response.UserInfoResponse;
 import com.ssafy.user.info.partner.response.UserPetResponse;
+import com.ssafy.user.join.response.BasicResponse;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -39,6 +45,11 @@ public class UserInfoPartnerController {
 	
 	@Autowired
 	UserAuthorityCheckRepository userAuthorityCheckRepository;
+	
+	ParameterCheck parameterCheck = new ParameterCheck();
+	
+	@Autowired
+	PasswordEncoder passwordEncoder;
 	
 	@GetMapping("/partner/{id}")
 	@ApiOperation(value = "반려인 회원 정보 조회", notes = "반려인 아이디를 받아 마이페이지에 보여줄 정보를 조회한다.")
@@ -86,7 +97,7 @@ public class UserInfoPartnerController {
 				UserPetResponse userPetResponse = new UserPetResponse();
 				
 				userPetResponse.setNo(pet.getNo());
-//				userPetResponse.setPetImage(pet.getPetImage());
+				userPetResponse.setPetImage(pet.getPetImage());
 				userPetResponse.setPetName(pet.getPetName());
 				userPetResponse.setPetType(pet.getPetType());
 				userPetResponse.setPetVariety(pet.getPetVariety());
@@ -103,5 +114,67 @@ public class UserInfoPartnerController {
 		UserInfoPartnerBasicResponse UserInfoPartnerBasicResponse = new UserInfoPartnerBasicResponse("success", "회원정보 조회에 성공했습니다.", userPartnerInfoData);
 		
 		return ResponseEntity.status(200).body(UserInfoPartnerBasicResponse);
+	}
+	
+	@PostMapping("/partner")
+	@ApiOperation(value = "반려인 회원 정보 수정", notes = "반려인의 회원정보를 수정한다.")
+	public ResponseEntity<BasicResponse> modifyPartnerInfo(@RequestBody UserInfoPartnerRequest userInfoPartnerRequest) {
+		
+		System.out.println("수정될 회원 정보 "+userInfoPartnerRequest);
+		Optional<User> user = partnerUserRepository.findById(userInfoPartnerRequest.getId());
+		
+		if (user.isPresent()) {
+			
+			User originalUser = user.get();
+			
+			// 비밀번호
+			String userPassword = userInfoPartnerRequest.getUserPassword();
+			if (userPassword != null) {
+				if (!parameterCheck.isValidPassword(userPassword)) {
+					return ResponseEntity.status(200).body(new BasicResponse("failure"));
+				}
+				userPassword = passwordEncoder.encode(userPassword);
+				originalUser.setUserPassword(userPassword);
+			}
+			
+			// 이름
+			String userName = userInfoPartnerRequest.getUserName();
+			if (userName != null) {
+				if (!parameterCheck.isValidName(userName)) {
+					return ResponseEntity.status(200).body(new BasicResponse("failure"));
+				}
+				originalUser.setUserName(userName);
+			}
+			
+			// 닉네임
+			String userNickname = userInfoPartnerRequest.getUserNickname();
+			if (userNickname != null) {
+				if (!parameterCheck.isValidName(userName)) {
+					return ResponseEntity.status(200).body(new BasicResponse("failure"));
+				}
+				originalUser.setUserName(userName);
+			}
+			
+			// 휴대폰 번호
+			String userPhone = userInfoPartnerRequest.getUserPhone();
+			if (userPhone != null) {
+				if (!parameterCheck.isValidPhone(userPhone)) {
+					return ResponseEntity.status(200).body(new BasicResponse("failure"));
+				}
+				originalUser.setUserPhone(userPhone);
+			}
+			
+			// 알람 수신 방법
+			int userAlertFlag = userInfoPartnerRequest.getUserAlertFlag();
+			if (!parameterCheck.isValidAlertFlag(userAlertFlag)) {
+				return ResponseEntity.status(200).body(new BasicResponse("failure"));
+			}
+			originalUser.setUserAlertFlag(userAlertFlag);
+			
+			partnerUserRepository.save(originalUser);
+			return ResponseEntity.status(200).body(new BasicResponse("success"));
+		}
+		
+		return ResponseEntity.status(200).body(new BasicResponse("failure"));
 	}
 }

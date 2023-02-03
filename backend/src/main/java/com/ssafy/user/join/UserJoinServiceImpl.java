@@ -74,7 +74,7 @@ public class UserJoinServiceImpl implements UserJoinService {
 							if (isDebug) System.out.println("#알람 방식 번호 문제 "+alertFlag);
 							// 알림 방식 유효성 검사
 							if (parameterCheck.isValueAlertFlag(alertFlag)) {
-								
+
 								if (isDebug) System.out.println("#소셜로그인 ID 여부 번호 문제 " + isSocialID); // #21#
 								// 소셜로그인 ID 여부 유효성 검사 
 								if (parameterCheck.isValueAlertFlag(isSocialID)) {
@@ -128,6 +128,7 @@ public class UserJoinServiceImpl implements UserJoinService {
 		consultant.setConsultantLicenseNumber(consultantJoinRequest.getConsultantLicenseNumber());
 		consultant.setConsultantLicenseCopyImage(licenseName);
 		consultant.setConsultantReservationCount(0);
+		consultant.setConsultantCertified(0);
 		
 		// consultant를 DB에 넣어주기
 		Consultant insertResult = consultantRepository.save(consultant);

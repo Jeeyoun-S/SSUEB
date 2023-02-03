@@ -1,7 +1,5 @@
 package com.ssafy.user.info.partner.response;
 
-import org.springframework.web.multipart.MultipartFile;
-
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,7 +12,7 @@ public class UserPetResponse {
 	int no;
 	
 	@ApiModelProperty(name="반려동물 이미지")
-	MultipartFile petImage;
+	String petImage;
 	
 	@ApiModelProperty(name="반려동물 이름")
 	String petName;
