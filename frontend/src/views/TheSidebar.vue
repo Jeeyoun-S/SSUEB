@@ -40,7 +40,7 @@ export default {
             to: "/create-reservation",
           },
         }, // 반려인
-        // { title: '신규 상담 제안', value: 4, props: {prependIcon: 'mdi-calendar-plus', to: '/create-matching'} }, // 전문가
+        // { title: '신규 상담 제안', value: 4, props: {prependIcon: 'mdi-calendar-plus', to: '/create-matching', active=this.role} }, // 전문가
         {
           title: "받은 상담 제안",
           value: 5,
