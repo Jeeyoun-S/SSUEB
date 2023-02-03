@@ -18,7 +18,7 @@ public class UserInfoPartnerBasicResponse {
 	@ApiModelProperty(value = "응답 메세지")
 	String message;
 	
-	@ApiModelProperty(value = "")
+	@ApiModelProperty(value = "반려인 회원정보")
 	UserPartnerInfoData data;
 	
 	@Data
