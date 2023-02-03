@@ -17,7 +17,7 @@ const userStore = {
   getters: {
     getUserId: (state) => {
       return state.userId;
-    }
+    },
   },
   mutations: {
     SET_IS_LOGIN: (state, isLogin) => {
@@ -72,6 +72,9 @@ const userStore = {
             // console.log("#userStore - excuteLogin# 로그인 실패");
             commit("SET_IS_LOGIN", false);
             commit("SET_IS_VALID_TOKEN", false);
+            commit("SET_USER_ID", null);
+            commit("SET_USER_INFO", null);
+            commit("SET_USER_AUTH", null);
 
             // 로그인 실패 시 실패원인에 따른 alert창 출력
             Swal.fire("로그인 실패", `${data.message}`, "error");
@@ -129,6 +132,9 @@ const userStore = {
       console.log("#userStore - excuteLogout# 로그아웃 동작");
       commit("SET_IS_LOGIN", false);
       commit("SET_IS_VALID_TOKEN", false);
+      // commit("SET_USER_ID", null);
+      // commit("SET_USER_INFO", null);
+      commit("SET_USER_AUTH", null);
       sessionStorage.clear;
       //console.log("#21# sessionStorage 확인: ", sessionStorage.getItem);
 

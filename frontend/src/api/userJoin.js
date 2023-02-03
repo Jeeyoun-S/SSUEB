@@ -143,7 +143,7 @@ async function joinPartner(joinRequest, socialAccess) {
     joinRequest.userPassword = id + key + "#1";
     joinRequest.userIsSocialId = 1; // 소셜 로그인 ID 체크
   }
-  
+
   await api
     .post(`/user/join/partner`, JSON.stringify(joinRequest))
     .then((res) => {

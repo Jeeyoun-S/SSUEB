@@ -17,26 +17,26 @@
 </template>
 
 <script>
-import MyPagePetRegister from '@/components/MyPage/MyPagePartner/MyPagePetRegister.vue'
-import MyPagePetItem from '@/components/MyPage/MyPagePartner/MyPagePetItem.vue'
-import MyPagePartnerInfo from '@/components/MyPage/MyPagePartner/MyPagePartnerInfo.vue'
-import MyPagePartnerInfoModify from '@/components/MyPage/MyPagePartner/MyPagePartnerInfoModify.vue'
-import { getUserPartnerInfo } from '@/api/userInfoPartner.js'
+import MyPagePetRegister from "@/components/MyPage/MyPagePartner/MyPagePetRegister.vue";
+import MyPagePetItem from "@/components/MyPage/MyPagePartner/MyPagePetItem.vue";
+import MyPagePartnerInfo from "@/components/MyPage/MyPagePartner/MyPagePartnerInfo.vue";
+import MyPagePartnerInfoModify from "@/components/MyPage/MyPagePartner/MyPagePartnerInfoModify.vue";
+import { getUserPartnerInfo } from "@/api/userInfoPartner.js";
 import { mapState } from "vuex";
 const userStore = "userStore";
 
 export default {
-  name: 'MyPagePartner',
+  name: "MyPagePartner",
   data() {
     return {
-      infoVer: true
-    }
+      infoVer: true,
+    };
   },
   components: {
     MyPagePetRegister,
     MyPagePetItem,
     MyPagePartnerInfo,
-    MyPagePartnerInfoModify
+    MyPagePartnerInfoModify,
   },
   computed: {
     ...mapState(userStore, ["userId"]),
@@ -45,14 +45,14 @@ export default {
     },
     getInfoVersion() {
       return this.$store.getters.getInfoVersion;
-    }
+    },
   },
   created() {
     if (this.getPartnerInfo.id != this.userId) {
       getUserPartnerInfo(this.userId);
     }
-  }
-}
+  },
+};
 </script>
 
 <style>
