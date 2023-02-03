@@ -1,6 +1,9 @@
-import { login, kakaoLogin, anyPermit, partPermit } from "@/api/user";
-// ! JWT 디코드 설치 필요: npm i vue-jwt-decode
-import VueJwtDecode from "vue-jwt-decode";
+import { login, anyPermit, partPermit } from "@/api/user";
+import VueJwtDecode from "vue-jwt-decode"; // ! JWT 디코드 설치 필요: npm i vue-jwt-decode
+import store from "@/store/index.js";
+
+// sweetalert2 가져오기
+const Swal = require("sweetalert2");
 
 const userStore = {
   namespaced: true,
@@ -8,7 +11,8 @@ const userStore = {
     isLogin: false,
     isValidToken: false,
     userId: null,
-    userInfo: null,
+    userInfo: null, // 권한 검증 후 받아오는 user 정보를 저장하기 위한 state
+    userAuth: null, // 현재 로그인한 사용자의 권한
   },
   getters: {},
   mutations: {
@@ -21,11 +25,18 @@ const userStore = {
     SET_USER_ID: (state, userId) => {
       state.isLogin = true;
       state.userId = userId;
-      console.log("#SET_USER_ID# userId 확인: ", state.userId);
+      // console.log("#SET_USER_ID# userId 확인: ", state.userId);
     },
     SET_USER_INFO: (state, userInfo) => {
       state.userInfo = userInfo;
-      console.log("#SET_USER_INFO# userInfo 확인: ", state.userInfo);
+      // console.log("#SET_USER_INFO# userInfo 확인: ", state.userInfo);
+    },
+    SET_USER_AUTH: (state, userAuth) => {
+      state.userAuth = userAuth;
+      // console.log(
+      //   "#SET_USER_AUTH# 현재 로그인한 사용자의 권한 확인: ",
+      //   state.userAuth
+      // );
     },
   },
   actions: {
@@ -37,27 +48,29 @@ const userStore = {
           // if) 로그인 성공
           if (data.response == "success") {
             let token = data["token"];
-            console.log(
-              "#userStore - excuteLogin# 로그인 성공 - token: ",
-              token
-            );
+            // console.log(
+            //   "#userStore - excuteLogin# 로그인 성공 - token: ",
+            //   token
+            // );
 
-            // 로그인 성공에 따른 값 저장
+            // 로그인 성공에 따른 값(로그인 여부, 토큰 여부, 권한) 저장
             commit("SET_IS_LOGIN", true);
             commit("SET_IS_VALID_TOKEN", true);
+            commit("SET_USER_AUTH", VueJwtDecode.decode(token).auth);
             sessionStorage.setItem("token", token);
 
             // token 복호화 > userId 저장
-            console.log("#21# token 내용: ", VueJwtDecode.decode(token));
             let email = VueJwtDecode.decode(token).sub;
-            console.log("#21# token 복호화 이메일 확인: ", email);
             commit("SET_USER_ID", email);
 
             // else) 로그인 실패
           } else {
-            console.log("#userStore - excuteLogin# 로그인 실패");
+            // console.log("#userStore - excuteLogin# 로그인 실패");
             commit("SET_IS_LOGIN", false);
             commit("SET_IS_VALID_TOKEN", false);
+
+            // 로그인 실패 시 실패원인에 따른 alert창 출력
+            Swal.fire("로그인 실패", `${data.message}`, "error");
           }
         },
         (error) => {
@@ -65,25 +78,10 @@ const userStore = {
         }
       );
     },
-    // [@Method] Kakao 소셜 로그인
-    async socialKakao({ commit }, code) {
-      commit;
-      await kakaoLogin(
-        code,
-        ({ data }) => {
-          // if) 로그인 성공
-          if (data.response == "success") {
-            console.log("#userStore - kakaoLogin# 카카오 로그인 성공");
-
-            // else) 로그인 실패
-          } else {
-            console.log("#userStore - kakaoLogin# 카카오 로그인 실패");
-          }
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
+    // [@Method] Kakao, Naver 소셜 로그인 성공 시 저장
+    excuteSocialLogin({ commit }) {
+      commit("SET_IS_LOGIN", true);
+      commit("SET_IS_VALID_TOKEN", true);
     },
     // [@Method] 모든 권한 허용
     async checkAnyPermit({ commit }) {
@@ -129,6 +127,9 @@ const userStore = {
       commit("SET_IS_VALID_TOKEN", false);
       sessionStorage.clear;
       //console.log("#21# sessionStorage 확인: ", sessionStorage.getItem);
+
+      // userSocialStore에 저장된 소셜 로그인 정보(email, nickname) 초기화
+      store.dispatch("initSocialUserInfo");
     },
   },
 };

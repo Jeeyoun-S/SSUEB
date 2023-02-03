@@ -135,7 +135,15 @@ async function confirmPhoneAuth(authNumber, userPhone) {
 }
 
 // [GET] 반려인 회원가입 진행
-async function joinPartner(joinRequest) {
+async function joinPartner(joinRequest, socialAccess) {
+  // ! 소셜 로그인을 통한 회원가입 접근 (비밀번호 없음)
+  if (socialAccess == false) {
+    const id = joinRequest.id.substring(0, 6);
+    const key = process.env.VUE_APP_OAUTH_KAKAO_CLIENT_SECRET.substring(0, 6);
+    joinRequest.userPassword = id + key + "#1";
+    joinRequest.userIsSocialId = 1; // 소셜 로그인 ID 체크
+  }
+
   await api
     .post(`/user/join/partner`, JSON.stringify(joinRequest))
     .then((res) => {
@@ -169,7 +177,16 @@ async function joinPartner(joinRequest) {
 }
 
 // [POST] 전문가 회원가입 진행
-async function joinConsultant(formData) {
+async function joinConsultant(formData, socialAccess) {
+  // formData;
+  // ! 소셜 로그인을 통한 회원가입 접근
+  if (socialAccess == false) {
+    const id = formData.get("id").substring(0, 6);
+    const key = process.env.VUE_APP_OAUTH_KAKAO_CLIENT_SECRET.substring(0, 6);
+    formData.set("userPassword", id + key + "#1");
+    formData.append("userIsSocialId", 1); // 소셜 로그인 ID 체크
+  }
+
   await api
     .post(`/user/join/consultant`, formData, {
       headers: {

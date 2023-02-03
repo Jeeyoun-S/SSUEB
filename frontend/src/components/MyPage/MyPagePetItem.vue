@@ -7,30 +7,32 @@
       {{ pet.petName }}
     </template>
     <template v-slot:subtitle>
-      {{ pet.petType }} {{ pet.petVariety }}<br>
+      {{ pet.petType }} {{ pet.petVariety }}<br />
       {{ pet.petBirth }}
     </template>
     <template v-slot:text>{{ pet.petInfo }}</template>
     <v-card-actions class="pt-0">
       <MyPagePetModify :pet="pet"></MyPagePetModify>
-      <v-btn variant="text" color="error" rounded="0" @click="removePet(pet.no)">삭제</v-btn>
+      <v-btn variant="text" color="error" rounded="0" @click="removePet(pet.no)"
+        >삭제</v-btn
+      >
     </v-card-actions>
   </v-card>
 </template>
 
 <script>
-import { modifyPetInfo, removePetInfo } from '@/api/userInfoPartner.js'
-import MyPagePetModify from '@/components/MyPage/MyPagePetModify.vue'
+import { modifyPetInfo, removePetInfo } from "@/api/userInfoPartner.js";
+import MyPagePetModify from "@/components/MyPage/MyPagePetModify.vue";
 
 export default {
-  name: 'MyPagePetItem',
+  name: "MyPagePetItem",
   computed: {
     getPetInfo() {
       return this.$store.getters.getPetInfo;
     },
   },
   components: {
-    MyPagePetModify
+    MyPagePetModify,
   },
   methods: {
     modifyPet(pet) {
@@ -38,9 +40,9 @@ export default {
     },
     removePet(petNo) {
       removePetInfo(petNo);
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
 <style scoped>

@@ -13,6 +13,7 @@ import userInfoPartnerStore from '@/store/modules/userInfoPartnerStore.js'
 
 // for. OAuth 소셜 로그인
 import userOAuthStore from "./modules/userOAuthStore";
+import userSocialStore from "./modules/userSocialStore";
 
 // for. 페이지 refresh 시 vuex store 값 유지
 // [기존 code] 주석 처리
@@ -42,12 +43,15 @@ const store = new Vuex.Store({
     userInfoPartnerStore: userInfoPartnerStore,
     // for. OAuth 소셜 로그인
     userOAuthStore: userOAuthStore,
+    // for. OAuth 소셜 로그인 성공 시 user 정보를 저장하는 store
+    userSocialStore: userSocialStore,
   },
   // vuex plugin 명시
   plugins: [
     createPersistedState({
       // ! localStorage에 저장할 store만을 path에 등록
-      paths: ["userStore"],
+      //paths: ["userStore", "userJoinStore"],
+      paths: ["userStore", "userSocialStore"],
     }),
   ],
 });

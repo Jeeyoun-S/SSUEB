@@ -1,4 +1,5 @@
 <template>
+  <!-- #21# disabled 추가: 소셜 로그인을 통해 접근한 경우 아이디, 비밀번호 비활성화 -->
   <v-text-field
     v-model="info.id"
     class="mb-2"
@@ -6,21 +7,10 @@
     label="이메일"
     variant="underlined"
     color="primary"
+    :disabled="!info.socialAccess"
     required
   ></v-text-field>
-  <!-- #21# Kakao User 정보 출력 -->
-  <!-- <v-text-field
-    v-model="info.id"
-    class="mb-2"
-    :rules="rules.email"
-    label="이메일"
-    variant="underlined"
-    color="primary"
-    required
-    >{{ socialUserInfo }}</v-text-field
-  > -->
-  <!--#21#-->
-  <!-- <v-text-field>{{ socialUserInfo }}</v-text-field> -->
+  <!-- #21# disabled 추가: 소셜 로그인을 통해 접근한 경우 아이디, 비밀번호 비활성화 -->
   <v-text-field
     v-model="info.userPassword"
     :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
@@ -31,6 +21,7 @@
     label="비밀번호"
     variant="underlined"
     color="primary"
+    :disabled="!info.socialAccess"
     required
   ></v-text-field>
   <v-text-field
@@ -46,20 +37,16 @@
 
 <script>
 import { duplicateId } from "@/api/userJoin.js";
-// import { mapState } from "vuex"; // #21#
-
-// const userJoinStore = "userJoinStore"; // #21#
 
 export default {
   name: "UserJoinBasicInfo",
   data() {
-    // #21#
-    // console.log("#21# Kakao User 있나ㅏ: ", userJoinStore);
     return {
       info: {
         id: null,
         userPassword: null,
         userName: null,
+        socialAccess: true, // #21#
       },
       valid: {
         email: /^[a-zA-Z0-9_+.-]+@([a-zA-Z0-9-]+\.)+[a-zA-Z0-9-.]{2,4}$/,
@@ -125,23 +112,25 @@ export default {
       deep: true,
     },
   },
+  // computed: {
+  //   // ...mapState(userJoinStore, ["socialUserInfo"]), // #21#
+  //   socialUserInfo() {
+  //     return this.$store.getters.getSocialUserInfo;
+  //     // return this.$store.state.socialUserInfo;
+  //   },
+  // },
+  created() {
+    // 소셜 로그인을 통해 회원가입 페이지로 접근 하였다면 > 소셜 로그인 info 적용
+    this.info.id = this.socialUserInfo.id;
+    // 비밀번호 입력칸 비활성화
+    // if (this.socialUserInfo.id != null) this.socialAccess = false;
+    if (this.socialUserInfo.id != null) this.info.socialAccess = false;
+  },
   computed: {
-    // ...mapState(userJoinStore, ["socialUserInfo"]), // #21#
     socialUserInfo() {
       return this.$store.getters.getSocialUserInfo;
-      // return this.$store.state.socialUserInfo;
     },
   },
-  created() {
-    console.log("# 실행된다.");
-    console.log("# 아이디 ", this.socialUserInfo);
-    this.info.id = this.socialUserInfo;
-  },
-  // beforeCreate() {
-  //   console.log("# 실행된다.");
-  //   console.log("# 아이디 ", this.socialUserInfo);
-  //   this.info.id = this.socialUserInfo;
-  // },
 };
 </script>
 
