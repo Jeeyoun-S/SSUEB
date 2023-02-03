@@ -75,7 +75,6 @@ public class MatchingServiceImpl implements MatchingService {
 	    
 	    //이 시간 내의 전문가의 견적 삭제
 	    mRepo.deleteByDateTime(before, after, consultantId);
-		
 	}
 
 }

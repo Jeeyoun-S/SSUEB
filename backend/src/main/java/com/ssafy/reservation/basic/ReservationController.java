@@ -11,6 +11,7 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,9 +24,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.google.common.io.Files;
+import com.ssafy.db.entity.Pet;
 import com.ssafy.db.entity.Reservation;
 import com.ssafy.reservation.basic.request.ReservationDignosis;
 import com.ssafy.reservation.basic.request.ReservationReivew;
+import com.ssafy.reservation.pet.PetService;
+import com.ssafy.reservation.pet.response.PetSummary;
+import com.ssafy.reservation.pet.response.ReservationPetFinish;
 
 import io.github.techgnious.IVCompressor;
 import io.github.techgnious.dto.IVSize;
@@ -45,11 +50,14 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
 @Api(tags = {"Reservation/Basic"}, description = "예약 생성/삭제/검색 관련 API")
 @RestController
 @RequestMapping("/api/reservation")
+@CrossOrigin("*")
 public class ReservationController {
 	
 	@Autowired
 	ReservationService reservationService;
 	
+	@Autowired
+	PetService petService;
 	
 	private ResponseEntity<String> exceptionHandling(Exception e) {
 		e.printStackTrace();
@@ -160,16 +168,16 @@ public class ReservationController {
 	}
 	
 	@GetMapping("/open")
-	@ApiOperation(value = "공개된 상담 기록 보기", notes = "공개된 상담 정보를 모두 가져온다.", response = Reservation.class) 
+	@ApiOperation(value = "공개된 상담 기록 보기", notes = "공개된 상담 정보를 모두 가져온다.", response = ReservationPetFinish.class) 
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),
         @ApiResponse(code = 500, message = "서버 오류")
     })
 	public ResponseEntity<?> readOpenReservation() {
 		try {
-			List<Reservation> result = reservationService.getOpenReservation();
+			List<ReservationPetFinish> result = reservationService.getOpenReservation();
 			//System.out.println(result);
-			return new ResponseEntity<List<Reservation>>(result, HttpStatus.OK);
+			return new ResponseEntity<List<ReservationPetFinish>>(result, HttpStatus.OK);
 		} catch (Exception e) {
 			return exceptionHandling(e);
 		}
@@ -180,7 +188,7 @@ public class ReservationController {
 	@GetMapping("/date-validation/{userId}")
 	@ApiOperation(value = "해당 유저의 상담 예정 시간들", notes = "종료되지 않은 예약들의 예정 시간들을 모두 가져온다.", response = String.class)
 	@ApiImplicitParams({
-		@ApiImplicitParam(name = "userId", value = "해당 유저의 상담 예약이 있는 시간대", required = true),
+		@ApiImplicitParam(name = "userId", value = "상담 예정 시간을 불러올 현재 사용자", required = true),
 	})
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),
@@ -191,6 +199,27 @@ public class ReservationController {
 			List<String> result = reservationService.getDateValidation(userId);
 			//System.out.println(result);
 			return new ResponseEntity<List<String>>(result, HttpStatus.OK);
+		} catch (Exception e) {
+			return exceptionHandling(e);
+		}
+	}
+	
+	
+	@GetMapping("/pet-list/{userId}")
+	@ApiOperation(value = "해당 유저의 펫 목록들", notes = "펫 목록(번호, 이름, 사진)", response = PetSummary.class)
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "userId", value = "펫 목록을 불러올 현재 사용자", required = true),
+	})
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "성공"),
+        @ApiResponse(code = 500, message = "서버 오류")
+    })
+	//신규 상담 등록 진입 시 현재 로그인 된 유저 기준으로 불러와서 보여주기 
+	public ResponseEntity<?> readPetList(@PathVariable String userId) {
+		try {
+			List<PetSummary> result = petService.findByUserId(userId);
+			
+			return new ResponseEntity<List<PetSummary>>(result, HttpStatus.OK);
 		} catch (Exception e) {
 			return exceptionHandling(e);
 		}
@@ -211,17 +240,13 @@ public class ReservationController {
         @ApiResponse(code = 200, message = "성공"),
         @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<?> save(@RequestPart(value = "files")  MultipartFile file){
-		IVCompressor compressor=new IVCompressor();
-		String uuid = UUID.randomUUID().toString();//랜덤한 코드명 ex)49eec5bf-dce3-43b2-8ff8-c041c792ed0a를 넣어준다
-		String savefileName = File.separator + uuid + "_" + file.getOriginalFilename();
-		//for(MultipartFile file : Files) {
-//			System.out.println(file.getContentType());
-//			System.out.println(file.getName());
-//			System.out.println(file.getOriginalFilename());
-//			System.out.println(file.getSize());
-		
-			try {
+    public ResponseEntity<?> save(@RequestPart(value = "files")  List<MultipartFile> files){	
+		try {
+			for(MultipartFile file : files) {
+				IVCompressor compressor=new IVCompressor();
+				String uuid = UUID.randomUUID().toString();//랜덤한 코드명 ex)49eec5bf-dce3-43b2-8ff8-c041c792ed0a를 넣어준다
+				String savefileName = File.separator + uuid + "_" + file.getOriginalFilename();
+				
 				if(file.getContentType().startsWith("image")) {
 					IVSize customRes=new IVSize();
 					//커스텀 크기 설정
@@ -241,10 +266,12 @@ public class ReservationController {
 				else {//그 외 파일 거름망 -> 어차피 front에서 할 거긴 한데
 					
 				}
-				
-				return new ResponseEntity<Void>(HttpStatus.OK);
-			} catch (Exception e) {
-				return exceptionHandling(e);
-			}
+			}	
+			
+		} catch (Exception e) {
+			return exceptionHandling(e);
+		}
+		
+		return new ResponseEntity<Void>(HttpStatus.OK);
     }
 }

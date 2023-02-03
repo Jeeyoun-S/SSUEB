@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 
 import com.ssafy.db.entity.Attach;
 import com.ssafy.db.entity.Reservation;
+import com.ssafy.reservation.pet.response.ReservationPet;
+import com.ssafy.reservation.pet.response.ReservationPetFinish;
 
 @Service
 public class ReservationServiceImpl implements ReservationService {
@@ -63,38 +65,38 @@ public class ReservationServiceImpl implements ReservationService {
 	}
 	
 	@Override
-	public List<Reservation> getPartnerConfirmedReservation(String userId) throws SQLException {
-		return repo.findByUserIdAndConsultantIdIsNotNullAndReservationFinish(userId,0);//확정되었지만 예약이 끝나지 않은 예약 목록이니까 0을 줌. 밑도 마찬가지
+	public List<ReservationPet> getPartnerConfirmedReservation(String userId) throws SQLException {
+		return repo.findPartnerConfirmedReservation(userId);//확정되었지만 예약이 끝나지 않은 예약 목록이니까 0을 줌. 밑도 마찬가지
 	}
 
 	@Override
-	public List<Reservation> getConsultantConfirmedReservation(String consultantId) throws SQLException {
-		return repo.findByConsultantIdAndReservationFinish(consultantId, 0);
+	public List<ReservationPet> getConsultantConfirmedReservation(String consultantId) throws SQLException {
+		return repo.findConsultantConfirmedReservation(consultantId);
 	}
 
 	@Override
-	public List<Reservation> getPartnerUnconfirmedReservation(String userId) throws SQLException {
-		return repo.findByUserIdAndConsultantIdIsNull(userId);//확정도 안났으니 당연히 reservationfinish는 다 0이라 필요없음.
+	public List<ReservationPet> getPartnerUnconfirmedReservation(String userId) throws SQLException {
+		return repo.findPartnerUnconfirmedReservation(userId);//확정도 안났으니 당연히 reservationfinish는 다 0이라 필요없음.
 	}
 
 	@Override
-	public List<Reservation> getAllUnconfirmedReservation() throws SQLException {
-		return repo.findByConsultantIdIsNull();//확정안난애들 목록
+	public List<ReservationPet> getAllUnconfirmedReservation() throws SQLException {
+		return repo.findAllUnconfirmedReservation();//확정안난애들 목록
 	}
 	
 	@Override
-	public List<Reservation> getOpenReservation() throws SQLException {
+	public List<ReservationPetFinish> getOpenReservation() throws SQLException {
 		return repo.findByReservationOpen(1);//오픈된 리저베이션 목록 가져오기
 	}
 
 	@Override
-	public List<Reservation> getPartnerPastReservation(String userId) throws SQLException {
-		return repo.findByUserIdAndReservationFinish(userId, 1);//상담이 끝난 애들
+	public List<ReservationPetFinish> getPartnerPastReservation(String userId) throws SQLException {
+		return repo.findByUserIdAndReservationFinish(userId);//상담이 끝난 애들
 	}
 
 	@Override
-	public List<Reservation> getConsultantPastReservation(String consultantId) throws SQLException {
-		return repo.findByConsultantIdAndReservationFinish(consultantId, 1);
+	public List<ReservationPetFinish> getConsultantPastReservation(String consultantId) throws SQLException {
+		return repo.findConsultantPastReservation(consultantId);//잠시 지워두기
 	}
 
 	@Override

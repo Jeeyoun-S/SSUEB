@@ -118,7 +118,7 @@ public class MatchingController {
     })
 	public ResponseEntity<?> confirmMatching(@RequestBody MatchingConfirm matchingConfirm) {
 		try {
-			System.out.println(matchingConfirm);
+			//System.out.println(matchingConfirm);
 			mService.confirmMatching(matchingConfirm.getReservationNo(), matchingConfirm.getConsultantId(), matchingConfirm.getMatchingCost());
 			return new ResponseEntity<Void>(HttpStatus.OK);
 		} catch (Exception e) {

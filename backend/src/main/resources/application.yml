@@ -34,7 +34,7 @@ server:
   compression:
     enabled: true
     mime-types: application/json,application/xml,text/html,text/xml,text/plain,application/javascript,text/css
-  port: 8080
+  port: 5000
   servlet:
     contextPath: /
     encoding:
@@ -55,7 +55,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     hikari:
       password: ssafy
-      username: root
+      username: ssafy
     url: jdbc:mysql://localhost:3306/ssafy_common?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Seoul&zeroDateTimeBehavior=convertToNull&rewriteBatchedStatements=true
   devtools:
     livereload:
