@@ -44,6 +44,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
     
+    /**
+     * 규칙 설정
+     * - HttpSecurity 객체를 이용해 각 요청을 먼저 intercept하여 URL 별 인증 여부, login 처리, logout 처리 등 다양한 처리 가능
+     * @param http
+     * @throws Exception
+    */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http

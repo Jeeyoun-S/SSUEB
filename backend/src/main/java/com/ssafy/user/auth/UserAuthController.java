@@ -29,7 +29,7 @@ public class UserAuthController {
 	UserAuthService userAuthService;
 
 	/** 
-	 * 모든 권한 허용
+	 * 권한 검증 - 모든 권한 허용
 	 * @param HttpServletRequest
 	 * @return UserAuthResponse
 	 */

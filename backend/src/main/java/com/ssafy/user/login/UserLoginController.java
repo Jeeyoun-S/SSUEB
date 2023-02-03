@@ -83,7 +83,7 @@ public class UserLoginController {
 		
 		try {
 			logger.info("## [Controller]: authorize - 로그인 실행 {}", loginInfo);
-//			logger.info("#21# 암호화 비밀번호: {}", passwordEncoder.encode(loginInfo.getPassword()));
+			logger.info("#21# 암호화 비밀번호: {}", passwordEncoder.encode(loginInfo.getPassword()));
 			
 			// # 입력값 검증
 			// i) id - 비어 있지 않은지 && ID 규칙에 맞는지
@@ -102,10 +102,10 @@ public class UserLoginController {
 			}
 			
 			// # 로그인
-			// i) 입력받은 loginInfo(id, pw)를 사용하여 Authentication 토큰 생성 
+			// i) 입력받은 loginInfo(id, pw)를 사용하여 Authentication(인증) 토큰 생성
 			UsernamePasswordAuthenticationToken authenticationToken = 
 					new UsernamePasswordAuthenticationToken(loginInfo.getId(), loginInfo.getPassword());
-			logger.info("#21# i) 토큰생성: {}", authenticationToken);
+			logger.info("#21# i) 토큰생성: {}", authenticationToken); 
 
 			
 			// ii) i에서 만든 authenticationToken을 사용하여 Authentication 객체를 생성하기 위하여 authenticate 메소드가 실행될 때

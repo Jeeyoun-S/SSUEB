@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
-import org.hibernate.graph.GraphNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +20,7 @@ import com.ssafy.db.entity.User;
 import com.ssafy.user.login.repository.UserLoginRepository;
 
 // 현재 액세스 토큰으로 부터 인증된 유저의 부가 상세정보(활성화 여부, 만료, 롤 등) 정의
+// ? UserDetailsService: loadUserByUsername 메소드를 통해 DB에서 유저 정보를 불러온다. 
 @Component("userDetailsService")
 public class CustomUserDetailsService implements UserDetailsService {
 	
@@ -32,6 +32,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
 	/** 
 	 * 로그인 시 DB에서 유저정보와 권한정보를 가져와 userdetails.User 객체를 생성하여 반환
+	 * ? UserDetails: User 엔티티 객체를 직렬화한 인터페이스
 	 * @param userId
 	 * @return UserDetails
 	 */
@@ -49,6 +50,11 @@ public class CustomUserDetailsService implements UserDetailsService {
         		.orElseThrow(() -> new UsernameNotFoundException("사용자를 찾을 수 없습니다."));
     }
 
+	/** 
+	 * loadUserByUsername 메소드에서 가져온 User 정보를 바탕으로 해당 사용자의 활성화(userActivated) 여부를 확인하여 userdetails.User 객체 생성
+	 * @param userId, user
+	 * @return userdetails.User
+	 */
 	private org.springframework.security.core.userdetails.User createUser(String userId, User user) {
 //		logger.info("#21# createUser 실행: {}, {}", userId, user.getUserActivated());
 		// 해당 user의 활성화 여부 확인

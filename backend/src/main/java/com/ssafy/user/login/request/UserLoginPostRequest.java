@@ -25,6 +25,6 @@ public class UserLoginPostRequest {
 	@ApiModelProperty(name="유저 Password", example="ssafy01#FFY")
 	String password;
 	
-	@ApiModelProperty(name="소셜 로그인 버튼을 통한 접근여부", example="소셜 로그인 버튼 접근 X(0) / 소셜 로그인 버튼 접근O(1)")
+	@ApiModelProperty(name="소셜 로그인 버튼을 통한 접근여부", example="소셜 로그인 버튼 접근 X(0) / 소셜 로그인 버튼 접근 O(1)")
 	int socialButton;
 }
