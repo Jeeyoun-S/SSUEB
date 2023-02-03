@@ -1,8 +1,8 @@
 <template>
   <v-card v-for="pet in getPetInfo" :key="pet.no" width="250" height="350">
     <template v-slot:title>
-      <img v-if="pet.petImage != null" :src="require('C:/Users/SSAFY/Desktop/image/'+pet.petImage)"/>
-      <img v-else :src="require('@/assets/profile/pet.png')"/>
+      <!-- <img v-if="pet.petImage != null" :src="require('C:/Users/SSAFY/Desktop/image/'+pet.petImage)"/> -->
+      <!-- <img v-else :src="require('@/assets/profile/pet.png')"/> -->
       <br>
       {{ pet.petName }}
     </template>

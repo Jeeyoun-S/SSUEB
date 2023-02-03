@@ -77,14 +77,22 @@ async function registerPetInfo(petInfo, id) {
 
 // [PUT] 반려동물 수정
 async function modifyPetInfo(petInfo, petNo) {
-  console.log("수정으로 왔따")
-  console.log(petInfo)
+  var petFormData = new FormData();
 
-  for (var key of petInfo.keys()) {
-    console.log(key, ":", petInfo.get(key));
+  for (var key in petInfo) {
+
+    if (petInfo[key] != null) {
+      if (key == "petImage" && petInfo[key].length >= 1) {
+        petFormData.append(key, petInfo[key][0]);
+      }
+      else if (key == "petBirth") petFormData.append(key, petInfo[key] + "-01")
+      else petFormData.append(key, petInfo[key]);
+    }
   }
+  petFormData.append("no", petNo);
+  var result = true;
   
-  await api.put(`/user/pet/${petNo}`, petInfo, {
+  await api.put(`/user/pet/${petNo}`, petFormData, {
     headers: {
       "Content-Type": "multipart/form-data; charset=utf-8;",
     },
@@ -92,10 +100,23 @@ async function modifyPetInfo(petInfo, petNo) {
   .then((res) => {
     if (res.data.response == "success") {
       console.log("#반려동물 수정 성공");
+
+      Swal.fire({
+        title: 'SUCCESS',
+        text: '반려동물 정보를 수정했습니다.',
+        icon: 'success'
+      });
+
+      result = false;
+      petInfo.no = petNo;
+      store.dispatch("updatePetInfo", petInfo);
+
     } else {
       console.log("#반려동물 수정 실패");
     }
   })
+
+  return await Promise.resolve(result);
 }
 
 // [DELETE] 반려동물 삭제
@@ -112,4 +133,17 @@ async function removePetInfo(petNo) {
   })
 }
 
-export { getUserPartnerInfo, registerPetInfo, modifyPetInfo, removePetInfo };
+// [POST] 회원정보 수정 전 비밀번호 확인
+async function checkPassword() {
+  await api.post(`/user/info/password`)
+  .then((res) => {
+    if (res.data.response == "success") {
+      console.log("#반려동물 삭제 성공");
+      
+    } else {
+      console.log("#반려동물 삭제 실패");
+    }
+  })
+}
+
+export { getUserPartnerInfo, registerPetInfo, modifyPetInfo, removePetInfo, checkPassword };

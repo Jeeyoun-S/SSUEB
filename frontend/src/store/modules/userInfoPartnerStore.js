@@ -36,6 +36,20 @@ const userInfoPartnerStore = {
           break;
         }
       }
+    },
+    UPDATE_PET_INFO(state, payload) {
+      for (var key in payload) {
+        console.log(key, payload[key]);
+      }
+
+      const petInfoArray = state.petInfo;
+
+      for (let i=0; i<petInfoArray.length; i++) {
+        if (petInfoArray[i].no == payload.no)  {
+          state.petInfo[i] = payload;
+          break;
+        }
+      }
     }
   },
   actions: {
@@ -51,6 +65,9 @@ const userInfoPartnerStore = {
     },
     deletePetInfo({ commit }, petNo) {
       commit("DELETE_PET_INFO", petNo);
+    },
+    async updatePetInfo({ commit }, petOneInfo) {
+      commit("UPDATE_PET_INFO", petOneInfo);
     }
   },
 };
