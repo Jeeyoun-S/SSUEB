@@ -25,18 +25,18 @@ const userStore = {
     SET_USER_ID: (state, userId) => {
       state.isLogin = true;
       state.userId = userId;
-      // console.log("#SET_USER_ID# userId 확인: ", state.userId);
+      console.log("#SET_USER_ID# userId 확인: ", state.userId);
     },
     SET_USER_INFO: (state, userInfo) => {
       state.userInfo = userInfo;
-      // console.log("#SET_USER_INFO# userInfo 확인: ", state.userInfo);
+      console.log("#SET_USER_INFO# userInfo 확인: ", state.userInfo);
     },
     SET_USER_AUTH: (state, userAuth) => {
       state.userAuth = userAuth;
-      // console.log(
-      //   "#SET_USER_AUTH# 현재 로그인한 사용자의 권한 확인: ",
-      //   state.userAuth
-      // );
+      console.log(
+        "#SET_USER_AUTH# 현재 로그인한 사용자의 권한 확인: ",
+        state.userAuth
+      );
     },
   },
   actions: {
