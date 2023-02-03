@@ -43,7 +43,7 @@
       <v-card-actions>
         <v-spacer></v-spacer>
         <v-btn color="error" variant="text" @click="modifyOpen = false">취소</v-btn>
-        <v-btn color="primary" variant="text" @click="validate()">수정</v-btn>
+        <v-btn color="primary" variant="text" @click="validate(pet)">수정</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -100,23 +100,9 @@ export default {
       const { valid } = await this.$refs.form.validate();
 
       if (valid) {
-        var petFormData = new FormData();
-
-        for (var key in this.petModifyInfo) {
-
-          if (this.petModifyInfo[key] != null) {
-            if (key == "petImage" && this.petModifyInfo[key].length >= 1) {
-              petFormData.append(key, this.petModifyInfo[key][0]);
-            }
-            else if (key == "petBirth") petFormData.append(key, this.petModifyInfo[key] + "-01")
-            else petFormData.append(key, this.petModifyInfo[key]);
-          }
-        }
-
-        await modifyPetInfo(petFormData, this.pet.no)
+        await modifyPetInfo(this.petModifyInfo, this.pet.no)
         .then((res) => {
-          console.log("#결과 확인", res)
-          this.registOpen = res;
+          this.modifyOpen = res;
         });
       }
     }

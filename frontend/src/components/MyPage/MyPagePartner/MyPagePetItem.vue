@@ -2,8 +2,8 @@
   <v-card v-for="pet in getPetInfo" :key="pet.no" width="250" height="350">
     <template v-slot:title>
       <!-- <img v-if="pet.petImage != null" :src="require('C:/Users/SSAFY/Desktop/image/'+pet.petImage)"/> -->
-      <!-- <img v-else :src="require('@/assets/profile/pet.png')" /> -->
-      <br />
+      <!-- <img v-else :src="require('@/assets/profile/pet.png')"/> -->
+      <br>
       {{ pet.petName }}
     </template>
     <template v-slot:subtitle>
@@ -22,7 +22,7 @@
 
 <script>
 import { modifyPetInfo, removePetInfo } from "@/api/userInfoPartner.js";
-import MyPagePetModify from "@/components/MyPage/MyPagePetModify.vue";
+import MyPagePetModify from "@/components/MyPage/MyPagePartner/MyPagePetModify.vue";
 
 export default {
   name: "MyPagePetItem",
