@@ -112,6 +112,13 @@ export default {
       deep: true,
     },
   },
+  // computed: {
+  //   // ...mapState(userJoinStore, ["socialUserInfo"]), // #21#
+  //   socialUserInfo() {
+  //     return this.$store.getters.getSocialUserInfo;
+  //     // return this.$store.state.socialUserInfo;
+  //   },
+  // },
   created() {
     // 소셜 로그인을 통해 회원가입 페이지로 접근 하였다면 > 소셜 로그인 info 적용
     this.info.id = this.socialUserInfo.id;

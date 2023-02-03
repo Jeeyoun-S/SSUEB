@@ -143,7 +143,7 @@ async function joinPartner(joinRequest, socialAccess) {
     joinRequest.userPassword = id + key + "#1";
     joinRequest.userIsSocialId = 1; // 소셜 로그인 ID 체크
   }
-
+  
   await api
     .post(`/user/join/partner`, JSON.stringify(joinRequest))
     .then((res) => {
@@ -159,7 +159,7 @@ async function joinPartner(joinRequest, socialAccess) {
           } else {
             // 로그인 성공 > 로그인 후 메인화면으로 이동
           }
-          location.href = "http://localhost:8081/";
+          location.href = process.env.VUE_APP_BASE_URL;
         });
       }
 
@@ -202,7 +202,7 @@ async function joinConsultant(formData, socialAccess) {
           "success"
         ).then(() => {
           // 메인페이지로 이동
-          location.href = "http://localhost:8081/";
+          location.href = process.env.VUE_APP_BASE_URL;
         });
       }
 

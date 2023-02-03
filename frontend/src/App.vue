@@ -34,7 +34,9 @@ export default {
 
 <style>
 @import "@/css/font.css";
-
+* {
+  font-family: "SUIT-Regular";
+}
 .main {
   display: flex;
   flex-direction: row;
@@ -45,7 +47,6 @@ export default {
   overflow: auto;
   white-space: nowrap;
 
-  font-family: "SUIT-Regular";
   padding: 48px;
 }
 </style>
