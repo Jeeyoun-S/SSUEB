@@ -100,8 +100,8 @@ export default {
       await this.excuteLogin(this.loginInfo);
     },
     moveJoin() {
-      location.href=`${process.env.VUE_APP_BASE_URL}/join`;
-    }
+      location.href = `${process.env.VUE_APP_BASE_URL}/join`;
+    },
   },
 };
 </script>

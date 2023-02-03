@@ -67,6 +67,10 @@ const userStore = {
             let email = VueJwtDecode.decode(token).sub;
             commit("SET_USER_ID", email);
 
+            // 로그인 성공 alert창 출력
+            const id = email.split("@");
+            Swal.fire("SSEUB", `${id[0]} 님 환영합니다!`, "success");
+
             // else) 로그인 실패
           } else {
             // console.log("#userStore - excuteLogin# 로그인 실패");
@@ -132,8 +136,6 @@ const userStore = {
       console.log("#userStore - excuteLogout# 로그아웃 동작");
       commit("SET_IS_LOGIN", false);
       commit("SET_IS_VALID_TOKEN", false);
-      // commit("SET_USER_ID", null);
-      // commit("SET_USER_INFO", null);
       commit("SET_USER_AUTH", null);
       sessionStorage.clear;
       //console.log("#21# sessionStorage 확인: ", sessionStorage.getItem);
