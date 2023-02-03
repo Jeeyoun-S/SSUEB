@@ -67,7 +67,7 @@ public class UserPetServiceImpl implements UserPetService {
 			imageName = imageCheck.makeFilename(imageFile.getOriginalFilename());
 			
 			// 이미지 크기 300px:300px로 조절해서 저장하기
-			result = imageCheck.saveImage300(imageFile, imageName, "C:\\Users\\SSAFY");
+			result = imageCheck.saveImage300(imageFile, imageName, "C:\\Users\\SSAFY\\Desktop\\image\\");
 		}
 		
 		if (result) {
@@ -100,7 +100,7 @@ public class UserPetServiceImpl implements UserPetService {
 			String beforeFileName = pet.getPetImage();
 			
 			// 기존 파일 삭제하기
-			File file = new File("C:\\Users\\SSAFY\\"+beforeFileName);
+			File file = new File("C:\\Users\\SSAFY\\Desktop\\image\\"+beforeFileName);
 			file.delete();
 			
 			// 파일
@@ -110,7 +110,7 @@ public class UserPetServiceImpl implements UserPetService {
 			String imageName = imageCheck.makeFilename(imageFile.getOriginalFilename());
 			
 			// 이미지 크기 300px:300px로 조절해서 저장하기
-			boolean result = imageCheck.saveImage300(imageFile, imageName, "C:\\Users\\SSAFY");
+			boolean result = imageCheck.saveImage300(imageFile, imageName, "C:\\Users\\SSAFY\\Desktop\\image\\");
 			
 			if (result) pet.setPetImage(imageName);
 		}

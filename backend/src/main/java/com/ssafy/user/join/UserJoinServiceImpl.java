@@ -121,6 +121,7 @@ public class UserJoinServiceImpl implements UserJoinService {
 		consultant.setConsultantLicenseNumber(consultantJoinRequest.getConsultantLicenseNumber());
 		consultant.setConsultantLicenseCopyImage(licenseName);
 		consultant.setConsultantReservationCount(0);
+		consultant.setConsultantCertified(0);
 		
 		// consultant를 DB에 넣어주기
 		Consultant insertResult = consultantRepository.save(consultant);

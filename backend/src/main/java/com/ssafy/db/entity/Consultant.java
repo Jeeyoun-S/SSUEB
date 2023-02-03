@@ -40,4 +40,7 @@ public class Consultant {
 	
 	@Column(name = "consultant_reservation_count")
 	int consultantReservationCount;
+
+	@Column(name = "consultant_certified")
+	int consultantCertified;
 }

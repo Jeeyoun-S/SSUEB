@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.common.util.ParameterCheck;
+import com.ssafy.db.entity.Consultant;
 import com.ssafy.db.entity.User;
+import com.ssafy.user.join.repository.JoinConsultantRepository;
 import com.ssafy.user.join.repository.JoinUserRepository;
 import com.ssafy.user.join.request.ConsultantJoinRequest;
 import com.ssafy.user.join.request.JoinRequest;
@@ -45,6 +47,9 @@ public class UserJoinController {
 	@Autowired
 	UserLoginController userLoginController;
 	
+	@Autowired
+	JoinConsultantRepository joinConsultantRepository;
+	
 	@Transactional
 	@PostMapping("/partner")
 	@ApiOperation(value = "반려인 회원가입", notes = "반려인의 정보를 입력받아 회원 정보에 추가하고 로그인한다.")
@@ -55,35 +60,39 @@ public class UserJoinController {
 		
 		// User Table에 넣기
 		boolean result = userJoinService.joinUser(joinRequest, 0);
-
-		// 아이디 변수 생성
-		String id = joinRequest.getId();
-
-		// 권한 설정하기
-		boolean resultAuthority = userJoinService.grantAuthority(id, "ROLE_USER");
-
-		// DB에 넣었다면
-		if (result && resultAuthority) {
-
-			// 로그인하기
+		
+		if (result) {
+			
+			// 아이디 변수 생성
+			String id = joinRequest.getId();
+			
+			// 권한 설정하기
+			boolean resultAuthority = userJoinService.grantAuthority(id, "ROLE_USER");
+			
+			// DB에 넣었다면
+			if (result && resultAuthority) {
+				
+				// 로그인하기
 //			UserLoginPostRequest loginInfo = new UserLoginPostRequest(userId, joinRequest.getUserPassword());
-			// ResponseEntity<UserLoginPostResponse> resultLogin =
-			// userLoginController.authorize(new UserLoginPostRequest(userId,
-			// joinRequest.getUserPassword()));
+				// ResponseEntity<UserLoginPostResponse> resultLogin =
+				// userLoginController.authorize(new UserLoginPostRequest(userId,
+				// joinRequest.getUserPassword()));
 //			ResponseEntity<UserLoginPostResponse> resultLogin = userLoginController.authorize(loginInfo);
 //			logger.info("#21# resultLogin 값 확인: {}", resultLogin.getBody());
-
-			// 로그인 성공
+				
+				// 로그인 성공
 //			if (resultLogin.getBody().getResponse().equals("success")) {
 //				return ResponseEntity.status(200).body(new JoinResponse("success", "회원가입에 성공했습니다."));
 //			}
-
-			// 로그인 실패
+				
+				// 로그인 실패
 //			else {
 				return ResponseEntity.status(200).body(new JoinResponse("success", "회원가입에 성공했으나, 로그인에 실패했습니다."));
 //			}
-
+				
+			}
 		}
+		
 		return ResponseEntity.status(200).body(new JoinResponse("failure", "회원가입에 실패했습니다."));
 	}
 	
@@ -166,6 +175,32 @@ public class UserJoinController {
 		
 		// DB에 입력받은 id가 있거나 유효하지 않은 id인 경우
 		return ResponseEntity.status(200).body(new BasicResponse("failure"));
+	}
+	
+	@PostMapping("/consultant/accept")
+	@ApiOperation(value = "전문가 회원가입 수락", notes = "전문가의 자격 검증이 끝난 뒤, 회원가입을 수락한다.")
+	@ApiImplicitParam(name = "id", value = "전문가 아이디", required = true)
+	public ResponseEntity<BasicResponse> acceptConsultant(String id) {
+		
+		if (!parameterCheck.isEmpty(id) && parameterCheck.isValidId(id)) {
+			
+			// 입력 받은 id가 DB에 있는지 조회
+			Optional<Consultant> optionalConsultant = joinConsultantRepository.findById(id);
+				
+			// DB에 입력받은 id가 있는 경우
+			if (optionalConsultant.isPresent()) {
+				
+				Consultant consultant = optionalConsultant.get();
+				consultant.setConsultantCertified(1);
+				joinConsultantRepository.save(consultant);
+				
+				return ResponseEntity.status(200).body(new BasicResponse("success"));
+			}
+		}
+		
+		// DB에 입력받은 id가 있거나 유효하지 않은 id인 경우
+		return ResponseEntity.status(200).body(new BasicResponse("failure"));
+		
 	}
 
 }
