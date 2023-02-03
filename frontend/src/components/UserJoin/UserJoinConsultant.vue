@@ -106,21 +106,24 @@ export default {
   watch: {
     info: {
       handler() {
-        if (this.info.consultantLicenseCopyImage[0].name.length > 15) {
-          // 파일 이름 가져오기
-          var filename = this.info.consultantLicenseCopyImage[0].name;
+        if (this.info.consultantLicenseCopyImage.length > 0) {
 
-          // 확장자
-          var extension = filename.substring(filename.lastIndexOf('.'), filename.length).toLowerCase();
-
-          // 파일 이름에서 확장자 없애기
-          filename = filename.substring(0, filename.lastIndexOf('.'));
-
-          // 파일 이름 줄이기
-          Object.defineProperty(this.info.consultantLicenseCopyImage[0], 'name', {
-            writable: true,
-            value: filename.substr(0, 15) + extension
-          });
+          if (this.info.consultantLicenseCopyImage[0].name.length > 15) {
+            // 파일 이름 가져오기
+            var filename = this.info.consultantLicenseCopyImage[0].name;
+  
+            // 확장자
+            var extension = filename.substring(filename.lastIndexOf('.'), filename.length).toLowerCase();
+  
+            // 파일 이름에서 확장자 없애기
+            filename = filename.substring(0, filename.lastIndexOf('.'));
+  
+            // 파일 이름 줄이기
+            Object.defineProperty(this.info.consultantLicenseCopyImage[0], 'name', {
+              writable: true,
+              value: filename.substr(0, 15) + extension
+            });
+          }
         }
       },
       deep: true
