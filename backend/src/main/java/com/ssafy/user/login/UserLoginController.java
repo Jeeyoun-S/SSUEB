@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.common.jwt.JwtAuthenticationFilter;
 import com.ssafy.common.jwt.JwtTokenProvider;
+import com.ssafy.common.util.CommonVariable;
 import com.ssafy.common.util.ParameterCheck;
 import com.ssafy.db.entity.Consultant;
 import com.ssafy.db.entity.User;
@@ -64,8 +65,8 @@ public class UserLoginController {
 	@Autowired
 	UserLoginService userLoginService;
 	
-	// Kakao Admin Key
-	private final String KAKAO_CLIENT_KEY = "FbvTdfM13LnWXGd6nh3DNYZmm3KHiJBE"; 
+	@Autowired
+	CommonVariable commonVariable;
 	
 	/** 
 	 * id와 pw를 통해 로그인 실행, 성공 시 JWT token 반환
@@ -163,7 +164,7 @@ public class UserLoginController {
 	 * @return UserLoginPostRequest
 	 */
 	public String createSocialPassword(String id) {
-		return id.substring(0, 6) + KAKAO_CLIENT_KEY.substring(0, 6) + "#1";
+		return id.substring(0, 6) + commonVariable.getKakaoSecret().substring(0, 6) + "#1";
 	}
 		
 }

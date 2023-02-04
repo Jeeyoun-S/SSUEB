@@ -4,6 +4,9 @@ build:
 jwt:
   expiration: 1296000000
   secret: dyAeHubOOc8KaOfYB6XEQoEj1QzRlVgtjNL8PYs1A1tymZvvqkcEU7L1imkKHeDa
+# for. Kakao 
+kakao:
+  secret: FbvTdfM13LnWXGd6nh3DNYZmm3KHiJBE
 logging:
   file:
     name: ./ssafy-web.log
