@@ -132,7 +132,7 @@ public class ParameterCheck {
 	 * @param petType 확인할  값
 	 * @return 2진법 6자리가 맞다면 true, 그 외는 false
 	 * **/
-	public boolean isValidPetType(String petType) {
+	public boolean isValidPossiblePetType(String petType) {
 		
 		// 0 또는 1로 구성된 6자리인지
 		if (Pattern.matches("^[01]{6}$", petType)) {
@@ -140,6 +140,33 @@ public class ParameterCheck {
 		} return false;
 		
 	}
+	
+	/**
+	 * 반려동물의 생일 형식이 맞는지 확인
+	 * @param petBirth 반려동물 생일
+	 * @return 반려동물의 생일이 맞다면 true, 그 외는 false
+	 * **/
+	public boolean isValidPetBirth(String petBirth) {
+		
+		// YYYY-MM-DD 형식이 맞는지
+		if (Pattern.matches("^\\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$", petBirth)) {
+			return true;
+		} return false;
+	}
+	
+	/**
+	 * 반려동물 종류가 맞는지 확인
+	 * @param petType 반려동물 종류
+	 * @return 반려동물 종류가 맞다면 true, 아니라면 false
+	 * **/
+	public boolean isValidPetType(String petType) {
+		
+		// 개 고양이 토끼 패럿 기니피그 햄스터 중 하나
+		if (petType.equals("개") || petType.equals("고양이") || petType.equals("토끼") || petType.equals("패럿") || petType.equals("기니피그") || petType.equals("햄스터")) {
+			return true;
+		} return false;
+	}
+	
 	
 	/**
 	 * 파일이 byte 크기 이하인지 확인

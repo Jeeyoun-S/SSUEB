@@ -32,38 +32,23 @@ public class UserInfoResponseData {
 	@ApiModelProperty(value = "전문가 알림방식선택") //
     int userAlertFlag;
 	
-	@ApiModelProperty(value = "전문가 평균 평점") //임시
+	@ApiModelProperty(value = "전문가 평균 평점") //
 	Double consultantRate;
 	
-	@ApiModelProperty(value = "전문가 0 평점") //임시
-	int rateZero;
-	
-	@ApiModelProperty(value = "전문가 1 평점") //임시
-	int rateOne;
-	
-	@ApiModelProperty(value = "전문가 2 평점") //임시
-	int rateTwo;
-	
-	@ApiModelProperty(value = "전문가 3 평점") //임시
-	int rateThree;
-	
-	@ApiModelProperty(value = "전문가 4 평점") //임시
-	int rateFour;
-	
-	@ApiModelProperty(value = "전문가 5 평점") //임시
-	int rateFive;
+	@ApiModelProperty(value = "전문가 평점") //
+	List<Star> rate;
 	
 	@ApiModelProperty(value = "전문가 예약 제안 횟수") //
 	int consultantReservationCount;
 	
 	@ApiModelProperty(value = "평균 예약 제안 횟수") //
-	int reservationAverage;
+	double reservationAverage;
 	
 	@ApiModelProperty(value = "전문가 예약 확정 횟수") //
 	int confirmCount;
 	
 	@ApiModelProperty(value = "평균 예약 확정 횟수") //
-	int confirmAverage;
+	double confirmAverage;
 	
 	@ApiModelProperty(value = "예약 확정 수 최근 6개월")
 	List<Map<String, Integer>> reservationNumber;

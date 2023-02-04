@@ -11,7 +11,9 @@ public interface JoinConsultantRepository extends JpaRepository<Consultant, Stri
 	/**
 	 * 전문가 정보를 Consultant 테이블에 추가
 	 * @param consultant Consultant 테이블 정보
+	 * @return 
 	 * **/
+	@SuppressWarnings("unchecked")
 	Consultant save(Consultant consultant);
 	
 	/**

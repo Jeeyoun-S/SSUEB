@@ -76,10 +76,6 @@ public class UserLoginController {
 	 */
 	@PostMapping("/")
 	@ApiOperation(value = "로그인 - JWT 토큰 발급")
-	@ApiImplicitParams({
-		@ApiImplicitParam(name = "id", value = "유저 email", required = true),
-		@ApiImplicitParam(name = "password", value = "유저 password", required = true)
-	})
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, response = UserLoginPostResponse.class, message = "로그인에 성공했습니다."),
 			@ApiResponse(code = 401, response = UserLoginPostResponse.class, message = "id 또는 password를 다시 입력해 주세요.")

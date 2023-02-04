@@ -13,4 +13,10 @@ public interface UserInfoConsultantRepository extends JpaRepository<Consultant, 
 	 * @param id 사용자 아이디
 	 * **/
 	Optional<Consultant> findById(String id);
+	
+	/**
+	 * 전문가 정보 저장하기
+	 * @return 
+	 * **/
+	Consultant save(Consultant consultant);
 }

@@ -1,7 +1,6 @@
 package com.ssafy.user.pet;
 
 import java.io.File;
-import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,14 +37,14 @@ public class UserPetServiceImpl implements UserPetService {
 		String petType = petRequest.getPetType();
 		if (checkEmpty && petType == null) return false;
 		if (petType != null)
-			if (!(petType.equals("개") || petType.equals("고양이") || petType.equals("토끼") || petType.equals("패럿") || petType.equals("기니피그") || petType.equals("햄스터"))) {
+			if (!parameterCheck.isValidPetType(petType)) {
 				return false;
 			}
 		System.out.println("생일");
 		// 생일 확인
 		String birth = petRequest.getPetBirth();
 		if (birth != null)
-			if (!Pattern.matches("^\\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$", birth)) {
+			if (!parameterCheck.isValidPetBirth(birth)) {
 				return false;
 			}
 		

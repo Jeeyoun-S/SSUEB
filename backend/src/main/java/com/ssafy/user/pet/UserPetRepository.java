@@ -11,6 +11,7 @@ public interface UserPetRepository extends JpaRepository<Pet, Integer> {
 	/**
 	 * 반려동물 정보 저장하기
 	 * @param pet 반려동물 정보 DTO
+	 * @return 
 	 * **/
 	Pet save(Pet pet);
 
