@@ -14,6 +14,6 @@ public class ConsultantJoinRequest {
 	@ApiModelProperty(value = "자격번호", required = true)
 	String consultantLicenseNumber;
 	
-	@ApiModelProperty(value = "자격증 사본 파일명", required = true)
+	@ApiModelProperty(value = "자격증 사본 파일", required = true)
 	MultipartFile consultantLicenseCopyImage;
 }

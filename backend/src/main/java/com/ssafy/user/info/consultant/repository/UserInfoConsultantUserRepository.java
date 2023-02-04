@@ -4,7 +4,6 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.ssafy.db.entity.Consultant;
 import com.ssafy.db.entity.User;
 
 public interface UserInfoConsultantUserRepository extends JpaRepository<User, String> {
@@ -19,5 +18,6 @@ public interface UserInfoConsultantUserRepository extends JpaRepository<User, St
 	 * 회원 정보 저장하기
 	 * @return 
 	 * **/
+	@SuppressWarnings("unchecked")
 	User save(User user);
 }

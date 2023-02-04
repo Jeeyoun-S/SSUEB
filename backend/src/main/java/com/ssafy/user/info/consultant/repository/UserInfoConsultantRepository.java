@@ -18,5 +18,6 @@ public interface UserInfoConsultantRepository extends JpaRepository<Consultant, 
 	 * 전문가 정보 저장하기
 	 * @return 
 	 * **/
+	@SuppressWarnings("unchecked")
 	Consultant save(Consultant consultant);
 }

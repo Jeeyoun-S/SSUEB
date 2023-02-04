@@ -18,6 +18,7 @@ public interface PartnerUserRepository extends JpaRepository<User, String> {
 	 * 사용자 정보 update
 	 * @param user 사용자 정보
 	 * **/
+	@SuppressWarnings("unchecked")
 	User save(User user);
 	
 }

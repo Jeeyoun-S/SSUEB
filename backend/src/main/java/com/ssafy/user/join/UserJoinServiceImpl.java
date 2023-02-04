@@ -5,6 +5,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -46,6 +47,9 @@ public class UserJoinServiceImpl implements UserJoinService {
 	@Autowired
 	EntityManagerFactory entityManagerFactory;
 	
+	@Value("${file.image.path.license}")
+	String licenseFilePath;
+	
 	@Override
 	public boolean checkUserValid(JoinRequest joinRequest, int role) {
 		
@@ -60,7 +64,7 @@ public class UserJoinServiceImpl implements UserJoinService {
 		
 		if (isDebug) System.out.println("#아이디 문제 "+id);
 		// 아이디 유효성 검사
-		if (!parameterCheck.isEmpty(id) && !userRepository.findById(id).isPresent() && parameterCheck.isValidId(id)) {
+		if (!parameterCheck.isEmpty(id) && parameterCheck.isValidId(id) && !userRepository.findById(id).isPresent()) {
 			
 			if (isDebug) System.out.println("#비밀번호 문제 "+password);
 			// 비밀번호 유효성 검사
@@ -131,7 +135,7 @@ public class UserJoinServiceImpl implements UserJoinService {
 		String licenseName = imageCheck.makeFilename(licenseImage.getOriginalFilename());
 		
 		// 파일 저장하기
-		imageCheck.saveImage(licenseImage, licenseName, "C:\\Users\\SSAFY");
+		imageCheck.saveImage(licenseImage, licenseName, licenseFilePath);
 		
 		// Consultant DTO 생성
 		Consultant consultant = new Consultant();

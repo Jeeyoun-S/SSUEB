@@ -1,15 +1,18 @@
-package com.ssafy.user.phone.response;
+package com.ssafy.common.util;
+
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
-public class PhoneSendResponse {
+@NoArgsConstructor
+public class BasicResponse {
 	
 	@ApiModelProperty(value = "성공 또는 실패")
 	String response;
 	
-	@ApiModelProperty(value = "응답 메세지")
+	@ApiModelProperty(value = "메세지")
 	String message;
 }

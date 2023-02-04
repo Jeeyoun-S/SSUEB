@@ -1,6 +1,5 @@
 package com.ssafy.user.info.consultant;
 
-import java.io.File;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -11,6 +10,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.ssafy.common.util.BasicResponse;
 import com.ssafy.common.util.ImageFile;
 import com.ssafy.common.util.ParameterCheck;
 import com.ssafy.db.entity.Consultant;
@@ -34,11 +35,11 @@ import com.ssafy.user.info.consultant.request.ConsultantInfoRequest;
 import com.ssafy.user.info.consultant.response.Star;
 import com.ssafy.user.info.consultant.response.UserInfoResponse;
 import com.ssafy.user.info.consultant.response.UserInfoResponseData;
-import com.ssafy.user.join.response.BasicResponse;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
 
 @Api(tags = {"User/Info"}, description = "회원정보 API")
 @RestController
@@ -47,7 +48,6 @@ public class UserInfoConsultantController {
 	
 	// 유효성 검사
 	ParameterCheck parameterCheck = new ParameterCheck();
-	
 	ImageFile imageFile = new ImageFile();
 	
 	@Autowired
@@ -59,9 +59,13 @@ public class UserInfoConsultantController {
 	@Autowired
 	UserInfoConsultantQueryRepository userInfoConsultantQueryRepository;
 	
+	@Value("${file.image.path.consultant}")
+	String profileImagePath;
+	
 	@GetMapping("/user/info/consultant/{id}")
 	@ApiOperation(value = "전문가 회원정보 조회", notes = "전문가의 이력, 회원정보, 그래프 데이터를 조회한다.")
 	@ApiImplicitParam(name = "id", value = "전문가 아이디", required = true)
+	@ApiResponse(code = 200, response = UserInfoResponse.class, message = "전문가 회원정보 조회 진행")
 	public ResponseEntity<UserInfoResponse> getConsultantInfo(@PathVariable String id) {
 		
 		// 아이디 유효성 검사
@@ -155,6 +159,7 @@ public class UserInfoConsultantController {
 	@Transactional
 	@PostMapping(value = "/user/info/consultant", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ApiOperation(value = "전문가 회원정보 수정", notes = "전문가의 이력, 회원정보를 수정한다.")
+	@ApiResponse(code = 200, response = BasicResponse.class, message = "전문가 회원정보 수정 진행")
 	public ResponseEntity<BasicResponse> modifyConsultantInfo(ConsultantInfoRequest consultantInfoRequest) {
 		
 		String id = consultantInfoRequest.getId();
@@ -183,11 +188,10 @@ public class UserInfoConsultantController {
 					// 기존 파일 가져오기
 					String beforeProfile = consultant.getConsultantProfile();
 					
-					// 기존 파일 삭제하기
-					File file = new File("C:\\Users\\SSAFY\\Desktop\\image\\" + beforeProfile);
-					file.delete();
-					
 					if (consultantInfoRequest.getConsultantProfile() != null) {
+						
+						// 기존 파일 삭제하기
+						imageFile.deleteFile(beforeProfile, profileImagePath);
 						
 						// 파일
 						MultipartFile profileImage = consultantInfoRequest.getConsultantProfile();
@@ -196,20 +200,26 @@ public class UserInfoConsultantController {
 						String imageName = imageFile.makeFilename(profileImage.getOriginalFilename());
 						
 						// 이미지 크기 300px:300px로 조절해서 저장하기
-						boolean result = imageFile.saveImage300(profileImage, imageName, "C:\\Users\\SSAFY\\Desktop\\image\\");
+						boolean result = imageFile.saveImage300(profileImage, imageName, profileImagePath);
 						
 						if (result) consultant.setConsultantProfile(imageName);
-					} else {
+					}
+					
+					if (consultantInfoRequest.isDeleteProfile()) {
+						
+						// 기존 파일 삭제하기
+						imageFile.deleteFile(beforeProfile, profileImagePath);
+						
 						consultant.setConsultantProfile(null);
 					}
 					
-					return ResponseEntity.status(200).body(new BasicResponse("success"));
+					return ResponseEntity.status(200).body(new BasicResponse("success", null));
 				}
 			}
 			
 		}
 		
-		return ResponseEntity.status(200).body(new BasicResponse("failure"));
+		return ResponseEntity.status(200).body(new BasicResponse("failure", null));
 	}
 	
 }

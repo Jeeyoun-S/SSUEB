@@ -82,8 +82,8 @@ public class ParameterCheck {
 	 * **/
 	public boolean isValidPhone(String userPhone) {
 		
-		// 숫자 11자리
-		if (Pattern.matches("^[0-9]{11}$", userPhone)) {
+		// 휴대폰 번호 유효성 검사
+		if (Pattern.matches("^(01[016789]{1})[0-9]{3,4}[0-9]{4}$", userPhone) || Pattern.matches("^(070|02|0[3-9]{1}[0-9]{1})[0-9]{3,4}[0-9]{4}$", userPhone)) {
 			return true;
 		} return false;
 	}
@@ -142,6 +142,34 @@ public class ParameterCheck {
 	}
 	
 	/**
+	 * 휴대폰 인증 번호 6자리가 맞는지 확인
+	 * @param petType 확인할  값
+	 * @return 2진법 6자리가 맞다면 true, 그 외는 false
+	 * **/
+	public boolean isValidPhoneAuth(String auth) {
+		
+		// 숫자 6자리인지
+		if (Pattern.matches("^[0-9]{6}$", auth)) {
+			return true;
+		} return false;
+		
+	}
+	
+	/**
+	 * 자격번호 검증 (-를 제외하고 나머지 특수문자가 없는지)
+	 * @param licenseNumber 자격번호 검증
+	 * @return 자격번호가 맞다면 true, 그 외는 false
+	 * **/
+	public boolean isValidLicenseNumber(String licenseNumber) {
+		
+		// -를 제외한 특수문자가 없는지
+		if (Pattern.matches("[^`~!@#$%^&*|\\\\\\'\\\";:\\/?<>{}+_()]+", licenseNumber)) {
+			return true;
+		} return false;
+		
+	}
+	
+	/**
 	 * 반려동물의 생일 형식이 맞는지 확인
 	 * @param petBirth 반려동물 생일
 	 * @return 반려동물의 생일이 맞다면 true, 그 외는 false
@@ -149,7 +177,7 @@ public class ParameterCheck {
 	public boolean isValidPetBirth(String petBirth) {
 		
 		// YYYY-MM-DD 형식이 맞는지
-		if (Pattern.matches("^\\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$", petBirth)) {
+		if (Pattern.matches("^\\d{4}-(0[1-9]|1[012])$", petBirth)) {
 			return true;
 		} return false;
 	}

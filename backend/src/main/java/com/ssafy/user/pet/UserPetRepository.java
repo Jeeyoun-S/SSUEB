@@ -13,6 +13,7 @@ public interface UserPetRepository extends JpaRepository<Pet, Integer> {
 	 * @param pet 반려동물 정보 DTO
 	 * @return 
 	 * **/
+	@SuppressWarnings("unchecked")
 	Pet save(Pet pet);
 
 	

@@ -110,4 +110,15 @@ public class ImageFile {
 		}
 	}
 	
+	/**
+	 * 파일 삭제하기
+	 * @param filename 파일 명
+	 * @param path 파일이 저장돼 있는 경로
+	 * **/
+	public void deleteFile(String filename, String path) {
+		
+		File file = new File(path + filename);
+		file.delete();
+	}
+	
 }

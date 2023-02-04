@@ -1,7 +1,5 @@
 package com.ssafy.user.login;
 
-import java.io.Console;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,21 +10,16 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.common.jwt.JwtAuthenticationFilter;
 import com.ssafy.common.jwt.JwtTokenProvider;
+import com.ssafy.common.util.BasicResponse;
 import com.ssafy.common.util.ParameterCheck;
-import com.ssafy.db.entity.User;
 import com.ssafy.user.join.UserJoinController;
-import com.ssafy.user.join.response.BasicResponse;
 import com.ssafy.user.login.request.UserKakaoUserPostRequest;
 import com.ssafy.user.login.request.UserLoginPostRequest;
 import com.ssafy.user.login.response.UserLoginPostResponse;

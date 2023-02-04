@@ -28,4 +28,7 @@ public class ConsultantInfoRequest {
 	
 	@ApiModelProperty(value = "전문가 사진")
 	MultipartFile consultantProfile;
+	
+	@ApiModelProperty(value = "전문가 사진 삭제 여부")
+	boolean deleteProfile;
 }
