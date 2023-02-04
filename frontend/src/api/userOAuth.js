@@ -32,10 +32,10 @@ async function getKakaoToken(kakaoInfo, success, fail) {
 
 // [GET] #Kakao# 현재 로그인한 Kakao 사용자 정보 가져오기
 async function getKakaoUserInfo(token, success, fail) {
-  // console.log(
-  //   "#userOAuth - api# 현재 로그인한 Kakao 정보 가져오기 위한 token: ",
-  //   token
-  // );
+  console.log(
+    "#userOAuth - api# 현재 로그인한 Kakao 정보 가져오기 위한 token: ",
+    token
+  );
   await kakao_api_info
     .get(`/v2/user/me`, {
       headers: {
@@ -64,16 +64,18 @@ async function getKakaoUserInfo(token, success, fail) {
       // * 있다면 > 로그인
       else {
         // 로그인 JWT 토큰 발행 > (userStore 내 로그인 함수 호출)
-        const kakaoId = id.substring(0, 6);
-        const kakaoKey =
-          process.env.VUE_APP_OAUTH_KAKAO_CLIENT_SECRET.substring(0, 6);
-        const kakaoPassword = kakaoId + kakaoKey + "#1";
+        // const kakaoId = id.substring(0, 6);
+        // const kakaoKey =
+        //   process.env.VUE_APP_OAUTH_KAKAO_CLIENT_SECRET.substring(0, 6);
+        // const kakaoPassword = kakaoId + kakaoKey + "#1";
         const loginInfo = {
           id: id,
-          password: kakaoPassword,
+          password: "social",
           socialButton: 1,
         };
         store.dispatch("userStore/excuteLogin", loginInfo, { root: true });
+        // 기존에는 password 만들어서 back으로 보냈었음
+        // 1) password를 kakao로 보내기
       }
     })
     .catch(fail);
