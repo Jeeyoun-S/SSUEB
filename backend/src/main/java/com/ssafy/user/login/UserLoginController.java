@@ -92,7 +92,7 @@ public class UserLoginController {
 			// # 소셜 로그인(Kakao)인 경우 비밀번호 생성
 			if (loginInfo.getPassword().equals("social")) {
 				loginInfo.setPassword(createSocialPassword(loginInfo.getId())); 
-				logger.info("#21# Kakao 비밀번호 확인: {}", loginInfo.getPassword());
+//				logger.info("#21# Kakao 비밀번호 확인: {}", loginInfo.getPassword());
 			}
 			
 			// # 입력값 검증
