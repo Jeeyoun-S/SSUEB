@@ -64,6 +64,9 @@ public class UserLoginController {
 	@Autowired
 	UserLoginService userLoginService;
 	
+	// Kakao Admin Key
+	private final String KAKAO_CLIENT_KEY = "FbvTdfM13LnWXGd6nh3DNYZmm3KHiJBE"; 
+	
 	/** 
 	 * id와 pw를 통해 로그인 실행, 성공 시 JWT token 반환
 	 * @param UserLoginPostReq
@@ -84,6 +87,12 @@ public class UserLoginController {
 		try {
 			logger.info("## [Controller]: authorize - 로그인 실행 {}", loginInfo);
 			logger.info("#21# 암호화 비밀번호: {}", passwordEncoder.encode(loginInfo.getPassword()));
+			
+			// # 소셜 로그인(Kakao)인 경우 비밀번호 생성
+			if (loginInfo.getPassword().equals("social")) {
+				loginInfo.setPassword(createSocialPassword(loginInfo.getId())); 
+				logger.info("#21# Kakao 비밀번호 확인: {}", loginInfo.getPassword());
+			}
 			
 			// # 입력값 검증
 			// i) id - 비어 있지 않은지 && ID 규칙에 맞는지
@@ -146,6 +155,15 @@ public class UserLoginController {
 			e.printStackTrace();
 			return ResponseEntity.ok(UserLoginPostResponse.of(401, "failure", "id 또는 password를 다시 입력해 주세요.", null));
 		}
+	}
+	
+	/** 
+	 * social 로그인의 경우 비밀번호 생성
+	 * @param id
+	 * @return UserLoginPostRequest
+	 */
+	public String createSocialPassword(String id) {
+		return id.substring(0, 6) + KAKAO_CLIENT_KEY.substring(0, 6) + "#1";
 	}
 		
 }
