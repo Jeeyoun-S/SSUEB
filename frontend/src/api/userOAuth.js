@@ -70,8 +70,6 @@ async function getKakaoUserInfo(token, success, fail) {
           socialButton: 1,
         };
         store.dispatch("userStore/excuteLogin", loginInfo, { root: true });
-        // 기존에는 password 만들어서 back으로 보냈었음
-        // 1) password를 kakao로 보내기
       }
     })
     .catch(fail);
