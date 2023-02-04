@@ -64,13 +64,9 @@ async function getKakaoUserInfo(token, success, fail) {
       // * 있다면 > 로그인
       else {
         // 로그인 JWT 토큰 발행 > (userStore 내 로그인 함수 호출)
-        // const kakaoId = id.substring(0, 6);
-        // const kakaoKey =
-        //   process.env.VUE_APP_OAUTH_KAKAO_CLIENT_SECRET.substring(0, 6);
-        // const kakaoPassword = kakaoId + kakaoKey + "#1";
         const loginInfo = {
           id: id,
-          password: "social",
+          password: `${process.env.VUE_APP_OAUTH_KAKAO}`,
           socialButton: 1,
         };
         store.dispatch("userStore/excuteLogin", loginInfo, { root: true });
