@@ -98,13 +98,23 @@ export default {
   data() {
     return {
       kakaoCode: null,
+      naverCode: null,
+      naverState: null,
     };
   },
   created() {
-    // #OAuth - Kakao# Kakao 인가 코드 받기
-    this.kakaoCode = this.$route.query.code;
-    if (this.kakaoCode != null) {
-      this.kakao();
+    // #OAuth - 인가 code 받기
+    // i) Naver: code, state
+    // ii) Kakao: code
+    this.naverState = this.$route.query.state;
+
+    if (this.naverState == null) {
+      this.kakaoCode = this.$route.query.code;
+      if (this.kakaoCode != null) this.kakao();
+    } else {
+      this.naverCode = this.$route.query.code;
+      console.log("#21# Naver 인가 code: ", this.naverCode);
+      this.naver();
     }
   },
   components: {
@@ -115,12 +125,18 @@ export default {
     ...mapState(userStore, ["isLogin"]),
   },
   methods: {
-    ...mapActions(userOAuthStore, ["excuteKakaoToken"]),
+    ...mapActions(userOAuthStore, ["excuteKakaoToken", "excuteNaverToken"]),
 
     // #OAuth - Kakao# 받은 인가 코드를 사용하여 Kakao Token 발급요청
     async kakao() {
       await this.excuteKakaoToken(this.kakaoCode);
       this.kakaoCode = null; // 받은 인가 code 초기화
+    },
+    // #OAuth - Naver# 받은 인가 코드를 사용하여 Naver Token 발급요청
+    async naver() {
+      await this.excuteNaverToken(this.naverCode);
+      this.naverCode = null; // 받은 code, state 초기화
+      this.naverState = null;
     },
   },
 };
@@ -189,7 +205,7 @@ export default {
   font-weight: lighter;
 }
 .main-center .main-center-item .explain.one {
-  background-color: #E8EBF6;
+  background-color: #e8ebf6;
 }
 .main-center .main-center-item .explain.two {
   color: white;
