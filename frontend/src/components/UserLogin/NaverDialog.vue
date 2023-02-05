@@ -19,11 +19,11 @@ export default {
     // Naver 로그인 연동 동의 요청
     naverLogin() {
       const encodeState = encodeURIComponent(
-        `${process.env.VUE_APP_OAUTH_KAKAO_REDIRECT_URI}`,
+        `${process.env.VUE_APP_OAUTH_REDIRECT_URI}`,
         "UTF-8"
       );
       window.location.replace(
-        `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${process.env.VUE_APP_OAUTH_NAVER_CLIENT}&state=${encodeState}&redirect_uri=${process.env.VUE_APP_OAUTH_KAKAO_REDIRECT_URI}`
+        `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${process.env.VUE_APP_OAUTH_NAVER_CLIENT}&state=${encodeState}&redirect_uri=${process.env.VUE_APP_OAUTH_REDIRECT_URI}`
       );
     },
   },

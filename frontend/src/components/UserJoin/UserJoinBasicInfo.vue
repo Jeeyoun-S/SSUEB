@@ -46,7 +46,8 @@ export default {
         id: null,
         userPassword: null,
         userName: null,
-        socialAccess: true, // #21#
+        socialAccess: true, // for. 소셜 로그인 버튼을 통한 접근 여부판단
+        provider: null, // for. 소셜 로그인 제공자 판단
       },
       valid: {
         email: /^[a-zA-Z0-9_+.-]+@([a-zA-Z0-9-]+\.)+[a-zA-Z0-9-.]{2,4}$/,
@@ -112,18 +113,11 @@ export default {
       deep: true,
     },
   },
-  // computed: {
-  //   // ...mapState(userJoinStore, ["socialUserInfo"]), // #21#
-  //   socialUserInfo() {
-  //     return this.$store.getters.getSocialUserInfo;
-  //     // return this.$store.state.socialUserInfo;
-  //   },
-  // },
   created() {
     // 소셜 로그인을 통해 회원가입 페이지로 접근 하였다면 > 소셜 로그인 info 적용
     this.info.id = this.socialUserInfo.id;
+    this.info.provider = this.socialUserInfo.provider;
     // 비밀번호 입력칸 비활성화
-    // if (this.socialUserInfo.id != null) this.socialAccess = false;
     if (this.socialUserInfo.id != null) this.info.socialAccess = false;
   },
   computed: {
