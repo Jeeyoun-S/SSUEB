@@ -1,17 +1,23 @@
 <template>
   <div class="mypage">
-    <div class="mypage-title border-sheet-four">
-      <h2>회원 정보</h2>
+    <div class="mypage-inner border-sheet-four">
+      <div class="mypage-title border-sheet-four">
+        <v-icon class="mr-2" size="x-large">mdi-account</v-icon><h2>회원 정보</h2>
+      </div>
+      <div class="mypage-content border-sheet-four">
+        <MyPagePartnerInfo v-if="getInfoVersion"></MyPagePartnerInfo>
+        <MyPagePartnerInfoModify v-else></MyPagePartnerInfoModify>
+      </div>
     </div>
-    <div class="mypage-info">
-      <MyPagePartnerInfo v-if="getInfoVersion"></MyPagePartnerInfo>
-      <MyPagePartnerInfoModify v-else></MyPagePartnerInfoModify>
-    </div>
-    <div class="mypage-title border-sheet-four">
-      <h2>반려동물 정보 <MyPagePetRegister></MyPagePetRegister></h2>
-    </div>
-    <div class="mypage-pet-item">
-      <MyPagePetItem></MyPagePetItem>
+    <div class="mypage-inner border-sheet-four">
+      <div class="mypage-title border-sheet-four">
+        <v-icon class="mr-2" size="x-large">mdi-paw</v-icon>
+        <h2>반려동물 정보</h2>
+        <MyPagePetRegister></MyPagePetRegister>
+      </div>
+      <div class="mypage-pet-item border-sheet-four">
+        <MyPagePetItem></MyPagePetItem>
+      </div>
     </div>
   </div>
 </template>
@@ -56,38 +62,4 @@ export default {
 </script>
 
 <style>
-.mypage {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: space-between;
-
-  width: 1070px;
-}
-.mypage .mypage-title {
-  width: 1070px;
-  height: 50px;
-}
-.mypage .mypage-info {
-  width: 100%;
-  height: 400px;
-
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  justify-content: space-between;
-}
-.mypage .mypage-info .mypage-info-item {
-  padding: 20px;
-}
-
-.mypage .mypage-pet-item {
-  width: 1070px;
-
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  justify-content: space-between;
-  flex-wrap: wrap;
-}
 </style>

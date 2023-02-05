@@ -1,7 +1,9 @@
 <template>
   <v-dialog v-model="registOpen" width="700">
     <template v-slot:activator="{ props }">
-      <v-btn variant="outlined" rounded="0" v-bind="props">반려동물 등록</v-btn>
+      <v-btn class="ma-2" rounded="pill" prepend-icon="mdi-plus" color="primary" variant="tonal" v-bind="props">
+        등록
+      </v-btn>
     </template>
     <v-card class="pa-5">
       <v-card-title>
@@ -11,31 +13,46 @@
         <v-container>
           <v-form ref="form">
             <v-row>
-              <v-col>
-                <v-row>
-                  <img :src="require('@/assets/profile/pet.png')"/>
+              <v-col class="pr-10" cols="5" align-self="center">
+                <v-row justify="center">
+                  <v-avatar color="#06BEE1" size="150">
+                    <img :src="imageUrl"/>
+                  </v-avatar>
                 </v-row>
-                <v-col>
-                  <v-file-input v-model="petRegistInfo.petImage" accept="image/png, image/jpeg, image/bmp" prepend-icon="mdi-camera" label="사진" variant="underlined"></v-file-input>
-                </v-col>
+                <v-row>
+                  <v-file-input v-model="petRegistInfo.petImage" accept="image/png, image/jpeg, image/bmp"
+                    prepend-icon="mdi-camera" :rules="petRules.petImage" label="사진" variant="underlined">
+                  </v-file-input>
+                </v-row>
               </v-col>
               <v-col>
                 <v-row>
-                  <v-text-field :rules="petRules.petName" v-model="petRegistInfo.petName" density="compact" label="이름" variant="underlined" required></v-text-field>
+                  <v-text-field :rules="petRules.petName" v-model="petRegistInfo.petName"
+                    label="이름" variant="underlined" required>
+                  </v-text-field>
                 </v-row>
                 <v-row>
-                  <v-select :rules="petRules.petType" v-model="petRegistInfo.petType" density="compact" :items="['개', '고양이', '토끼', '패럿', '기니피그', '햄스터']" label="종류" variant="underlined" required></v-select>
+                  <v-select :rules="petRules.petType" v-model="petRegistInfo.petType"
+                    :items="['개', '고양이', '토끼', '패럿', '기니피그', '햄스터']"
+                    label="종류" variant="underlined" required>
+                  </v-select>
                 </v-row>
                 <v-row>
-                  <v-text-field :rules="petRules.petVariety" v-model="petRegistInfo.petVariety" label="품종" variant="underlined" density="compact"></v-text-field>
+                  <v-text-field :rules="petRules.petVariety" v-model="petRegistInfo.petVariety"
+                    label="품종" variant="underlined">
+                  </v-text-field>
                 </v-row>
                 <v-row v-show="knowBirth == '0'">
-                  <v-text-field :rules="petRules.petBirth" v-model="petRegistInfo.petBirth" label="생일" variant="underlined" density="compact"></v-text-field>
+                  <v-text-field :rules="petRules.petBirth" v-model="petRegistInfo.petBirth" label="생일"
+                    variant="underlined">
+                  </v-text-field>
                 </v-row>
               </v-col>
             </v-row>
             <v-row>
-              <v-textarea v-model="petRegistInfo.petInfo" label="특이사항" variant="underlined" counter="50"></v-textarea>
+              <v-textarea :rules="petRules.petInfo" v-model="petRegistInfo.petInfo" label="특이사항" variant="underlined"
+                counter="40">
+              </v-textarea>
             </v-row>
           </v-form>
         </v-container>
@@ -58,6 +75,9 @@ export default {
   name: 'MyPagePetRegister',
   computed: {
     ...mapState(userStore, ["userId"]),
+    petRules() {
+      return this.$store.getters.getPetRule;
+    },
   },
   data() {
     return {
@@ -71,27 +91,23 @@ export default {
         petType: null,
         petVariety: null,
       },
-      petValid: {
-        petBirth: /^\d{4}-(0[1-9]|1[012])$/,
-        specialChar: /[{}[\]/?.,;:|)|*~`!^\-_+<>@#$%&\\=('"]/
+      imageUrl: require('@/assets/profile/pet.png')
+    }
+  },
+  watch: {
+    petRegistInfo: {
+      handler() {
+        console.log("와따")
+        if (this.petRegistInfo.petImage != null && this.petRegistInfo.petImage.length == 1) {
+          console.log("null 아니야");
+          console.log(this.petRegistInfo.petImage);
+          this.imageUrl = URL.createObjectURL(this.petRegistInfo.petImage[0]);
+          console.log(this.imageUrl)
+        } else {
+          this.imageUrl = require('@/assets/profile/pet.png');
+        }
       },
-      petRules: {
-        petBirth: [
-          (v) => !v || this.petValid.petBirth.test(v) || "생일은 YYYY-MM 형식으로 입력해 주세요."
-        ],
-        petImage: null,
-        petInfo: null,
-        petName: [
-          (v) => !!v || "이름은 필수 입력 사항입니다.",
-          (v) => !this.petValid.specialChar.test(v) || "특수문자 입력은 불가능합니다.",
-        ],
-        petType: [
-          (v) => !!v || "종류 선택은 필수입니다.",
-        ],
-        petVariety: [
-          (v) => !v || !this.petValid.specialChar.test(v) || "특수문자 입력은 불가능합니다.",
-        ],
-      }
+      deep: true
     }
   },
   methods: {
@@ -107,7 +123,7 @@ export default {
             if (key == "petImage" && this.petRegistInfo[key].length >= 1) {
               petFormData.append(key, this.petRegistInfo[key][0]);
             }
-            else if (key == "petBirth") petFormData.append(key, this.petRegistInfo[key] + "-01")
+            else if (key == "petBirth") petFormData.append(key, this.petRegistInfo[key])
             else petFormData.append(key, this.petRegistInfo[key]);
           }
         }

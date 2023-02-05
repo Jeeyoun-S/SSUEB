@@ -5,7 +5,7 @@
     </template>
     <v-card class="pa-5">
       <v-card-title>
-        <h3>반려동물 수정</h3>
+        <h3>반려동물 정보 수정</h3>
       </v-card-title>
       <v-card-text>
         <v-container>

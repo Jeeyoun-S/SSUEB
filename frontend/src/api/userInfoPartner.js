@@ -42,7 +42,7 @@ async function updatePartnerInfo(partnerInfo) {
 
   api.post(`user/info/partner`, partnerInfo)
   .then((res) => {
-    if (res.data.response) {
+    if (res.data.response == "success") {
       console.log("#회원정보 수정 성공");
 
       store.dispatch("getPartnerInfo", partnerInfo);

@@ -1,8 +1,7 @@
 <template>
   <div class="main">
     <TheSidebar v-show="isShowSidebar"></TheSidebar>
-    <!-- <TheSidebar v-show="$router.name !== 'userJoin'"></TheSidebar> -->
-    <router-view />
+    <router-view class="main-inner" />
   </div>
 </template>
 
@@ -37,16 +36,21 @@ export default {
 * {
   font-family: "SUIT-Regular";
 }
+#app {
+  /* 가로 스크롤 설정 */
+  overflow-x: auto; 
+}
 .main {
+  min-height: 100vh;
+  min-width: 1440px;
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-  justify-content: left;
-
-  /* 가로 스크롤 설정 */
-  overflow: auto;
-  white-space: nowrap;
-
+  justify-content: center;
+  
   padding: 48px;
+}
+.main .main-inner {
+  max-width: 1070px;
 }
 </style>
