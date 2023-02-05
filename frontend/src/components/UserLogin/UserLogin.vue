@@ -37,6 +37,7 @@
       <div class="icon">
         <kakao-dialog></kakao-dialog>
         <naver-dialog></naver-dialog>
+        <google-dialog></google-dialog>
       </div>
       <v-btn
         color="primary"
@@ -54,6 +55,7 @@
 import { mapState, mapActions } from "vuex";
 import KakaoDialog from "./KakaoDialog.vue";
 import NaverDialog from "./NaverDialog.vue";
+import GoogleDialog from "./GoogleDialog.vue";
 
 const userStore = "userStore";
 
@@ -88,7 +90,7 @@ export default {
       showPassword: false,
     };
   },
-  components: { KakaoDialog, NaverDialog },
+  components: { KakaoDialog, NaverDialog, GoogleDialog },
   computed: {
     ...mapState(userStore, ["isLogin", "userToken"]),
   },
