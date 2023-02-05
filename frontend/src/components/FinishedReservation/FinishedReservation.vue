@@ -1,18 +1,15 @@
 <template>
-  <v-row>
-    <v-expansion-panels variant="popout" class="my-4">
-      <v-expansion-panel
-        v-for="i in 3"
-        :key="i"
-        title="Item"
-        text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."
-      ></v-expansion-panel>
+  <v-sheet width="1000" height="800">
+    <v-expansion-panels multiple class="my-4">
+      <v-expansion-panel width="800" v-for="i in 50" :key="i">
+        <v-expansion-panel-title>Panel 1</v-expansion-panel-title>
+        <v-expansion-panel-text>
+          Some content
+        </v-expansion-panel-text>
+      </v-expansion-panel>
     </v-expansion-panels>
-  </v-row>
-
-  <v-card width="300" height="400" elevation="2">
     <v-icon size="small" color="orange darken-2"> mdi-star </v-icon>
-  </v-card>
+  </v-sheet>
 </template>
 
 <script>
