@@ -36,7 +36,7 @@
       <div>간편 로그인 및 회원가입 -------------</div>
       <div class="icon">
         <kakao-dialog></kakao-dialog>
-        <naver-dialog></naver-dialog>
+        <!-- <naver-dialog></naver-dialog> -->
         <google-dialog></google-dialog>
       </div>
       <v-btn
@@ -54,7 +54,7 @@
 <script>
 import { mapState, mapActions } from "vuex";
 import KakaoDialog from "./KakaoDialog.vue";
-import NaverDialog from "./NaverDialog.vue";
+// import NaverDialog from "./NaverDialog.vue";
 import GoogleDialog from "./GoogleDialog.vue";
 
 const userStore = "userStore";
@@ -90,7 +90,8 @@ export default {
       showPassword: false,
     };
   },
-  components: { KakaoDialog, NaverDialog, GoogleDialog },
+  // components: { KakaoDialog, NaverDialog, GoogleDialog },
+  components: { KakaoDialog, GoogleDialog },
   computed: {
     ...mapState(userStore, ["isLogin", "userToken"]),
   },
@@ -101,6 +102,7 @@ export default {
       await this.$refs.form.validate();
       await this.excuteLogin(this.loginInfo);
     },
+    // [@Method] 회원가입 페이지로 이동
     moveJoin() {
       location.href = `${process.env.VUE_APP_BASE_URL}/join`;
     },
