@@ -87,12 +87,15 @@ public class UserLoginController {
 		
 		try {
 			logger.info("## [Controller]: authorize - 로그인 실행 {}", loginInfo);
-			logger.info("#21# 암호화 비밀번호: {}", passwordEncoder.encode(loginInfo.getPassword()));
+//			logger.info("#21# 암호화 비밀번호: {}", passwordEncoder.encode(loginInfo.getPassword()));
 			
-			// # 소셜 로그인(Kakao)인 경우 비밀번호 생성
-			if (loginInfo.getPassword().equals("social")) {
-				loginInfo.setPassword(createSocialPassword(loginInfo.getId())); 
-//				logger.info("#21# Kakao 비밀번호 확인: {}", loginInfo.getPassword());
+			// # 소셜 로그인(Kakao, Google)인 경우 비밀번호 생성
+			if (loginInfo.getPassword().equals("socialKakao")) {
+				loginInfo.setPassword(createSocialPassword(loginInfo.getId(), "KAKAO")); 
+			}
+			else if (loginInfo.getPassword().equals("socialGoogle")) {
+				loginInfo.setPassword(createSocialPassword(loginInfo.getId(), "GOOGLE"));
+				logger.info("#21# Google 비밀번호 확인: {}", loginInfo.getPassword());
 			}
 			
 			// # 입력값 검증
@@ -159,12 +162,15 @@ public class UserLoginController {
 	}
 	
 	/** 
-	 * social 로그인의 경우 비밀번호 생성
+	 * 소셜 로그인(Kakao, Google)의 경우 비밀번호 생성
 	 * @param id
 	 * @return UserLoginPostRequest
 	 */
-	public String createSocialPassword(String id) {
-		return id.substring(0, 6) + commonVariable.getKakaoSecret().substring(0, 6) + "#1";
-	}
+	public String createSocialPassword(String id, String provider) {
+		if (provider.equals("KAKAO")) {
+			return id.substring(0, 6) + commonVariable.getKakaoSecret().substring(0, 6) + "#1";
+		}
 		
+		return id.substring(0, 6) + commonVariable.getGoogleSecret().substring(0, 6) + "#2";
+	}
 }

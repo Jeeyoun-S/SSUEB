@@ -34,7 +34,7 @@ import io.swagger.annotations.ApiResponses;
 @RequestMapping("/api/user/join")
 @Api(tags = { "User/Join" }, description = "사용자 회원가입 API")
 public class UserJoinController {
-	
+
 	// 유효성 검사
 	ParameterCheck parameterCheck = new ParameterCheck();
 
@@ -59,8 +59,11 @@ public class UserJoinController {
 		System.out.println("#반려인 회원가입 값 확인 001# " + joinRequest);
 		
 		// # 소셜 로그인(Kakao)인 경우 비밀번호 생성
-		if (joinRequest.getUserPassword().equals("social")) {
-			joinRequest.setUserPassword(userLoginController.createSocialPassword(joinRequest.getId()));
+		if (joinRequest.getUserPassword().equals("socialKakao")) {
+			joinRequest.setUserPassword(userLoginController.createSocialPassword(joinRequest.getId(), "KAKAO"));
+		}
+		else if (joinRequest.getUserPassword().equals("socialGoogle")) {
+			joinRequest.setUserPassword(userLoginController.createSocialPassword(joinRequest.getId(), "GOOGLE"));
 		}
 		
 		// User Table에 넣기
@@ -110,9 +113,12 @@ public class UserJoinController {
 		
 		System.out.println("#전문가 회원가입 값 확인 2# " + joinRequest + consultantJoinRequest);
 		
-		// # 소셜 로그인(Kakao)인 경우 비밀번호 생성
-		if (joinRequest.getUserPassword().equals("social")) {
-			joinRequest.setUserPassword(userLoginController.createSocialPassword(joinRequest.getId()));
+		// # 소셜 로그인(Kakao, Google)인 경우 비밀번호 생성
+		if (joinRequest.getUserPassword().equals("socialKakao")) {
+			joinRequest.setUserPassword(userLoginController.createSocialPassword(joinRequest.getId(), "KAKAO"));
+		}
+		else if (joinRequest.getUserPassword().equals("socialGoogle")) {
+			joinRequest.setUserPassword(userLoginController.createSocialPassword(joinRequest.getId(), "GOOGLE"));
 		}
 		
 		// 상담 가능한 동물 종류 가져오기

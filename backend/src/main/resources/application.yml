@@ -7,6 +7,9 @@ jwt:
 # for. Kakao 
 kakao:
   secret: FbvTdfM13LnWXGd6nh3DNYZmm3KHiJBE
+# for. Google
+google:
+  secret: GOC9kPsZBlP119
 logging:
   file:
     name: ./ssafy-web.log

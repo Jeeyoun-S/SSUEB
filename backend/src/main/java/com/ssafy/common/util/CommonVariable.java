@@ -11,9 +11,11 @@ import lombok.Getter;
 public class CommonVariable {
 	
 	private String kakaoSecret; 
+	private String googleSecret; 
 	
-	public CommonVariable(@Value("${kakao.secret}") String kakaoSecret) {
+	public CommonVariable(@Value("${kakao.secret}") String kakaoSecret, @Value("${google.secret}") String googleSecret) {
 		this.kakaoSecret = kakaoSecret;
+		this.googleSecret = googleSecret; 
 	}
 
 }
