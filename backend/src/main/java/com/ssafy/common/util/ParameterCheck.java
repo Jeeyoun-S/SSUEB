@@ -156,14 +156,14 @@ public class ParameterCheck {
 	}
 	
 	/**
-	 * 자격번호 검증 (-를 제외하고 나머지 특수문자가 없는지)
+	 * 자격번호 검증 (-, 영문자, 숫자만 가능)
 	 * @param licenseNumber 자격번호 검증
 	 * @return 자격번호가 맞다면 true, 그 외는 false
 	 * **/
 	public boolean isValidLicenseNumber(String licenseNumber) {
 		
-		// -를 제외한 특수문자가 없는지
-		if (Pattern.matches("[^`~!@#$%^&*|\\\\\\'\\\";:\\/?<>{}+_()]+", licenseNumber)) {
+		// -, 영문자, 숫자만 & 30자 이하
+		if (Pattern.matches("^[0-9a-zA-z-]*$", licenseNumber) && licenseNumber.length() <= 30) {
 			return true;
 		} return false;
 		
@@ -176,7 +176,7 @@ public class ParameterCheck {
 	 * **/
 	public boolean isValidPetBirth(String petBirth) {
 		
-		// YYYY-MM-DD 형식이 맞는지
+		// YYYY-MM 형식이 맞는지
 		if (Pattern.matches("^\\d{4}-(0[1-9]|1[012])$", petBirth)) {
 			return true;
 		} return false;

@@ -37,7 +37,8 @@ public class UserPetServiceImpl implements UserPetService {
 		
 		// 반려동물 이름 NN
 		if (isDebug) System.out.println("#이름");
-		if (petRequest.getPetName() == null) return false;
+		String name = petRequest.getPetName();
+		if (name == null || name.length() > 20) return false;
 		
 		// 반려동물 대분류 NN
 		if (isDebug) System.out.println("#대분류");
@@ -53,14 +54,14 @@ public class UserPetServiceImpl implements UserPetService {
 		if (isDebug) System.out.println("#품종");
 		String petVariety = petRequest.getPetVariety();
 		if (petVariety != null) {
-			if (parameterCheck.isSpecialChar(petVariety)) {
+			if (parameterCheck.isSpecialChar(petVariety) || petVariety.length() > 20) {
 				return false;
 			}
 		}
 		
 		// 반려동물 생일
-		System.out.println("#생일");
 		String birth = petRequest.getPetBirth();
+		System.out.println("#생일 "+birth);
 		if (birth != null) {
 			if (!parameterCheck.isValidPetBirth(birth)) {
 				return false;
@@ -68,6 +69,12 @@ public class UserPetServiceImpl implements UserPetService {
 		}
 		
 		// 반려동물 특이사항
+		String info = petRequest.getPetInfo();
+		if (info != null) {
+			if (info.length() > 40) {
+				return false;
+			}
+		}
 		
 		return true;
 	}
@@ -98,7 +105,7 @@ public class UserPetServiceImpl implements UserPetService {
 			pet.setPetName(petRequest.getPetName());
 			pet.setPetType(petRequest.getPetType());
 			pet.setPetVariety(petRequest.getPetVariety());
-			pet.setPetBirth(petRequest.getPetBirth());
+			if (petRequest.getPetBirth() != null) pet.setPetBirth(petRequest.getPetBirth()+"-01");
 			pet.setPetInfo(petRequest.getPetInfo());
 			
 			Pet saveResult = petRepository.save(pet);
@@ -136,7 +143,7 @@ public class UserPetServiceImpl implements UserPetService {
 			}
 		}
 		
-		if (isPetDeleteImage) {
+		else if (isPetDeleteImage) {
 			
 			// 기존 파일 삭제하기
 			imageCheck.deleteFile(beforeFileName, petImagePath);

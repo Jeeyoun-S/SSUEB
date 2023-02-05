@@ -1,6 +1,7 @@
 package com.ssafy.user.info.consultant.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -21,19 +22,19 @@ public interface UserInfoConsultantQueryRepository extends JpaRepository<Consult
 	 * 전문가의 총 확정 예약 횟수
 	 * **/
 	@Query(value = "SELECT COUNT(*) FROM reservation WHERE consultant_id = :id", nativeQuery = true)
-	int findTotalConfirmById(@Param("id") String id);
+	Optional<Integer> findTotalConfirmById(@Param("id") String id);
 	
 	/**
 	 * 전문가 예약 제안 횟수 전체 평균
 	 * **/
 	@Query(value = "SELECT AVG(c.consultant_reservation_count) FROM consultant AS c INNER JOIN (SELECT id, user_delete_flag FROM user) AS u ON u.id = c.id WHERE u.user_delete_flag = 0", nativeQuery = true)
-	double findAverageCnt();
+	Optional<Double> findAverageCnt();
 	
 	/**
 	 * 전문가 예약 확정 횟수 전체 평균
 	 * **/
 	@Query(value = "SELECT AVG(cnt) FROM (SELECT consultant_id, COUNT(consultant_id) AS cnt FROM reservation WHERE consultant_id IS NOT NULL GROUP BY consultant_id) AS a", nativeQuery = true)
-	double findAverageConfirm();
+	Optional<Double> findAverageConfirm();
 	
 	/**
 	 * 그래프 데이터

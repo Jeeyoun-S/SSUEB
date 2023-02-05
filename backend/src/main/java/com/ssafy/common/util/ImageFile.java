@@ -50,7 +50,7 @@ public class ImageFile {
 			String extension = filename.substring(filename.lastIndexOf(".") + 1);
 			
 			// 경로 설정해서 파일 객체 생성
-			File file = new File("C:/Users/SSAFY/" + filename);
+			File file = new File(path + filename);
 			
 			// 저장하기
 			boolean result = ImageIO.write(imageResize, extension.toUpperCase(), file);

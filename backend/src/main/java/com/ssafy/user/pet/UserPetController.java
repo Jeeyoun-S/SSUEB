@@ -59,7 +59,7 @@ public class UserPetController {
 				
 				// 반려동물 특이사항 HTML 변경
 				String info = petRequest.getPetInfo();
-				petRequest.setPetInfo(changeHTML.changeStringToHTML(info));
+				if (!parameterCheck.isEmpty(info)) petRequest.setPetInfo(changeHTML.changeStringToHTML(info));
 				
 				// DB에 넣기
 				Pet result = userPetService.addPet(id, petRequest);

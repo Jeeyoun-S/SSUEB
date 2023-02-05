@@ -43,7 +43,7 @@ import io.swagger.annotations.ApiResponse;
 
 @Api(tags = {"User/Info"}, description = "회원정보 API")
 @RestController
-@RequestMapping("/api/user/join")
+@RequestMapping("/api/user/info")
 public class UserInfoConsultantController {
 	
 	// 유효성 검사
@@ -59,10 +59,13 @@ public class UserInfoConsultantController {
 	@Autowired
 	UserInfoConsultantQueryRepository userInfoConsultantQueryRepository;
 	
-	@Value("${file.image.path.consultant}")
+	@Value("${file.image.path.profile}")
 	String profileImagePath;
 	
-	@GetMapping("/user/info/consultant/{id}")
+	@Autowired
+	UserInfoConsultantService userInfoConsultantService;
+	
+	@GetMapping("/consultant/{id}")
 	@ApiOperation(value = "전문가 회원정보 조회", notes = "전문가의 이력, 회원정보, 그래프 데이터를 조회한다.")
 	@ApiImplicitParam(name = "id", value = "전문가 아이디", required = true)
 	@ApiResponse(code = 200, response = UserInfoResponse.class, message = "전문가 회원정보 조회 진행")
@@ -109,13 +112,28 @@ public class UserInfoConsultantController {
 					userInfoResponseData.setConsultantRate(starAverage / starCount);
 					
 					// 전문가 예약 확정 횟수
-					userInfoResponseData.setConfirmCount(userInfoConsultantQueryRepository.findTotalConfirmById(id));
+					Optional<Integer> totalConfirm = userInfoConsultantQueryRepository.findTotalConfirmById(id);
+					if (totalConfirm.isPresent()) {
+						userInfoResponseData.setConfirmCount(totalConfirm.get());
+					} else {
+						userInfoResponseData.setConfirmCount(0);
+					}
 					
 					// 전문가 예약 제안 횟수 전체 평균
-					userInfoResponseData.setReservationAverage(userInfoConsultantQueryRepository.findAverageCnt());
+					Optional<Double>  averageCnt = userInfoConsultantQueryRepository.findAverageCnt();
+					if (averageCnt.isPresent()) {
+						userInfoResponseData.setReservationAverage(averageCnt.get());
+					} else {
+						userInfoResponseData.setReservationAverage(0);
+					}
 					
 					// 전문가 예약 확정 횟수 전체 평균
-					userInfoResponseData.setConfirmAverage(userInfoConsultantQueryRepository.findAverageConfirm());
+					Optional<Double>  averageConfirm = userInfoConsultantQueryRepository.findAverageConfirm();
+					if (averageConfirm.isPresent()) {
+						userInfoResponseData.setConfirmAverage(averageConfirm.get());
+					} else {
+						userInfoResponseData.setConfirmAverage(0);
+					}
 					
 					// 그래프 데이터
 					// 1. 예약 확정 수
@@ -157,7 +175,7 @@ public class UserInfoConsultantController {
 	}
 	
 	@Transactional
-	@PostMapping(value = "/user/info/consultant", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@PostMapping(value = "/consultant", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ApiOperation(value = "전문가 회원정보 수정", notes = "전문가의 이력, 회원정보를 수정한다.")
 	@ApiResponse(code = 200, response = BasicResponse.class, message = "전문가 회원정보 수정 진행")
 	public ResponseEntity<BasicResponse> modifyConsultantInfo(ConsultantInfoRequest consultantInfoRequest) {
@@ -167,56 +185,58 @@ public class UserInfoConsultantController {
 		// 아이디 유효성 검사
 		if (!parameterCheck.isEmpty(id) && parameterCheck.isValidId(id)) {
 			
-			// DB에서 사용자 정보 불러오기
-			Optional<User> optionUser = userInfoConsultantUserRepository.findById(id);
-			if (optionUser.isPresent()) {
+			if (userInfoConsultantService.isValidConsultantInfo(consultantInfoRequest)) {
 				
-				Optional<Consultant> optionConsultant = userInfoConsultantRepository.findById(id);
-				
-				if (optionConsultant.isPresent()) {
+				// DB에서 사용자 정보 불러오기
+				Optional<User> optionUser = userInfoConsultantUserRepository.findById(id);
+				if (optionUser.isPresent()) {
 					
-					User user = optionUser.get();
-					Consultant consultant = optionConsultant.get();
+					Optional<Consultant> optionConsultant = userInfoConsultantRepository.findById(id);
 					
-					user.setUserNickname(consultantInfoRequest.getUserName());
-					user.setUserPassword(consultantInfoRequest.getUserPassword());
-					user.setUserPhone(consultantInfoRequest.getUserPhone());
-					
-					consultant.setConsultantPetType(consultantInfoRequest.getConsultantPetType());
-					consultant.setConsultantIntro(consultantInfoRequest.getConsultantIntro());
-					
-					// 기존 파일 가져오기
-					String beforeProfile = consultant.getConsultantProfile();
-					
-					if (consultantInfoRequest.getConsultantProfile() != null) {
+					if (optionConsultant.isPresent()) {
 						
-						// 기존 파일 삭제하기
-						imageFile.deleteFile(beforeProfile, profileImagePath);
+						User user = optionUser.get();
+						Consultant consultant = optionConsultant.get();
 						
-						// 파일
-						MultipartFile profileImage = consultantInfoRequest.getConsultantProfile();
+						user.setUserNickname(consultantInfoRequest.getUserName());
+						user.setUserPassword(consultantInfoRequest.getUserPassword());
+						user.setUserPhone(consultantInfoRequest.getUserPhone());
 						
-						// 파일 이름 생성
-						String imageName = imageFile.makeFilename(profileImage.getOriginalFilename());
+						consultant.setConsultantPetType(consultantInfoRequest.getConsultantPetType());
+						consultant.setConsultantIntro(consultantInfoRequest.getConsultantIntro());
 						
-						// 이미지 크기 300px:300px로 조절해서 저장하기
-						boolean result = imageFile.saveImage300(profileImage, imageName, profileImagePath);
+						// 기존 파일 가져오기
+						String beforeProfile = consultant.getConsultantProfile();
 						
-						if (result) consultant.setConsultantProfile(imageName);
+						if (consultantInfoRequest.getConsultantProfile() != null) {
+							
+							// 기존 파일 삭제하기
+							imageFile.deleteFile(beforeProfile, profileImagePath);
+							
+							// 파일
+							MultipartFile profileImage = consultantInfoRequest.getConsultantProfile();
+							
+							// 파일 이름 생성
+							String imageName = imageFile.makeFilename(profileImage.getOriginalFilename());
+							
+							// 이미지 크기 300px:300px로 조절해서 저장하기
+							boolean result = imageFile.saveImage300(profileImage, imageName, profileImagePath);
+							
+							if (result) consultant.setConsultantProfile(imageName);
+						}
+						
+						else if (consultantInfoRequest.isDeleteProfile()) {
+							
+							// 기존 파일 삭제하기
+							imageFile.deleteFile(beforeProfile, profileImagePath);
+							
+							consultant.setConsultantProfile(null);
+						}
+						
+						return ResponseEntity.status(200).body(new BasicResponse("success", null));
 					}
-					
-					if (consultantInfoRequest.isDeleteProfile()) {
-						
-						// 기존 파일 삭제하기
-						imageFile.deleteFile(beforeProfile, profileImagePath);
-						
-						consultant.setConsultantProfile(null);
-					}
-					
-					return ResponseEntity.status(200).body(new BasicResponse("success", null));
 				}
 			}
-			
 		}
 		
 		return ResponseEntity.status(200).body(new BasicResponse("failure", null));
