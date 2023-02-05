@@ -1,7 +1,7 @@
 <template>
   <div class="sns-login">
     <img
-      :src="require('@/assets/login/naver_login_square.png')"
+      :src="require('@/assets/login/google_logo.png')"
       @click="googleLogin"
     />
   </div>

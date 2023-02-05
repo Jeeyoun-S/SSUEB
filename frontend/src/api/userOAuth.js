@@ -15,6 +15,12 @@ const kakao_api_info = axios.create({
   baseURL: "https://kapi.kakao.com",
 });
 
+// #Google API#
+// Google 사용자 정보를 가져오기 위한 API
+const google_api_info = axios.create({
+  baseURL: "https://www.googleapis.com",
+});
+
 // [POST] #Kakao# token 발급받기
 async function getKakaoToken(kakaoInfo, success, fail) {
   // console.log("#userOAuth - api# Kakao token 발급을 위한 params: ", kakaoInfo);
@@ -75,4 +81,17 @@ async function getKakaoUserInfo(token, success, fail) {
     .catch(fail);
 }
 
-export { getKakaoToken, getKakaoUserInfo };
+// [GET] #Google# 사용자 정보 요청받기
+async function getGoogleInfo(token, success, fail) {
+  await google_api_info
+    .get(`/oauth2/v2/userinfo?access_token=${token}`, {
+      headers: {
+        authorization: `token ${token}`,
+        accept: "application/json",
+      },
+    })
+    .then(success)
+    .catch(fail);
+}
+
+export { getKakaoToken, getKakaoUserInfo, getGoogleInfo };
