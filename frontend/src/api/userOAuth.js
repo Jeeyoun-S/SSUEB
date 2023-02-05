@@ -38,10 +38,10 @@ async function getKakaoToken(kakaoInfo, success, fail) {
 
 // [GET] #Kakao# 현재 로그인한 Kakao 사용자 정보 가져오기
 async function getKakaoUserInfo(token, success, fail) {
-  console.log(
-    "#userOAuth - api# 현재 로그인한 Kakao 정보 가져오기 위한 token: ",
-    token
-  );
+  // console.log(
+  //   "#userOAuth - api# 현재 로그인한 Kakao 정보 가져오기 위한 token: ",
+  //   token
+  // );
   await kakao_api_info
     .get(`/v2/user/me`, {
       headers: {

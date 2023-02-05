@@ -46,7 +46,6 @@ const userStore = {
   actions: {
     // [@Method] 로그인
     async excuteLogin({ commit }, loginInfo) {
-      console.log("#userStore - 로그인# params: ", loginInfo);
       await login(
         loginInfo,
         ({ data }) => {

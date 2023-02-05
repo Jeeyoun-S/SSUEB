@@ -59,7 +59,7 @@ export default {
   created() {
     // 회원가입 페이지 실행 시 소셜 로그인 info 적용
     this.info.userNickname = this.socialUserInfo.nickname;
-    console.log("#21# 반려인 회원가입 정보: ", this.socialUserInfo);
+    // console.log("#21# 반려인 회원가입 정보: ", this.socialUserInfo);
   },
   computed: {
     phoneAuthStates() {

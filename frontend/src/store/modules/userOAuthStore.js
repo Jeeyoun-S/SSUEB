@@ -52,8 +52,8 @@ const userOAuthStore = {
         token,
         async ({ data }) => {
           commit;
-          console.log("#21# Google 사용자 정보: ", data);
-          console.log("#21# Google 사용자 email: ", data.email);
+          // console.log("#21# Google 사용자 정보: ", data);
+          // console.log("#21# Google 사용자 email: ", data.email);
           const info = {
             id: data.email,
             nickname: "",

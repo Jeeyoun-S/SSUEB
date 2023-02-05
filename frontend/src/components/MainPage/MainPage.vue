@@ -115,7 +115,7 @@ export default {
       const hash = url.hash;
       if (hash) {
         this.googleToken = hash.split("=")[1].split("&")[0];
-        console.log("#21# google access_token 확인: ", this.googleToken);
+        // console.log("#21# google access_token 확인: ", this.googleToken);
         this.google();
       }
     }
