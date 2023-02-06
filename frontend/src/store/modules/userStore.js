@@ -1,4 +1,5 @@
-import { login, anyPermit, partPermit, withdrawal } from "@/api/user";
+// import { login, anyPermit, partPermit, withdrawal } from "@/api/user";
+import { login, anyPermit, partPermit } from "@/api/user";
 import VueJwtDecode from "vue-jwt-decode"; // ! JWT 디코드 설치 필요: npm i vue-jwt-decode
 import store from "@/store/index.js";
 import router from "@/router/index.js";
@@ -66,7 +67,8 @@ const userStore = {
             let email = VueJwtDecode.decode(token).sub;
             commit("SET_USER_ID", email);
             commit("SET_USER_AUTH", VueJwtDecode.decode(token).auth);
-            sessionStorage.setItem("token", token);
+            //sessionStorage.setItem("token", token);
+            localStorage.setItem("token", token);
             commit("SET_IS_VALID_TOKEN", true);
             commit("SET_IS_LOGIN", true);
 
@@ -100,10 +102,11 @@ const userStore = {
     // [@Method] 모든 권한 허용
     async checkAnyPermit({ commit }) {
       console.log("#userStore - checkAnyPermit# 모든 권한 허용 동작");
-      const sessionToken = sessionStorage.getItem("token");
+      // const sessionToken = sessionStorage.getItem("token");
+      const token = localStorage.getItem("token");
 
       await anyPermit(
-        sessionToken,
+        token,
         ({ data }) => {
           console.log("#userStore - checkAnyPermit# 성공");
           commit("SET_USER_INFO", data);
@@ -119,11 +122,12 @@ const userStore = {
       console.log(
         "#userStore - checkPartPermit# 전문가, 관리자 권한만 허용 동작"
       );
-      const sessionToken = sessionStorage.getItem("token");
+      // const sessionToken = sessionStorage.getItem("token");
+      const token = localStorage.getItem("token");
 
       await partPermit(
         userId,
-        sessionToken,
+        token,
         ({ data }) => {
           console.log("#userStore - checkPartPermit# 성공");
           commit("SET_USER_INFO", data);
@@ -140,7 +144,9 @@ const userStore = {
       commit("SET_IS_LOGIN", false);
       commit("SET_IS_VALID_TOKEN", false);
       commit("SET_USER_AUTH", null);
-      sessionStorage.clear;
+      localStorage.clear;
+      // console.log("#21# localStorage 확인: ", localStorage.getItem);
+      // sessionStorage.clear;
       //console.log("#21# sessionStorage 확인: ", sessionStorage.getItem);
 
       // userSocialStore에 저장된 소셜 로그인 정보(email, nickname) 초기화
@@ -150,31 +156,36 @@ const userStore = {
     },
     // [@Method] 회원 탈퇴
     async excuteWithdrawal(context) {
-      const info = {
-        id: context.state.userId,
-      };
+      // # 소셜 로그인(Kakao, Google) 회원탈퇴 진행
+      store.dispatch("userOAuthStore/excuteWithdrawalKakao");
+      store.dispatch("userOAuthStore/excuteWithdrawalGoogle");
 
-      await withdrawal(
-        info,
-        ({ data }) => {
-          // i) 회원탈퇴 성공
-          if (data.response == "success") {
-            console.log("#userStore# 회원탈퇴 성공: ", data);
-            Swal.fire("SSEUB", `${data.message}`, "success");
+      // !! Kakao 하는 동안 잠시 주석처리
+      context;
+      // const info = {
+      //   id: context.state.userId,
+      // };
+      // await withdrawal(
+      //   info,
+      //   ({ data }) => {
+      //     // i) 회원탈퇴 성공
+      //     if (data.response == "success") {
+      //       console.log("#userStore# 회원탈퇴 성공: ", data);
+      //       Swal.fire("SSEUB", `${data.message}`, "success");
 
-            // 로그아웃 처리
-            store.dispatch("userStore/excuteLogout", null, { root: true });
-          }
-          // ii) 회원탈퇴 실패
-          else {
-            console.log("#userStore# 회원탈퇴 실패: ", data);
-            Swal.fire("SSEUB", `${data.message}`, "error");
-          }
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
+      //       // 로그아웃 처리
+      //       //store.dispatch("userStore/excuteLogout", null, { root: true });
+      //     }
+      //     // ii) 회원탈퇴 실패
+      //     else {
+      //       console.log("#userStore# 회원탈퇴 실패: ", data);
+      //       Swal.fire("SSEUB", `${data.message}`, "error");
+      //     }
+      //   },
+      //   (error) => {
+      //     console.log(error);
+      //   }
+      // );
     },
     // [@Method] 회원가입 직후 로그인 성공 SET
     setAutoLogin({ commit }, res) {
@@ -186,7 +197,8 @@ const userStore = {
       let email = VueJwtDecode.decode(token).sub;
       commit("SET_USER_ID", email);
       commit("SET_USER_AUTH", VueJwtDecode.decode(token).auth);
-      sessionStorage.setItem("token", token);
+      // sessionStorage.setItem("token", token);
+      localStorage.setItem("token", token);
       commit("SET_IS_VALID_TOKEN", true);
       commit("SET_IS_LOGIN", true);
 

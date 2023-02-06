@@ -2,6 +2,7 @@ import { duplicateId } from "@/api/userJoin";
 import {
   getKakaoToken,
   getKakaoUserInfo,
+  withdrawalKakao,
   getGoogleInfo,
 } from "@/api/userOAuth";
 import store from "..";
@@ -10,14 +11,26 @@ const userOAuthStore = {
   namespaced: true,
   state: {
     kakaoToken: null,
+    googleToken: null,
   },
-  getters: {},
+  getters: {
+    getKakaoToken: (state) => {
+      return state.kakaoToken;
+    },
+    getGoogleToken: (state) => {
+      return state.googleToken;
+    },
+  },
   mutations: {
     // #Kakao# 발급받은 Kakao Token 저장
     SET_KAKAO_TOKEN: (state, kakaoToken) => {
       state.kakaoToken = kakaoToken;
       // #Kakao# 현재 로그인한 Kakao 사용자 정보 가져오기
       getKakaoUserInfo(kakaoToken);
+    },
+    // #Google# 발급받은 Google Token 저장
+    SET_GOOGLE_TOKEN: (state, googleToken) => {
+      state.googleToken = googleToken;
     },
   },
   actions: {
@@ -34,10 +47,10 @@ const userOAuthStore = {
       await getKakaoToken(
         kakaoInfo,
         ({ data }) => {
-          // console.log(
-          //   "#userOAuthStore - getKakaoToken# Kakao Token 발급 성공: ",
-          //   data
-          // );
+          console.log(
+            "#userOAuthStore - getKakaoToken# Kakao Token 발급 성공: ",
+            data
+          );
           // 발급받은 access-token을 통해 현재 로그인한 사용자 정보 가져오기
           commit("SET_KAKAO_TOKEN", data.access_token);
         },
@@ -48,10 +61,11 @@ const userOAuthStore = {
     },
     // [@Method] #Google# Google 사용자 정보 가져오기 > 회원가입 OR 로그인
     async excuteGoogleInfo({ commit }, token) {
+      commit("SET_GOOGLE_TOKEN", token); // Google Token 저장
+
       await getGoogleInfo(
         token,
         async ({ data }) => {
-          commit;
           // console.log("#21# Google 사용자 정보: ", data);
           // console.log("#21# Google 사용자 email: ", data.email);
           const info = {
@@ -83,6 +97,30 @@ const userOAuthStore = {
           console.log(error);
         }
       );
+    },
+    // [@Method] #Kakao# 회원탈퇴
+    async excuteWithdrawalKakao(context) {
+      if (context.state.kakaoToken == null) return;
+      console.log("#userOAuthStore# KAKAO 회원탈퇴 동작");
+
+      await withdrawalKakao(
+        context.state.kakaoToken,
+        ({ data }) => {
+          console.log(
+            "#userOAuthStore - withdrawalKakao# Kakao 연결끊기 성공: ",
+            data
+          );
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    },
+    // [@Method] #Google# 회원탈퇴
+    async excuteWithdrawalGoogle(context) {
+      if (context.state.googleToken == null) return;
+
+      console.log("#userOAuthStore# GOOGLE 회원탈퇴 동작");
     },
   },
 };

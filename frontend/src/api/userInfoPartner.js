@@ -8,7 +8,8 @@ const api = apiInstance();
 // sweetalert2 가져오기
 const Swal = require("sweetalert2");
 
-const token = sessionStorage.getItem("token"); // #21#
+// const token = sessionStorage.getItem("token"); // #21#
+const token = localStorage.getItem("token");
 
 // [GET] 반려인 회원정보 조회
 async function getUserPartnerInfo(id) {
@@ -48,8 +49,7 @@ async function updatePartnerInfo(partnerInfo) {
   console.log("보낸 후 ", partnerInfo);
   partnerInfo.id = store.getters.getPartnerInfo.id;
 
-  api.post(`user/info/partner`, partnerInfo)
-  .then((res) => {
+  api.post(`user/info/partner`, partnerInfo).then((res) => {
     if (res.data.response == "success") {
       console.log("#회원정보 수정 성공");
 
