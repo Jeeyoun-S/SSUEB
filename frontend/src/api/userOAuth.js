@@ -17,6 +17,10 @@ const kakao_api_info = axios.create({
 // Kakao 연결끊기를 위한 API
 const kakao_api_disconnect = axios.create({
   baseURL: "https://kapi.kakao.com",
+  headers: {
+    "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
+    Authorization: `Bearer ${localStorage.getItem("kakaoToken")}`,
+  },
 });
 
 // #Google API#
@@ -87,34 +91,9 @@ async function getKakaoUserInfo(token, success, fail) {
 }
 
 // [POST] #Kakao# 연결끊기
-async function withdrawalKakao(access_token, success, fail) {
-  console.log("#userOAuth - api# Kakao 연결끊기를 위한 token: ", access_token);
+async function withdrawalKakao(success, fail) {
   // x-www-form-urlencoded 형식으로 파라미터 보내기
-
-  await kakao_api_disconnect
-    .post(`v1/user/unlink`, {
-      headers: {
-        "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
-        Authorization: `Bearer ${access_token}`,
-      },
-    })
-    .then(success)
-    .catch(fail);
-
-  // await api
-  // .post(`/user/withdrawal/`, JSON.stringify(info))
-  // .then(success)
-  // .catch(fail);
-
-  // await api
-  //   .get(`/user/auth/permit/${userId}`, {
-  //     // header에 authorization bearer token 넣기
-  //     headers: {
-  //       Authorization: `Bearer ${token}`,
-  //     },
-  //   })
-  //   .then(success)
-  //   .catch(fail);
+  await kakao_api_disconnect.post(`v1/user/unlink`).then(success).catch(fail);
 }
 
 // [GET] #Google# 사용자 정보 요청받기

@@ -52,6 +52,7 @@ const userOAuthStore = {
             data
           );
           // 발급받은 access-token을 통해 현재 로그인한 사용자 정보 가져오기
+          localStorage.setItem("kakaoToken", data.access_token);
           commit("SET_KAKAO_TOKEN", data.access_token);
         },
         (error) => {
@@ -100,11 +101,14 @@ const userOAuthStore = {
     },
     // [@Method] #Kakao# 회원탈퇴
     async excuteWithdrawalKakao(context) {
-      if (context.state.kakaoToken == null) return;
+      //if (context.state.kakaoToken == null) return;
+      context;
+      if (localStorage.getItem("kakaoToken") == null) return;
       console.log("#userOAuthStore# KAKAO 회원탈퇴 동작");
 
       await withdrawalKakao(
-        context.state.kakaoToken,
+        //context.state.kakaoToken,
+        localStorage.getItem("kakaoToken"),
         ({ data }) => {
           console.log(
             "#userOAuthStore - withdrawalKakao# Kakao 연결끊기 성공: ",
@@ -112,7 +116,10 @@ const userOAuthStore = {
           );
         },
         (error) => {
-          console.log(error);
+          console.log(
+            "#userOAuthStore - withdrawalKakao# Kakao 연결끊기 실패: ",
+            error
+          );
         }
       );
     },
