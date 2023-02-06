@@ -155,13 +155,20 @@ async function joinPartner(joinRequest, socialAccess, provider) {
           "회원가입 성공",
           "회원가입이 완료됐습니다. 메인페이지로 이동합니다.",
           "success"
-        ).then(() => {
+        ).then(async () => {
           if (res.data.message.includes("실패")) {
             // 로그인 실패 > 로그인 창으로 이동
+            // console.log("#userJoin - api# 회원가입 후 로그인 실패 res: ", res);
+            location.href = process.env.VUE_APP_BASE_URL;
           } else {
             // 로그인 성공 > 로그인 후 메인화면으로 이동
+            // console.log("#userJoin - api# 회원가입 후 로그인 성공 res: ", res);
+            await store.dispatch("userStore/setAutoLogin", res, { root: true });
+            await store.dispatch("userStore/moveMainPage", null, {
+              root: true,
+            });
           }
-          location.href = process.env.VUE_APP_BASE_URL;
+          // location.href = process.env.VUE_APP_BASE_URL;
         });
       }
 

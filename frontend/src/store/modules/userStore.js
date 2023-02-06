@@ -52,21 +52,19 @@ const userStore = {
         ({ data }) => {
           // if) 로그인 성공
           if (data.response == "success") {
+            // 로그인 성공에 따른 값(로그인 여부, 토큰 여부, 권한) 저장
             let token = data["token"];
             // console.log(
             //   "#userStore - excuteLogin# 로그인 성공 - token: ",
             //   token
             // );
-
-            // 로그인 성공에 따른 값(로그인 여부, 토큰 여부, 권한) 저장
-            commit("SET_IS_LOGIN", true);
-            commit("SET_IS_VALID_TOKEN", true);
-            commit("SET_USER_AUTH", VueJwtDecode.decode(token).auth);
-            sessionStorage.setItem("token", token);
-
-            // token 복호화 > userId 저장
+            // token 복호화 > id(email), 권한 저장
             let email = VueJwtDecode.decode(token).sub;
             commit("SET_USER_ID", email);
+            commit("SET_USER_AUTH", VueJwtDecode.decode(token).auth);
+            sessionStorage.setItem("token", token);
+            commit("SET_IS_VALID_TOKEN", true);
+            commit("SET_IS_LOGIN", true);
 
             // 로그인 성공 alert창 출력
             const id = email.split("@");
@@ -144,7 +142,32 @@ const userStore = {
       // userSocialStore에 저장된 소셜 로그인 정보(email, nickname) 초기화
       store.dispatch("initSocialUserInfo");
 
-      router.push("/")
+      router.push("/");
+    },
+    // [@Method] 회원가입 직후 로그인 성공 SET
+    setAutoLogin({ commit }, res) {
+      // console.log("#userStore# 회원가입 직후 로그인 성공 response: ", res);
+
+      // 로그인 성공에 따른 값(로그인 여부, 토큰 여부, 권한) 저장
+      let token = res.data.token;
+      // token 복호화 > id(email), 권한 저장
+      let email = VueJwtDecode.decode(token).sub;
+      commit("SET_USER_ID", email);
+      commit("SET_USER_AUTH", VueJwtDecode.decode(token).auth);
+      sessionStorage.setItem("token", token);
+      commit("SET_IS_VALID_TOKEN", true);
+      commit("SET_IS_LOGIN", true);
+
+      // 로그인 성공 alert창 출력
+      const id = email.split("@");
+      Swal.fire("SSEUB", `${id[0]} 님 환영합니다!`, "success");
+
+      // 페이지 이동
+      // location.href = process.env.VUE_APP_BASE_URL;
+    },
+    // [@Method] 메인 페이지로 이동
+    moveMainPage() {
+      location.href = process.env.VUE_APP_BASE_URL;
     },
   },
 };

@@ -17,7 +17,7 @@ const userJoinStore = {
     },
     getPhoneAuthWarning(state) {
       return state.phoneAuthWarning;
-    }
+    },
   },
   mutations: {
     UPDATE_PHONE_AUTH_MESSAGE(state, payload) {
@@ -29,7 +29,7 @@ const userJoinStore = {
     },
     UPDATE_PHONE_WARNING(state, payload) {
       state.phoneAuthWarning = payload;
-    }
+    },
   },
   actions: {
     resetPhoneAuthMessage({ commit }) {
