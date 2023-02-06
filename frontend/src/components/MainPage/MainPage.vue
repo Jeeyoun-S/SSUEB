@@ -98,13 +98,26 @@ export default {
   data() {
     return {
       kakaoCode: null,
+      googleToken: null,
     };
   },
   created() {
-    // #OAuth - Kakao# Kakao 인가 코드 받기
+    // #OAuth - 인가 code 받기 (Google, Kakao)
+    // i) Kakao 인가 code
     this.kakaoCode = this.$route.query.code;
     if (this.kakaoCode != null) {
+      // console.log("#21# kakao 인가 code 확인: ", this.kakaoCode);
       this.kakao();
+    }
+    // ii) Google access_token
+    else {
+      const url = new URL(window.location.href);
+      const hash = url.hash;
+      if (hash) {
+        this.googleToken = hash.split("=")[1].split("&")[0];
+        // console.log("#21# google access_token 확인: ", this.googleToken);
+        this.google();
+      }
     }
   },
   components: {
@@ -115,12 +128,17 @@ export default {
     ...mapState(userStore, ["isLogin"]),
   },
   methods: {
-    ...mapActions(userOAuthStore, ["excuteKakaoToken"]),
+    ...mapActions(userOAuthStore, ["excuteKakaoToken", "excuteGoogleInfo"]),
 
     // #OAuth - Kakao# 받은 인가 코드를 사용하여 Kakao Token 발급요청
     async kakao() {
       await this.excuteKakaoToken(this.kakaoCode);
       this.kakaoCode = null; // 받은 인가 code 초기화
+    },
+    // #OAuth - Google# 받은 access_token을 사용하여 사용자 정보 요청
+    async google() {
+      await this.excuteGoogleInfo(this.googleToken);
+      this.googleToken = null; // 받은 access_token 초기화
     },
   },
 };
@@ -189,7 +207,7 @@ export default {
   font-weight: lighter;
 }
 .main-center .main-center-item .explain.one {
-  background-color: #E8EBF6;
+  background-color: #e8ebf6;
 }
 .main-center .main-center-item .explain.two {
   color: white;

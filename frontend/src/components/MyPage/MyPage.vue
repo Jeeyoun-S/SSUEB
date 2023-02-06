@@ -1,21 +1,19 @@
 <template>
-  <MyPagePartner v-if="false"></MyPagePartner>
+  <MyPagePartner v-if="true"></MyPagePartner>
   <MyPageConsultant v-else></MyPageConsultant>
 </template>
 
 <script>
-import MyPagePartner from '@/components/MyPage/MyPagePartner/MyPagePartner.vue'
-import MyPageConsultant from '@/components/MyPage/MyPageConsultant/MyPageConsultant.vue'
+import MyPagePartner from "@/components/MyPage/MyPagePartner/MyPagePartner.vue";
+import MyPageConsultant from "@/components/MyPage/MyPageConsultant/MyPageConsultant.vue";
 
 export default {
-  name: 'MyPage',
+  name: "MyPage",
   components: {
     MyPagePartner,
-    MyPageConsultant
-  }
-}
+    MyPageConsultant,
+  },
+};
 </script>
 
-<style>
-
-</style>
+<style></style>

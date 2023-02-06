@@ -5,10 +5,10 @@ const userInfoPartnerStore = {
       userName: null,
       userPhone: null,
       userNickname: null,
-      userAlertFlag: null
+      userAlertFlag: null,
     },
     petInfo: [],
-    infoVer: true
+    infoVer: true,
   },
   getters: {
     getPartnerInfo(state) {
@@ -19,7 +19,7 @@ const userInfoPartnerStore = {
     },
     getInfoVersion(state) {
       return state.infoVer;
-    }
+    },
   },
   mutations: {
     SET_PARTNER_INFO(state, payload) {
@@ -34,8 +34,8 @@ const userInfoPartnerStore = {
     DELETE_PET_INFO(state, payload) {
       const petInfoArray = state.petInfo;
 
-      for (let i=0; i<petInfoArray.length; i++) {
-        if (petInfoArray[i].no == payload)  {
+      for (let i = 0; i < petInfoArray.length; i++) {
+        if (petInfoArray[i].no == payload) {
           state.petInfo.splice(i, 1);
           break;
         }
@@ -48,8 +48,8 @@ const userInfoPartnerStore = {
 
       const petInfoArray = state.petInfo;
 
-      for (let i=0; i<petInfoArray.length; i++) {
-        if (petInfoArray[i].no == payload.no)  {
+      for (let i = 0; i < petInfoArray.length; i++) {
+        if (petInfoArray[i].no == payload.no) {
           state.petInfo[i] = payload;
           break;
         }
@@ -57,7 +57,7 @@ const userInfoPartnerStore = {
     },
     UPDATE_INFO_VERSION(state) {
       state.infoVer = !state.infoVer;
-    }
+    },
   },
   actions: {
     getPartnerInfo({ commit }, partnerInfo) {
@@ -78,7 +78,7 @@ const userInfoPartnerStore = {
     },
     updateInfoVersion({ commit }) {
       commit("UPDATE_INFO_VERSION");
-    }
+    },
   },
 };
 

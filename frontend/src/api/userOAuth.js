@@ -15,6 +15,12 @@ const kakao_api_info = axios.create({
   baseURL: "https://kapi.kakao.com",
 });
 
+// #Google API#
+// Google 사용자 정보를 가져오기 위한 API
+const google_api_info = axios.create({
+  baseURL: "https://www.googleapis.com",
+});
+
 // [POST] #Kakao# token 발급받기
 async function getKakaoToken(kakaoInfo, success, fail) {
   // console.log("#userOAuth - api# Kakao token 발급을 위한 params: ", kakaoInfo);
@@ -49,6 +55,7 @@ async function getKakaoUserInfo(token, success, fail) {
       const info = {
         id: id,
         nickname: nickname,
+        provider: "KAKAO",
       };
       // console.log("#userOAuth - api# 현재 로그인한 사용자 정보: ", info);
 
@@ -64,13 +71,9 @@ async function getKakaoUserInfo(token, success, fail) {
       // * 있다면 > 로그인
       else {
         // 로그인 JWT 토큰 발행 > (userStore 내 로그인 함수 호출)
-        const kakaoId = id.substring(0, 6);
-        const kakaoKey =
-          process.env.VUE_APP_OAUTH_KAKAO_CLIENT_SECRET.substring(0, 6);
-        const kakaoPassword = kakaoId + kakaoKey + "#1";
         const loginInfo = {
           id: id,
-          password: kakaoPassword,
+          password: `${process.env.VUE_APP_OAUTH_KAKAO}`,
           socialButton: 1,
         };
         store.dispatch("userStore/excuteLogin", loginInfo, { root: true });
@@ -79,4 +82,17 @@ async function getKakaoUserInfo(token, success, fail) {
     .catch(fail);
 }
 
-export { getKakaoToken, getKakaoUserInfo };
+// [GET] #Google# 사용자 정보 요청받기
+async function getGoogleInfo(token, success, fail) {
+  await google_api_info
+    .get(`/oauth2/v2/userinfo?access_token=${token}`, {
+      headers: {
+        authorization: `token ${token}`,
+        accept: "application/json",
+      },
+    })
+    .then(success)
+    .catch(fail);
+}
+
+export { getKakaoToken, getKakaoUserInfo, getGoogleInfo };
