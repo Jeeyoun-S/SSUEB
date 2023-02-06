@@ -51,6 +51,6 @@ export default {
   padding: 48px;
 }
 .main .main-inner {
-  max-width: 1070px;
+  width: 1070px;
 }
 </style>

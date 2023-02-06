@@ -123,8 +123,8 @@ async function modifyPetInfo(petInfo, petNo) {
     if (petInfo[key] != null) {
       if (key == "petImage" && petInfo[key].length >= 1) {
         petFormData.append(key, petInfo[key][0]);
-      } else if (key == "petBirth")
-        petFormData.append(key, petInfo[key] + "-01");
+      }
+      // else if (key == "petBirth") petFormData.append(key, petInfo[key] + "-01");
       else petFormData.append(key, petInfo[key]);
     }
   }

@@ -11,26 +11,31 @@
         <v-container>
           <v-form ref="form">
             <v-row>
-              <v-col>
-                <v-row>
+              <v-col class="pr-10" cols="5" align-self="center">
+                <v-row justify="center">
                   <img :src="require('@/assets/profile/pet.png')"/>
                 </v-row>
-                <v-col>
-                  <!-- <v-file-input v-model="pet.petImage" accept="image/png, image/jpeg, image/bmp" prepend-icon="mdi-camera" label="사진" variant="underlined"></v-file-input> -->
-                </v-col>
+                <v-row>
+                  <v-file-input v-model="petModifyInfo.petImage" accept="image/png, image/jpeg"
+                    prepend-icon="mdi-camera" :rules="petRules.petImage" label="사진" variant="underlined">
+                  </v-file-input>
+                  <v-btn icon color="info" variant="text" size="small" @click="deleteImage()">
+                    <v-icon>mdi-delete</v-icon>
+                  </v-btn>
+                </v-row>
               </v-col>
               <v-col>
                 <v-row>
-                  <v-text-field :rules="petRules.petName" v-model="petModifyInfo.petName" density="compact" label="이름" variant="underlined" required></v-text-field>
+                  <v-text-field :rules="petRules.petName" v-model="petModifyInfo.petName" label="이름" variant="underlined" required></v-text-field>
                 </v-row>
                 <v-row>
-                  <v-select :rules="petRules.petType" v-model="petModifyInfo.petType" density="compact" :items="['개', '고양이', '토끼', '패럿', '기니피그', '햄스터']" label="종류" variant="underlined" required></v-select>
+                  <v-select :rules="petRules.petType" v-model="petModifyInfo.petType" :items="['개', '고양이', '토끼', '패럿', '기니피그', '햄스터']" label="종류" variant="underlined" required></v-select>
                 </v-row>
                 <v-row>
-                  <v-text-field :rules="petRules.petVariety" v-model="petModifyInfo.petVariety" label="품종" variant="underlined" density="compact"></v-text-field>
+                  <v-text-field :rules="petRules.petVariety" v-model="petModifyInfo.petVariety" label="품종" variant="underlined"></v-text-field>
                 </v-row>
-                <v-row v-show="knowBirth == '0'">
-                  <v-text-field :rules="petRules.petBirth" v-model="petModifyInfo.petBirth" label="생일" variant="underlined" density="compact"></v-text-field>
+                <v-row>
+                  <v-text-field :rules="petRules.petBirth" v-model="petModifyInfo.petBirth" label="생일" variant="underlined"></v-text-field>
                 </v-row>
               </v-col>
             </v-row>
@@ -57,7 +62,6 @@ export default {
   data() {
     return {
       modifyOpen: false,
-      knowBirth: "0",
       petModifyInfo: {
         petBirth: null,
         petImage: null,
@@ -66,27 +70,12 @@ export default {
         petType: null,
         petVariety: null,
       },
-      petValid: {
-        petBirth: /^\d{4}-(0[1-9]|1[012])$/,
-        specialChar: /[{}[\]/?.,;:|)|*~`!^\-_+<>@#$%&\\=('"]/
-      },
-      petRules: {
-        petBirth: [
-          (v) => !v || this.petValid.petBirth.test(v) || "생일은 YYYY-MM 형식으로 입력해 주세요."
-        ],
-        petImage: null,
-        petInfo: null,
-        petName: [
-          (v) => !!v || "이름은 필수 입력 사항입니다.",
-          (v) => !this.petValid.specialChar.test(v) || "특수문자 입력은 불가능합니다.",
-        ],
-        petType: [
-          (v) => !!v || "종류 선택은 필수입니다.",
-        ],
-        petVariety: [
-          (v) => !v || !this.petValid.specialChar.test(v) || "특수문자 입력은 불가능합니다.",
-        ],
-      }
+      petOriginalImage: null
+    }
+  },
+  computed: {
+    petRules() {
+      return this.$store.getters.getPetRule;
     }
   },
   props: {
@@ -105,6 +94,9 @@ export default {
           this.modifyOpen = res;
         });
       }
+    },
+    deleteImage() {
+
     }
   },
   created() {
@@ -113,10 +105,15 @@ export default {
     this.petModifyInfo.petName = this.pet.petName;
     this.petModifyInfo.petType = this.pet.petType;
     this.petModifyInfo.petVariety = this.pet.petVariety;
+    this.petOriginalImage = this.pet.petImage;
   }
 }
 </script>
 
-<style>
-
+<style scoped>
+img {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+}
 </style>

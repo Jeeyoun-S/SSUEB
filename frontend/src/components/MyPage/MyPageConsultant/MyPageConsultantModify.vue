@@ -3,13 +3,24 @@
     <v-row>
       <v-col cols="7">
         <v-row justify="center">
-          <v-avatar class="mb-7 mt-3" color="primary" size="150">
-            <span>{{ getConsultantInfo.userName }}</span>
+          <v-avatar class="mt-3" color="primary" size="120">
+            <span>{{ consultantInfo.userName }}</span>
           </v-avatar>
         </v-row>
-        <v-row class="ma-1">
+        <v-row class="mr-1 ml-1" justify="center">
+          <v-file-input
+            :rules="consultantRule.profile"
+            accept="image/png, image/jpeg"
+            placeholder="Pick an avatar"
+            prepend-icon="mdi-camera"
+            label="프로필 사진"
+            variant="underlined"
+          ></v-file-input>
+        </v-row>
+        <v-row class="mr-1 ml-1">
           <v-textarea
-            v-model="getConsultantInfo.consultantIntro"
+            v-model="consultantInfo.intro"
+            :rules="consultantRule.profile"
             label="소개글 및 경력"
             variant="outlined"
             counter="150"
@@ -21,7 +32,8 @@
         <v-row class="ml-2">
           <v-chip-group
             selected-class="text-primary"
-            v-model="getConsultantInfo.consultantPetType" 
+            v-model="consultantInfo.consultantPetType" 
+            :rules="consultantRule.type"
             column multiple>
             <v-chip v-for="value, index in petType"
               :key="index" filter variant="outlined">
@@ -33,7 +45,7 @@
       <v-col cols="5">
         <v-text-field
           class="mb-3"
-          v-model="getConsultantInfo.id"
+          v-model="consultantInfo.id"
           label="이메일"
           variant="outlined"
           density="compact"
@@ -41,14 +53,14 @@
         ></v-text-field>
         <v-text-field
           class="mb-3"
-          v-model="getConsultantInfo.userName"
+          v-model="consultantInfo.userName"
           label="이름"
           variant="outlined"
           density="compact"
           :rules="userRule.name"
         ></v-text-field>
         <v-text-field
-          v-model="getConsultantInfo.userPhone"
+          v-model="consultantInfo.userPhone"
           label="휴대폰 번호"
           variant="outlined"
           density="compact"
@@ -64,7 +76,7 @@
         >
         <div class="warning" v-if="!phoneDisable">{{ phoneAuthWarning }}</div>
         <div class="warning" v-else></div>
-        <v-radio-group v-model="getConsultantInfo.userAlertFlag" color="primary" density="compact" inline>
+        <v-radio-group v-model="consultantInfo.userAlertFlag" color="primary" density="compact" inline>
           <v-label>알림방법</v-label>&ensp;
           <v-radio label="카카오톡" value="0"></v-radio>&ensp;
           <v-radio label="이메일" value="1"></v-radio>&ensp;
@@ -76,6 +88,7 @@
           :type="showPassword ? 'text' : 'password'"
           @click:append="showPassword = !showPassword"
           v-model="showPassword"
+          :rules="userRule.password"
           label="비밀번호"
           variant="outlined"
           density="compact"
@@ -115,10 +128,13 @@ export default {
     return {
       petType: ["개", "고양이", "토끼", "패럿", "기니피그", "햄스터"],
       consultantInfo: {
+        id: null,
         userName: null,
         userPhone: null,
-        userAlertFlag: null,
-        userPassword: null
+        userAlertFlag: 0,
+        consultantIntro: null,
+        consultantProfile: null,
+        consultantPetType: [],
       },
       phoneDisable: true,
       userPhone: null,
@@ -129,6 +145,9 @@ export default {
     back() {
       this.$store.dispatch("updateInfoVersion");
     },
+  },
+  created() {
+    this.consultantInfo = this. getConsultantInfo;
   }
 }
 </script>

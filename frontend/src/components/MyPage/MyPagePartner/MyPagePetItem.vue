@@ -1,10 +1,9 @@
 <template>
   <v-hover v-slot="{ isHovering, props }">
     <v-card class="mr-5 mb-5 pa-2" variant="outlined"
-      v-show="getPetInfo.length < 3"
       width="320" height="245" rounded="0"
-      :elevation="isHovering ? 8 : 0" :class="{ 'on-hover': isHovering }" v-bind="props"
-      @click="register()"
+      :elevation="isHovering ? 8 : 0" :class="{ 'on-hover': isHovering }"
+      v-bind="props"
     >
       <template v-slot:title>새 반려동물 등록</template>
       <template v-slot:prepend>
@@ -22,6 +21,14 @@
           해당 카드를 클릭하시면 새로운 반려동물을 등록하실 수 있습니다.
         </div>
       </template>
+      <v-overlay
+        :model-value="isHovering"
+        contained
+        scrim="#06bee1"
+        class="align-center justify-center"
+      >
+        <MyPagePetRegister></MyPagePetRegister>
+      </v-overlay>
     </v-card>
   </v-hover>
   <v-hover v-slot="{ isHovering, props }" v-for="pet in getPetInfo" :key="pet.no">
@@ -62,6 +69,7 @@
 <script>
 import { modifyPetInfo, removePetInfo } from "@/api/userInfoPartner.js";
 import MyPagePetModify from "@/components/MyPage/MyPagePartner/MyPagePetModify.vue";
+import MyPagePetRegister from "@/components/MyPage/MyPagePartner/MyPagePetRegister.vue";
 
 export default {
   name: "MyPagePetItem",
@@ -77,6 +85,7 @@ export default {
   },
   components: {
     MyPagePetModify,
+    MyPagePetRegister
   },
   methods: {
     modifyPet(pet) {
@@ -85,9 +94,6 @@ export default {
     removePet(petNo) {
       removePetInfo(petNo);
     },
-    register() {
-      console.log("반려동물 등록");
-    }
   },
 };
 </script>

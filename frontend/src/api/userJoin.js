@@ -202,12 +202,12 @@ async function joinConsultant(formData, socialAccess, provider) {
       if (res.data.response == "success") {
         Swal.fire(
           "회원가입 신청 완료",
-          "가입신청이 완료됐습니다. 7일 이내에 자격 심사 후 선택하신 알림방법으로 안내드릴 예정입니다.",
+          "가입신청이 완료됐습니다.<br>7일 이내에 자격 심사 후<br>선택하신 알림방법으로 안내드릴 예정입니다.",
           "success"
         ).then(() => {
-          // 메인페이지로 이동
-          location.href = process.env.VUE_APP_BASE_URL;
         });
+        // 메인페이지로 이동
+        location.href = process.env.VUE_APP_BASE_URL;
       }
 
       // 회원가입 실패

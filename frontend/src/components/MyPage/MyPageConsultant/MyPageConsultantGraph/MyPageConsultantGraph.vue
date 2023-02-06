@@ -49,6 +49,9 @@ export default {
     MyPageConsultantGraphTwo,
     MyPageConsultantGraphThree
   },
+  created() {
+    // this.$store.dispatch("updateGraphLabel");
+  }
 }
 </script>
 

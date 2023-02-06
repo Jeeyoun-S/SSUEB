@@ -56,12 +56,9 @@ export default {
       return this.$store.getters.getInfoVersion;
     }
   },
-  created() {
-    console.log(1);
-    console.log(1);
+  async created() {
     if (this.getConsultantInfo.id != this.userId) {
-      console.log(2);
-      getUserConsultantInfo(this.userId);
+      await getUserConsultantInfo(this.userId);
     }
   }
 }
