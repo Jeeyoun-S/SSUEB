@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.db.entity.Matching;
 import com.ssafy.reservation.matching.request.MatchingConfirm;
+import com.ssafy.reservation.matching.response.MatchingConsultant;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -94,7 +95,7 @@ public class MatchingController {
 	}
 	
 	@GetMapping("/partner/{reservationNo}")
-	@ApiOperation(value = "해당 예약에 대한 견적 정보", notes = "유저의 특정 예약에 대해 들어온 견적들에 대한 정보를 쭉 불러온다", response = Matching.class) 
+	@ApiOperation(value = "해당 예약에 대한 견적 정보", notes = "유저의 특정 예약에 대해 들어온 견적들에 대한 정보를 쭉 불러온다", response = MatchingConsultant.class) 
 	@ApiImplicitParams({
 		@ApiImplicitParam(name = "reservationNo", value = "해당 번호의 상담 예약에 들어온 견적들을 리턴한다", dataType = "int", example = "0", required = true),
 	})
@@ -104,9 +105,8 @@ public class MatchingController {
     })
 	public ResponseEntity<?> readReceiveMatching(@PathVariable int reservationNo) {
 		try {
-			List<Matching> result = mService.readReceiveMatching(reservationNo);
-			//System.out.println(result);
-			return new ResponseEntity<List<Matching>>(result, HttpStatus.OK);
+			List<MatchingConsultant> result = mService.readReceiveMatching(reservationNo);
+			return new ResponseEntity<List<MatchingConsultant>>(result, HttpStatus.OK);
 		} catch (Exception e) {
 			return exceptionHandling(e);
 		}

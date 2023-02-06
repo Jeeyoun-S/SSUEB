@@ -15,6 +15,7 @@ import com.ssafy.db.entity.Consultant;
 import com.ssafy.db.entity.Matching;
 import com.ssafy.db.entity.Reservation;
 import com.ssafy.reservation.basic.ReservationRepo;
+import com.ssafy.reservation.matching.response.MatchingConsultant;
 
 @Service
 public class MatchingServiceImpl implements MatchingService {
@@ -51,11 +52,15 @@ public class MatchingServiceImpl implements MatchingService {
 		return mRepo.findByConsultantId(consultantId);
 	}
 
+	
+	
 	@Override
-	public List<Matching> readReceiveMatching(int reservationNo) throws SQLException {
-		return mRepo.findByReservationNo(reservationNo);
+	public List<MatchingConsultant> readReceiveMatching(int reservationNo) throws SQLException {
+		return mRepo.findReceiveMatching(reservationNo);
 	}
 
+	
+	
 	@Override
 	public void confirmMatching(int reservationNo, String consultantId, int matchingCost) throws ParseException,SQLException{	
 		//중요내용(컨설턴트 아이디, 가격)을 예약 테이블로 옮기고
