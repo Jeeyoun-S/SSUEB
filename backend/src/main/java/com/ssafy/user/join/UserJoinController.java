@@ -2,6 +2,8 @@ package com.ssafy.user.join;
 
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +36,9 @@ import io.swagger.annotations.ApiResponse;
 @RequestMapping("/api/user/join")
 @Api(tags = { "User/Join" }, description = "사용자 회원가입 API")
 public class UserJoinController {
+	
+	private static final Logger logger = LoggerFactory.getLogger(UserJoinController.class);
+
 
 	// 유효성 검사
 	ParameterCheck parameterCheck = new ParameterCheck();
@@ -53,7 +58,8 @@ public class UserJoinController {
 	@PostMapping("/partner")
 	@ApiOperation(value = "반려인 회원가입", notes = "반려인의 정보를 입력받아 회원 정보에 추가하고 로그인한다.")
 	@ApiResponse(code = 200, response = BasicResponse.class, message = "반려인 회원가입 진행")
-	public ResponseEntity<BasicResponse> joinPartner(@RequestBody JoinRequest joinRequest) {
+	//public ResponseEntity<BasicResponse> joinPartner(@RequestBody JoinRequest joinRequest) {
+	public ResponseEntity<?> joinPartner(@RequestBody JoinRequest joinRequest) {
 		
 		System.out.println("#반려인 회원가입 값 확인 001# " + joinRequest);
 		
@@ -67,7 +73,7 @@ public class UserJoinController {
 		
 		// Partner 회원가입
 		boolean result = userJoinService.joinPartner(joinRequest);
-		
+		logger.info("#21# 회원가입 result 확인: ", result);
 		if (result) {
 			
 			// 로그인하기
@@ -76,7 +82,8 @@ public class UserJoinController {
 			
 			// 로그인 성공
 			if (resultLogin.getBody().getResponse().equals("success")) {
-				return ResponseEntity.status(200).body(new BasicResponse("success", "회원가입에 성공했습니다."));
+				//return ResponseEntity.status(200).body(new BasicResponse("success", "회원가입에 성공했습니다."));
+				return resultLogin;
 			}
 			
 			// 로그인 실패
