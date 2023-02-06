@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ssafy.common.jwt.JwtAuthenticationFilter;
 import com.ssafy.common.jwt.JwtTokenProvider;
+import com.ssafy.common.util.CommonVariable;
 import com.ssafy.common.util.ParameterCheck;
 import com.ssafy.db.entity.Consultant;
 import com.ssafy.db.entity.User;
@@ -64,6 +65,9 @@ public class UserLoginController {
 	@Autowired
 	UserLoginService userLoginService;
 	
+	@Autowired
+	CommonVariable commonVariable;
+	
 	/** 
 	 * id와 pw를 통해 로그인 실행, 성공 시 JWT token 반환
 	 * @param UserLoginPostReq
@@ -83,7 +87,16 @@ public class UserLoginController {
 		
 		try {
 			logger.info("## [Controller]: authorize - 로그인 실행 {}", loginInfo);
-			logger.info("#21# 암호화 비밀번호: {}", passwordEncoder.encode(loginInfo.getPassword()));
+//			logger.info("#21# 암호화 비밀번호: {}", passwordEncoder.encode(loginInfo.getPassword()));
+			
+			// # 소셜 로그인(Kakao, Google)인 경우 비밀번호 생성
+			if (loginInfo.getPassword().equals("socialKakao")) {
+				loginInfo.setPassword(createSocialPassword(loginInfo.getId(), "KAKAO")); 
+			}
+			else if (loginInfo.getPassword().equals("socialGoogle")) {
+				loginInfo.setPassword(createSocialPassword(loginInfo.getId(), "GOOGLE"));
+				logger.info("#21# Google 비밀번호 확인: {}", loginInfo.getPassword());
+			}
 			
 			// # 입력값 검증
 			// i) id - 비어 있지 않은지 && ID 규칙에 맞는지
@@ -147,5 +160,17 @@ public class UserLoginController {
 			return ResponseEntity.ok(UserLoginPostResponse.of(401, "failure", "id 또는 password를 다시 입력해 주세요.", null));
 		}
 	}
+	
+	/** 
+	 * 소셜 로그인(Kakao, Google)의 경우 비밀번호 생성
+	 * @param id
+	 * @return UserLoginPostRequest
+	 */
+	public String createSocialPassword(String id, String provider) {
+		if (provider.equals("KAKAO")) {
+			return id.substring(0, 6) + commonVariable.getKakaoSecret().substring(0, 6) + "#1";
+		}
 		
+		return id.substring(0, 6) + commonVariable.getGoogleSecret().substring(0, 6) + "#2";
+	}
 }
