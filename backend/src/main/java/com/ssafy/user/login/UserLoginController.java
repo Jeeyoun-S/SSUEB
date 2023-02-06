@@ -31,8 +31,6 @@ import com.ssafy.user.login.response.UserLoginPostResponse;
 import com.ssafy.user.login.service.UserLoginService;
 
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
@@ -75,10 +73,6 @@ public class UserLoginController {
 	 */
 	@PostMapping("/")
 	@ApiOperation(value = "로그인 - JWT 토큰 발급")
-	@ApiImplicitParams({
-		@ApiImplicitParam(name = "id", value = "유저 email", required = true),
-		@ApiImplicitParam(name = "password", value = "유저 password", required = true)
-	})
 	@ApiResponses(value = {
 			@ApiResponse(code = 200, response = UserLoginPostResponse.class, message = "로그인에 성공했습니다."),
 			@ApiResponse(code = 401, response = UserLoginPostResponse.class, message = "id 또는 password를 다시 입력해 주세요.")

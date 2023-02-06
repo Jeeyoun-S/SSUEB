@@ -2,8 +2,6 @@ package com.ssafy.user.pet.request;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
@@ -11,7 +9,6 @@ import lombok.Data;
 public class PetRequest {
 	
 	@ApiModelProperty(value = "반려동물 사진")
-//	@JsonIgnore
 	MultipartFile petImage;
 	
 	@ApiModelProperty(value = "반려동물 이름", required = true)

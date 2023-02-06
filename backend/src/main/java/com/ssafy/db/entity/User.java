@@ -10,6 +10,10 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.OptimisticLockType;
+import org.hibernate.annotations.OptimisticLocking;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -25,6 +29,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
+@DynamicInsert
 public class User {
 	@Id
     //@GeneratedValue(strategy = GenerationType.IDENTITY)

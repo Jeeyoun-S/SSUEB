@@ -1,6 +1,11 @@
 package com.ssafy.user.join;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,6 +24,7 @@ import com.ssafy.user.join.request.JoinRequest;
 @Service("UserJoinService")
 public class UserJoinServiceImpl implements UserJoinService {
 	
+	// 확인용 출력
 	static boolean isDebug = true;
 	
 	// 유효성 검사
@@ -38,8 +44,14 @@ public class UserJoinServiceImpl implements UserJoinService {
 	
 	ImageFile imageCheck = new ImageFile();
 	
+	@Autowired
+	EntityManagerFactory entityManagerFactory;
+	
+	@Value("${file.image.path.license}")
+	String licenseFilePath;
+	
 	@Override
-	public boolean joinUser(JoinRequest joinRequest, int role) {
+	public boolean checkUserValid(JoinRequest joinRequest, int role) {
 		
 		// 입력 받은 값 변수에 넣어주기
 		String id = joinRequest.getId();
@@ -53,7 +65,7 @@ public class UserJoinServiceImpl implements UserJoinService {
 		
 		if (isDebug) System.out.println("#아이디 문제 "+id);
 		// 아이디 유효성 검사
-		if (!parameterCheck.isEmpty(id) && !userRepository.findById(id).isPresent() && parameterCheck.isValidId(id)) {
+		if (!parameterCheck.isEmpty(id) && parameterCheck.isValidId(id) && !userRepository.findById(id).isPresent()) {
 			
 			if (isDebug) System.out.println("#비밀번호 문제 "+password);
 			// 비밀번호 유효성 검사
@@ -74,7 +86,7 @@ public class UserJoinServiceImpl implements UserJoinService {
 							if (isDebug) System.out.println("#알람 방식 번호 문제 "+alertFlag);
 							// 알림 방식 유효성 검사
 							if (parameterCheck.isValidAlertFlag(alertFlag)) {
-
+								
 								if (isDebug) System.out.println("#소셜로그인 ID 여부 번호 문제 " + isSocialID); // #21#
 								// 소셜로그인 ID 여부 유효성 검사 
 								if (parameterCheck.isValidAlertFlag(isSocialID)) {
@@ -105,6 +117,34 @@ public class UserJoinServiceImpl implements UserJoinService {
 	}
 	
 	@Override
+	public boolean joinUser(JoinRequest joinRequest, int role) {
+		
+		// 유효성 검사
+		boolean valid = checkUserValid(joinRequest, role);
+		
+		if (valid) {
+			
+			// 비밀번호 암호화하기
+			String password = passwordEncoder.encode(joinRequest.getUserPassword());
+			
+			// Request DTO에서 User DTO로
+			User user = new User();
+			user.setId(joinRequest.getId());
+			user.setUserPassword(password);
+			if (role == 0) user.setUserNickname(joinRequest.getUserNickname());
+			user.setUserName(joinRequest.getUserName());
+			user.setUserPhone(joinRequest.getUserPhone());
+			user.setUserAlertFlag(joinRequest.getUserAlertFlag());
+			
+			// DB에 전달 받은 회원정보 저장해 두기
+			User insertResult = userRepository.save(user);
+			if (insertResult != null) return true;
+		}
+			
+		return false;
+	}
+	
+	@Override
 	public boolean joinConsultant(String id, ConsultantJoinRequest consultantJoinRequest) {
 		
 		// ! 이미지 및 동영상 파일을 저장할 폴더 경로 및 최대 크기 정하기
@@ -115,7 +155,7 @@ public class UserJoinServiceImpl implements UserJoinService {
 		String licenseName = imageCheck.makeFilename(licenseImage.getOriginalFilename());
 		
 		// 파일 저장하기
-		imageCheck.saveImage(licenseImage, licenseName, "C:\\Users\\SSAFY");
+		imageCheck.saveImage(licenseImage, licenseName, licenseFilePath);
 		
 		// Consultant DTO 생성
 		Consultant consultant = new Consultant();
@@ -145,6 +185,49 @@ public class UserJoinServiceImpl implements UserJoinService {
 		userAuthority.setAuthorityName(authorityName);
 		UserAuthority insertResult = userAuthorityRepository.save(userAuthority);
 		if (insertResult != null) return true;
+		return false;
+	}
+	
+	@Override
+	public boolean joinPartner(JoinRequest joinRequest) {
+		
+		// 유효성 검사
+		boolean valid = checkUserValid(joinRequest, 0);
+		
+		if (valid) {
+			
+			// 회원가입 후 로그인을 위해 영속성 컨텍스트에 넣고, 마지막에 DB에 반영
+			EntityManager entityManager = entityManagerFactory.createEntityManager();
+			EntityTransaction transaction = entityManager.getTransaction();
+			
+			// 트랜잭션 시작
+			transaction.begin();
+			
+			// 비밀번호 암호화하기
+			String password = passwordEncoder.encode(joinRequest.getUserPassword());
+			
+			// Request DTO에서 User DTO로
+			User user = new User();
+			user.setId(joinRequest.getId());
+			user.setUserPassword(password);
+			user.setUserNickname(joinRequest.getUserNickname());
+			user.setUserName(joinRequest.getUserName());
+			user.setUserPhone(joinRequest.getUserPhone());
+			user.setUserAlertFlag(joinRequest.getUserAlertFlag());
+			entityManager.persist(user);
+			
+			// 사용자 권한 저장하기
+			UserAuthority userAuthority = new UserAuthority();
+			userAuthority.setId(joinRequest.getId());
+			userAuthority.setAuthorityName("ROLE_USER");
+			entityManager.persist(userAuthority);
+			
+			// 트랜잭션 종료 및 flush & commit
+			transaction.commit();
+			
+			return true;
+		}
+			
 		return false;
 	}
 }
