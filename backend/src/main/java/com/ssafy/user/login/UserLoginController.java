@@ -87,7 +87,7 @@ public class UserLoginController {
 			logger.info("## [Controller]: authorize - 로그인 실행 {}", loginInfo);
 //			logger.info("#21# 암호화 비밀번호: {}", passwordEncoder.encode(loginInfo.getPassword()));
 			
-			// # 탙뢰 회원 판별 [false = 탈퇴 X]
+			// # 탙뢰 회원 판별 [true = 탈퇴]
 			if (userWithdrawalController.checkWithdrawalUser(loginInfo.getId())) {
 				return ResponseEntity.ok(UserLoginPostResponse.of(401, "failure", "탈퇴회원 입니다.", null));
 			}
