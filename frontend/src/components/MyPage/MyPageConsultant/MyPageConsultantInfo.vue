@@ -20,10 +20,17 @@
         <v-row class="ml-2">
           <v-chip-group
             selected-class="text-primary"
-            v-model="getConsultantInfo.consultantPetType" 
-            column disabled multiple>
-            <v-chip v-for="value, index in petType"
-              :key="index" filter variant="outlined">
+            v-model="getConsultantInfo.consultantPetType"
+            column
+            disabled
+            multiple
+          >
+            <v-chip
+              v-for="(value, index) in petType"
+              :key="index"
+              filter
+              variant="outlined"
+            >
               {{ value }}
             </v-chip>
           </v-chip-group>
@@ -51,15 +58,29 @@
           density="compact"
           readonly
         ></v-text-field>
-        <v-radio-group v-model="getConsultantInfo.userAlertFlag" color="primary" density="compact" inline readonly>
+        <v-radio-group
+          v-model="getConsultantInfo.userAlertFlag"
+          color="primary"
+          density="compact"
+          inline
+          readonly
+        >
           <v-label>알림방법</v-label>&ensp;
           <v-radio label="카카오톡" value="0"></v-radio>&ensp;
           <v-radio label="이메일" value="1"></v-radio>&ensp;
           <v-radio label="문자" value="2"></v-radio>
         </v-radio-group>
         <UserLogout></UserLogout>
-        <v-btn class="mr-3" variant="outlined" rounded="0" @click="modifyConsultantInfo()">회원 정보 수정</v-btn>
-        <v-btn class="mr-3" variant="outlined" color="error" rounded="0">탈퇴</v-btn>
+        <v-btn
+          class="mr-3"
+          variant="outlined"
+          rounded="0"
+          @click="modifyConsultantInfo()"
+          >회원 정보 수정</v-btn
+        >
+        <v-btn class="mr-3" variant="outlined" color="error" rounded="0"
+          >탈퇴</v-btn
+        >
       </v-col>
     </v-row>
   </v-sheet>
@@ -72,7 +93,7 @@ import { checkPassword } from "@/api/userInfoPartner.js";
 export default {
   name: "MyPageConsultantInfo",
   components: {
-    UserLogout
+    UserLogout,
   },
   computed: {
     getConsultantInfo() {
@@ -82,21 +103,18 @@ export default {
   data() {
     return {
       petType: ["개", "고양이", "토끼", "패럿", "기니피그", "햄스터"],
-    }
+    };
   },
   methods: {
     modifyConsultantInfo() {
-      
       if (this.socialUserInfo != null) {
         this.$store.dispatch("updateInfoVersion");
       } else {
         checkPassword(this.getConsultantInfo.id);
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
-<style>
-
-</style>
+<style></style>

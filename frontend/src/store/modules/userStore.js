@@ -16,6 +16,9 @@ const userStore = {
     userAuth: null, // 현재 로그인한 사용자의 권한
   },
   getters: {
+    getIsLogin: (state) => {
+      return state.isLogin;
+    },
     getUserId: (state) => {
       return state.userId;
     },
@@ -23,12 +26,13 @@ const userStore = {
   mutations: {
     SET_IS_LOGIN: (state, isLogin) => {
       state.isLogin = isLogin;
+      console.log("#SET_IS_LOGIN# isLogin 확인: ", state.isLogin);
     },
     SET_IS_VALID_TOKEN: (state, isValidToken) => {
       state.isValidToken = isValidToken;
     },
     SET_USER_ID: (state, userId) => {
-      state.isLogin = true;
+      //state.isLogin = true;
       state.userId = userId;
       console.log("#SET_USER_ID# userId 확인: ", state.userId);
     },
@@ -144,6 +148,8 @@ const userStore = {
 
       router.push("/");
     },
+    // [@Method] 회원 탈퇴
+    excuteWithdrawal() {},
     // [@Method] 회원가입 직후 로그인 성공 SET
     setAutoLogin({ commit }, res) {
       // console.log("#userStore# 회원가입 직후 로그인 성공 response: ", res);

@@ -3,7 +3,7 @@
   <v-text-field
     v-model="info.id"
     class="mb-2"
-    :rules="rules.email"
+    :rules="emailRule"
     label="이메일"
     variant="underlined"
     color="primary"
@@ -52,6 +52,14 @@ export default {
       duplicateIdCheck: false,
       lastCheckId: null,
       showPassword: false,
+      emailRule: [
+        (v) => !!v || "이메일은 필수 입력 사항입니다.",
+        (v) =>
+          /^[a-zA-Z0-9_+.-]+@([a-zA-Z0-9-]+\.)+[a-zA-Z0-9-.]{2,4}$/.test(v) ||
+          "이메일 형식으로 입력해 주세요.",
+        (v) => v.length <= 30 || "30자 이하로 입력해 주세요.",
+        () => this.duplicateIdCheck || "중복된 이메일입니다.",
+      ],
     };
   },
   emits: ["info"],
@@ -73,7 +81,9 @@ export default {
 
         // 아이디 중복 확인
         if (
-          (/^[a-zA-Z0-9_+.-]+@([a-zA-Z0-9-]+\.)+[a-zA-Z0-9-.]{2,4}$/).test(this.info.id) &&
+          /^[a-zA-Z0-9_+.-]+@([a-zA-Z0-9-]+\.)+[a-zA-Z0-9-.]{2,4}$/.test(
+            this.info.id
+          ) &&
           this.lastCheckId != this.info.id
         ) {
           duplicateId(this.info.id).then((res) => {
@@ -101,11 +111,6 @@ export default {
     this.info.provider = this.socialUserInfo.provider;
     // 비밀번호 입력칸 비활성화
     if (this.socialUserInfo.id != null) this.info.socialAccess = false;
-
-    if (this.rules.email.length <= 3) {
-      this.rules.email.push(() => this.duplicateIdCheck || "중복된 이메일입니다.");
-    }
-    console.log(this.rules.email);
   },
 };
 </script>
