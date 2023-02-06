@@ -47,14 +47,15 @@ export default {
         userPhone: null,
         userIsSocialId: "0",
       },
-      socialAccess: true, // #21#
+      socialAccess: true, // for. 소셜 로그인 버튼을 통한 접근 여부판단
+      provider: null, // for. 소셜 로그인 제공자 판단
     };
   },
   // #21#
   created() {
     // 회원가입 페이지 실행 시 소셜 로그인 info 적용
     this.info.userNickname = this.socialUserInfo.nickname;
-    console.log("#21# 왜 안대냐: ", this.socialUserInfo);
+    // console.log("#21# 반려인 회원가입 정보: ", this.socialUserInfo);
   },
   computed: {
     phoneAuthStates() {
@@ -72,7 +73,6 @@ export default {
       const { valid } = await this.$refs.form.validate();
 
       if (valid && this.phoneAuthStates) {
-        // joinPartner(this.info);
         joinPartner(this.info, this.socialAccess); // #21# 소셜 로그인 접근 여부 확인을 위해 코드 변경
       }
       // #21# 소셜 로그인 접근 회원가입
@@ -81,7 +81,7 @@ export default {
         this.phoneAuthStates &&
         this.info.userPassword == null
       ) {
-        joinPartner(this.info, this.socialAccess);
+        joinPartner(this.info, this.socialAccess, this.provider);
       }
     },
     updatePhone(userPhone) {
@@ -92,6 +92,7 @@ export default {
       this.info.userPassword = info.userPassword;
       this.info.userName = info.userName;
       this.socialAccess = info.socialAccess; // #21# false면 소셜 로그인 접근
+      this.provider = info.provider; // #21# 소셜 로그인 제공자
     },
   },
   watch: {
@@ -99,7 +100,10 @@ export default {
       async handler() {
         // 공백 제거
         if (this.info.userNickname)
-          this.info.userNickname = await this.info.userNickname.replace(" ", "");
+          this.info.userNickname = await this.info.userNickname.replace(
+            " ",
+            ""
+          );
       },
       deep: true,
     },

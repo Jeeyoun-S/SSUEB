@@ -70,6 +70,7 @@ export default {
       petCheck: [],
       petType: ["개", "고양이", "토끼", "패럿", "기니피그", "햄스터"],
       socialAccess: true,
+      provider: null,
       formData: new FormData(),
     };
   },
@@ -112,7 +113,7 @@ export default {
           else this.formData.append(key, this.info[key]);
         }
 
-        joinConsultant(this.formData, this.socialAccess);
+        joinConsultant(this.formData, this.socialAccess, this.provider);
       }
       // #21# 소셜 로그인 접근 회원가입
       else if (
@@ -146,7 +147,7 @@ export default {
           else this.formData.append(keySocial, this.info[keySocial]);
         }
 
-        joinConsultant(this.formData, this.socialAccess);
+        joinConsultant(this.formData, this.socialAccess, this.provider);
       }
     },
     updatePhone(userPhone) {
@@ -157,6 +158,7 @@ export default {
       this.info.userPassword = info.userPassword;
       this.info.userName = info.userName;
       this.socialAccess = info.socialAccess; // #21# false면 소셜 로그인 접근
+      this.provider = info.provider; // #21# 소셜 로그인 제공자
     },
   },
   watch: {

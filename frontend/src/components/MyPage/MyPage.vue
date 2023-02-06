@@ -10,7 +10,7 @@ import { mapState } from "vuex";
 const userStore = "userStore";
 
 export default {
-  name: 'MyPage',
+  name: "MyPage",
   components: {
     MyPagePartner,
     MyPageConsultant
