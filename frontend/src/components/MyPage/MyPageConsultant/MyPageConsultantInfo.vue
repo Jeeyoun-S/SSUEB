@@ -78,7 +78,12 @@
           @click="modifyConsultantInfo()"
           >회원 정보 수정</v-btn
         >
-        <v-btn class="mr-3" variant="outlined" color="error" rounded="0"
+        <v-btn
+          class="mr-3"
+          variant="outlined"
+          color="error"
+          rounded="0"
+          @click="withdrawal"
           >탈퇴</v-btn
         >
       </v-col>
@@ -89,6 +94,9 @@
 <script>
 import UserLogout from "@/components/MyPage/UserLogout.vue";
 import { checkPassword } from "@/api/userInfoPartner.js";
+import { mapActions } from "vuex";
+
+const userStore = "userStore";
 
 export default {
   name: "MyPageConsultantInfo",
@@ -106,12 +114,17 @@ export default {
     };
   },
   methods: {
+    ...mapActions(userStore, ["excuteWithdrawal"]),
     modifyConsultantInfo() {
       if (this.socialUserInfo != null) {
         this.$store.dispatch("updateInfoVersion");
       } else {
         checkPassword(this.getConsultantInfo.id);
       }
+    },
+    // [@Method] 회원 탈퇴
+    async withdrawal() {
+      await this.excuteWithdrawal();
     },
   },
 };
