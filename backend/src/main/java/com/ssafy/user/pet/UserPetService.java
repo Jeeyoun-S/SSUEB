@@ -25,6 +25,6 @@ public interface UserPetService {
 	 * @param no 반려동물 번호
 	 * @param petRequest 반려동물 정보 DTO
 	 * **/
-	public boolean modifyPet(int no, PetRequest petRequest, boolean isPetDeleteImage);
+	public String modifyPet(int no, PetRequest petRequest, boolean isPetDeleteImage);
 	
 }

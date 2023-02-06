@@ -117,10 +117,12 @@ public class UserPetServiceImpl implements UserPetService {
 	}
 	
 	@Override
-	public boolean modifyPet(int no, PetRequest petRequest, boolean isPetDeleteImage) {
+	public String modifyPet(int no, PetRequest petRequest, boolean isPetDeleteImage) {
 		
 		// Pet Entity 생성
 		Pet pet = petRepository.findByNo(no);
+		
+		String imageName = "";
 		
 		// 기존 파일 가져오기
 		String beforeFileName = pet.getPetImage();
@@ -131,7 +133,7 @@ public class UserPetServiceImpl implements UserPetService {
 			MultipartFile imageFile = petRequest.getPetImage();
 			
 			// 파일 이름 생성
-			String imageName = imageCheck.makeFilename(imageFile.getOriginalFilename());
+			imageName = imageCheck.makeFilename(imageFile.getOriginalFilename());
 			
 			// 이미지 크기 300px:300px로 조절해서 저장하기
 			boolean result = imageCheck.saveImage300(imageFile, imageName, petImagePath);
@@ -158,8 +160,8 @@ public class UserPetServiceImpl implements UserPetService {
 		pet.setPetInfo(petRequest.getPetInfo());
 		
 		Pet result = petRepository.save(pet);
-		if (result != null) return true;
-		return false;
+		if (result != null) return imageName;
+		return null;
 	}
 	
 }
