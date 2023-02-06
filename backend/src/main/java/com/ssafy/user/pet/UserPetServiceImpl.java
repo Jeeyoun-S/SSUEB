@@ -70,6 +70,7 @@ public class UserPetServiceImpl implements UserPetService {
 		
 		// 반려동물 특이사항
 		String info = petRequest.getPetInfo();
+		System.out.println("#특이사항 "+info);
 		if (info != null) {
 			if (info.length() > 40) {
 				return false;
@@ -153,7 +154,7 @@ public class UserPetServiceImpl implements UserPetService {
 		pet.setPetName(petRequest.getPetName());
 		pet.setPetType(petRequest.getPetType());
 		pet.setPetVariety(petRequest.getPetVariety());
-		pet.setPetBirth(petRequest.getPetBirth());
+		if (petRequest.getPetBirth() != null) pet.setPetBirth(petRequest.getPetBirth()+"-01");
 		pet.setPetInfo(petRequest.getPetInfo());
 		
 		Pet result = petRepository.save(pet);

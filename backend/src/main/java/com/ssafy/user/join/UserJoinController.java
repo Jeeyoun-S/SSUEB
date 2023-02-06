@@ -53,7 +53,7 @@ public class UserJoinController {
 	@PostMapping("/partner")
 	@ApiOperation(value = "반려인 회원가입", notes = "반려인의 정보를 입력받아 회원 정보에 추가하고 로그인한다.")
 	@ApiResponse(code = 200, response = BasicResponse.class, message = "반려인 회원가입 진행")
-	public ResponseEntity<BasicResponse> joinPartner(@RequestBody JoinRequest joinRequest) {
+	public ResponseEntity<?> joinPartner(@RequestBody JoinRequest joinRequest) {
 		
 		System.out.println("#반려인 회원가입 값 확인 001# " + joinRequest);
 		
@@ -76,7 +76,7 @@ public class UserJoinController {
 			
 			// 로그인 성공
 			if (resultLogin.getBody().getResponse().equals("success")) {
-				return ResponseEntity.status(200).body(new BasicResponse("success", "회원가입에 성공했습니다."));
+				return resultLogin;
 			}
 			
 			// 로그인 실패

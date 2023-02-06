@@ -109,7 +109,9 @@ public class UserInfoConsultantController {
 						starAverage += (s.getStarNum() * s.getStarCnt());
 						starCount += s.getStarCnt();
 					}
-					userInfoResponseData.setConsultantRate(starAverage / starCount);
+					
+					if (starCount != 0) userInfoResponseData.setConsultantRate(starAverage / starCount);
+					else userInfoResponseData.setConsultantRate((double) 0);
 					
 					// 전문가 예약 확정 횟수
 					Optional<Integer> totalConfirm = userInfoConsultantQueryRepository.findTotalConfirmById(id);

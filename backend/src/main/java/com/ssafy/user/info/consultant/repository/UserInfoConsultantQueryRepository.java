@@ -33,7 +33,7 @@ public interface UserInfoConsultantQueryRepository extends JpaRepository<Consult
 	/**
 	 * 전문가 예약 확정 횟수 전체 평균
 	 * **/
-	@Query(value = "SELECT AVG(cnt) FROM (SELECT consultant_id, COUNT(consultant_id) AS cnt FROM reservation WHERE consultant_id IS NOT NULL GROUP BY consultant_id) AS a", nativeQuery = true)
+	@Query(value = "SELECT AVG(cnt) FROM (SELECT c.id, COUNT(c.id) AS cnt FROM reservation AS r RIGHT JOIN consultant AS c ON r.consultant_id=c.id GROUP BY c.id) AS a", nativeQuery = true)
 	Optional<Double> findAverageConfirm();
 	
 	/**

@@ -108,7 +108,7 @@ public class UserPetController {
 			
 			// 반려동물 특이사항 HTML 변경
 			String info = petRequest.getPetInfo();
-			petRequest.setPetInfo(changeHTML.changeStringToHTML(info));
+			if (info != null) petRequest.setPetInfo(changeHTML.changeStringToHTML(info));
 			
 			// DB에 넣기
 			boolean result = userPetService.modifyPet(no, petRequest, petModifyRequest.isPetDeleteImage());
