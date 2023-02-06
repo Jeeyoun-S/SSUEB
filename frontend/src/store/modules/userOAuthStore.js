@@ -126,7 +126,6 @@ const userOAuthStore = {
     // [@Method] #Google# 회원탈퇴
     async excuteWithdrawalGoogle(context) {
       if (context.state.googleToken == null) return;
-
       console.log("#userOAuthStore# GOOGLE 회원탈퇴 동작");
     },
   },

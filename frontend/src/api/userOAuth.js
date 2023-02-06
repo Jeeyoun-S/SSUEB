@@ -96,6 +96,8 @@ async function withdrawalKakao(success, fail) {
   await kakao_api_disconnect.post(`v1/user/unlink`).then(success).catch(fail);
 }
 
+// 구글 연결 curl -d -X -POST --header "Content-type:application/x-www-form-urlencoded" \
+        https://oauth2.googleapis.com/revoke?token={token}
 // [GET] #Google# 사용자 정보 요청받기
 async function getGoogleInfo(token, success, fail) {
   await google_api_info
