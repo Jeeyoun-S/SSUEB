@@ -162,7 +162,7 @@ async function joinPartner(joinRequest, socialAccess, provider) {
             location.href = process.env.VUE_APP_BASE_URL;
           } else {
             // 로그인 성공 > 로그인 후 메인화면으로 이동
-            // console.log("#userJoin - api# 회원가입 후 로그인 성공 res: ", res);
+            // console.log("#userJoin - api# [반려인] 회원가입 후 로그인 성공 res: ", res);
             await store.dispatch("userStore/setAutoLogin", res, { root: true });
             await store.dispatch("userStore/moveMainPage", null, {
               root: true,
@@ -211,9 +211,13 @@ async function joinConsultant(formData, socialAccess, provider) {
           "회원가입 신청 완료",
           "가입신청이 완료됐습니다. 7일 이내에 자격 심사 후 선택하신 알림방법으로 안내드릴 예정입니다.",
           "success"
-        ).then(() => {
+        ).then(async () => {
           // 메인페이지로 이동
-          location.href = process.env.VUE_APP_BASE_URL;
+          // console.log("#userJoin - api# [전문가] 회원가입 후 로그인 성공 res: ", res);
+          await store.dispatch("userStore/setAutoLogin", res, { root: true });
+          await store.dispatch("userStore/moveMainPage", null, {
+            root: true,
+          });
         });
       }
 
@@ -225,6 +229,7 @@ async function joinConsultant(formData, socialAccess, provider) {
           "error"
         ).then(() => {
           // 회원가입 창으로 이동
+          location.href = process.env.VUE_APP_BASE_URL;
         });
       }
     });
