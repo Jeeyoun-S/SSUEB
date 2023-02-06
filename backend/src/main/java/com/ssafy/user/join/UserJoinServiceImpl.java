@@ -61,6 +61,7 @@ public class UserJoinServiceImpl implements UserJoinService {
 		String name = joinRequest.getUserName();
 		String phone = joinRequest.getUserPhone();
 		int alertFlag = joinRequest.getUserAlertFlag();
+		int isSocialID = joinRequest.getUserIsSocialId(); // #21#
 		
 		if (isDebug) System.out.println("#아이디 문제 "+id);
 		// 아이디 유효성 검사
@@ -86,7 +87,26 @@ public class UserJoinServiceImpl implements UserJoinService {
 							// 알림 방식 유효성 검사
 							if (parameterCheck.isValidAlertFlag(alertFlag)) {
 								
-								return true;
+								if (isDebug) System.out.println("#소셜로그인 ID 여부 번호 문제 " + isSocialID); // #21#
+								// 소셜로그인 ID 여부 유효성 검사 
+								if (parameterCheck.isValidAlertFlag(isSocialID)) {
+									// 비밀번호 암호화하기
+									password = passwordEncoder.encode(joinRequest.getUserPassword());
+									
+									// Request DTO에서 User DTO로
+									User user = new User();
+									user.setId(id);
+									user.setUserPassword(password);
+									user.setUserNickname(nickname);
+									user.setUserName(name);
+									user.setUserPhone(phone);
+									user.setUserAlertFlag(alertFlag);
+									user.setUserIsSocialId(isSocialID); // #21# 
+									
+									// DB에 전달 받은 회원정보 저장해 두기
+									User insertResult = userRepository.save(user);
+									if (insertResult != null) return true;
+								}
 							}
 						}
 					}

@@ -16,6 +16,8 @@ import com.ssafy.user.auth.response.UserAuthResponse;
 import com.ssafy.user.auth.service.UserAuthService;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
 @Api(tags = {"User/Auth"}, description = "권한검증 API")
@@ -29,12 +31,18 @@ public class UserAuthController {
 	UserAuthService userAuthService;
 
 	/** 
-	 * 모든 권한 허용
+	 * 권한 검증 - 모든 권한 허용
 	 * @param HttpServletRequest
 	 * @return UserAuthResponse
 	 */
+//	- JwtFilter에서 token을 검증하며 등록한 시큐리티 유저 객체를 꺼내온다.
+//	- JwtFilter는 DB 조회를 하지 않기 때문에 userId, 권한만 알 수 있다. 
+//	- User 엔티티에 대한 정보를 알고 싶다면 별도의 DB 조회 필요
 	@GetMapping("/permit")
 	@ApiOperation(value = "권한 검증 - 모든 권한 허용")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "(Header에 넣어야 함)Bearer", value = "{token}", required = true)
+	})
 	@PreAuthorize("hasAnyRole('USER', 'CONSULTANT', 'ADMIN')")
 	public ResponseEntity<UserAuthResponse> getMyUserInfo(HttpServletRequest request) {
 		return ResponseEntity.ok(userAuthService.getMyUserWithAuthorities());
@@ -47,6 +55,9 @@ public class UserAuthController {
 	 */
 	@GetMapping("/permit/{id}")
 	@ApiOperation(value = "권한 검증 - 전문가, 관리자 권한만 허용")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "(Header에 넣어야 함)Bearer", value = "{token}", required = true)
+	})
 	@PreAuthorize("hasAnyRole('CONSULTANT', 'ADMIN')")
 	public ResponseEntity<UserAuthResponse> getUserInfo(@PathVariable String id) {
 		return ResponseEntity.ok(userAuthService.getUserWithAuthorities(id));

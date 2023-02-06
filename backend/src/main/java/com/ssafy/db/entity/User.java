@@ -62,11 +62,21 @@ public class User {
 	@Column(name = "user_activated")
 	int userActivated;
 	
+	@Column(name = "user_is_social_id")
+	int userIsSocialId;
+	
 	// for. add JWT - 인증 권한 테이블 
+//	@ManyToMany
+//	@JoinTable(
+//			name = "user_authority",
+//			joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
+//			inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "authority_name")})
+//	Set<Authority> authorities;
 	@ManyToMany
 	@JoinTable(
 			name = "user_authority",
 			joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
 			inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "authority_name")})
+	
 	Set<Authority> authorities;
 }

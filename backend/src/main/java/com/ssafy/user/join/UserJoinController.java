@@ -34,7 +34,7 @@ import io.swagger.annotations.ApiResponse;
 @RequestMapping("/api/user/join")
 @Api(tags = { "User/Join" }, description = "사용자 회원가입 API")
 public class UserJoinController {
-	
+
 	// 유효성 검사
 	ParameterCheck parameterCheck = new ParameterCheck();
 
@@ -57,13 +57,21 @@ public class UserJoinController {
 		
 		System.out.println("#반려인 회원가입 값 확인 001# " + joinRequest);
 		
+		// # 소셜 로그인(Kakao)인 경우 비밀번호 생성
+		if (joinRequest.getUserPassword().equals("socialKakao")) {
+			joinRequest.setUserPassword(userLoginController.createSocialPassword(joinRequest.getId(), "KAKAO"));
+		}
+		else if (joinRequest.getUserPassword().equals("socialGoogle")) {
+			joinRequest.setUserPassword(userLoginController.createSocialPassword(joinRequest.getId(), "GOOGLE"));
+		}
+		
 		// Partner 회원가입
 		boolean result = userJoinService.joinPartner(joinRequest);
 		
 		if (result) {
 			
 			// 로그인하기
-			UserLoginPostRequest loginInfo = new UserLoginPostRequest(joinRequest.getId(), joinRequest.getUserPassword());
+			UserLoginPostRequest loginInfo = new UserLoginPostRequest(joinRequest.getId(), joinRequest.getUserPassword(), 0);
 			ResponseEntity<UserLoginPostResponse> resultLogin = userLoginController.authorize(loginInfo);
 			
 			// 로그인 성공
@@ -88,6 +96,14 @@ public class UserJoinController {
 			ConsultantJoinRequest consultantJoinRequest) {
 		
 		System.out.println("#전문가 회원가입 값 확인 002# " + joinRequest + consultantJoinRequest);
+		
+		// # 소셜 로그인(Kakao, Google)인 경우 비밀번호 생성
+		if (joinRequest.getUserPassword().equals("socialKakao")) {
+			joinRequest.setUserPassword(userLoginController.createSocialPassword(joinRequest.getId(), "KAKAO"));
+		}
+		else if (joinRequest.getUserPassword().equals("socialGoogle")) {
+			joinRequest.setUserPassword(userLoginController.createSocialPassword(joinRequest.getId(), "GOOGLE"));
+		}
 		
 		// 자격번호 유효성 검사
 		if (parameterCheck.isValidLicenseNumber(consultantJoinRequest.getConsultantLicenseNumber())) {
