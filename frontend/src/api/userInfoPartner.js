@@ -149,6 +149,9 @@ async function modifyPetInfo(petInfo, petNo) {
 
         result = false;
         petInfo.no = petNo;
+        const petImage = res.data.data.petImage;
+        if (petImage != "") petInfo.petImage = res.data.data.petImage;
+        console.log("1.", petInfo);
         store.dispatch("updatePetInfo", petInfo);
       } else {
         console.log("#반려동물 수정 실패");

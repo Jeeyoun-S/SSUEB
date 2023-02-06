@@ -57,7 +57,7 @@ async function getUserConsultantInfo(id) {
 
       Swal.fire({
         title: 'FAIL',
-        text: '회원정보 조회에 실패했습니다.<br>다시 시도해 주시기 바랍니다.',
+        text: '회원정보 조회에 실패했습니다. 다시 시도해 주시기 바랍니다.',
         icon: 'error'
       });
       router.push("/");
