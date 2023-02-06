@@ -19,6 +19,7 @@ import com.ssafy.user.login.response.UserLoginPostResponse;
 import com.ssafy.user.withdrawal.repository.UserWithdrawalRepository;
 import com.ssafy.user.withdrawal.request.UserWithdrawalPostRequest;
 import com.ssafy.user.withdrawal.response.UserWithdrawalPostResponse;
+import com.ssafy.user.withdrawal.service.UserWithdrawalService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -40,6 +41,9 @@ public class UserWithdrawalController {
 	
 	@Autowired
 	UserWithdrawalRepository userWithdrawalRepository;
+	
+	@Autowired
+	UserWithdrawalService userWithdrawalService;
 
 	/** 
 	 * 해당 id의 사용자 탈퇴 처리 (DB 삭제가 아닌 탈퇴 처리) 
@@ -76,5 +80,19 @@ public class UserWithdrawalController {
 			e.printStackTrace();
 			return ResponseEntity.ok(UserWithdrawalPostResponse.of(401, "failure", "죄송합니다. 다시 시도해 주세요."));
 		}
+	}
+	
+	/** 
+	 * 탈퇴 회원 여부 확인 (false = 탈퇴 X, true = 탈퇴) 
+	 * @param String
+	 * @return boolean
+	 */
+	public boolean checkWithdrawalUser(String id) {
+		// 0 = 탈퇴 X, 1 = 탈퇴
+		if (userWithdrawalService.getUserWithdrawal(id).getUserDeleteFlag() == 0) {
+			return false; 
+		}
+		
+		return true; 
 	}
 }

@@ -29,6 +29,7 @@ import com.ssafy.user.join.repository.JoinUserRepository;
 import com.ssafy.user.login.request.UserLoginPostRequest;
 import com.ssafy.user.login.response.UserLoginPostResponse;
 import com.ssafy.user.login.service.UserLoginService;
+import com.ssafy.user.withdrawal.UserWithdrawalController;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -66,6 +67,9 @@ public class UserLoginController {
 	@Autowired
 	CommonVariable commonVariable;
 	
+	@Autowired
+	UserWithdrawalController userWithdrawalController;
+	
 	/** 
 	 * id와 pw를 통해 로그인 실행, 성공 시 JWT token 반환
 	 * @param UserLoginPostReq
@@ -83,13 +87,17 @@ public class UserLoginController {
 			logger.info("## [Controller]: authorize - 로그인 실행 {}", loginInfo);
 //			logger.info("#21# 암호화 비밀번호: {}", passwordEncoder.encode(loginInfo.getPassword()));
 			
+			// # 탙뢰 회원 판별 [false = 탈퇴 X]
+			if (userWithdrawalController.checkWithdrawalUser(loginInfo.getId())) {
+				return ResponseEntity.ok(UserLoginPostResponse.of(401, "failure", "탈퇴회원 입니다.", null));
+			}
+			
 			// # 소셜 로그인(Kakao, Google)인 경우 비밀번호 생성
 			if (loginInfo.getPassword().equals("socialKakao")) {
 				loginInfo.setPassword(createSocialPassword(loginInfo.getId(), "KAKAO")); 
 			}
 			else if (loginInfo.getPassword().equals("socialGoogle")) {
 				loginInfo.setPassword(createSocialPassword(loginInfo.getId(), "GOOGLE"));
-				logger.info("#21# Google 비밀번호 확인: {}", loginInfo.getPassword());
 			}
 			
 			// # 입력값 검증
