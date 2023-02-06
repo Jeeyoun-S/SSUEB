@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ssafy.db.entity.Matching;
 import com.ssafy.reservation.matching.request.MatchingConfirm;
 import com.ssafy.reservation.matching.response.MatchingConsultant;
+import com.ssafy.reservation.matching.response.SendMatching;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -76,7 +77,7 @@ public class MatchingController {
 	
 	
 	@GetMapping("/consultant/{consultantId}")
-	@ApiOperation(value = "해당 전문가의 견적 내역", notes = "해당 전문가가 제안한 견적들의 목록을 쭉 불러온다.", response = Matching.class) 
+	@ApiOperation(value = "해당 전문가의 견적 내역", notes = "해당 전문가가 제안한 견적들의 목록을 쭉 불러온다.(어느 상담에 제안한지도)", response = SendMatching.class) 
 	@ApiImplicitParams({
 		@ApiImplicitParam(name = "consultantId", value = "자신이 제안한 견적들을 보고싶은 전문가의 Id", required = true),
 	})
@@ -86,9 +87,9 @@ public class MatchingController {
     })
 	public ResponseEntity<?> readSendMatching(@PathVariable String consultantId) {
 		try {
-			List<Matching> result = mService.readSendMatching(consultantId);
+			List<SendMatching> result = mService.readSendMatching(consultantId);
 			//System.out.println(result);
-			return new ResponseEntity<List<Matching>>(result, HttpStatus.OK);
+			return new ResponseEntity<List<SendMatching>>(result, HttpStatus.OK);
 		} catch (Exception e) {
 			return exceptionHandling(e);
 		}
@@ -103,7 +104,7 @@ public class MatchingController {
         @ApiResponse(code = 200, message = "성공"),
         @ApiResponse(code = 500, message = "서버 오류")
     })
-	public ResponseEntity<?> readReceiveMatching(@PathVariable int reservationNo) {
+	public ResponseEntity<?> readReceiveMatching(@PathVariable int reservationNo) { //사실상 받은 견적 목록 ReservationPartnerController쪽에 편입됐다고 봐야할듯?
 		try {
 			List<MatchingConsultant> result = mService.readReceiveMatching(reservationNo);
 			return new ResponseEntity<List<MatchingConsultant>>(result, HttpStatus.OK);
@@ -120,7 +121,6 @@ public class MatchingController {
     })
 	public ResponseEntity<?> confirmMatching(@RequestBody MatchingConfirm matchingConfirm) {
 		try {
-			//System.out.println(matchingConfirm);
 			mService.confirmMatching(matchingConfirm.getReservationNo(), matchingConfirm.getConsultantId(), matchingConfirm.getMatchingCost());
 			return new ResponseEntity<Void>(HttpStatus.OK);
 		} catch (Exception e) {

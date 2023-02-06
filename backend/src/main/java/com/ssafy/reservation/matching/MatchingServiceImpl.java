@@ -16,6 +16,7 @@ import com.ssafy.db.entity.Matching;
 import com.ssafy.db.entity.Reservation;
 import com.ssafy.reservation.basic.ReservationRepo;
 import com.ssafy.reservation.matching.response.MatchingConsultant;
+import com.ssafy.reservation.matching.response.SendMatching;
 
 @Service
 public class MatchingServiceImpl implements MatchingService {
@@ -48,8 +49,8 @@ public class MatchingServiceImpl implements MatchingService {
 	}
 
 	@Override
-	public List<Matching> readSendMatching(String consultantId) throws SQLException {
-		return mRepo.findByConsultantId(consultantId);
+	public List<SendMatching> readSendMatching(String consultantId) throws SQLException {
+		return mRepo.findSendMatching(consultantId);
 	}
 
 	
