@@ -1,72 +1,72 @@
 <template>
-  <v-card
-    class="mt-4 mx-auto"
-    max-width="400"
-  >
-    <v-sheet
-      class="v-sheet--offset mx-auto"
-      color="cyan"
-      elevation="12"
-      max-width="calc(100% - 32px)"
-    >
-      <v-sparkline
-        :labels="labels"
-        :value="value"
-        color="white"
-        line-width="2"
-        padding="16"
-      ></v-sparkline>
-    </v-sheet>
-
-    <v-card-text class="pt-0">
-      <div class="text-h6 font-weight-light mb-2">
-        User Registrations
+  <div class="mypage">
+    <div class="mypage-inner border-sheet-four">
+      <div class="mypage-title border-sheet-four">
+        <v-icon class="mr-2" size="x-large">mdi-account</v-icon><h2>회원 정보</h2>
       </div>
-      <div class="subheading font-weight-light grey--text">
-        Last Campaign Performance
+      <div class="mypage-content border-sheet-four">
+        <MyPageConsultantInfo v-if="getInfoVersion"></MyPageConsultantInfo>
+        <MyPageConsultantModify v-else></MyPageConsultantModify>
       </div>
-      <v-divider class="my-2"></v-divider>
-      <v-icon
-        class="mr-2"
-        small
-      >
-        mdi-clock
-      </v-icon>
-      <span class="text-caption grey--text font-weight-light">last registration 26 minutes ago</span>
-    </v-card-text>
-  </v-card>
+    </div>
+    <div class="mypage-inner border-sheet-four">
+      <div class="mypage-title border-sheet-four">
+        <v-icon class="mr-2" size="x-large">mdi-star</v-icon>
+        <h2>나의 별점</h2>
+      </div>
+      <div class="mypage-content border-sheet-four">
+        <MyPageConsultantStar></MyPageConsultantStar>
+      </div>
+    </div>
+    <div class="mypage-inner border-sheet-four">
+      <div class="mypage-title border-sheet-four">
+        <v-icon class="mr-2" size="x-large">mdi-chart-bar</v-icon>
+        <h2>나의 활동 통계</h2>
+      </div>
+      <div class="mypage-graph border-sheet-four">
+        <MyPageConsultantGraph></MyPageConsultantGraph>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
-  export default {
-    data: () => ({
-      labels: [
-        '12am',
-        '3am',
-        '6am',
-        '9am',
-        '12pm',
-        '3pm',
-        '6pm',
-        '9pm',
-      ],
-      value: [
-        200,
-        675,
-        410,
-        390,
-        310,
-        460,
-        250,
-        240,
-      ],
-    }),
+import MyPageConsultantInfo from '@/components/MyPage/MyPageConsultant/MyPageConsultantInfo.vue';
+import MyPageConsultantModify from '@/components/MyPage/MyPageConsultant/MyPageConsultantModify.vue';
+import MyPageConsultantStar from '@/components/MyPage/MyPageConsultant/MyPageConsultantStar.vue';
+import MyPageConsultantGraph from '@/components/MyPage/MyPageConsultant/MyPageConsultantGraph/MyPageConsultantGraph.vue';
+import { getUserConsultantInfo } from "@/api/userInfoConsultant.js";
+import { mapState } from "vuex";
+const userStore = "userStore";
+
+export default {
+  name: "MyPageConsultant",
+  components: {
+    MyPageConsultantInfo,
+    MyPageConsultantModify,
+    MyPageConsultantStar,
+    MyPageConsultantGraph
+  },
+  computed: {
+    ...mapState(userStore, ["userId"]),
+    getConsultantInfo() {
+      return this.$store.getters.getConsultantInfo;
+    },
+    getInfoVersion() {
+      return this.$store.getters.getInfoVersion;
+    }
+  },
+  created() {
+    console.log(1);
+    console.log(1);
+    if (this.getConsultantInfo.id != this.userId) {
+      console.log(2);
+      getUserConsultantInfo(this.userId);
+    }
   }
+}
 </script>
 
 <style>
-  .v-sheet--offset {
-    top: -24px;
-    position: relative;
-  }
+
 </style>

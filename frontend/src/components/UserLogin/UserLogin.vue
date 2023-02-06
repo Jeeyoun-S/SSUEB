@@ -33,7 +33,7 @@
 
     <!-- 소셜 로그인 -->
     <div class="social-login">
-      <div>간편 로그인 및 회원가입 -------------</div>
+      <div class="mini-title">간편 로그인 및 회원가입</div>
       <div class="icon">
         <kakao-dialog></kakao-dialog>
         <!-- <naver-dialog></naver-dialog> -->
@@ -137,5 +137,9 @@ export default {
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
+}
+
+.login .social-login .mini-title {
+  align-self: flex-start;
 }
 </style>

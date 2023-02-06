@@ -48,8 +48,9 @@ async function updatePartnerInfo(partnerInfo) {
   console.log("보낸 후 ", partnerInfo);
   partnerInfo.id = store.getters.getPartnerInfo.id;
 
-  api.post(`user/info/partner`, partnerInfo).then((res) => {
-    if (res.data.response) {
+  api.post(`user/info/partner`, partnerInfo)
+  .then((res) => {
+    if (res.data.response == "success") {
       console.log("#회원정보 수정 성공");
 
       store.dispatch("getPartnerInfo", partnerInfo);

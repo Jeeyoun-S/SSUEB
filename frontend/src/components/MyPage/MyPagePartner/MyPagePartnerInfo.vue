@@ -1,5 +1,5 @@
 <template>
-  <v-sheet class="mypage-info-item" height="300" width="500" elevation="2" rounded>
+  <v-sheet class="mx-auto pa-7" width="500">
     <v-text-field
       v-model="getPartnerInfo.id"
       label="이메일"
@@ -28,25 +28,27 @@
       density="compact"
       readonly
     ></v-text-field>
-  </v-sheet>
-  <v-sheet class="mypage-info-item" height="200" width="500" elevation="2" rounded>
     <v-radio-group v-model="getPartnerInfo.userAlertFlag" color="primary" density="compact" inline readonly>
       <v-label>알림방법</v-label>
       <v-radio label="카카오톡" value="0"></v-radio>
       <v-radio label="이메일" value="1"></v-radio>
       <v-radio label="문자" value="2"></v-radio>
     </v-radio-group>
-    <v-btn variant="outlined" color="primary" rounded="0" block>로그아웃</v-btn>
-    <v-btn variant="outlined" rounded="0" @click="modifyPartnerInfo()" block>회원 정보 수정</v-btn>
-    <v-btn variant="outlined" color="error" rounded="0" block>회원탈퇴</v-btn>
+    <UserLogout></UserLogout>
+    <v-btn class="mr-3" variant="outlined" rounded="0" @click="modifyPartnerInfo()">회원 정보 수정</v-btn>
+    <v-btn class="mr-3" variant="outlined" color="error" rounded="0">탈퇴</v-btn>
   </v-sheet>
 </template>
 
 <script>
 import { checkPassword } from "@/api/userInfoPartner.js";
+import UserLogout from "@/components/MyPage/UserLogout.vue";
 
 export default {
   name: 'MyPagePartnerInfo',
+  components: {
+    UserLogout
+  },
   data() {
     return {
       userInfo: {
@@ -62,10 +64,18 @@ export default {
     getPartnerInfo() {
       return this.$store.getters.getPartnerInfo;
     },
+    socialUserInfo() {
+      return this.$store.getters.getSocialUserInfo.id;
+    },
   },
   methods: {
     modifyPartnerInfo() {
-      checkPassword(this.getPartnerInfo.id);
+      
+      if (this.socialUserInfo != null) {
+        this.$store.dispatch("updateInfoVersion");
+      } else {
+        checkPassword(this.getPartnerInfo.id);
+      }
     }
   }
 }

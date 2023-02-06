@@ -9,7 +9,9 @@ import communityStore from "@/store/modules/communityStore.js";
 import meetingRoomStore from "@/store/modules/meetingRoomStore.js";
 import reservationStore from "@/store/modules/reservationStore.js";
 import userJoinStore from "@/store/modules/userJoinStore.js";
-import userInfoPartnerStore from '@/store/modules/userInfoPartnerStore.js'
+import userInfoPartnerStore from '@/store/modules/userInfoPartnerStore.js';
+import userValidStore from '@/store/modules/userValidStore.js';
+import userInfoConsultantStore from '@/store/modules/userInfoConsultantStore.js';
 
 // for. OAuth 소셜 로그인
 import userOAuthStore from "./modules/userOAuthStore";
@@ -41,6 +43,8 @@ const store = new Vuex.Store({
     userStore: userStore,
     userJoinStore: userJoinStore,
     userInfoPartnerStore: userInfoPartnerStore,
+    userValidStore: userValidStore,
+    userInfoConsultantStore: userInfoConsultantStore,
     // for. OAuth 소셜 로그인
     userOAuthStore: userOAuthStore,
     // for. OAuth 소셜 로그인 성공 시 user 정보를 저장하는 store
