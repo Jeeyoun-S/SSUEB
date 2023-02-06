@@ -1,4 +1,4 @@
-import { login, anyPermit, partPermit } from "@/api/user";
+import { login, anyPermit, partPermit, withdrawal } from "@/api/user";
 import VueJwtDecode from "vue-jwt-decode"; // ! JWT 디코드 설치 필요: npm i vue-jwt-decode
 import store from "@/store/index.js";
 import router from "@/router/index.js";
@@ -149,7 +149,33 @@ const userStore = {
       router.push("/");
     },
     // [@Method] 회원 탈퇴
-    excuteWithdrawal() {},
+    async excuteWithdrawal(context) {
+      const info = {
+        id: context.state.userId,
+      };
+
+      await withdrawal(
+        info,
+        ({ data }) => {
+          // i) 회원탈퇴 성공
+          if (data.response == "success") {
+            console.log("#userStore# 회원탈퇴 성공: ", data);
+            Swal.fire("SSEUB", `${data.message}`, "success");
+
+            // 로그아웃 처리
+            store.dispatch("userStore/excuteLogout", null, { root: true });
+          }
+          // ii) 회원탈퇴 실패
+          else {
+            console.log("#userStore# 회원탈퇴 실패: ", data);
+            Swal.fire("SSEUB", `${data.message}`, "error");
+          }
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    },
     // [@Method] 회원가입 직후 로그인 성공 SET
     setAutoLogin({ commit }, res) {
       // console.log("#userStore# 회원가입 직후 로그인 성공 response: ", res);

@@ -62,6 +62,9 @@
 <script>
 import { checkPassword } from "@/api/userInfoPartner.js";
 import UserLogout from "@/components/MyPage/UserLogout.vue";
+import { mapActions } from "vuex";
+
+const userStore = "userStore";
 
 export default {
   name: "MyPagePartnerInfo",
@@ -88,6 +91,7 @@ export default {
     },
   },
   methods: {
+    ...mapActions(userStore, ["excuteWithdrawal"]),
     modifyPartnerInfo() {
       if (this.socialUserInfo != null) {
         this.$store.dispatch("updateInfoVersion");
@@ -96,7 +100,9 @@ export default {
       }
     },
     // [@Method] 회원 탈퇴
-    withdrawal() {},
+    async withdrawal() {
+      await this.excuteWithdrawal();
+    },
   },
 };
 </script>

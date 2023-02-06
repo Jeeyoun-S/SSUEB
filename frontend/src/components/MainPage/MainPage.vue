@@ -56,7 +56,6 @@ export default {
     };
   },
   created() {
-    console.log("#21# isLogin 확인: ", this.isLogin);
     // #OAuth - 인가 code 받기 (Google, Kakao)
     // i) Kakao 인가 code
     this.kakaoCode = this.$route.query.code;

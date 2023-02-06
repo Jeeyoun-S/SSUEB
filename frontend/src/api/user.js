@@ -39,4 +39,14 @@ async function partPermit(userId, token, success, fail) {
     .catch(fail);
 }
 
-export { login, anyPermit, partPermit };
+// [POST] 회원 탈퇴
+async function withdrawal(info, success, fail) {
+  console.log("#user - api# 회원탈퇴 - userId: ", info);
+
+  await api
+    .post(`/user/withdrawal/`, JSON.stringify(info))
+    .then(success)
+    .catch(fail);
+}
+
+export { login, anyPermit, partPermit, withdrawal };
