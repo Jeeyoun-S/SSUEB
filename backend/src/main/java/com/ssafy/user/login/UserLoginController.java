@@ -157,8 +157,8 @@ public class UserLoginController {
 	
 	/** 
 	 * 소셜 로그인(Kakao, Google)의 경우 비밀번호 생성
-	 * @param id
-	 * @return UserLoginPostRequest
+	 * @param id, provider
+	 * @return String
 	 */
 	public String createSocialPassword(String id, String provider) {
 		if (provider.equals("KAKAO")) {

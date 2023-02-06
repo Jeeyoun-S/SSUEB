@@ -1,6 +1,5 @@
 package com.ssafy.user.login.repository;
 
-import com.ssafy.db.entity.Consultant;
 import com.ssafy.db.entity.User;
 
 import org.springframework.data.jpa.repository.EntityGraph;
