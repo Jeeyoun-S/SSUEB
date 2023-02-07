@@ -26,7 +26,7 @@
       </v-row>
       <v-divider dark></v-divider>
       <v-card-actions class="pa-6" style="font-size: small; color: slategrey"
-        >💙 오늘의 운세</v-card-actions
+        >🔔</v-card-actions
       >
     </v-card>
   </div>

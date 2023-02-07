@@ -1,16 +1,16 @@
 <template>
   <div class="board-top border-sheet-two">
-    <v-banner>💜 인기 게시글</v-banner>
+    <v-banner style="font-size: medium">💜 인기 게시글</v-banner>
     <v-window v-model="window" show-arrows>
       <v-window-item v-for="no in board" :key="no">
         <v-card height="225px" class="d-flex justify-center align-center">
-          <!-- 닉네임 -->
           <div>
-            <v-text>{{ no.userNickname }}</v-text>
-          </div>
-          <!-- 게시글 제목 -->
-          <div>
-            <v-text>{{ no.boardTitle }}</v-text>
+            <div>
+              <v-text>{{ no.userNickname }}</v-text>
+            </div>
+            <div>
+              <v-text>{{ no.boardTitle }}</v-text>
+            </div>
           </div>
         </v-card>
       </v-window-item>
@@ -29,6 +29,12 @@ export default {
   data: () => ({
     window: 0,
   }),
+  created() {
+    if (this.isLogin == true) {
+      // [@Method] 좋아요 Top5 게시글 가져오기
+      this.excuteGetBoard();
+    }
+  },
   watch: {
     isLogin: function () {
       // [@Method] 좋아요 Top5 게시글 가져오기
@@ -43,7 +49,6 @@ export default {
     ...mapActions(mainPageStore, ["excuteGetBoard"]),
   },
 };
-// board 5개 가져와서 for에 넣기
 </script>
 
 <style scoped>
