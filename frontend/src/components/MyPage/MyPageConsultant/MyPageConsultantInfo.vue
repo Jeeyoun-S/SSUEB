@@ -97,6 +97,7 @@ import { checkPassword } from "@/api/userInfoPartner.js";
 import { mapActions } from "vuex";
 
 const userStore = "userStore";
+const Swal = require("sweetalert2");
 
 export default {
   name: "MyPageConsultantInfo",
@@ -124,7 +125,19 @@ export default {
     },
     // [@Method] 회원 탈퇴
     async withdrawal() {
-      await this.excuteWithdrawal();
+      Swal.fire({
+        title: "탈퇴하시겠습니까?",
+        text: "탈퇴 시 해당 계정은 사용하지 못하게 됩니다.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          await this.excuteWithdrawal();
+        }
+      });
     },
   },
 };
