@@ -143,10 +143,8 @@ const userStore = {
       commit("SET_IS_LOGIN", false);
       commit("SET_IS_VALID_TOKEN", false);
       commit("SET_USER_AUTH", null);
-      localStorage.clear;
-      // console.log("#21# localStorage 확인: ", localStorage.getItem);
-      // sessionStorage.clear;
-      //console.log("#21# sessionStorage 확인: ", sessionStorage.getItem);
+      commit("SET_USER_ID", null);
+      window.localStorage.clear();
 
       // userSocialStore에 저장된 소셜 로그인 정보(email, nickname) 초기화
       store.dispatch("initSocialUserInfo");
