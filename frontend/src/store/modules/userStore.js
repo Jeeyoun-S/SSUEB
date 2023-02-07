@@ -101,7 +101,6 @@ const userStore = {
     // [@Method] 모든 권한 허용
     async checkAnyPermit({ commit }) {
       console.log("#userStore - checkAnyPermit# 모든 권한 허용 동작");
-      // const sessionToken = sessionStorage.getItem("token");
       const token = localStorage.getItem("token");
 
       await anyPermit(
@@ -121,7 +120,6 @@ const userStore = {
       console.log(
         "#userStore - checkPartPermit# 전문가, 관리자 권한만 허용 동작"
       );
-      // const sessionToken = sessionStorage.getItem("token");
       const token = localStorage.getItem("token");
 
       await partPermit(
@@ -144,6 +142,7 @@ const userStore = {
       commit("SET_IS_VALID_TOKEN", false);
       commit("SET_USER_AUTH", null);
       commit("SET_USER_ID", null);
+      commit("SET_USER_INFO", "");
       window.localStorage.clear();
 
       // userSocialStore에 저장된 소셜 로그인 정보(email, nickname) 초기화

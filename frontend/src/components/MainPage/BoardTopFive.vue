@@ -12,8 +12,6 @@
           <div>
             <v-text>{{ no.boardTitle }}</v-text>
           </div>
-          <!-- <v-text>[{{ no.userNickname }}]</v-text>
-          <v-text>{{ no.boardTitle }}</v-text> -->
         </v-card>
       </v-window-item>
     </v-window>
@@ -24,21 +22,22 @@
 import { mapActions, mapState } from "vuex";
 
 const mainPageStore = "mainPageStore";
+const userStore = "userStore";
 
 export default {
   name: "BoardTopFive",
   data: () => ({
     window: 0,
   }),
-  created() {
-    if (localStorage.getItem("token") != null) {
+  watch: {
+    isLogin: function () {
       // [@Method] 좋아요 Top5 게시글 가져오기
       this.excuteGetBoard();
-      console.log("#21# Front 가져온 게시글 확인: ", this.board);
-    }
+    },
   },
   computed: {
     ...mapState(mainPageStore, ["board"]),
+    ...mapState(userStore, ["isLogin"]),
   },
   methods: {
     ...mapActions(mainPageStore, ["excuteGetBoard"]),

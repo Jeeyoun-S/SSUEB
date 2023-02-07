@@ -10,7 +10,9 @@
                 <v-text v-if="this.userAuth == 'ROLE_USER'"
                   >{{ userInfo.userNickname }} 님</v-text
                 >
-                <v-text v-else>{{ userInfo.userName }} 전문가님</v-text>
+                <v-text v-if="this.userAuth == 'ROLE_CONSULTANT'"
+                  >{{ userInfo.userName }} 전문가님</v-text
+                >
               </div>
             </div>
           </v-card-title>
@@ -40,15 +42,14 @@ export default {
   data() {
     return {};
   },
-  created() {
-    if (localStorage.getItem("token") != null) {
+  watch: {
+    isLogin: function () {
       // [@Method] 권한 확인 및 유저 정보 가져오기
       this.checkAnyPermit();
-      console.log("#21# Front 가져온 유저 정보 확인: ", this.userInfo);
-    }
+    },
   },
   computed: {
-    ...mapState(userStore, ["userAuth", "userInfo"]),
+    ...mapState(userStore, ["userAuth", "userInfo", "isLogin"]),
   },
   methods: {
     ...mapActions(userStore, ["checkAnyPermit"]),
