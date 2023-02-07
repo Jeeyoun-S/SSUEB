@@ -1,13 +1,15 @@
 <template>
-  <div class="create-matching border-sheet-four">
-    <div class="create-matching-title border-sheet-four">
-      <v-icon class="mr-2" size="x-large">mdi-paw</v-icon>
-      <h2>반려인에게 상담 제안 보내기</h2>
+  <div class="page max-page border-sheet-four">
+    <div class="page-inner">
+      <div class="page-inner-title border-sheet-four">
+        <v-icon class="mr-2" size="x-large">mdi-view-grid-plus</v-icon>
+        <h2>반려인에게 상담 제안 보내기</h2>
+      </div>
+      <div class="page-inner-items border-sheet-four">
+        <CreateCard v-for="n in 8" :key="n"></CreateCard>
+      </div>
     </div>
-    <div class="create-matching-item border-sheet-four">
-      <CreateCard v-for="n in 8" :key="n"></CreateCard>
     </div>
-  </div>
 </template>
 
 <script>
@@ -22,5 +24,5 @@ export default {
 </script>
 
 <style scoped>
-@import "@/css/create-matching.css";
+@import "@/css/page.css";
 </style>

@@ -1,38 +1,50 @@
 <template>
   <v-hover v-slot="{ isHovering, props }">
-    <v-card class="pt-3 pl-3 mr-5 mb-5 d-flex justify-center flex-column"
-      width="322" height="450" variant="outlined"
+    <v-card class="mr-6 mb-6 pa-2 d-flex justify-center flex-column"
+      width="320" height="450" variant="outlined"
       :elevation="isHovering ? 8 : 0" :class="{ 'on-hover': isHovering }"
       rounded="0" v-bind="props"
     >
       <v-card-item>
-        <v-dialog v-model="dialog" width="800">
+        <v-dialog v-model="dialog" width="600">
           <template v-slot:activator="{ props }">
-            <v-btn variant="outlined" color="primary" v-bind="props" block>
+            <v-btn variant="outlined" rounded="0" color="primary" v-bind="props" block>
               상담 제안 보내기
             </v-btn>
           </template>
           <v-card class="pa-5">
-            <v-card-title class="text-h5">
-              20XX - XX - XX XX : XX
+            <v-card-title>
+              <h3>상담 제안 보내기</h3>
             </v-card-title>
             <v-card-text>
               <v-container>
                 <v-row>
-
+                  <v-col class="bold-font" cols="2">날짜</v-col>
+                  <v-col cols="10">20XX - XX - XX XX : XX</v-col>
                 </v-row>
-                <div>
-                  <strong>날짜</strong>&nbsp;&nbsp; 20XX - XX - XX XX : XX <br />
-                  <strong>이름</strong>&nbsp;&nbsp; 로이 (8세)<br />
-                  <strong>품종</strong>&nbsp;&nbsp; 강아지 - 이탈리안 그레이하운드
-                  <br />
-                </div>
-                <strong>금액</strong>&nbsp;&nbsp;
+                <v-row>
+                  <v-col class="bold-font mt-2" cols="2">이름</v-col>
+                  <v-col class="mt-2" cols="10">로이 (8살)</v-col>
+                </v-row>
+                <v-row>
+                  <v-col class="bold-font mt-2" cols="2">품종</v-col>
+                  <v-col class="mt-2" cols="10">강아지 - 이탈리안 그레이하운드</v-col>
+                </v-row>
+                <v-row>
+                  <v-col class="bold-font mt-2" cols="2">금액</v-col>
+                  <v-col cols="10" align-self="center">
                     <v-text-field
-                      label="Price *"
+                      label="Price"
+                      variant="outlined"
+                      density="compact"
                       required
                     ></v-text-field>
-                    <strong>금액 책정 이유</strong>&nbsp;&nbsp;<br />
+                  </v-col>
+                </v-row>
+                <v-row class="bold-font pl-3 pb-3">
+                  금액 책정 이유
+                </v-row>
+                <v-row class="pl-3 pr-3">
                   <v-textarea
                     label="Reason"
                     :rules="rules"
@@ -47,6 +59,7 @@
                     oninput="javascript: if (this.value.length > this.maxLength) 
                     this.value = this.value.slice(0, this.maxLength);"
                   ></v-textarea>
+                </v-row>
               </v-container>
             </v-card-text>
             <v-card-actions>
@@ -110,7 +123,7 @@ export default {
 </script>
 
 <style scoped>
-.reservation-pet-info {
+/* .reservation-pet-info {
   height: 90px;
 }
 .a-card {
@@ -131,5 +144,5 @@ export default {
   display: flex;
   justify-self: center;
   justify-content: center;
-}
+} */
 </style>
