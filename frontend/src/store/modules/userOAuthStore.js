@@ -4,6 +4,7 @@ import {
   getKakaoUserInfo,
   withdrawalKakao,
   getGoogleInfo,
+  withdrawalGoogle,
 } from "@/api/userOAuth";
 import store from "..";
 
@@ -62,7 +63,9 @@ const userOAuthStore = {
     },
     // [@Method] #Google# Google 사용자 정보 가져오기 > 회원가입 OR 로그인
     async excuteGoogleInfo({ commit }, token) {
-      commit("SET_GOOGLE_TOKEN", token); // Google Token 저장
+      // Google Token 저장
+      localStorage.setItem("googleToken", token);
+      commit("SET_GOOGLE_TOKEN", token);
 
       await getGoogleInfo(
         token,
@@ -108,7 +111,7 @@ const userOAuthStore = {
 
       await withdrawalKakao(
         //context.state.kakaoToken,
-        localStorage.getItem("kakaoToken"),
+        // localStorage.getItem("kakaoToken"),
         ({ data }) => {
           console.log(
             "#userOAuthStore - withdrawalKakao# Kakao 연결끊기 성공: ",
@@ -127,6 +130,21 @@ const userOAuthStore = {
     async excuteWithdrawalGoogle(context) {
       if (context.state.googleToken == null) return;
       console.log("#userOAuthStore# GOOGLE 회원탈퇴 동작");
+
+      await withdrawalGoogle(
+        ({ data }) => {
+          console.log(
+            "#userOAuthStore - withdrawalGoogle# Google 연결끊기 성공: ",
+            data
+          );
+        },
+        (error) => {
+          console.log(
+            "#userOAuthStore - withdrawalGoogle# Google 연결끊기 실패: ",
+            error
+          );
+        }
+      );
     },
   },
 };

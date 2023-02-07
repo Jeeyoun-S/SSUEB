@@ -28,6 +28,12 @@ const kakao_api_disconnect = axios.create({
 const google_api_info = axios.create({
   baseURL: "https://www.googleapis.com",
 });
+// Google 연결끊기를 위한 API
+const google_api_disconnect = axios.create({
+  baseURL: "https://accounts.google.com",
+  "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
+  Authorization: `Bearer ${localStorage.getItem("googleToken")}`,
+});
 
 // [POST] #Kakao# token 발급받기
 async function getKakaoToken(kakaoInfo, success, fail) {
@@ -96,8 +102,6 @@ async function withdrawalKakao(success, fail) {
   await kakao_api_disconnect.post(`v1/user/unlink`).then(success).catch(fail);
 }
 
-// 구글 연결 curl -d -X -POST --header "Content-type:application/x-www-form-urlencoded" \
-        https://oauth2.googleapis.com/revoke?token={token}
 // [GET] #Google# 사용자 정보 요청받기
 async function getGoogleInfo(token, success, fail) {
   await google_api_info
@@ -111,4 +115,18 @@ async function getGoogleInfo(token, success, fail) {
     .catch(fail);
 }
 
-export { getKakaoToken, getKakaoUserInfo, withdrawalKakao, getGoogleInfo };
+// [POST] #Google# 연결끊기
+async function withdrawalGoogle(success, fail) {
+  await google_api_disconnect
+    .post(`/o/oauth2/revoke?token=${localStorage.getItem("googleToken")}`)
+    .then(success)
+    .catch(fail);
+}
+
+export {
+  getKakaoToken,
+  getKakaoUserInfo,
+  withdrawalKakao,
+  getGoogleInfo,
+  withdrawalGoogle,
+};
