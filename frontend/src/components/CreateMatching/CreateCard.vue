@@ -123,26 +123,4 @@ export default {
 </script>
 
 <style scoped>
-/* .reservation-pet-info {
-  height: 90px;
-}
-.a-card {
-  white-space: normal;
-  padding: 10px;
-  align-content: space-between;
-}
-.top-row {
-  display: flex;
-  justify-content: flex-end;
-}
-.dialog-class {
-  display: flex;
-  justify-self: center;
-  align-self: center;
-}
-.jus-cen {
-  display: flex;
-  justify-self: center;
-  justify-content: center;
-} */
 </style>
