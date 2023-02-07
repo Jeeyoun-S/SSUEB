@@ -12,9 +12,8 @@
       </template>
       <template v-slot:prepend>
         <v-avatar color="#06BEE1" size="90">
-          <!-- {{ petImagePath+pet.petImage }} -->
           <span v-if="pet.petImage == null">{{ pet.petName }}</span>
-          <img v-else :src="petImagePath+pet.petImage"/>
+          <img v-else :src="getImageUrl(pet.petImage)" />
         </v-avatar>
       </template>
       <template v-slot:subtitle>
@@ -44,11 +43,6 @@ import MyPagePartnerTest from "@/components/MyPage/MyPagePartner/MyPagePartnerTe
 
 export default {
   name: "MyPagePetItem",
-  data() {
-    return {
-      petImagePath: process.env.VUE_APP_IMAGE_FILE_PATH_PET,
-    }
-  },
   computed: {
     getPetInfo() {
       return this.$store.getters.getPetInfo;
@@ -64,6 +58,9 @@ export default {
     },
     removePet(petNo) {
       removePetInfo(petNo);
+    },
+    getImageUrl(img) {
+      return require(`${process.env.VUE_APP_IMAGE_FILE_PATH_PET}`+img);
     }
   },
 };

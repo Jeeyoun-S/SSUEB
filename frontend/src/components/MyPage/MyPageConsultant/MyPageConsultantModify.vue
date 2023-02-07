@@ -1,5 +1,5 @@
 <template>
-<v-sheet class="mx-auto pa-7" width="970">
+  <v-sheet class="mx-auto pa-7" width="970">
     <v-row>
       <v-col cols="7">
         <v-row justify="center">

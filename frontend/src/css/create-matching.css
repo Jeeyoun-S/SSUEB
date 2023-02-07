@@ -1,0 +1,12 @@
+.create-matching {
+
+}
+.create-matching-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+
+  padding: 20px;
+}

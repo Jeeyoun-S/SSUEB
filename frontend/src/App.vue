@@ -53,4 +53,5 @@ export default {
 .main .main-inner {
   width: 1070px;
 }
+
 </style>
