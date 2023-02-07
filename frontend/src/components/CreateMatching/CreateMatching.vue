@@ -9,7 +9,7 @@
         <CreateCard v-for="n in 8" :key="n"></CreateCard>
       </div>
     </div>
-    </div>
+  </div>
 </template>
 
 <script>

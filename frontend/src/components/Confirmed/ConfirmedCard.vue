@@ -1,30 +1,24 @@
 <template>
-  <v-card width="550" height="400" elevation="2">
-    <br />
-    <div class="text-center">
-      <h3>20XX - XX - XX XX:XX</h3>
-    </div>
-
-    <v-row class="pill-box">
-      <v-col class="left-pill">
-        <v-btn rounded="pill" color="black" disabled> D-2 </v-btn>
-      </v-col>
-      <v-col class="right-pill">
-        <v-btn rounded="pill" color="primary" @click="timealert"> 입장 </v-btn>
-      </v-col>
-    </v-row>
-    <br />
-
-    <v-row>
-      <v-col>
+  <v-hover v-slot="{ isHovering, props }">
+    <v-card class="ma-3 pa-3 d-flex justify-center flex-column"
+      width="492" height="400" variant="outlined"
+      :elevation="isHovering ? 8 : 0" :class="{ 'on-hover': isHovering }"
+      rounded="0" v-bind="props"
+    >
+      <v-card-title class="d-flex flex-row justify-space-between">
+        <h4>20XX - XX - XX XX:XX</h4>
+        <div>
+          <v-btn class="mr-3" rounded="pill" color="primary" disabled>D-2</v-btn>
+          <v-btn rounded="pill" color="primary" @click="timealert">입장</v-btn>
+        </div>
+      </v-card-title>
+      <div class="d-flex flex-row justify-space-around">
         <confirmed-pet></confirmed-pet>
-      </v-col>
-      <vl />
-      <v-col>
+        <v-divider vertical></v-divider>
         <confirmed-consultant></confirmed-consultant>
-      </v-col>
-    </v-row>
-  </v-card>
+      </div>
+    </v-card>
+  </v-hover>
 </template>
 
 <script>

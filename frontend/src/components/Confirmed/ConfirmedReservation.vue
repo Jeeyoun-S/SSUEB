@@ -1,22 +1,15 @@
 <template>
-    <v-item-group>
-    <v-container>
-      <v-row>
-        <v-col v-for="n in 2" :key="n" cols="12" md="6">
-          <v-item>
-            <confirmed-card></confirmed-card>
-          </v-item>
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col v-for="n in 2" :key="n" cols="12" md="6">
-          <v-item>
-            <confirmed-card></confirmed-card>
-          </v-item>
-        </v-col>
-      </v-row>
-    </v-container>
-  </v-item-group>
+  <div class="page max-page border-sheet-four">
+    <div class="page-inner">
+      <div class="page-inner-title border-sheet-four">
+        <v-icon class="mr-2" size="x-large">mdi-format-list-checkbox</v-icon>
+        <h2>예정된 상담 일정 목록</h2>
+      </div>
+      <div class="page-inner-items border-sheet-four">
+        <confirmed-card v-for="n in 7" :key="n"></confirmed-card>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>

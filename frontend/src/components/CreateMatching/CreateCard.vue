@@ -1,6 +1,6 @@
 <template>
   <v-hover v-slot="{ isHovering, props }">
-    <v-card class="mr-6 mb-6 pa-2 d-flex justify-center flex-column"
+    <v-card class="ma-3 pa-2 d-flex justify-center flex-column"
       width="320" height="450" variant="outlined"
       :elevation="isHovering ? 8 : 0" :class="{ 'on-hover': isHovering }"
       rounded="0" v-bind="props"
