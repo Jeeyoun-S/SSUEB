@@ -24,5 +24,4 @@ export default {
 </script>
 
 <style scoped>
-@import "@/css/page.css";
 </style>

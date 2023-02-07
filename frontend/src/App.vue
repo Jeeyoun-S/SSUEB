@@ -33,6 +33,7 @@ export default {
 
 <style>
 @import "@/css/font.css";
+@import "@/css/page.css";
 * {
   font-family: "SUIT-Regular";
 }
