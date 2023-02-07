@@ -13,7 +13,7 @@
           </v-col>
         </v-expansion-panel-title>
 
-        <!-- 내부 텍스트 -->
+        <!-- 내용 -->
         <v-expansion-panel-text class="pa-3">
           <v-hover
             v-slot="{ isHovering, props }"
@@ -22,20 +22,28 @@
             <v-card
               :elevation="isHovering ? 3 : 0"
               :class="{ 'on-hover': isHovering }"
-              class="mb-5 mx-auto" variant="outlined"
-              height="170" rounded="0"
-              v-bind="props" color="grey-lighten-1"
+              class="mb-5 mx-auto d-flex flex-row justify-center align-center" variant="outlined"
+              height="200" rounded="0"
+              v-bind="props"
             >
-              <div>
+              <!-- 좌측 반려동물 정보 -->
+              <v-card class="mr-5 d-flex flex-column justify-center align-center" height="175" width="230" elevation="0">
                 <img width="80" :src="require('@/assets/placeholder/placeholder_dog.png')" />
-                <v-card-title></v-card-title>
-              </div>
-              <v-card-text class="font-weight-medium mt-12 text-center text-subtitle-1">
-                Open Delay (Mouse enter)
-              </v-card-text>
+                <v-card-title class="pa-0">로이 (8세)</v-card-title>
+                <p>강아지</p>
+                <p>이탈리안 그레이하운드</p>
+              </v-card>
+              <!-- 우측 상담 신청 내용 -->
+              <v-card class="d-flex flex-column" height="175" width="700" elevation="0">
+                <v-card-title>상담 신청 내용</v-card-title>
+                <v-card-text>
+                  상담 신청 내용을 보여주는 곳입니다. 내용을 입력해 주세요.
+                </v-card-text>
+              </v-card>
             </v-card>
           </v-hover>
           <v-divider></v-divider>
+          <!-- 전문가 상담 내용 -->
           <v-hover
             v-slot="{ isHovering, props }"
             open-delay="200"
@@ -43,19 +51,21 @@
             <v-card
               :elevation="isHovering ? 3 : 0"
               :class="{ 'on-hover': isHovering }"
-              class="mt-5 mx-auto d-flex flex-row justify-space-evenly align-center" variant="outlined"
+              class="mt-5 mx-auto d-flex flex-row justify-center align-center" variant="outlined"
               height="200" rounded="0"
               v-bind="props"
             >
-              <v-card class="d-flex flex-column align-center" width="200">
+              <!-- 좌측 반려동물 정보 -->
+              <v-card class="mr-5 d-flex flex-column justify-center align-center" height="175" width="230" elevation="0">
                 <img width="80" :src="require('@/assets/placeholder/placeholder_dog.png')" />
-                <v-card-title class="pa-0">로이 (8세)</v-card-title>
-                <p>강아지</p>
-                <p>이탈리안 그레이하운드</p>
+                <v-card-title class="pa-0">와싸피</v-card-title>
+                <p>반려동물행동지도사</p>
               </v-card>
-              <v-card class="d-flex flex-column align-center" width="700">
+              <!-- 우측 상담 신청 내용 -->
+              <v-card class="d-flex flex-column" height="175" width="700" elevation="0">
+                <v-card-title>상담 결과</v-card-title>
                 <v-card-text>
-                  Open Delay (Mouse enter)
+                  상담 결과를 보여주는 곳입니다. 내용을 입력해 주세요.
                 </v-card-text>
               </v-card>
             </v-card>
