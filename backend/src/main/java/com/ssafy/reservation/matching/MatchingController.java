@@ -88,7 +88,6 @@ public class MatchingController {
 	public ResponseEntity<?> readSendMatching(@PathVariable String consultantId) {
 		try {
 			List<SendMatching> result = mService.readSendMatching(consultantId);
-			//System.out.println(result);
 			return new ResponseEntity<List<SendMatching>>(result, HttpStatus.OK);
 		} catch (Exception e) {
 			return exceptionHandling(e);
