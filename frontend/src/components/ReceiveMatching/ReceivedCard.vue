@@ -12,9 +12,9 @@
           <v-card>
             <v-card-text>
               <span>
-                <span class="date-span">20XX - XX - XX XX : XX</span
-                >&nbsp;&nbsp; <span class="pet-name">로이 (8세)</span>&nbsp;
-                <span class="">강아지 - 이탈리안 그레이하운드</span>
+                <span class="big-letters">20XX - XX - XX XX : XX</span>
+                &nbsp;&nbsp; <span class="big-letters">로이 (8세)</span>&nbsp;
+                <span>강아지 - 이탈리안 그레이하운드</span>
               </span>
             </v-card-text>
             <br />
@@ -66,7 +66,9 @@
 import CarouselCard from "@/components/ReceiveMatching/CarouselCard.vue";
 
 export default {
-  components: { CarouselCard },
+  components: { 
+    "carousel-card" : CarouselCard,
+   },
   name: "ReceivedCard",
 
   data: () => ({
@@ -75,6 +77,12 @@ export default {
   }),
 
   methods: {
+
+    dialogOff() {
+      
+    },
+
+
     async seefile() {
       this.$swal.fire({
         imageUrl: "https://unsplash.it/400/200",
@@ -102,5 +110,9 @@ export default {
 .bottom-row {
   display: flex;
   justify-content: space-between;
+}
+.big-letters {
+  font-size: 22px;
+  font-weight: lighter;
 }
 </style>

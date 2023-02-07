@@ -7,8 +7,9 @@
       />
       <span>&nbsp;</span>
 
+      <!--다이얼로그-->
       <v-row justify="center">
-    <v-dialog
+    <v-dialog justify="center"
       v-model="dialog"
     >
       <template v-slot:activator="{ props }">
@@ -17,14 +18,14 @@
           </v-btn>
       </template>
 
-      <v-card>
+      <v-card class="pa-5" width="800">
         <v-card-title>
           <span class="text-h5">상담 제안하기</span>
         </v-card-title>
         <v-card-text>
           <v-container>
             <div>
-                <strong>날짜</strong>&nbsp;&nbsp; 20XX - XX - XX XX : XX <br />
+              <strong>날짜</strong>&nbsp;&nbsp; 20XX - XX - XX XX : XX <br />
               <strong>이름</strong>&nbsp;&nbsp; 로이 (8세)<br />
               <strong>품종</strong>&nbsp;&nbsp; 강아지 - 이탈리안 그레이하운드
               <br />
@@ -129,5 +130,15 @@ export default {
 .top-row {
   display: flex;
   justify-content: flex-end;
+}
+.dialog-class {
+  display: flex;
+  justify-self: center;
+  align-self: center;
+}
+.jus-cen {
+  display: flex;
+  justify-self: center;
+  justify-content: center;
 }
 </style>
