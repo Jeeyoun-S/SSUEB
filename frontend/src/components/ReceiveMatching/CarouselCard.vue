@@ -43,6 +43,7 @@ export default {
 
   methods: {
     async accept() {
+      this.$emit("dialog-off")
       this.$swal
         .fire({
           title: "상담 제안 수락",
@@ -56,7 +57,6 @@ export default {
         })
         .then((result) => {
           if (result.isConfirmed) {
-
             let timerInterval;
             this.$swal
               .fire({

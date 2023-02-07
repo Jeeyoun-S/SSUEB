@@ -25,7 +25,7 @@
               show-arrows
             >
               <v-slide-group-item v-for="n in 10" :key="n">
-                <carousel-card> </carousel-card>
+                <carousel-card @dialog-off="dialog=false"> </carousel-card>
               </v-slide-group-item>
             </v-slide-group>
             <v-card-actions>

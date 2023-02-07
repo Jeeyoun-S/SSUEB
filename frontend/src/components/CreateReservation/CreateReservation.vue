@@ -105,11 +105,10 @@ export default {
     radio1: "radio1-no",
     radio2: "radio2-no",
     reservation:{
-      userId: null,
-      reservationPetNo: 0,
-      reservationPetType: null,
-      reservationDate: null, //YYYY-MM-DD HH-mm-ss ex)2023-02-22 22:22:22
-      reservationConsultContent:null,
+      userId: "aa@a",
+      reservationPetNo: 2,
+      reservationDate: "2023-02-22 22:22:22", //YYYY-MM-DD HH-mm-ss ex)2023-02-22 22:22:22
+      reservationConsultContent:"까비가 아파요",
     }
   }),
   methods: {
@@ -129,6 +128,7 @@ export default {
           return;
         }
         const frm = new FormData();
+        frm.append("reservation",  new Blob(this.reservation, {type : "application/json"}));
 
         for(let i=0; i<this.files.length; i++){
           if(this.files[i].type.startsWith('image') || this.files[i].type.startsWith('video')){
