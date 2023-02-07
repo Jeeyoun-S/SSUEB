@@ -43,7 +43,7 @@
         ></v-textarea>
       </v-container>
 
-      <!--파일 인풋 여러개하면 화면 넘어감...-->
+      <!--파일 인풋 많이 하면 화면 넘어감...-->
       <v-file-input
         v-model="files"
         counter
@@ -78,7 +78,7 @@
           <v-radio label="동의" value="radio2-yes"></v-radio>
           <v-radio label="비동의" value="radio2-no"></v-radio>
         </v-radio-group>
-        <div align = "right">
+        <div class="register-btn">
           <v-btn variant="flat" color="primary" @click="registed"> 신청하기 </v-btn>
         </div>
 
@@ -122,29 +122,31 @@ export default {
     },
 
       select() {
-        console.log(this.reservation.reservationConsultContent)
-        if(!this.files){
-          console.log("file이 없다")
-          return;
-        }
+        //console.log(this.reservation.reservationConsultContent)
+        
         const frm = new FormData();
-        frm.append("reservation",  new Blob(this.reservation, {type : "application/json"}));
+        frm.append("reservation",  new Blob([ JSON.stringify(this.reservation) ], {type : "application/json"}));
 
-        for(let i=0; i<this.files.length; i++){
-          if(this.files[i].type.startsWith('image') || this.files[i].type.startsWith('video')){
-            frm.append("files", this.files[i]);
+        if(this.files){
+          console.log("파일있음")
+          for(let i=0; i<this.files.length; i++){
+            if(this.files[i].type.startsWith('image') || this.files[i].type.startsWith('video')){
+              frm.append("files", this.files[i]);
+            }
+            else{
+              console.log("잘못된 확장자")
+            }
           }
-          else{
-            console.log("잘못된 확장자")
+
+          if(frm.getAll("files").length == 0){
+            alert("유효하지 않은 파일들입니다.")
+            return;
           }
         }
 
-        if(frm.getAll("files").length == 0){
-          alert("유효하지 않은 파일들입니다.")
-          return;
-        }
-
-        axios.post(`http://localhost:5000/api/reservation/save`, frm, {
+        console.log(frm);
+        
+        axios.post(`http://localhost:5000/api/reservation`, frm, {
           headers: {'Content-Type': 'multipart/form-data'}
         }).then(() => {
           console.log("업로드 완료!")
@@ -159,5 +161,9 @@ export default {
 <style scoped>
 .a-sheet {
   margin: 15px;
+}
+.register-btn {
+  display: flex;
+  justify-content: flex-end;
 }
 </style>
