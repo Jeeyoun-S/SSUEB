@@ -11,7 +11,7 @@
                   >{{ userInfo.userNickname }} 님</v-text
                 >
                 <v-text v-if="this.userAuth == 'ROLE_CONSULTANT'"
-                  >{{ userInfo.userName }} 전문가님</v-text
+                  >{{ userInfo.userName }} 님</v-text
                 >
               </div>
             </div>
