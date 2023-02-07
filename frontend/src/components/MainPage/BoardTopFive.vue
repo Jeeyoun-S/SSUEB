@@ -1,20 +1,9 @@
-<!-- <template>
-  <div class="board-top border-sheet-two">
-    <v-window v-model="window" show-arrows>
-      <v-window-item v-for="n in length" :key="n">
-        <v-card height="200px" class="d-flex justify-center align-center">
-          <span class="text-h2">Card {{ n }}</span>
-        </v-card>
-      </v-window-item>
-    </v-window>
-  </div>
-</template> -->
 <template>
   <div class="board-top border-sheet-two">
     <v-banner>💜 인기 게시글</v-banner>
     <v-window v-model="window" show-arrows>
       <v-window-item v-for="no in board" :key="no">
-        <v-card height="200px" class="d-flex justify-center align-center">
+        <v-card height="225px" class="d-flex justify-center align-center">
           <!-- 닉네임 -->
           <div>
             <v-text>{{ no.userNickname }}</v-text>
@@ -39,7 +28,6 @@ const mainPageStore = "mainPageStore";
 export default {
   name: "BoardTopFive",
   data: () => ({
-    length: 3,
     window: 0,
   }),
   created() {
