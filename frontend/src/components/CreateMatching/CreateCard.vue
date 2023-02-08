@@ -74,7 +74,7 @@
           </v-card>
         </v-dialog>
       </v-card-item>
-      <v-card-item align-self="center">
+      <v-card-item class="align-self-center">
         <v-avatar class="pt-1" color="white" size="100">
           <img width="100" :src="require('@/assets/placeholder/placeholder_dog.png')" />
         </v-avatar>

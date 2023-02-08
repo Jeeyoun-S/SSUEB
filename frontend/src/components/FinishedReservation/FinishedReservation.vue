@@ -1,5 +1,13 @@
 <template>
   <div class="history">
+    <v-sheet class="ma-7">
+      <v-row>
+        <v-col class="pa-0 pl-2" cols="1"><h3>번호</h3></v-col>
+        <v-col class="pa-0" cols="3"><h3>상담일시</h3></v-col>
+        <v-col class="pa-0" cols="5"><h3>전문가 / 반려동물</h3></v-col>
+        <v-col class="pa-0"><h3>별점</h3></v-col>
+      </v-row>
+    </v-sheet>
     <v-expansion-panels multiple>
       <v-expansion-panel v-for="i in 40" :key="i">
 

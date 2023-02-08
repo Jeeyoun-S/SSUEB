@@ -10,7 +10,7 @@
           <v-row class="d-flex flex-row justify-space-around">
             <v-hover v-slot="{ isHovering, props }">
               <v-card class="ma-3 mb-2 mr-1 pa-2 d-flex justify-space-between flex-column"
-                width="700" height="600" variant="outlined"
+                width="700" height="430" variant="outlined"
                 :elevation="isHovering ? 8 : 0" :class="{ 'on-hover': isHovering }"
                 rounded="0" v-bind="props"
               >
@@ -18,25 +18,28 @@
                 <!-- {{ selectedPet }} 선택한 반려동물 보기 -->
                 <v-item-group selected-class="bg-primary" v-model="selectedPet" mandatory>
                   <v-container>
-                    <v-sheet class="dflex flex-row justify-center align-center">
-                      <div v-for="(pet, index) in historyList" :key="index">
-                        <v-item v-slot="{ selectedClass, toggle }" :value="pet">
-                          <v-card :class="['ma-0 d-flex flex-row align-center justify-center', selectedClass]"
-                            dark height="120" width="305" @click="toggle" variant="outlined" rounded="0"
-                          >
-                            <v-card-item class="pa-0">
-                              <img width="80" :src="require('@/assets/placeholder/placeholder_dog.png')" />
-                            </v-card-item>
-                            <v-card-item>
-                              <v-card-title>{{ pet.petName }}({{ pet.petBirth }})</v-card-title>
-                              <v-card-subtitle>{{ pet.petType }}</v-card-subtitle>
-                              <v-card-subtitle>{{ pet.petVariety }}</v-card-subtitle>
-                            </v-card-item>
-                          </v-card>
-                        </v-item>
-                      </div>
+                    <v-sheet height="290">
+                      <v-row class="dflex flex-row justify-center align-center">
+                        <v-col v-for="(pet, index) in historyList" :key="index" height="120" width="305">
+                          <v-item v-slot="{ selectedClass, toggle }" :value="pet">
+                            <v-card :class="['pa-5 d-flex flex-row', selectedClass]"
+                              dark height="130" width="305" @click="toggle" variant="outlined" rounded="0"
+                            >
+                              <v-card-item class="pa-0">
+                                <img width="80" :src="require('@/assets/placeholder/placeholder_dog.png')" />
+                              </v-card-item>
+                              <v-card-item>
+                                <v-card-title>{{ pet.petName }}</v-card-title>
+                                <v-card-subtitle>{{ pet.petBirth }}</v-card-subtitle>
+                                <v-card-subtitle>{{ pet.petType }}</v-card-subtitle>
+                                <v-card-subtitle>{{ pet.petVariety }}</v-card-subtitle>
+                              </v-card-item>
+                            </v-card>
+                          </v-item>
+                        </v-col>
+                      </v-row>
                     </v-sheet>
-                    <v-pagination class="pagination"
+                    <v-pagination class="pagination mt-3"
                       v-model="page" :length="pages" @update:modelValue="updatePage"
                       rounded="0" size="32" density="compact"
                     >
@@ -167,12 +170,12 @@ export default {
     page: 1,
     pageSize: 4,
     petList: [
-      { petName: '로이1', petType: '강아지' , petVariety: '이탈리안 그레이하운드', petBirth: '2022-02' },
+      { petName: '로이1', petType: '강아지' , petVariety: '이탈리안', petBirth: '2022-02' },
       { petName: '로이2', petType: '강아지' , petVariety: '이탈리안 그레이하운드', petBirth: '2022-02' },
       { petName: '로이3', petType: '강아지' , petVariety: '이탈리안 그레이하운드', petBirth: '2022-02' },
       { petName: '로이4', petType: '강아지' , petVariety: '이탈리안 그레이하운드', petBirth: '2022-02' },
       { petName: '로이5', petType: '강아지' , petVariety: '이탈리안 그레이하운드', petBirth: '2022-02' },
-      { petName: '로이6', petType: '강아지' , petVariety: '이탈리안 그레이하운드', petBirth: '2022-02' },
+      { petName: '로이6', petType: '강아지' , petVariety: '이탈리안', petBirth: '2022-02' },
       { petName: '로이7', petType: '강아지' , petVariety: '이탈리안 그레이하운드', petBirth: '2022-02' },
       { petName: '로이8', petType: '강아지' , petVariety: '이탈리안 그레이하운드', petBirth: '2022-02' },
       { petName: '로이9', petType: '강아지' , petVariety: '이탈리안 그레이하운드', petBirth: '2022-02' },
