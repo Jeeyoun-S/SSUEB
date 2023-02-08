@@ -93,3 +93,4 @@ env.properties
 application-oauth.yml
 *.jpg
 *.mp4
+*.gz

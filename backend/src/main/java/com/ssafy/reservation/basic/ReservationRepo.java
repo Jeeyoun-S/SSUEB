@@ -23,9 +23,9 @@ public interface ReservationRepo extends JpaRepository<Reservation,Integer>{
 	//해당 유저의 확정되어 곧 실시할 상담 내역들을 가져온다. 
 	@Query(value = "select r.no as rno, r.user_id as userId, r.consultant_id as consultantId, r.reservation_date as reservationDate, "
 			+ "r.reservation_consult_content as reservationConsultContent, p.no as pno, p.pet_image as petImage, p.pet_name as petName, "
-			+ "p.pet_type as petType, p.pet_variety as petVariety, p.pet_birth as petBirth, p.pet_info as petInfo, u.user_name as consultantName "
-			+ "from reservation r, pet p, user u "
-			+ "where r.reservation_pet_no = p.no and r.consultant_id = u.id and "
+			+ "p.pet_type as petType, p.pet_variety as petVariety, p.pet_birth as petBirth, p.pet_info as petInfo "
+			+ "from reservation r, pet p "
+			+ "where r.reservation_pet_no = p.no and "
 			+ "r.consultant_id is not null and r.user_id = ?1 and r.reservation_finish = 0", nativeQuery = true)
 	List<ReservationPet> findPartnerConfirmedReservation(String userId);
 	

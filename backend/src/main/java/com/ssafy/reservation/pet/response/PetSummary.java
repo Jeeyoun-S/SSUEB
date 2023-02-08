@@ -9,5 +9,8 @@ public interface PetSummary {
     int getNo();
     String getPetName();
     String getPetImage();
+    String getPetType();
+    String getPetVariety();
+    String getPetBirth();
 }
 
