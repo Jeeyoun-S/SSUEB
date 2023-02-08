@@ -123,6 +123,7 @@ export default {
 
       select() {
         const BASE_URL = `http://localhost:5000/api`;
+        // process.env.VUE_APP_API_BASE_URL
         
         const frm = new FormData();
         frm.append("reservation",  new Blob([ JSON.stringify(this.reservation) ], {type : "application/json"}));
