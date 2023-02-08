@@ -167,6 +167,7 @@ export default {
   data: () => ({
     files:null,
     // 반려동물 목록에 필요한 데이터
+
     page: 1,
     pageSize: 4,
     petList: [
@@ -191,19 +192,18 @@ export default {
     radio1: "radio1-no",
     radio2: "radio2-no",
     reservation:{
-      userId: null,
+      userId: "aa@a",//임시 값
       reservationPetNo: 0,
-      reservationPetType: null,
       reservationDate: null, //YYYY-MM-DD HH-mm-ss ex)2023-02-22 22:22:22
       reservationConsultContent:null,
     },
     date: new Date()
   }),
   methods: {
-
     async registed() {
       const { valid } = await this.$refs.reservationForm.validate();
       if (valid) {
+        this.createReservation();
         this.$swal.fire(
           '상담 등록 완료',
           '신규 상담 등록이 완료되었습니다. <br /> 전문가가 상담에 대한 제안을 보내면 받은 상담 제안 메뉴에서 확인 후 수락해 상담 예약을 확정할 수 있습니다.<br /> 상담 제안이 오면 메인페이지의 알림창에서 확인이 가능합니다.',
@@ -211,11 +211,14 @@ export default {
         )
       }
     },
-
-    select() {
-      const BASE_URL = `http://localhost:5000/api`;
-      // process.env.VUE_APP_API_BASE_URL
+    createReservation() {
+      // process.env.VUE_APP_API_BASE_URL -> baseurl env파일에서 호출
       
+      //날짜 timestamp형식으로
+      this.reservation.reservationDate = this.date.getFullYear()+"-"+(this.date.getMonth()+1)+"-"+this.date.getDate()+" "+
+          this.date.getHours()+":"+this.date.getMinutes()+":"+this.date.getSeconds();
+      this.reservation.reservationPetNo = this.selectedPet.no;
+
       const frm = new FormData();
       frm.append("reservation",  new Blob([ JSON.stringify(this.reservation) ], {type : "application/json"}));
 
@@ -238,13 +241,36 @@ export default {
 
       console.log(frm);
       
-      axios.post(BASE_URL+`/reservation`, frm, {
+      axios.post(process.env.VUE_APP_API_BASE_URL+`/reservation`, frm, {
         headers: {'Content-Type': 'multipart/form-data'}
       }).then(() => {
         console.log("업로드 완료!")
       }).catch(error => {
         alert(error.message)
       })
+    },
+    petInfo(){
+      axios({
+        url: process.env.VUE_APP_API_BASE_URL+`/reservation/pet-list/`+`aa@a`,
+        method: "get",
+      })
+        .then(({ data }) => {
+          for (var i = 0; i < data.length; i++) {
+            let petinfo={};
+            petinfo["no"] = data[i].no;
+            petinfo["petName"] = data[i].petName;
+            petinfo["petImage"] = data[i].petImage;
+            petinfo["petType"] = data[i].petType;
+            petinfo["petVariety"] = data[i].petVariety;
+            petinfo["petBirth"] = data[i].petBirth;
+            this.petList.push(petinfo);
+          }
+          console.log(this.petList);
+
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     initPage: function() {
 			this.listCount = this.petList.length;
@@ -299,6 +325,7 @@ export default {
   created() {
 		this.initPage();
 		this.updatePage(this.page);
+    this.petInfo();
   }
 };
 </script>

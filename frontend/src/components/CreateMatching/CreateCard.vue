@@ -34,6 +34,7 @@
                   <v-col class="bold-font mt-2" cols="2">금액</v-col>
                   <v-col cols="10" align-self="center">
                     <v-text-field
+                      v-model="this.matchingCost"
                       label="Price"
                       variant="outlined"
                       density="compact"
@@ -46,6 +47,7 @@
                 </v-row>
                 <v-row class="pl-3 pr-3">
                   <v-textarea
+                    v-model="this.matchingComment"
                     label="가격 책정 이유, 상담 난이도, 예정 소요 시간 등을 작성해 주세요."
                     :rules="rules"
                     no-resize
@@ -67,7 +69,7 @@
               <v-btn color="error" variant="text" @click="dialog = false">
                 취소
               </v-btn>
-              <v-btn color="primary" variant="text" @click="dialog = false">
+              <v-btn color="primary" variant="text" @click="createMatching()">
                 등록
               </v-btn>
             </v-card-actions>
@@ -101,6 +103,7 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   name: "CreateCard",
 
@@ -108,9 +111,28 @@ export default {
     dialog: false,
     model: null,
     rules: [(v) => v.length <= 100 || "최대 100자"],
+    matchingComment: "",
+    matchingCost: 0,
   }),
 
   methods: {
+    createMatching(){
+      console.log("he")
+      axios.post(process.env.VUE_APP_API_BASE_URL+`/reservation/matching`,null,{
+        params:{
+          //createMathing에서 가져온 예약정보들이랑 현재 로그인한 아이디, 기입한 가격,이유 넣기
+          consultantId: "ssafy@ssafy",
+          matchingComment: this.matchingComment,
+          matchingCost: this.matchingCost,
+          reservationDate: "2023-02-22 22:22:22",
+          reservationNo: 2,
+        },
+      }).then(() => {
+        console.log("견적 제안 완료!")
+      }).catch(error => {
+        alert(error.message)
+      })
+    },
 
     async seefile() {
       this.$swal.fire({

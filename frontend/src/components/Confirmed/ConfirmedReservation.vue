@@ -25,13 +25,12 @@ export default {
   },
   methods:{
     getReservation() {
-      const BASE_URL= `http://localhost:5000/api`;
 
       //consultant의 경우 -> 위랑 이거는 현재 유저가 유저인지 전문가인지에 따라 취사선택하도록?
       //const API_URL = `http://localhost:5000/api/reservation/consultant/`+`aa@a`;
       
       axios({
-        url: BASE_URL+`/reservation/partner/`+`aa@a`,
+        url: process.env.VUE_APP_API_BASE_URL+`/reservation/partner/`+`aa@a`,
         method: "get",
       })
         .then(({ data }) => {

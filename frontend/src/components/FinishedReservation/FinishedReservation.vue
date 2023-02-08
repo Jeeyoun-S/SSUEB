@@ -94,10 +94,8 @@ export default {
   }),
   methods:{
     getReservation() {
-      const BASE_URL = `http://localhost:5000/api`
-      
       axios({
-        url: BASE_URL+`/reservation/partner/past/`+`aa@a`,
+        url: process.env.VUE_APP_API_BASE_URL+`/reservation/partner/past/`+`aa@a`,
         method: "get",
       })
         .then(({ data }) => {

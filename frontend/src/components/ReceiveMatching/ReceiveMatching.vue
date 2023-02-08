@@ -32,9 +32,8 @@ export default {
   },
   methods:{
     getReservation() {
-      const BASE_URL = `http://localhost:5000/api`;
       axios({
-        url: BASE_URL+`/reservation/partner/unconfirm/`+`aa@a`,
+        url: process.env.VUE_APP_API_BASE_URL+`/reservation/partner/unconfirm/`+`aa@a`,
         method: "get",
       })
         .then(({ data }) => {
@@ -81,9 +80,8 @@ export default {
     },
     deleteReservation(no) {
       //삭제 후 카운트 변경은 추후 생각해보자
-      const BASE_URL = `http://localhost:5000/api`;
       axios
-        .delete(BASE_URL + `/` + no)
+        .delete(process.env.VUE_APP_API_BASE_URL + `/` + no)
         .then(() => {
           console.log("삭제");
         })

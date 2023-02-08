@@ -14,11 +14,48 @@
 
 <script>
 import CreateCard from "@/components/CreateMatching/CreateCard.vue";
-
+import axios from "axios";
 export default {
   name: "CreateMatching",
+  data: () => ({
+    reservations:[], // [{value,[]},{value,[]}] 꼴
+  }),
   components: {
     CreateCard,
+  },
+  methods:{
+    getReservation() {
+      axios({
+        url: process.env.VUE_APP_API_BASE_URL+`/reservation/consultant/unconfirmed/`,
+        method: "get",
+      })
+        .then(({ data }) => {
+          for (var i = 0; i < data.length; i++) {
+            let reservation = {};
+            reservation["rno"] = data[i].rno;
+            reservation["userId"] = data[i].userId;
+            reservation["reservationDate"] = data[i].reservationDate;
+            reservation["reservationConsultContent"] = data[i].reservationConsultContent;
+
+            reservation["pno"] = data[i].pno;
+            reservation["petName"] = data[i].petName;
+            reservation["petImage"] = data[i].petImage;
+            reservation["petType"] = data[i].petType;
+            reservation["petVariety"] = data[i].petVariety;
+            reservation["petBirth"] = data[i].petBirth;
+            reservation["petInfo"] = data[i].petInfo;
+
+            this.reservations.push(reservation);
+          }
+          console.log(this.reservations)
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+  },
+  created() {
+    this.getReservation();
   },
 };
 </script>
