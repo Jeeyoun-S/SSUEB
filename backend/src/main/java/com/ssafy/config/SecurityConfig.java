@@ -17,6 +17,9 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 /**
  * 인증(authentication) 와 인가(authorization) 처리를 위한 스프링 시큐리티 설정 정의.
@@ -59,6 +62,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         		
         		 // 기존 있던 config 코드 
 //              .addFilter(new JwtAuthenticationFilter(authenticationManager(), userService)) // HTTP 요청에 JWT 토큰 인증 필터를 거치도록 필터를 추가
+                
+        		// # JWT 토큰
+        		.and()
+        		.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
+                .exceptionHandling()									// JWT token 관련 exceptionHandling을 위한 code
+        		.authenticationEntryPoint(jwtAuthenticationEntryPoint)
+        		.accessDeniedHandler(jwtAccessDeniedHandler)
         		
         		// # URL 별 인증 관리 - 인증이 필요한 URL과 필요하지 않은 URL에 대하여 설정
                 .and()
@@ -67,13 +77,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         			.antMatchers("/**").permitAll()		// 모두 허용
         			//.antMatchers("/api/user/pet/**").hasAnyRole("USER")
         			.anyRequest().authenticated()			// 그 외의 요청은 모두 JWT 인증 필요
-                
-        		// # JWT 토큰
-        		.and()
-        		.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
-                .exceptionHandling()									// JWT token 관련 exceptionHandling을 위한 code
-        		.authenticationEntryPoint(jwtAuthenticationEntryPoint)
-        		.accessDeniedHandler(jwtAccessDeniedHandler)
         		
         		.and()
 				.apply(new JwtSecurityConfig(jwtTokenProvider));		// JWTSecurityConfig 적용
@@ -87,5 +90,4 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         
         //super.configure(http);
     }
-    
 }

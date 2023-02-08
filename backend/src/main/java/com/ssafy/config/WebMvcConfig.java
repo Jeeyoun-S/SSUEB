@@ -5,6 +5,7 @@ import javax.servlet.Filter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -16,20 +17,21 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
 	
-    @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        // configuration.addAllowedOrigin("*");
-        configuration.addAllowedOriginPattern("*");
-        configuration.addAllowedMethod("*");
-        configuration.addAllowedHeader("*");
-        //configuration.addExposedHeader(JwtTokenUtil.HEADER_STRING);
-        configuration.setAllowCredentials(true);
-        configuration.setMaxAge(3600L);
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
-    }
+	// # CORS 오류 해결을 위하여 주석 처리 > 해당 부분을 주석처리하고 controller에 @CrossOrigin 어노테이션 추가 
+//    @Bean
+//    public CorsConfigurationSource corsConfigurationSource() {
+//        CorsConfiguration configuration = new CorsConfiguration();
+//        // configuration.addAllowedOrigin("*");
+//        configuration.addAllowedOriginPattern("*");
+//        configuration.addAllowedMethod("*");
+//        configuration.addAllowedHeader("*");
+//        //configuration.addExposedHeader(JwtTokenUtil.HEADER_STRING);
+//        configuration.setAllowCredentials(true);
+//        configuration.setMaxAge(3600L);
+//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//        source.registerCorsConfiguration("/**", configuration);
+//        return source;
+//    }
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
@@ -76,12 +78,19 @@ public class WebMvcConfig implements WebMvcConfigurer {
         return registration;
     }
     
-    // 8081에서 오는 요청은 허용
-    @Override
-	public void addCorsMappings(CorsRegistry registry) {
-		registry.addMapping("/**").allowedHeaders("*")
-		.allowedOrigins("http://localhost:8080", "https://localhost:8080")
-		.allowedMethods("GET", "HEAD", "POST", "PUT", "DELETE", "PATCH");
-	}
+    // # CORS 오류 해결을 위하여 주석 처리 > 해당 부분을 주석처리하고 controller에 @CrossOrigin 어노테이션 추가 
+    // # Spring 서버 전역적으로 CORS 설정 
+    // 8080에서 오는 요청은 허용 
+//    @Override
+//	public void addCorsMappings(CorsRegistry registry) {
+//		registry
+//		.addMapping("/**")
+//		.allowedHeaders("*")
+//		.allowedOrigins("http://localhost:8080", "https://localhost:8080")
+////		.allowedOrigins("*", "*")
+////		.allowedMethods("GET", "HEAD", "POST", "PUT", "DELETE", "PATCH");
+//		.allowedMethods("GET", "HEAD", "POST", "PUT", "DELETE", "PATCH", "OPTIONS");
+////		.allowCredentials(true);
+//	}
 
 }
