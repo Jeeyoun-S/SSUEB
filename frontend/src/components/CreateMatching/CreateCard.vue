@@ -42,11 +42,11 @@
                   </v-col>
                 </v-row>
                 <v-row class="bold-font pl-3 pb-3">
-                  금액 책정 이유
+                  설명
                 </v-row>
                 <v-row class="pl-3 pr-3">
                   <v-textarea
-                    label="Reason"
+                    label="가격 책정 이유, 상담 난이도, 예정 소요 시간 등을 작성해 주세요."
                     :rules="rules"
                     no-resize
                     clearable
