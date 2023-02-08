@@ -1,12 +1,12 @@
 <template>
   <v-dialog v-model="registOpen" width="700">
     <template v-slot:activator="{ props }">
-      <div v-bind="props">
+      <div v-bind="props" style="cursor: pointer;">
         <v-hover v-slot="{ isHovering, props }">
           <v-card class="mr-5 mb-5 pa-2" variant="outlined"
             width="320" height="245" rounded="0"
             :elevation="isHovering ? 8 : 0" :class="{ 'on-hover': isHovering }"
-            v-bind="props" @click="openRegister()"
+            v-bind="props"
           >
             <template v-slot:title>새 반려동물 등록</template>
             <template v-slot:prepend>

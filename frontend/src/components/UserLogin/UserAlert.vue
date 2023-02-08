@@ -30,8 +30,6 @@ const userStore = "userStore";
 
 export default {
   name: "userAlert",
-  data() {},
-  components: {},
   computed: {
     ...mapState(userStore, ["userId", "isLogin"]),
   },

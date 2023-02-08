@@ -1,9 +1,8 @@
 <template>
   <v-dialog v-model="registOpen" width="700">
     <template v-slot:activator="{ props }">
-      <v-btn class="ma-2" rounded="pill" 
+      <v-btn class="ma-2" rounded="pill" v-bind="props"
         prepend-icon="mdi-plus" color="primary" variant="tonal"
-        v-bind="props"
       >
         등록
       </v-btn>

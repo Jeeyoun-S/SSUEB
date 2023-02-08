@@ -13,7 +13,7 @@
       <template v-slot:prepend>
         <v-avatar color="#06BEE1" size="90">
           <span v-if="pet.petImage == null">{{ pet.petName }}</span>
-          <img v-else :src="getImageUrl(pet.petImage)" />
+          <img v-else height="90" width="90" :src="getImageUrl(pet.petImage)" />
         </v-avatar>
       </template>
       <template v-slot:subtitle>

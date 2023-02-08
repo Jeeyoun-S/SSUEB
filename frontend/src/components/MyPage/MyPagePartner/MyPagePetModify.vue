@@ -20,7 +20,7 @@
                   <!-- 기존 이미지 -->
                   <v-hover v-else-if="petOriginalImage != null && !petModifyInfo.petDeleteImage" v-slot="{ isHovering, props }">
                     <v-card v-bind="props" rounded="circle" elevation="0" width="200" height="200" justify="center">
-                      <img :src="require('@/assets/profile/pet.png')"/>
+                      <img :src="getImageUrl(petOriginalImage)"/>
                       <v-overlay :model-value="isHovering" scrim="light-blue-lighten-1" class="align-center justify-center" contained>
                         <v-btn variant="flat" icon="mdi-delete" @click="petModifyInfo.petDeleteImage = true"></v-btn>
                       </v-overlay>
@@ -29,7 +29,7 @@
                   <!-- 없는 이미지 (기존 이미지 되돌리기 O) -->
                   <v-hover v-else-if="petOriginalImage !=null" v-slot="{ isHovering, props }">
                     <v-card v-bind="props" rounded="circle" elevation="0" width="200" height="200" justify="center">
-                      <img :src="require('@/assets/profile/user.png')"/>
+                      <img :src="require('@/assets/profile/pet.png')"/>
                       <v-overlay :model-value="isHovering" scrim="light-blue-lighten-1" class="align-center justify-center" contained>
                         <v-btn variant="flat" icon="mdi-cached" @click="petModifyInfo.petDeleteImage = false"></v-btn>
                       </v-overlay>
@@ -37,7 +37,7 @@
                   </v-hover>
                   <!-- 없는 이미지 (기존 이미지 되돌리기 X) -->
                   <v-avatar v-else color="white" size="200">
-                    <img :src="require('@/assets/profile/user.png')"/>
+                    <img :src="require('@/assets/profile/pet.png')"/>
                   </v-avatar>
                 </v-row>
                 <v-row>
@@ -119,6 +119,9 @@ export default {
           this.modifyOpen = res;
         });
       }
+    },
+    getImageUrl(img) {
+      return require(`${process.env.VUE_APP_IMAGE_FILE_PATH_PET}`+img);
     }
   },
   watch: {
