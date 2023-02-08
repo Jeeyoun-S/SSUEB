@@ -135,12 +135,14 @@ async function confirmPhoneAuth(authNumber, userPhone) {
 }
 
 // [GET] 반려인 회원가입 진행
-async function joinPartner(joinRequest, socialAccess) {
+async function joinPartner(joinRequest, socialAccess, provider) {
   // ! 소셜 로그인을 통한 회원가입 접근 (비밀번호 없음)
   if (socialAccess == false) {
-    const id = joinRequest.id.substring(0, 6);
-    const key = process.env.VUE_APP_OAUTH_KAKAO_CLIENT_SECRET.substring(0, 6);
-    joinRequest.userPassword = id + key + "#1";
+    if (provider == "KAKAO") {
+      joinRequest.userPassword = `${process.env.VUE_APP_OAUTH_KAKAO}`;
+    } else {
+      joinRequest.userPassword = `${process.env.VUE_APP_OAUTH_GOOGLE}`;
+    }
     joinRequest.userIsSocialId = 1; // 소셜 로그인 ID 체크
   }
 
@@ -177,13 +179,15 @@ async function joinPartner(joinRequest, socialAccess) {
 }
 
 // [POST] 전문가 회원가입 진행
-async function joinConsultant(formData, socialAccess) {
+async function joinConsultant(formData, socialAccess, provider) {
   // formData;
   // ! 소셜 로그인을 통한 회원가입 접근
   if (socialAccess == false) {
-    const id = formData.get("id").substring(0, 6);
-    const key = process.env.VUE_APP_OAUTH_KAKAO_CLIENT_SECRET.substring(0, 6);
-    formData.set("userPassword", id + key + "#1");
+    if (provider == "KAKAO") {
+      formData.set("userPassword", `${process.env.VUE_APP_OAUTH_KAKAO}`);
+    } else {
+      formData.set("userPassword", `${process.env.VUE_APP_OAUTH_GOOGLE}`);
+    }
     formData.append("userIsSocialId", 1); // 소셜 로그인 ID 체크
   }
 
@@ -198,12 +202,12 @@ async function joinConsultant(formData, socialAccess) {
       if (res.data.response == "success") {
         Swal.fire(
           "회원가입 신청 완료",
-          "가입신청이 완료됐습니다. 7일 이내에 자격 심사 후 선택하신 알림방법으로 안내드릴 예정입니다.",
+          "가입신청이 완료됐습니다.<br>7일 이내에 자격 심사 후<br>선택하신 알림방법으로 안내드릴 예정입니다.",
           "success"
         ).then(() => {
-          // 메인페이지로 이동
-          location.href = process.env.VUE_APP_BASE_URL;
         });
+        // 메인페이지로 이동
+        location.href = process.env.VUE_APP_BASE_URL;
       }
 
       // 회원가입 실패

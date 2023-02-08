@@ -3,6 +3,7 @@ const userSocialStore = {
     socialUserInfo: {
       id: null,
       nickname: null,
+      provider: null,
     },
   },
   getters: {

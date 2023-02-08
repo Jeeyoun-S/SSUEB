@@ -1,101 +1,103 @@
 <template>
-  <v-card class="a-card" width="300" height="400" elevation="2">
-    <div class="top-row">
-      <img
-        width="90"
-        :src="require('@/assets/placeholder/placeholder_dog.png')"
-      />
-      <span>&nbsp;</span>
-
-      <v-row justify="center">
-    <v-dialog justify="center"
-      v-model="dialog"
+  <v-hover v-slot="{ isHovering, props }">
+    <v-card class="ma-3 pa-2 d-flex justify-center flex-column"
+      width="320" height="450" variant="outlined"
+      :elevation="isHovering ? 8 : 0" :class="{ 'on-hover': isHovering }"
+      rounded="0" v-bind="props"
     >
-      <template v-slot:activator="{ props }">
-        <v-btn variant="outlined" color="primary" height="50" v-bind="props">
-            상담제안<br />보내기
-          </v-btn>
-      </template>
-
-      <v-card class="pa-5" width="800">
-        <v-card-title>
-          <span class="text-h5">상담 제안하기</span>
-        </v-card-title>
-        <v-card-text>
-          <v-container>
-            <div>
-              <strong>날짜</strong>&nbsp;&nbsp; 20XX - XX - XX XX : XX <br />
-              <strong>이름</strong>&nbsp;&nbsp; 로이 (8세)<br />
-              <strong>품종</strong>&nbsp;&nbsp; 강아지 - 이탈리안 그레이하운드
-              <br />
-            </div>
-            <strong>금액</strong>&nbsp;&nbsp;
-                <v-text-field
-                  label="Price *"
-                  required
-                ></v-text-field>
-                <strong>금액 책정 이유</strong>&nbsp;&nbsp;<br />
-              <v-textarea
-                label="Reason"
-                :rules="rules"
-                no-resize
-                clearable
-                clear-icon="mdi-close-circle"
-                counter
-                variant="outlined"
-                rows="4"
-                row-height="15"
-                maxlength="100"
-                oninput="javascript: if (this.value.length > this.maxLength) 
-            this.value = this.value.slice(0, this.maxLength);"
-              ></v-textarea>
-
-          </v-container>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn
-            color="blue-darken-1"
-            variant="text"
-            @click="dialog = false"
-          >
-            취소
-          </v-btn>
-          <v-btn
-            color="blue-darken-1"
-            variant="text"
-            @click="dialog = false"
-          >
-            등록
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-  </v-row>
-
-    </div>
-    <div><br /></div>
-
-    <div class="text-center">
-      <h3>20XX - XX - XX XX:XX</h3>
-      <h4>로이 (8세)</h4>
-      <p color="grey">강아지 - 이탈리안 그레이하운드</p>
-    </div>
-    <br />
-
-    <p>
-      우리 갱얼쥐... 이제 노견인데 아직도 너무 긔 여 어 여 노견이 이렇게
-      귀여워도 돼요? 이거 문제있는거죠? 말이 됩니까??????? 우리 로이 좀 보세요
-      세상에
-    </p>
-    <div><br /></div>
-
-    <div>
-      <v-btn variant="text" color="primary" @click="seefile">
-        관련 첨부파일 보기
-      </v-btn>
-    </div>
-  </v-card>
+      <v-card-item>
+        <v-dialog v-model="dialog" width="600">
+          <template v-slot:activator="{ props }">
+            <v-btn variant="outlined" rounded="0" color="primary" v-bind="props" block>
+              상담 제안 보내기
+            </v-btn>
+          </template>
+          <v-card class="pa-5">
+            <v-card-title>
+              <h3>상담 제안 보내기</h3>
+            </v-card-title>
+            <v-card-text>
+              <v-container>
+                <v-row>
+                  <v-col class="bold-font" cols="2">날짜</v-col>
+                  <v-col cols="10">20XX - XX - XX XX : XX</v-col>
+                </v-row>
+                <v-row>
+                  <v-col class="bold-font mt-2" cols="2">이름</v-col>
+                  <v-col class="mt-2" cols="10">로이 (8살)</v-col>
+                </v-row>
+                <v-row>
+                  <v-col class="bold-font mt-2" cols="2">품종</v-col>
+                  <v-col class="mt-2" cols="10">강아지 - 이탈리안 그레이하운드</v-col>
+                </v-row>
+                <v-row>
+                  <v-col class="bold-font mt-2" cols="2">금액</v-col>
+                  <v-col cols="10" align-self="center">
+                    <v-text-field
+                      label="Price"
+                      variant="outlined"
+                      density="compact"
+                      required
+                    ></v-text-field>
+                  </v-col>
+                </v-row>
+                <v-row class="bold-font pl-3 pb-3">
+                  설명
+                </v-row>
+                <v-row class="pl-3 pr-3">
+                  <v-textarea
+                    label="가격 책정 이유, 상담 난이도, 예정 소요 시간 등을 작성해 주세요."
+                    :rules="rules"
+                    no-resize
+                    clearable
+                    clear-icon="mdi-close-circle"
+                    counter
+                    variant="outlined"
+                    rows="4"
+                    row-height="15"
+                    maxlength="100"
+                    oninput="javascript: if (this.value.length > this.maxLength) 
+                    this.value = this.value.slice(0, this.maxLength);"
+                  ></v-textarea>
+                </v-row>
+              </v-container>
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="error" variant="text" @click="dialog = false">
+                취소
+              </v-btn>
+              <v-btn color="primary" variant="text" @click="dialog = false">
+                등록
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </v-card-item>
+      <v-card-item class="align-self-center">
+        <v-avatar class="pt-1" color="white" size="100">
+          <img width="100" :src="require('@/assets/placeholder/placeholder_dog.png')" />
+        </v-avatar>
+      </v-card-item>
+      <v-card-title class="text-h6">20XX - XX - XX XX:XX</v-card-title>
+      <v-card-subtitle>
+        <p>로이 (8세)</p>
+        <p>강아지 - 이탈리안 그레이하운드</p>
+      </v-card-subtitle>
+      <v-card-text>
+        <div class="reservation-pet-info">
+          우리 갱얼쥐... 이제 노견인데 아직도 너무 긔 여 어 여 노견이 이렇게
+          귀여워도 돼요? 이거 문제있는거죠? 말이 됩니까??????? 우리 로이 좀 보세요
+          세상에
+        </div>
+      </v-card-text>
+      <v-card-actions>
+        <v-btn variant="text" color="primary" @click="seefile">
+          관련 첨부파일 보기
+        </v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-hover>
 </template>
 
 <script>
@@ -121,23 +123,4 @@ export default {
 </script>
 
 <style scoped>
-.a-card {
-  white-space: normal;
-  padding: 10px;
-  align-content: space-between;
-}
-.top-row {
-  display: flex;
-  justify-content: flex-end;
-}
-.dialog-class {
-  display: flex;
-  justify-self: center;
-  align-self: center;
-}
-.jus-cen {
-  display: flex;
-  justify-self: center;
-  justify-content: center;
-}
 </style>

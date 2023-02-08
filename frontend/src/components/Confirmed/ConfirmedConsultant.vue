@@ -1,28 +1,25 @@
 <template>
-  <div width="260" height="250">
-    <v-row class="top-row">
+  <v-card class="pt-2" width="220" height="320" elevation="0">
+    <div class="d-flex align-center flex-column">
       <img
         class="image"
         width="80"
         :src="require('@/assets/placeholder/placeholder_person.jpg')"
       />
-    </v-row>
-    <br />
-    <div class="text-center">
-      <h3>우싸피</h3>
-      <h4>반려동물훈련지도사</h4>
-      <br />
-      <span>
-        <strong> 금액 &nbsp;&nbsp;&nbsp;</strong>
-        20,000원
-      </span>
-      <br />
-      <span>
-        <strong> 이유 &nbsp;&nbsp;&nbsp;</strong>
-        상담 시간 30분, <br />난이도 중으로 예상됩니다.
-      </span>
+      <v-card-title class="pb-0">우싸피</v-card-title>
+      <v-card-subtitle class="mb-5">반려동물훈련지도사</v-card-subtitle>
     </div>
-  </div>
+    <v-card-text>
+      <v-row>
+        <v-col class="bold-font pr-0" cols="3">금액</v-col>
+        <v-col class="pr-0 pl-0" cols="8">20,000원</v-col>
+      </v-row>
+      <v-row>
+        <v-col class="bold-font pr-0 pt-0" cols="3">이유</v-col>
+        <v-col class="pr-0 pl-0 pt-0" cols="9">상담 시간 30분, 난이도 중으로 예상됩니다.</v-col>
+      </v-row>
+    </v-card-text>
+  </v-card>
 </template>
 
 <script>

@@ -19,3 +19,8 @@
 
 /* 메인페이지 설명 제목 */
 @import url('https://fonts.googleapis.com/css2?family=Patua+One&display=swap');
+
+/* 두꺼운 글씨 */
+.bold-font {
+  font-weight: 800;
+}

@@ -54,7 +54,7 @@ export default {
   margin: 0px 48px;
 }
 .join .join-form {
-  height: 850px;
+  height: 100%;
   width: 435px;
   padding: 40px;
 
@@ -65,6 +65,7 @@ export default {
 }
 .join .join-form .join-form-tab {
   width: 350px;
+  margin-bottom: 10px;
 }
 .join .join-title {
   display: flex;

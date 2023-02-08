@@ -3,7 +3,7 @@
   <v-text-field
     v-model="info.id"
     class="mb-2"
-    :rules="rules.email"
+    :rules="emailRule"
     label="이메일"
     variant="underlined"
     color="primary"
@@ -46,37 +46,18 @@ export default {
         id: null,
         userPassword: null,
         userName: null,
-        socialAccess: true, // #21#
-      },
-      valid: {
-        email: /^[a-zA-Z0-9_+.-]+@([a-zA-Z0-9-]+\.)+[a-zA-Z0-9-.]{2,4}$/,
-        password:
-          /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[~!@$!%*#^?&])(?!.*[^a-zA-z0-9~!@$!%*#^?&]).{10,20}$/,
-        name: /^[가-힣|a-z|A-Z]{1,22}$/,
-      },
-      rules: {
-        email: [
-          (v) => !!v || "이메일은 필수 입력 사항입니다.",
-          (v) => this.valid.email.test(v) || "이메일 형식으로 입력해 주세요.",
-          (v) => v.length <= 30 || "30자 이하로 입력해 주세요.",
-          () => this.duplicateIdCheck || "중복된 이메일입니다.",
-        ],
-        password: [
-          (v) => !!v || "비밀번호는 필수 입력 사항입니다.",
-          (v) =>
-            this.valid.password.test(v) ||
-            "영어, 숫자, 특수문자를 포함해 10~20자로 입력해 주세요.",
-        ],
-        name: [
-          (v) => !!v || "이름은 필수 입력 사항입니다.",
-          (v) => v.length <= 22 || "22자 이하로 입력해 주세요.",
-          (v) =>
-            this.valid.name.test(v) || "숫자, 특수문자는 입력 불가능합니다.",
-        ],
+        socialAccess: true, // for. 소셜 로그인 버튼을 통한 접근 여부판단
+        provider: null, // for. 소셜 로그인 제공자 판단
       },
       duplicateIdCheck: false,
       lastCheckId: null,
       showPassword: false,
+      emailRule: [
+        (v) => !!v || "이메일은 필수 입력 사항입니다.",
+        (v) => (/^[a-zA-Z0-9_+.-]+@([a-zA-Z0-9-]+\.)+[a-zA-Z0-9-.]{2,4}$/).test(v) || "이메일 형식으로 입력해 주세요.",
+        (v) => v.length <= 30 || "30자 이하로 입력해 주세요.",
+        () => this.duplicateIdCheck || "중복된 이메일입니다."
+      ],
     };
   },
   emits: ["info"],
@@ -98,10 +79,11 @@ export default {
 
         // 아이디 중복 확인
         if (
-          this.valid.email.test(this.info.id) &&
+          (/^[a-zA-Z0-9_+.-]+@([a-zA-Z0-9-]+\.)+[a-zA-Z0-9-.]{2,4}$/).test(this.info.id) &&
           this.lastCheckId != this.info.id
         ) {
           duplicateId(this.info.id).then((res) => {
+            console.log(res);
             this.duplicateIdCheck = res;
             this.lastCheckId = this.info.id;
             // rule을 한 번 더 확인할 수 있도록 id 값에 변화 주기
@@ -112,24 +94,20 @@ export default {
       deep: true,
     },
   },
-  // computed: {
-  //   // ...mapState(userJoinStore, ["socialUserInfo"]), // #21#
-  //   socialUserInfo() {
-  //     return this.$store.getters.getSocialUserInfo;
-  //     // return this.$store.state.socialUserInfo;
-  //   },
-  // },
-  created() {
-    // 소셜 로그인을 통해 회원가입 페이지로 접근 하였다면 > 소셜 로그인 info 적용
-    this.info.id = this.socialUserInfo.id;
-    // 비밀번호 입력칸 비활성화
-    // if (this.socialUserInfo.id != null) this.socialAccess = false;
-    if (this.socialUserInfo.id != null) this.info.socialAccess = false;
-  },
   computed: {
     socialUserInfo() {
       return this.$store.getters.getSocialUserInfo;
     },
+    rules() {
+      return this.$store.getters.getUserRule;
+    }
+  },
+  created() {
+    // 소셜 로그인을 통해 회원가입 페이지로 접근 하였다면 > 소셜 로그인 info 적용
+    this.info.id = this.socialUserInfo.id;
+    this.info.provider = this.socialUserInfo.provider;
+    // 비밀번호 입력칸 비활성화
+    if (this.socialUserInfo.id != null) this.info.socialAccess = false;
   },
 };
 </script>

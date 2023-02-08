@@ -37,6 +37,6 @@ const reservation = [
     component: SendMatching,
   },
 
-]
+];
 
-export default reservation
+export default reservation;

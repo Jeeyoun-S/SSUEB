@@ -1,26 +1,28 @@
 <template>
-  <v-form class="forms" ref="form" lazy-validation>
-    <UserJoinBasicInfo @info="updateBasicInfo"></UserJoinBasicInfo>
-    <v-text-field
-      v-model="info.userNickname"
-      class="mb-2"
-      :rules="ruleNickname"
-      label="닉네임"
-      variant="underlined"
-      color="primary"
-      required
-    ></v-text-field>
-    <UserJoinPhone @userPhone="updatePhone"></UserJoinPhone>
-    <v-radio-group v-model="info.userAlertFlag" color="primary" inline>
-      <v-label>알림방법</v-label>
-      <v-radio label="카카오톡" value="0"></v-radio>
-      <v-radio label="이메일" value="1"></v-radio>
-      <v-radio label="문자" value="2"></v-radio>
-    </v-radio-group>
-    <v-btn variant="outlined" size="large" rounded="0" @click="validate()" block
-      >회원가입 하기</v-btn
-    >
-  </v-form>
+  <v-sheet class="mx-auto" width="350">
+    <v-form ref="form" lazy-validation>
+      <UserJoinBasicInfo @info="updateBasicInfo"></UserJoinBasicInfo>
+      <v-text-field
+        v-model="info.userNickname"
+        class="mb-2"
+        :rules="ruleNickname"
+        label="닉네임"
+        variant="underlined"
+        color="primary"
+        required
+      ></v-text-field>
+      <UserJoinPhone @userPhone="updatePhone"></UserJoinPhone>
+      <v-radio-group v-model="info.userAlertFlag" color="primary" inline>
+        <v-label>알림방법</v-label>
+        <v-radio label="카카오톡" value="0"></v-radio>
+        <v-radio label="이메일" value="1"></v-radio>
+        <v-radio label="문자" value="2"></v-radio>
+      </v-radio-group>
+      <v-btn variant="outlined" size="large" rounded="0" @click="validate()" block
+        >회원가입 하기</v-btn
+      >
+    </v-form>
+  </v-sheet>
 </template>
 
 <script>
@@ -45,20 +47,15 @@ export default {
         userPhone: null,
         userIsSocialId: "0",
       },
-      ruleNickname: [
-        (v) => !!v || "닉네임은 필수 입력 사항입니다.",
-        (v) => v.length <= 22 || "22자 이하로 입력해 주세요.",
-        (v) => this.validNickname.test(v) || "특수문자는 입력 불가능합니다.",
-      ],
-      validNickname: /^[ㄱ-ㅎ|ㅏ-ㅣ|가-힣|a-z|A-Z|0-9]{1,22}$/,
-      socialAccess: true, // #21#
+      socialAccess: true, // for. 소셜 로그인 버튼을 통한 접근 여부판단
+      provider: null, // for. 소셜 로그인 제공자 판단
     };
   },
   // #21#
   created() {
     // 회원가입 페이지 실행 시 소셜 로그인 info 적용
     this.info.userNickname = this.socialUserInfo.nickname;
-    console.log("#21# 왜 안대냐: ", this.socialUserInfo);
+    // console.log("#21# 반려인 회원가입 정보: ", this.socialUserInfo);
   },
   computed: {
     phoneAuthStates() {
@@ -67,13 +64,15 @@ export default {
     socialUserInfo() {
       return this.$store.getters.getSocialUserInfo;
     },
+    ruleNickname() {
+      return this.$store.getters.getUserRule.nickname;
+    }
   },
   methods: {
     async validate() {
       const { valid } = await this.$refs.form.validate();
 
       if (valid && this.phoneAuthStates) {
-        // joinPartner(this.info);
         joinPartner(this.info, this.socialAccess); // #21# 소셜 로그인 접근 여부 확인을 위해 코드 변경
       }
       // #21# 소셜 로그인 접근 회원가입
@@ -82,7 +81,7 @@ export default {
         this.phoneAuthStates &&
         this.info.userPassword == null
       ) {
-        joinPartner(this.info, this.socialAccess);
+        joinPartner(this.info, this.socialAccess, this.provider);
       }
     },
     updatePhone(userPhone) {
@@ -93,6 +92,7 @@ export default {
       this.info.userPassword = info.userPassword;
       this.info.userName = info.userName;
       this.socialAccess = info.socialAccess; // #21# false면 소셜 로그인 접근
+      this.provider = info.provider; // #21# 소셜 로그인 제공자
     },
   },
   watch: {
@@ -112,5 +112,4 @@ export default {
 </script>
 
 <style scoped>
-@import "@/css/form.css";
 </style>
