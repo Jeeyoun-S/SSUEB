@@ -1,5 +1,5 @@
 <template>
-  <Bar :data="data" :options="options" />
+  <Bar :data="chartData" :options="chartOptions" />
 </template>
 
 <script>
@@ -13,15 +13,10 @@ export default {
   components: {
     Bar
   },
-  data() {
-    return {
-      data: {
-        labels: [
-          '나',
-          '평균',
-          '나',
-          '평균',
-        ],
+  computed: {
+    chartData() {
+      return {
+        labels: [ '나', '평균', '나', '평균' ],
         datasets: [
           {
             label: '예약 수',
@@ -31,15 +26,15 @@ export default {
             data: this.$store.getters.getGraphOne
           },
         ]
-      },
-      options: {
+      }
+    },
+    chartOptions() {
+      return {
         responsive: true,
         maintainAspectRatio: false,
       }
     }
   },
-  created() {
-  }
 }
 </script>
 

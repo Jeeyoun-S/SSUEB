@@ -14,7 +14,7 @@
               <v-col class="pr-10" cols="5" align-self="center">
                 <v-row justify="center">
                   <!-- 새로 넣은 이미지 -->
-                  <v-avatar v-if="petModifyInfo.petImage != null && this.petModifyInfo.petImage.length > 0" color="white" size="200">
+                  <v-avatar v-if="petModifyInfo.petImage != null && petModifyInfo.petImage.length > 0" color="white" size="200">
                     <img :src="updateImageUrl">
                   </v-avatar>
                   <!-- 기존 이미지 -->
@@ -121,6 +121,7 @@ export default {
       }
     },
     getImageUrl(img) {
+      console.log(`${process.env.VUE_APP_IMAGE_FILE_PATH_PET}` + img);
       return require(`${process.env.VUE_APP_IMAGE_FILE_PATH_PET}`+img);
     }
   },

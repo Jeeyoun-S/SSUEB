@@ -89,6 +89,9 @@ const userInfoConsultantStore = {
         var date = new Date(new Date().setMonth(new Date().getMonth() - i));
         state.graphLabels[6-i] = date.getFullYear()+"-"+(date.getMonth()+1);
       }
+    },
+    UPDATE_CONSULTANT_USER_INFO(state, payload) {
+      state.consultantInfo = payload;
     }
   },
   actions: {
@@ -103,6 +106,9 @@ const userInfoConsultantStore = {
     },
     updateGraphLabel({ commit }) {
       commit('UPDATE_GRAPH_LABEL');
+    },
+    updateConsultantUserInfo({ commit }, consultantInfo) {
+      commit('UPDATE_CONSULTANT_USER_INFO', consultantInfo);
     }
   },
 };

@@ -3,8 +3,10 @@
     <v-row>
       <v-col cols="7">
         <v-row class="ma-1">
+
           <v-avatar class="mr-5 mb-2" color="primary" size="170">
-            <span>{{ getConsultantInfo.userName }}</span>
+            <span v-if="getConsultantInfo.consultantProfile == null">{{ getConsultantInfo.userName }}</span>
+            <img v-else :src="getImageUrl(getConsultantInfo.consultantProfile)" height="170" width="170" />
           </v-avatar>
           <v-textarea
             v-model="getConsultantInfo.consultantIntro"
@@ -92,6 +94,9 @@ export default {
       } else {
         checkPassword(this.getConsultantInfo.id);
       }
+    },
+    getImageUrl(img) {
+      return require(`${process.env.VUE_APP_IMAGE_FILE_PATH_PROFILE}` + img);
     }
   }
 }

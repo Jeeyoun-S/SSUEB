@@ -51,7 +51,7 @@ const userValidStore = {
           v == null || v.length == 0 || (v.length == 1 && ["image/png", "image/jpeg"].includes(v[0].type)) || "png, jpg 파일만 첨부 가능합니다.",
       ],
       intro: [
-        (v) => v.length <= 150 || "150자 이하로 입력해 주세요."
+        (v) => v == null || v.length <= 150 || "150자 이하로 입력해 주세요."
       ]
     },
     petRule: {

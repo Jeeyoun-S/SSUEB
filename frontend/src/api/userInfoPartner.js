@@ -45,7 +45,6 @@ async function getUserPartnerInfo(id) {
 
 // [POST] 반려인 회원 정보 수정
 async function updatePartnerInfo(partnerInfo) {
-  console.log("보낸 후 ", partnerInfo);
   partnerInfo.id = store.getters.getPartnerInfo.id;
 
   api.post(`user/info/partner`, partnerInfo)
@@ -149,9 +148,7 @@ async function modifyPetInfo(petInfo, petNo) {
 
         result = false;
         petInfo.no = petNo;
-        const petImage = res.data.data.petImage;
-        if (petImage != "") petInfo.petImage = res.data.data.petImage;
-        console.log("1.", petInfo);
+        petInfo.petImage = res.data.data.petImage;
         store.dispatch("updatePetInfo", petInfo);
       } else {
         console.log("#반려동물 수정 실패");

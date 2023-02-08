@@ -10,6 +10,7 @@ const Swal = require("sweetalert2");
 
 // [GET] 전문가 회원정보 조회
 async function getUserConsultantInfo(id) {
+  var result = true;
   await api.get(`/user/info/consultant/${id}`)
   .then((res) => {
     if (res.data.response == "success") {
@@ -51,10 +52,10 @@ async function getUserConsultantInfo(id) {
         consultantRating: data.rate
       }
       store.dispatch("updateStarInfo", starInfo);
-      // router.go(0);
+      result = true;
     } else {
       console.log("#회원정보 조회 실패");
-
+      
       Swal.fire({
         title: 'FAIL',
         text: '회원정보 조회에 실패했습니다. 다시 시도해 주시기 바랍니다.',
@@ -63,8 +64,50 @@ async function getUserConsultantInfo(id) {
       router.push("/");
     }
   })
+  .catch()
+  return await Promise.resolve(result);
 }
 
 // [POST] 전문가 회원정보 수정
+async function updateConsultantInfo(consultantInfo) {
+  api.post(`user/info/consultant`, consultantInfo, {
+    headers: {
+      "Content-Type": "multipart/form-data; charset=utf-8;",
+    },
+  })
+  .then((res) => {
+    if (res.data.response == "success") {
+      console.log("#회원정보 수정 성공");
 
-export { getUserConsultantInfo };
+      consultantInfo.consultantProfile = res.data.message;
+
+      console.log(consultantInfo);
+
+      delete consultantInfo.userPassword;
+      delete consultantInfo.deleteProfile;
+
+      const petType = Array.from(consultantInfo.consultantPetType);
+      const petTypeList = [];
+      for (var i=0; i<6; i++) {
+        if (petType[i] == 1) {
+          petTypeList.push(i);
+        }
+      }
+      consultantInfo.consultantPetType = petTypeList;
+
+      store.dispatch("updateConsultantUserInfo", consultantInfo);
+      store.dispatch("updateInfoVersion");
+    } else {
+      console.log("#회원정보 수정 실패");
+
+      Swal.fire({
+        title: "FAIL",
+        text: "회원정보 수정에 실패했습니다. 다시 시도해 주시기 바랍니다.",
+        icon: "error",
+      });
+    }
+  })
+  .catch()
+}
+
+export { getUserConsultantInfo, updateConsultantInfo };

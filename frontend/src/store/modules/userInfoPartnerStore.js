@@ -9,7 +9,8 @@ const userInfoPartnerStore = {
     },
     petInfo: [],
     infoVer: true,
-    registOpen: false
+    registOpen: false,
+    petImagePath: "@/image/pet/"
   },
   getters: {
     getPartnerInfo(state) {
@@ -23,6 +24,9 @@ const userInfoPartnerStore = {
     },
     getRegistOpen(state) {
       return state.registOpen;
+    },
+    getPetImagePath(state) {
+      return state.petImagePath;
     }
   },
   mutations: {
