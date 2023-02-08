@@ -2,6 +2,8 @@ package com.ssafy.board;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,9 +34,11 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 @Api(tags = {"Board"}, description = "게시판 관련 API")
 @RestController
-@RequestMapping("/api/board/")
+@RequestMapping("/api/board")
 public class BoardController {
 	
+	private static final Logger logger = LoggerFactory.getLogger(BoardController.class);
+
 	@Autowired
 	BoardService bService;
 	
@@ -222,6 +226,7 @@ public class BoardController {
     })
 	public ResponseEntity<?> readPopular() {
 		try {
+			logger.info("## [Controller] 인기 글목록 가져오기 동작");
 			List<BoardSummary> result = bService.readPopular();	
 			return new ResponseEntity<List<BoardSummary>>(result, HttpStatus.OK);
 		} catch (Exception e) {
