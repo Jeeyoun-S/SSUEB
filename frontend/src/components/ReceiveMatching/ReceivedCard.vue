@@ -88,7 +88,6 @@ export default {
       
     },
 
-
     async seefile() {
       this.$swal.fire({
         imageUrl: "https://unsplash.it/400/200",
@@ -98,7 +97,7 @@ export default {
   },
 
   created(){
-    console.log("he")
+    
   }
 };
 </script>

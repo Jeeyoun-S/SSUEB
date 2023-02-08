@@ -122,7 +122,7 @@ export default {
     },
 
       select() {
-        //console.log(this.reservation.reservationConsultContent)
+        const BASE_URL = `http://localhost:5000/api`;
         
         const frm = new FormData();
         frm.append("reservation",  new Blob([ JSON.stringify(this.reservation) ], {type : "application/json"}));
@@ -146,7 +146,7 @@ export default {
 
         console.log(frm);
         
-        axios.post(`http://localhost:5000/api/reservation`, frm, {
+        axios.post(BASE_URL+`/reservation`, frm, {
           headers: {'Content-Type': 'multipart/form-data'}
         }).then(() => {
           console.log("업로드 완료!")

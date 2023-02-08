@@ -7,7 +7,6 @@
       />
       <span>&nbsp;</span>
 
-      <!--다이얼로그-->
       <v-row justify="center">
     <v-dialog justify="center"
       v-model="dialog"

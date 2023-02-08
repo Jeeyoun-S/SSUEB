@@ -16,8 +16,58 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   name: "FinishedReservation",
+  data: () => ({
+    reservations:[],
+  }),
+  methods:{
+    getReservation() {
+      const BASE_URL = `http://localhost:5000/api`
+      
+      axios({
+        url: BASE_URL+`/reservation/partner/past/`+`aa@a`,
+        method: "get",
+      })
+        .then(({ data }) => {
+          for (var i = 0; i < data.length; i++) {
+            console.log(data[i])
+            let reservation = {};
+            reservation["rno"] = data[i].reservationPetFinish.rno;
+            reservation["userId"] = data[i].reservationPetFinish.userId;
+            reservation["reservationDate"] = data[i].reservationPetFinish.reservationDate;
+            reservation["reservationConsultContent"] = data[i].reservationPetFinish.reservationConsultContent;
+
+            reservation["reservationDignosisRecord"] = data[i].reservationPetFinish.reservationDignosisRecord;
+            reservation["reviewGrade"] = data[i].reservationPetFinish.reviewGrade;
+            reservation["reviewComment"] = data[i].reservationPetFinish.reviewComment;
+
+            reservation["pno"] = data[i].reservationPetFinish.pno;
+            reservation["petImage"] = data[i].reservationPetFinish.petImage;
+            reservation["petType"] = data[i].reservationPetFinish.petType;
+            reservation["petVariety"] = data[i].reservationPetFinish.petVariety;
+            reservation["petBirth"] = data[i].reservationPetFinish.petBirth;
+            reservation["petInfo"] = data[i].reservationPetFinish.petInfo;
+
+            reservation["consultantName"] = data[i].consultantInfo.consultant_name;
+            reservation["consultantIntro"] = data[i].consultantInfo.consultant_intro;
+            reservation["consultantProfile"] = data[i].consultantInfo.consultant_profile;
+            reservation["consultantRate"] = data[i].consultantInfo.consultant_rate;
+
+            this.reservations.push(reservation);
+          }
+
+          console.log(this.reservations[0])
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+  },
+  created(){
+    this.getReservation();
+  }
 };
 </script>
 

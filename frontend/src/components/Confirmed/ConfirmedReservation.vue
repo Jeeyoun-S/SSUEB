@@ -32,34 +32,40 @@ export default {
   },
   methods:{
     getReservation() {
-      const API_URL = `http://localhost:5000/api/reservation/partner/`+`aa@a`;
+      const BASE_URL= `http://localhost:5000/api`;
 
       //consultant의 경우 -> 위랑 이거는 현재 유저가 유저인지 전문가인지에 따라 취사선택하도록?
       //const API_URL = `http://localhost:5000/api/reservation/consultant/`+`aa@a`;
       
       axios({
-        url: API_URL,
+        url: BASE_URL+`/reservation/partner/`+`aa@a`,
         method: "get",
       })
         .then(({ data }) => {
           for (var i = 0; i < data.length; i++) {
+            console.log(data[i])
             let reservation = {};
-            reservation["rno"] = data[i].rno;
-            reservation["userId"] = data[i].userId;
-            reservation["reservationDate"] = data[i].reservationDate;
-            reservation["reservationConsultContent"] = data[i].reservationConsultContent;
+            reservation["rno"] = data[i].reservationPet.rno;
+            reservation["userId"] = data[i].reservationPet.userId;
+            reservation["reservationDate"] = data[i].reservationPet.reservationDate;
+            reservation["reservationConsultContent"] = data[i].reservationPet.reservationConsultContent;
 
-            reservation["pno"] = data[i].pno;
-            reservation["petImage"] = data[i].petImage;
-            reservation["petType"] = data[i].petType;
-            reservation["petVariety"] = data[i].petVariety;
-            reservation["petBirth"] = data[i].petBirth;
-            reservation["petInfo"] = data[i].petInfo;
+            reservation["pno"] = data[i].reservationPet.pno;
+            reservation["petImage"] = data[i].reservationPet.petImage;
+            reservation["petType"] = data[i].reservationPet.petType;
+            reservation["petVariety"] = data[i].reservationPet.petVariety;
+            reservation["petBirth"] = data[i].reservationPet.petBirth;
+            reservation["petInfo"] = data[i].reservationPet.petInfo;
+
+            reservation["consultantName"] = data[i].consultantInfo.consultant_name;
+            reservation["consultantIntro"] = data[i].consultantInfo.consultant_intro;
+            reservation["consultantProfile"] = data[i].consultantInfo.consultant_profile;
+            reservation["consultantRate"] = data[i].consultantInfo.consultant_rate;
 
             this.reservations.push(reservation);
           }
 
-          console.log(this.reservations)
+          console.log(this.reservations[0])
         })
         .catch((err) => {
           console.log(err);
