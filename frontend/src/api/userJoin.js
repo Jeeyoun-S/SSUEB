@@ -239,7 +239,10 @@ async function joinConsultant(formData, socialAccess, provider) {
 async function duplicateId(id) {
   var result = false;
   await api
-    .get(`/user/join/duplication/id`, { params: { id: id } })
+    // .get(`/user/join/duplication/id`, { params: { id: id } })
+    .get(`${process.env.VUE_APP_API_BASE_URL}/user/join/duplication/id`, {
+      params: { id: id },
+    })
     .then((res) => {
       if (res.data.response == "success") {
         result = true;

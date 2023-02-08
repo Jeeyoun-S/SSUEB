@@ -28,12 +28,14 @@
       <v-card-actions class="pa-6" style="font-size: small; color: slategrey"
         >🔔 금일 예약이 {{ this.reservationCount }}건 있습니다.</v-card-actions
       >
+      <user-logout></user-logout>
     </v-card>
   </div>
 </template>
 
 <script>
 import { mapActions, mapState } from "vuex";
+import UserLogout from "../MyPage/UserLogout.vue"; // #21# 임시
 
 const userStore = "userStore";
 const mainPageStore = "mainPageStore";
@@ -42,6 +44,10 @@ export default {
   name: "UserMainAlert",
   data() {
     return {};
+  },
+  // #21# 임시 vuetify 때문에
+  components: {
+    UserLogout,
   },
   watch: {
     isLogin: function () {
