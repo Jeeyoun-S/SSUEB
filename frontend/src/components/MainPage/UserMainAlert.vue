@@ -26,7 +26,7 @@
       </v-row>
       <v-divider dark></v-divider>
       <v-card-actions class="pa-6" style="font-size: small; color: slategrey"
-        >🔔</v-card-actions
+        >🔔 금일 예약이 {{ this.reservationCount }}건 있습니다.</v-card-actions
       >
     </v-card>
   </div>
@@ -36,6 +36,7 @@
 import { mapActions, mapState } from "vuex";
 
 const userStore = "userStore";
+const mainPageStore = "mainPageStore";
 
 export default {
   name: "UserMainAlert",
@@ -46,13 +47,17 @@ export default {
     isLogin: function () {
       // [@Method] 권한 확인 및 유저 정보 가져오기
       this.checkAnyPermit();
+      // [@Method] 금일 예약 건 수 가져오기
+      this.excuteGetReservationCount();
     },
   },
   computed: {
     ...mapState(userStore, ["userAuth", "userInfo", "isLogin"]),
+    ...mapState(mainPageStore, ["reservationCount"]),
   },
   methods: {
     ...mapActions(userStore, ["checkAnyPermit"]),
+    ...mapActions(mainPageStore, ["excuteGetReservationCount"]),
   },
 };
 </script>

@@ -7,4 +7,10 @@ async function getTopFiveBoard(success, fail) {
   await api.get(`/board/popular`).then(success).catch(fail);
 }
 
-export { getTopFiveBoard };
+// [GET] 메인페이지 - 현재 로그인한 사용자의 금일 예약 상담 건 수 조회
+// /api/user/logout/alert/hihej@naver.com
+async function getReservationCount(id, success, fail) {
+  await api.get(`/user/logout/alert/${id}`).then(success).catch(fail);
+}
+
+export { getTopFiveBoard, getReservationCount };
