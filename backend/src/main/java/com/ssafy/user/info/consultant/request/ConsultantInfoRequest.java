@@ -17,6 +17,9 @@ public class ConsultantInfoRequest {
 	@ApiModelProperty(value = "전문가 비밀번호")
 	String userPassword;
 	
+	@ApiModelProperty(value = "전문가 알림방식")
+	int userAlertFlag;
+	
 	@ApiModelProperty(value = "전문가 휴대폰 번호")
 	String userPhone;
 	

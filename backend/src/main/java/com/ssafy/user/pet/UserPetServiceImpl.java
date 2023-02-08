@@ -138,7 +138,7 @@ public class UserPetServiceImpl implements UserPetService {
 			// 이미지 크기 300px:300px로 조절해서 저장하기
 			boolean result = imageCheck.saveImage300(imageFile, imageName, petImagePath);
 			
-			if (result) {
+			if (result && beforeFileName != null) {
 				
 				// 기존 파일 삭제하기
 				imageCheck.deleteFile(beforeFileName, petImagePath);
@@ -146,7 +146,7 @@ public class UserPetServiceImpl implements UserPetService {
 			}
 		}
 		
-		else if (isPetDeleteImage) {
+		else if (isPetDeleteImage && beforeFileName != null) {
 			
 			// 기존 파일 삭제하기
 			imageCheck.deleteFile(beforeFileName, petImagePath);
@@ -161,6 +161,7 @@ public class UserPetServiceImpl implements UserPetService {
 		
 		Pet result = petRepository.save(pet);
 		if (result != null) return imageName;
+		else if (beforeFileName != null && !isPetDeleteImage) return beforeFileName;
 		return null;
 	}
 	

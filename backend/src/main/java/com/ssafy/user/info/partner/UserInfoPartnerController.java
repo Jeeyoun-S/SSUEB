@@ -139,11 +139,13 @@ public class UserInfoPartnerController {
 			
 			// 비밀번호
 			String userPassword = userInfoPartnerRequest.getUserPassword();
-			if (parameterCheck.isEmpty(userPassword) || !parameterCheck.isValidPassword(userPassword)) {
-				return ResponseEntity.status(200).body(new BasicResponse("failure", null));
+			if (userPassword != null) {
+				if (parameterCheck.isEmpty(userPassword) || !parameterCheck.isValidPassword(userPassword)) {
+					return ResponseEntity.status(200).body(new BasicResponse("failure", null));
+				}
+				userPassword = passwordEncoder.encode(userPassword);
+				originalUser.setUserPassword(userPassword);
 			}
-			userPassword = passwordEncoder.encode(userPassword);
-			originalUser.setUserPassword(userPassword);
 			
 			// 이름
 			String userName = userInfoPartnerRequest.getUserName();
