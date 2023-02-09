@@ -90,16 +90,23 @@
 
 <script>
 import axios from "axios";
+import { mapState } from "vuex";
+const userStore = "userStore";
+
 export default {
   name: "FinishedReservation",
   data: () => ({
     reservations:[],
     rating: 3.5,
   }),
+  computed: {
+    ...mapState(userStore, ["userId"]),
+  },
   methods:{
     getReservation() {
+
       axios({
-        url: process.env.VUE_APP_API_BASE_URL+`/reservation/partner/past/`+`aa@a`,
+        url: process.env.VUE_APP_API_BASE_URL+`/reservation/partner/past/${this.userId}`,
         method: "get",
       })
         .then(({ data }) => {

@@ -17,12 +17,18 @@
 import ConfirmedCard from "./ConfirmedCard.vue";
 import NowLoading from '@/views/NowLoading.vue';
 import axios from "axios";
+import { mapState } from "vuex";
+const userStore = "userStore";
+
 export default {
   name: "ConfirmedReservation",
   data: () => ({
     reservations:[],
     loaded: false
   }),
+  computed: {
+    ...mapState(userStore, ["userId"]),
+  },
   components: {
     ConfirmedCard,
     NowLoading
@@ -34,7 +40,7 @@ export default {
       //const API_URL = `http://localhost:5000/api/reservation/consultant/`+`aa@a`;
       
       await axios({
-        url: process.env.VUE_APP_API_BASE_URL+`/reservation/partner/`+`aa@a`,
+        url: process.env.VUE_APP_API_BASE_URL+`/reservation/partner/${this.userId}`,
         method: "get",
       })
         .then(({ data }) => {

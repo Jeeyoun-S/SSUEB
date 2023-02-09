@@ -14,15 +14,21 @@
 
 <script>
 import axios from "axios";
+import { mapState } from "vuex";
+const userStore = "userStore";
+
 export default {
   name: "SendMatching",
   data: () => ({
     matchings:[], 
   }),
+  computed: {
+    ...mapState(userStore, ["userId"]),
+  },
   methods:{
     getMatchings(){
       axios({
-        url: process.env.VUE_APP_API_BASE_URL+`/reservation/matching/consultant/`+`asd@fgh3`,
+        url: process.env.VUE_APP_API_BASE_URL+`/reservation/matching/consultant/${this.userId}`,
         method: "get",
       })
         .then(({ data }) => {

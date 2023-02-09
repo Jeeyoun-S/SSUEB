@@ -74,6 +74,11 @@ export default {
           props: { prependIcon: "mdi-format-list-text", to: "/confirmed" },
         },
         {
+          title: "확정 상담 목록(전)",
+          value: 13,
+          props: { prependIcon: "mdi-format-list-text", to: "/confirmed" },
+        },
+        {
           title: "화상 상담 입장",
           value: 8,
           props: { prependIcon: "mdi-video-account", to: "/meeting-room" },
@@ -81,6 +86,14 @@ export default {
         {
           title: "이전 상담 이력",
           value: 9,
+          props: {
+            prependIcon: "mdi-format-list-bulleted",
+            to: "/finished-reservation",
+          },
+        },
+        {
+          title: "이전 상담 이력(전)",
+          value: 12,
           props: {
             prependIcon: "mdi-format-list-bulleted",
             to: "/finished-reservation",
