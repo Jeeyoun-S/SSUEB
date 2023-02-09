@@ -30,8 +30,8 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 @Api(tags = {"Reservation/Matching"}, description = "매칭(견적 제안과 수락)관련 API")
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/api/reservation/matching")
-@CrossOrigin("*")
 public class MatchingController {
 	
 	@Autowired

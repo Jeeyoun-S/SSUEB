@@ -1,9 +1,7 @@
 package com.ssafy.user.pet;
 
-import java.io.File;
-import java.util.regex.Pattern;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -15,6 +13,8 @@ import com.ssafy.user.pet.request.PetRequest;
 @Service("UserPetService")
 public class UserPetServiceImpl implements UserPetService {
 	
+	static boolean isDebug = true;
+	
 	@Autowired
 	UserPetRepository petRepository;
 	
@@ -22,102 +22,147 @@ public class UserPetServiceImpl implements UserPetService {
 	
 	ImageFile imageCheck = new ImageFile();
 	
+	@Value("${file.image.path.pet}")
+	String petImagePath;
+	
 	@Override
-	public boolean isValidPetInfo(PetRequest petRequest, boolean checkEmpty) {
+	public boolean isValidPetInfo(PetRequest petRequest) {
 		
 		// 파일 크기 및 확장자 유효성 검사
+		if (isDebug) System.out.println("#파일");
 		MultipartFile petImage = petRequest.getPetImage();
-		if (petImage != null)
+		if (petImage != null) {
 			if (!parameterCheck.isValidImage(petImage, false)) return false;
+		}
 		
-		// 반려동물 이름
-		if (checkEmpty && petRequest.getPetName() == null) return false;
+		// 반려동물 이름 NN
+		if (isDebug) System.out.println("#이름");
+		String name = petRequest.getPetName();
+		if (name == null || name.length() > 20) return false;
 		
-		// 반려동물 대분류
+		// 반려동물 대분류 NN
+		if (isDebug) System.out.println("#대분류");
 		String petType = petRequest.getPetType();
-		if (checkEmpty && petType == null) return false;
-		if (petType != null)
-			if (!(petType.equals("강아지") || petType.equals("고양이") || petType.equals("토끼") || petType.equals("페럿") || petType.equals("기니피그") || petType.equals("햄스터"))) {
+		if (petType == null) return false;
+		if (petType != null) {
+			if (!parameterCheck.isValidPetType(petType)) {
 				return false;
 			}
+		}
 		
-		// 생일 확인
-		String birth = petRequest.getPetBirth();
-		if (birth != null)
-			if (!Pattern.matches("^\\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$", birth)) {
+		// 반려동물 품종
+		if (isDebug) System.out.println("#품종");
+		String petVariety = petRequest.getPetVariety();
+		if (petVariety != null) {
+			if (parameterCheck.isSpecialChar(petVariety) || petVariety.length() > 20) {
 				return false;
 			}
+		}
+		
+		// 반려동물 생일
+		String birth = petRequest.getPetBirth();
+		System.out.println("#생일 "+birth);
+		if (birth != null) {
+			if (!parameterCheck.isValidPetBirth(birth)) {
+				return false;
+			}
+		}
+		
+		// 반려동물 특이사항
+		String info = petRequest.getPetInfo();
+		System.out.println("#특이사항 "+info);
+		if (info != null) {
+			if (info.length() > 40) {
+				return false;
+			}
+		}
 		
 		return true;
 	}
 	
 	@Override
-	public boolean addPet(String id, PetRequest petRequest) {
+	public Pet addPet(String id, PetRequest petRequest) {
+		
+		boolean result = true;
+		String imageName = null;
 		
 		// 파일 생성
-		MultipartFile imageFile = petRequest.getPetImage();
+		if (petRequest.getPetImage() != null) {
+			
+			MultipartFile imageFile = petRequest.getPetImage();
+			
+			// 파일 이름 생성
+			imageName = imageCheck.makeFilename(imageFile.getOriginalFilename());
+			
+			// 이미지 크기 300px:300px로 조절해서 저장하기
+			result = imageCheck.saveImage300(imageFile, imageName, petImagePath);
+		}
 		
-		// 이미지 크기 100KB 이하로 조절해서 저정하기
-		String imageName = imageCheck.saveMultipartFile100KB(imageFile, "C:\\Users\\SSAFY");
+		if (result) {
+			// Pet Entity 생성
+			Pet pet = new Pet();
+			pet.setUserId(id);
+			if (imageName != null) pet.setPetImage(imageName);
+			pet.setPetName(petRequest.getPetName());
+			pet.setPetType(petRequest.getPetType());
+			pet.setPetVariety(petRequest.getPetVariety());
+			if (petRequest.getPetBirth() != null) pet.setPetBirth(petRequest.getPetBirth()+"-01");
+			pet.setPetInfo(petRequest.getPetInfo());
+			
+			Pet saveResult = petRepository.save(pet);
+			return saveResult;
+		}
 		
-		// Pet Entity 생성
-		Pet pet = new Pet();
-		pet.setUserId(id);
-		pet.setPetImage(imageName);
-		pet.setPetName(petRequest.getPetName());
-		pet.setPetType(petRequest.getPetType());
-		pet.setPetVariety(petRequest.getPetVariety());
-		pet.setPetBirth(petRequest.getPetBirth());
-		pet.setPetInfo(petRequest.getPetInfo());
-		
-		Pet result = petRepository.save(pet);
-		if (result != null) return true;
-		return false;
+		return null;
 	}
 	
 	@Override
-	public boolean modifyPet(int no, PetRequest petRequest) {
+	public String modifyPet(int no, PetRequest petRequest, boolean isPetDeleteImage) {
 		
 		// Pet Entity 생성
 		Pet pet = petRepository.findByNo(no);
 		
-		System.out.println("### 여기 오긴 왔다.");
-		System.out.println(petRequest.getPetImage());
+		String imageName = "";
+		
+		// 기존 파일 가져오기
+		String beforeFileName = pet.getPetImage();
 		
 		if (petRequest.getPetImage() != null) {
-			
-			System.out.println("### 파일 수정까지 옴");
-			
-			// 기존 파일 가져오기
-			String beforeFileName = pet.getPetImage();
-			
-			// 기존 파일 삭제하기
-			File file = new File("C:\\Users\\SSAFY\\"+beforeFileName);
-			file.delete();
 			
 			// 파일
 			MultipartFile imageFile = petRequest.getPetImage();
 			
-			// 이미지 크기 100KB 이하로 조절해서 저정하기
-			String imageName = imageCheck.saveMultipartFile100KB(imageFile, "C:\\Users\\SSAFY");
+			// 파일 이름 생성
+			imageName = imageCheck.makeFilename(imageFile.getOriginalFilename());
 			
-			pet.setPetImage(imageName);
+			// 이미지 크기 300px:300px로 조절해서 저장하기
+			boolean result = imageCheck.saveImage300(imageFile, imageName, petImagePath);
+			
+			if (result && beforeFileName != null) {
+				
+				// 기존 파일 삭제하기
+				imageCheck.deleteFile(beforeFileName, petImagePath);
+				pet.setPetImage(imageName);
+			}
 		}
 		
-		if (petRequest.getPetName() != null && !petRequest.getPetName().equals(""))
-			pet.setPetName(petRequest.getPetName());
-		if (petRequest.getPetType() != null && !petRequest.getPetType().equals(""))
-			pet.setPetType(petRequest.getPetType());
-		if (petRequest.getPetVariety() != null && !petRequest.getPetVariety().equals(""))
-			pet.setPetVariety(petRequest.getPetVariety());
-		if (petRequest.getPetBirth() != null && !petRequest.getPetBirth().equals(""))
-			pet.setPetBirth(petRequest.getPetBirth());
-		if (petRequest.getPetInfo() != null && !petRequest.getPetInfo().equals(""))
-			pet.setPetInfo(petRequest.getPetInfo());
+		else if (isPetDeleteImage && beforeFileName != null) {
+			
+			// 기존 파일 삭제하기
+			imageCheck.deleteFile(beforeFileName, petImagePath);
+			pet.setPetImage(null);
+		}
+		
+		pet.setPetName(petRequest.getPetName());
+		pet.setPetType(petRequest.getPetType());
+		pet.setPetVariety(petRequest.getPetVariety());
+		if (petRequest.getPetBirth() != null) pet.setPetBirth(petRequest.getPetBirth()+"-01");
+		pet.setPetInfo(petRequest.getPetInfo());
 		
 		Pet result = petRepository.save(pet);
-		if (result != null) return true;
-		return false;
+		if (result != null) return imageName;
+		else if (beforeFileName != null && !isPetDeleteImage) return beforeFileName;
+		return null;
 	}
 	
 }

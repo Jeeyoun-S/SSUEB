@@ -14,7 +14,7 @@ public class SecurityUtil {
 	private static final Logger logger = LoggerFactory.getLogger(SecurityUtil.class);
 
 	/** 
-	 * Security Context의 Authentication 객체를 사용하여 userId를 반환
+	 * Security Context의 Authentication(인증) 객체를 사용하여 userId를 반환
 	 * @param void
 	 * @return Optional<String>
 	 */

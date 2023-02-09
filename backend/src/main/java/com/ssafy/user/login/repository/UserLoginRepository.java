@@ -24,6 +24,5 @@ public interface UserLoginRepository extends JpaRepository<User, Long> {
 	 * @param userId
 	 * @return Optional<User>
 	 */
-	//Optional<User> findByUserId(String userId);
 	Optional<User> findById(String userId);
 }

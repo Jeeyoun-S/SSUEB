@@ -14,7 +14,7 @@ public class PetRequest {
 	@ApiModelProperty(value = "반려동물 이름", required = true)
     String petName;
 	
-	@ApiModelProperty(value = "반려동물 대분류 (강아지, 고양이, 토끼, 페럿, 기니피그, 햄스터)", required = true)
+	@ApiModelProperty(value = "반려동물 대분류 (개, 고양이, 토끼, 페럿, 기니피그, 햄스터)", required = true)
 	String petType;
 	
 	@ApiModelProperty(value = "반려동물 품종")

@@ -10,9 +10,14 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.OptimisticLockType;
+import org.hibernate.annotations.OptimisticLocking;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -25,7 +30,9 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
+@DynamicInsert
 public class User {
+
 	@Id
     //@GeneratedValue(strategy = GenerationType.IDENTITY)
     String id;
@@ -57,11 +64,21 @@ public class User {
 	@Column(name = "user_activated")
 	int userActivated;
 	
+	@Column(name = "user_is_social_id")
+	int userIsSocialId;
+	
 	// for. add JWT - 인증 권한 테이블 
+//	@ManyToMany
+//	@JoinTable(
+//			name = "user_authority",
+//			joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
+//			inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "authority_name")})
+//	Set<Authority> authorities;
 	@ManyToMany
 	@JoinTable(
 			name = "user_authority",
 			joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
 			inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "authority_name")})
+	
 	Set<Authority> authorities;
 }
