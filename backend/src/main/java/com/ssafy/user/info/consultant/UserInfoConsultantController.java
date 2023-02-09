@@ -109,7 +109,9 @@ public class UserInfoConsultantController {
 						starAverage += (s.getStarNum() * s.getStarCnt());
 						starCount += s.getStarCnt();
 					}
-					userInfoResponseData.setConsultantRate(starAverage / starCount);
+					
+					if (starCount != 0) userInfoResponseData.setConsultantRate(starAverage / starCount);
+					else userInfoResponseData.setConsultantRate((double) 0);
 					
 					// 전문가 예약 확정 횟수
 					Optional<Integer> totalConfirm = userInfoConsultantQueryRepository.findTotalConfirmById(id);
@@ -199,7 +201,7 @@ public class UserInfoConsultantController {
 						Consultant consultant = optionConsultant.get();
 						
 						user.setUserNickname(consultantInfoRequest.getUserName());
-						user.setUserPassword(consultantInfoRequest.getUserPassword());
+						if (consultantInfoRequest.getUserPassword() != null) user.setUserPassword(consultantInfoRequest.getUserPassword());
 						user.setUserPhone(consultantInfoRequest.getUserPhone());
 						
 						consultant.setConsultantPetType(consultantInfoRequest.getConsultantPetType());
@@ -207,6 +209,7 @@ public class UserInfoConsultantController {
 						
 						// 기존 파일 가져오기
 						String beforeProfile = consultant.getConsultantProfile();
+						String filename = beforeProfile;
 						
 						if (consultantInfoRequest.getConsultantProfile() != null) {
 							
@@ -223,6 +226,7 @@ public class UserInfoConsultantController {
 							boolean result = imageFile.saveImage300(profileImage, imageName, profileImagePath);
 							
 							if (result) consultant.setConsultantProfile(imageName);
+							filename = imageName;
 						}
 						
 						else if (consultantInfoRequest.isDeleteProfile()) {
@@ -231,9 +235,10 @@ public class UserInfoConsultantController {
 							imageFile.deleteFile(beforeProfile, profileImagePath);
 							
 							consultant.setConsultantProfile(null);
+							filename = null;
 						}
 						
-						return ResponseEntity.status(200).body(new BasicResponse("success", null));
+						return ResponseEntity.status(200).body(new BasicResponse("success", filename));
 					}
 				}
 			}

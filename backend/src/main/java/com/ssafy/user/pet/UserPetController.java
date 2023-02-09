@@ -90,8 +90,8 @@ public class UserPetController {
 	@PutMapping(value = "/{no}")
 	@ApiOperation(value = "반려동물 정보 수정", notes = "반려동물 정보 일부를 입력 받아 정보를 수정한다.")
 	@ApiImplicitParam(name = "no", value = "반려동물 번호", dataType = "int", example = "0", required = true)
-	@ApiResponse(code = 200, response = BasicResponse.class, message = "반려동물 수정 진행")
-	public ResponseEntity<BasicResponse> modifyPet(@PathVariable(value = "no") int no, PetModifyRequest petModifyRequest, @RequestPart(value = "petImage", required = false) MultipartFile petImage) {
+	@ApiResponse(code = 200, response = PetBasicResponse.class, message = "반려동물 수정 진행")
+	public ResponseEntity<PetBasicResponse> modifyPet(@PathVariable(value = "no") int no, PetModifyRequest petModifyRequest, @RequestPart(value = "petImage", required = false) MultipartFile petImage) {
 		
 		System.out.println("#수정 반려동물 정보 " + petModifyRequest);
 		
@@ -108,16 +108,18 @@ public class UserPetController {
 			
 			// 반려동물 특이사항 HTML 변경
 			String info = petRequest.getPetInfo();
-			petRequest.setPetInfo(changeHTML.changeStringToHTML(info));
+			if (info != null) petRequest.setPetInfo(changeHTML.changeStringToHTML(info));
 			
 			// DB에 넣기
-			boolean result = userPetService.modifyPet(no, petRequest, petModifyRequest.isPetDeleteImage());
-			if (result) {
-				return ResponseEntity.status(200).body(new BasicResponse("success", "반려동물 정보를 수정했습니다."));
+			String filename = userPetService.modifyPet(no, petRequest, petModifyRequest.isPetDeleteImage());
+			if (filename != null) {
+				Pet pet = new Pet();
+				pet.setPetImage(filename);
+				return ResponseEntity.status(200).body(new PetBasicResponse("success", "반려동물 정보를 수정했습니다.", pet));
 			}
 		}
 		
-		return ResponseEntity.status(200).body(new BasicResponse("failure", "반려동물 정보 수정에 실패했습니다."));
+		return ResponseEntity.status(200).body(new PetBasicResponse("failure", "반려동물 정보 수정에 실패했습니다.", null));
 	}
 	
 }

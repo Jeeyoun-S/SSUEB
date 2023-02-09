@@ -70,6 +70,7 @@ public class UserPetServiceImpl implements UserPetService {
 		
 		// 반려동물 특이사항
 		String info = petRequest.getPetInfo();
+		System.out.println("#특이사항 "+info);
 		if (info != null) {
 			if (info.length() > 40) {
 				return false;
@@ -116,10 +117,12 @@ public class UserPetServiceImpl implements UserPetService {
 	}
 	
 	@Override
-	public boolean modifyPet(int no, PetRequest petRequest, boolean isPetDeleteImage) {
+	public String modifyPet(int no, PetRequest petRequest, boolean isPetDeleteImage) {
 		
 		// Pet Entity 생성
 		Pet pet = petRepository.findByNo(no);
+		
+		String imageName = "";
 		
 		// 기존 파일 가져오기
 		String beforeFileName = pet.getPetImage();
@@ -130,12 +133,12 @@ public class UserPetServiceImpl implements UserPetService {
 			MultipartFile imageFile = petRequest.getPetImage();
 			
 			// 파일 이름 생성
-			String imageName = imageCheck.makeFilename(imageFile.getOriginalFilename());
+			imageName = imageCheck.makeFilename(imageFile.getOriginalFilename());
 			
 			// 이미지 크기 300px:300px로 조절해서 저장하기
 			boolean result = imageCheck.saveImage300(imageFile, imageName, petImagePath);
 			
-			if (result) {
+			if (result && beforeFileName != null) {
 				
 				// 기존 파일 삭제하기
 				imageCheck.deleteFile(beforeFileName, petImagePath);
@@ -143,7 +146,7 @@ public class UserPetServiceImpl implements UserPetService {
 			}
 		}
 		
-		else if (isPetDeleteImage) {
+		else if (isPetDeleteImage && beforeFileName != null) {
 			
 			// 기존 파일 삭제하기
 			imageCheck.deleteFile(beforeFileName, petImagePath);
@@ -153,12 +156,13 @@ public class UserPetServiceImpl implements UserPetService {
 		pet.setPetName(petRequest.getPetName());
 		pet.setPetType(petRequest.getPetType());
 		pet.setPetVariety(petRequest.getPetVariety());
-		pet.setPetBirth(petRequest.getPetBirth());
+		if (petRequest.getPetBirth() != null) pet.setPetBirth(petRequest.getPetBirth()+"-01");
 		pet.setPetInfo(petRequest.getPetInfo());
 		
 		Pet result = petRepository.save(pet);
-		if (result != null) return true;
-		return false;
+		if (result != null) return imageName;
+		else if (beforeFileName != null && !isPetDeleteImage) return beforeFileName;
+		return null;
 	}
 	
 }
