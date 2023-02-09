@@ -125,7 +125,10 @@ export default {
   methods: {
     ...mapActions(userStore, ["excuteWithdrawal"]),
     modifyConsultantInfo() {
-      if (this.socialUserInfo != null) {
+      if (
+        localStorage.getItem("kakaoToken") != null ||
+        localStorage.getItem("googleToken") != null
+      ) {
         this.$store.dispatch("updateInfoVersion");
       } else {
         checkPassword(this.getConsultantInfo.id);
