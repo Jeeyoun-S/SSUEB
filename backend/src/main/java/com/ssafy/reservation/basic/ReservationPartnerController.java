@@ -123,7 +123,6 @@ public class ReservationPartnerController {
 				ConsultantInfo ci = cRepo.findConsultantInfo(rpf.getConsultantId());
 				pasts.add(new PastPartner(rpf, ci));
 			}
-			
 			return new ResponseEntity<List<PastPartner>>(pasts, HttpStatus.OK);
 		} catch (Exception e) {
 			return exceptionHandling(e);

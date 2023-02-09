@@ -94,23 +94,24 @@ public class MatchingController {
 		}
 	}
 	
-	@GetMapping("/partner/{reservationNo}")
-	@ApiOperation(value = "해당 예약에 대한 견적 정보", notes = "유저의 특정 예약에 대해 들어온 견적들에 대한 정보를 쭉 불러온다", response = MatchingConsultant.class) 
-	@ApiImplicitParams({
-		@ApiImplicitParam(name = "reservationNo", value = "해당 번호의 상담 예약에 들어온 견적들을 리턴한다", dataType = "int", example = "0", required = true),
-	})
-    @ApiResponses({
-        @ApiResponse(code = 200, message = "성공"),
-        @ApiResponse(code = 500, message = "서버 오류")
-    })
-	public ResponseEntity<?> readReceiveMatching(@PathVariable int reservationNo) { //사실상 받은 견적 목록 ReservationPartnerController쪽에 편입됐다고 봐야할듯?
-		try {
-			List<MatchingConsultant> result = mService.readReceiveMatching(reservationNo);
-			return new ResponseEntity<List<MatchingConsultant>>(result, HttpStatus.OK);
-		} catch (Exception e) {
-			return exceptionHandling(e);
-		}
-	}
+	//해당 파트너가 받은 견적들 확인하는데에 통폐합
+//	@GetMapping("/partner/{reservationNo}")
+//	@ApiOperation(value = "해당 예약에 대한 견적 정보", notes = "유저의 특정 예약에 대해 들어온 견적들에 대한 정보를 쭉 불러온다", response = MatchingConsultant.class) 
+//	@ApiImplicitParams({
+//		@ApiImplicitParam(name = "reservationNo", value = "해당 번호의 상담 예약에 들어온 견적들을 리턴한다", dataType = "int", example = "0", required = true),
+//	})
+//    @ApiResponses({
+//        @ApiResponse(code = 200, message = "성공"),
+//        @ApiResponse(code = 500, message = "서버 오류")
+//    })
+//	public ResponseEntity<?> readReceiveMatching(@PathVariable int reservationNo) { //사실상 받은 견적 목록 ReservationPartnerController쪽에 편입됐다고 봐야할듯?
+//		try {
+//			List<MatchingConsultant> result = mService.readReceiveMatching(reservationNo);
+//			return new ResponseEntity<List<MatchingConsultant>>(result, HttpStatus.OK);
+//		} catch (Exception e) {
+//			return exceptionHandling(e);
+//		}
+//	}
 	
 	@PutMapping("/confirm")
 	@ApiOperation(value = "예약 매칭 확정", notes = "유저와 전문가의 예약을 확정하고 예약테이블에 내용을 갱신한 후 그 예약과 관련된 견적들을 전부 삭제한다.", response = Void.class) 

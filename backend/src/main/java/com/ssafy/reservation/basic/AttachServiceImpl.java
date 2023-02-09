@@ -43,13 +43,14 @@ public class AttachServiceImpl implements AttachService {
 		for(MultipartFile file : files) {
 			IVCompressor compressor=new IVCompressor();
 			String uuid = UUID.randomUUID().toString();//랜덤한 코드명 ex)49eec5bf-dce3-43b2-8ff8-c041c792ed0a를 넣어준다
-			String savefileName = File.separator + uuid + "_" + file.getOriginalFilename();
+			String savefileName = uuid + "_" + file.getOriginalFilename();
 			
 			if(file.getContentType().startsWith("image")) {
+				System.out.println(file.getContentType());
 				IVSize customRes=new IVSize();
 				//커스텀 크기 설정
-				customRes.setWidth(800);
-				customRes.setHeight(300);
+				customRes.setWidth(400);
+				customRes.setHeight(400);
 				String path = imagePath+savefileName;				
 				//설정한 값으로 byte저장 -> return값이 byte[]라서 Files.write(byte[], 경로)로 저장
 				byte[] resizeFile = compressor.resizeImageWithCustomRes(file.getBytes(), ImageFormats.JPEG, customRes);
