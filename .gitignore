@@ -90,6 +90,7 @@ env.properties
 
 # Vue env file
 .env
+vue.config.js
 
 # End of https://www.toptal.com/developers/gitignore/api/vue,vuejs,macos,windows
 # OAuth Key
