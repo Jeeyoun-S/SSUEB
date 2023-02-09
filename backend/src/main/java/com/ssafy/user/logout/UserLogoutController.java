@@ -23,6 +23,7 @@ import io.swagger.annotations.ApiResponse;
 
 @Api(tags = {"User/Logout"}, description = "(메인 페이지에서)금일 예약 건 수 조회  API")
 @RestController
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/api/user/logout")
 public class UserLogoutController {
 	
@@ -36,7 +37,7 @@ public class UserLogoutController {
 	 * @param String 
 	 * @return UserLogoutPostResponse
 	 */
-	@CrossOrigin(origins = "*")
+//	@CrossOrigin(origins = "*")
 	@GetMapping("/alert/{id}")
 	@ApiOperation(value = "금일 예약 건 수 조회")
 	@ApiResponse(code = 200, response = UserLogoutPostResponse.class, message = "금일 예약 건 수 조회")
