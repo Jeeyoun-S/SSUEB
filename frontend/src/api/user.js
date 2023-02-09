@@ -6,16 +6,21 @@ const api = apiInstance();
 async function login(loginInfo, success, fail) {
   // console.log("#user - api# 로그인 params: ", loginInfo);
   await api
-    .post(`/user/login/`, JSON.stringify(loginInfo))
+    // .post(`/user/login/`, JSON.stringify(loginInfo))
+    .post(
+      `${process.env.VUE_APP_API_BASE_URL}/user/login/`,
+      JSON.stringify(loginInfo)
+    )
     .then(success)
     .catch(fail);
 }
 
 // [GET] 모든 권한 허용 + header에 token 넣어야 함
 async function anyPermit(token, success, fail) {
-  // console.log("#user - anyPermit# 모든 권한 허용 params - token: ", token);
+  console.log("#user - anyPermit# 모든 권한 허용 params - token: ", token);
   await api
-    .get(`/user/auth/permit`, {
+    // .get(`/user/auth/permit`, {
+    .get(`${process.env.VUE_APP_API_BASE_URL}/user/auth/permit`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -29,8 +34,8 @@ async function partPermit(userId, token, success, fail) {
   // console.log("#user - api# 일부 권한 허용 params - userId: ", userId);
   // console.log("#user - api# 일부 권한 허용 params - token: ", token);
   await api
-    .get(`/user/auth/permit/${userId}`, {
-      // header에 authorization bearer token 넣기
+    // .get(`/user/auth/permit/${userId}`, {
+    .get(`${process.env.VUE_APP_API_BASE_URL}/user/auth/permit/${userId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -39,4 +44,18 @@ async function partPermit(userId, token, success, fail) {
     .catch(fail);
 }
 
-export { login, anyPermit, partPermit };
+// [POST] 회원 탈퇴
+async function withdrawal(info, success, fail) {
+  console.log("#user - api# 회원탈퇴 - userId: ", info);
+
+  await api
+    // .post(`/user/withdrawal/`, JSON.stringify(info))
+    .post(
+      `${process.env.VUE_APP_API_BASE_URL}/user/withdrawal/`,
+      JSON.stringify(info)
+    )
+    .then(success)
+    .catch(fail);
+}
+
+export { login, anyPermit, partPermit, withdrawal };
