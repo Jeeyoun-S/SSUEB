@@ -62,6 +62,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         		
         		 // 기존 있던 config 코드 
 //              .addFilter(new JwtAuthenticationFilter(authenticationManager(), userService)) // HTTP 요청에 JWT 토큰 인증 필터를 거치도록 필터를 추가
+        		
                 
         		// # JWT 토큰
         		.and()
@@ -73,8 +74,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         		// # URL 별 인증 관리 - 인증이 필요한 URL과 필요하지 않은 URL에 대하여 설정
                 .and()
                 .authorizeRequests()						// URL 별 인증 관리
-        			//.antMatchers("/api/user/login/**", "/api/user/join/**", "/api/user/auth/**").permitAll()	// 로그인, 회원가입, 권한검증 경로는 인증없이 호출 가능
-        			.antMatchers("/**").permitAll()		// 모두 허용
+        			.antMatchers("/api/user/login/**", "/api/user/join/**", "/api/user/auth/**").permitAll()	// 로그인, 회원가입, 권한검증 경로는 인증없이 호출 가능
+//        			.antMatchers("/**").permitAll()		// 모두 허용
         			//.antMatchers("/api/user/pet/**").hasAnyRole("USER")
         			.anyRequest().authenticated()			// 그 외의 요청은 모두 JWT 인증 필요
         		
