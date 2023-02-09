@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import SendMatchingCard from "@/components/SendMatching/SendMatchingCard.vue";
 import axios from "axios";
 import { mapState } from "vuex";
 const userStore = "userStore";
@@ -22,6 +23,9 @@ export default {
   data: () => ({
     matchings:[], 
   }),
+  components: {
+    SendMatchingCard
+  },
   computed: {
     ...mapState(userStore, ["userId"]),
   },

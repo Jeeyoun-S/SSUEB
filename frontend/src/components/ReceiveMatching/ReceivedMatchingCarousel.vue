@@ -1,4 +1,20 @@
 <template>
+  <v-hover v-slot="{ isHovering, props }">
+    <v-card class="ma-3 pa-2 d-flex justify-center flex-column"
+      width="320" height="450" variant="outlined"
+      :elevation="isHovering ? 8 : 0" :class="{ 'on-hover': isHovering }"
+      rounded="0" v-bind="props"
+    >
+      <v-card-item class="align-self-center">
+        <v-avatar class="pt-1" color="white" size="100">
+          <img width="100" :src="require('@/assets/placeholder/placeholder_person.jpg')" />
+        </v-avatar>
+      </v-card-item>
+      <v-card-title><h4>우싸피</h4></v-card-title>
+      <v-divider></v-divider>
+    </v-card>
+  </v-hover>
+
   <v-card class="a-card" width="270" height="450" elevation="2">
     <div class="top-row">
       <img
