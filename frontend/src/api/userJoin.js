@@ -9,60 +9,64 @@ const Swal = require("sweetalert2");
 
 // [GET] 휴대폰 인증번호 전송
 async function sendPhoneAuth(phoneNumber) {
-  await api.get(`/user/phone/auth`, { params: phoneNumber }).then((res) => {
-    if (res.data.response == "success") {
-      let timerInterval;
+  // await api.get(`/user/phone/auth`, { params: phoneNumber }).then((res) => {
+  await api
+    .get(`${process.env.VUE_APP_API_BASE_URL}/user/phone/auth`, {
+      params: phoneNumber,
+    })
+    .then((res) => {
+      if (res.data.response == "success") {
+        let timerInterval;
 
-      Swal.fire({
-        // 제목
-        title: "휴대폰 번호 인증",
-        // 내용
-        html: '<input id="authNumber" class="swal2-input"><br>3분 내로 인증번호를 입력해 주세요.<br>남은 시간 <b></b>',
-        // 창 제한 시간 3분 = 18000ms
-        timer: 180000,
-        // 제한 시간을 보여주는 바
-        timerProgressBar: true,
-        // 열렸을 때 시간 보여주기
-        didOpen: () => {
-          const b = Swal.getHtmlContainer().querySelector("b");
-          timerInterval = setInterval(() => {
-            b.textContent =
-              String(parseInt(Swal.getTimerLeft() / (1000 * 60)) % 60).padStart(
-                2,
-                "0"
-              ) +
-              ":" +
-              String(parseInt(Swal.getTimerLeft() / 1000) % 60).padStart(
-                2,
-                "0"
-              );
-          }, 100);
-        },
-        // 시간 지나면 창 닫힘
-        willClose: () => {
-          clearInterval(timerInterval);
-        },
-        // 확인 및 취소 버튼 노출
-        confirmButtonText: "확인",
-        cancelButtonText: "취소",
-        showCancelButton: true,
-        showCloseButton: true,
-        focusConfirm: false,
-        // 확인하기 버튼 눌렀을 때
-        preConfirm: async () => {
-          confirmPhoneAuth(
-            document.getElementById("authNumber").value,
-            phoneNumber.userPhone
-          );
-        },
-      }).then((result) => {
-        /* Read more about handling dismissals below */
-        if (result.dismiss === Swal.DismissReason.timer) {
-          console.log("I was closed by the timer");
-        }
-      });
-    }
-  });
+        Swal.fire({
+          // 제목
+          title: "휴대폰 번호 인증",
+          // 내용
+          html: '<input id="authNumber" class="swal2-input"><br>3분 내로 인증번호를 입력해 주세요.<br>남은 시간 <b></b>',
+          // 창 제한 시간 3분 = 18000ms
+          timer: 180000,
+          // 제한 시간을 보여주는 바
+          timerProgressBar: true,
+          // 열렸을 때 시간 보여주기
+          didOpen: () => {
+            const b = Swal.getHtmlContainer().querySelector("b");
+            timerInterval = setInterval(() => {
+              b.textContent =
+                String(
+                  parseInt(Swal.getTimerLeft() / (1000 * 60)) % 60
+                ).padStart(2, "0") +
+                ":" +
+                String(parseInt(Swal.getTimerLeft() / 1000) % 60).padStart(
+                  2,
+                  "0"
+                );
+            }, 100);
+          },
+          // 시간 지나면 창 닫힘
+          willClose: () => {
+            clearInterval(timerInterval);
+          },
+          // 확인 및 취소 버튼 노출
+          confirmButtonText: "확인",
+          cancelButtonText: "취소",
+          showCancelButton: true,
+          showCloseButton: true,
+          focusConfirm: false,
+          // 확인하기 버튼 눌렀을 때
+          preConfirm: async () => {
+            confirmPhoneAuth(
+              document.getElementById("authNumber").value,
+              phoneNumber.userPhone
+            );
+          },
+        }).then((result) => {
+          /* Read more about handling dismissals below */
+          if (result.dismiss === Swal.DismissReason.timer) {
+            console.log("I was closed by the timer");
+          }
+        });
+      }
+    });
 }
 
 // [GET] 인증번호 전송 - 문자 안 보내는 테스트용
@@ -111,7 +115,8 @@ confirmPhoneAuth;
 // [GET] 휴대폰 인증번호 확인
 async function confirmPhoneAuth(authNumber, userPhone) {
   await api
-    .get(`/user/phone/confirm`, {
+    // .get(`/user/phone/confirm`, {
+    .get(`${process.env.VUE_APP_API_BASE_URL}/user/phone/confirm`, {
       params: {
         authNumber: authNumber,
         userPhone: userPhone,
@@ -147,7 +152,10 @@ async function joinPartner(joinRequest, socialAccess, provider) {
   }
 
   await api
-    .post(`/user/join/partner`, JSON.stringify(joinRequest))
+    .post(
+      `${process.env.VUE_APP_API_BASE_URL}/user/join/partner`,
+      JSON.stringify(joinRequest)
+    )
     .then((res) => {
       // 회원가입 성공
       if (res.data.response == "success") {
@@ -199,11 +207,16 @@ async function joinConsultant(formData, socialAccess, provider) {
   }
 
   await api
-    .post(`/user/join/consultant`, formData, {
-      headers: {
-        "Content-Type": "multipart/form-data; charset=utf-8;",
-      },
-    })
+    // .post(`/user/join/consultant`, formData, {
+    .post(
+      `${process.env.VUE_APP_API_BASE_URL}/user/join/consultant`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data; charset=utf-8;",
+        },
+      }
+    )
     .then((res) => {
       // 회원가입 성공
       if (res.data.response == "success") {
