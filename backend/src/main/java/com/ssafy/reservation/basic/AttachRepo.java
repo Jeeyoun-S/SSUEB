@@ -13,4 +13,5 @@ import com.ssafy.db.entity.Attach;
 
 @Repository
 public interface AttachRepo extends JpaRepository<Attach,Integer>{
+	List<Attach> findByReservationNo(int reservationNo);
 }

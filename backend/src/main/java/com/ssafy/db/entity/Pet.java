@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class Pet {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="no")
     int no;
 	
 	@Column(name = "user_id")
@@ -45,4 +46,6 @@ public class Pet {
 	
 	@Column(name = "pet_info")
 	String petInfo;
+	
+	
 }

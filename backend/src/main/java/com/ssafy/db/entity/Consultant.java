@@ -45,4 +45,9 @@ public class Consultant {
 	
 	@Column(name = "consultant_certified")
 	int consultantCertified;
+	
+	//더하고 빼기 위한 함수
+	public void changeCount(int num) {
+		consultantReservationCount += num;
+	}
 }

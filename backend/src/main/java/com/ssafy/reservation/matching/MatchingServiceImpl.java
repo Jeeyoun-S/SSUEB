@@ -11,9 +11,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.ssafy.db.entity.Consultant;
 import com.ssafy.db.entity.Matching;
 import com.ssafy.db.entity.Reservation;
 import com.ssafy.reservation.basic.ReservationRepo;
+import com.ssafy.reservation.matching.response.MatchingConsultant;
+import com.ssafy.reservation.matching.response.SendMatching;
 
 @Service
 public class MatchingServiceImpl implements MatchingService {
@@ -24,28 +27,41 @@ public class MatchingServiceImpl implements MatchingService {
 	@Autowired
 	ReservationRepo rRepo;
 	
+	@Autowired
+	ConsultantRepo cRepo;
+	
 	@Override
 	public Matching createMatching(Matching matching) throws SQLException {
 		//추가기능 -> consultant의 consultant_reservation_count + 1 해주기
+		Consultant consultant = cRepo.findById(matching.getConsultantId()).get();
+		consultant.changeCount(1);
+		cRepo.save(consultant);
 		return mRepo.save(matching);
 	}
 
 	@Override
 	public void deleteMatching(int no) throws SQLException {
 		//추가기능 -> consultant의 consultant_reservation_count - 1 해주기
+		Consultant consultant = cRepo.findById(mRepo.findById(no).get().getConsultantId()).get();
+		consultant.changeCount(-1);
+		cRepo.save(consultant);
 		mRepo.deleteById(no);
 	}
 
 	@Override
-	public List<Matching> readSendMatching(String consultantId) throws SQLException {
-		return mRepo.findByConsultantId(consultantId);
+	public List<SendMatching> readSendMatching(String consultantId) throws SQLException {
+		return mRepo.findSendMatching(consultantId);
 	}
 
+	
+	
 	@Override
-	public List<Matching> readReceiveMatching(int reservationNo) throws SQLException {
-		return mRepo.findByReservationNo(reservationNo);
+	public List<MatchingConsultant> readReceiveMatching(int reservationNo) throws SQLException {
+		return mRepo.findReceiveMatching(reservationNo);
 	}
 
+	
+	
 	@Override
 	public void confirmMatching(int reservationNo, String consultantId, int matchingCost) throws ParseException,SQLException{	
 		//중요내용(컨설턴트 아이디, 가격)을 예약 테이블로 옮기고
@@ -73,9 +89,12 @@ public class MatchingServiceImpl implements MatchingService {
 	    cal.add(Calendar.MINUTE, -60);
 	    String before = sdf.format(cal.getTime());//30분 후 시간
 	    
+	    Consultant consultant = cRepo.findById(consultantId).get();
+	    consultant.changeCount(-1 * mRepo.getCountByDateTime(before, after, consultantId));
+	    cRepo.save(consultant);
+	    
 	    //이 시간 내의 전문가의 견적 삭제
 	    mRepo.deleteByDateTime(before, after, consultantId);
-		
 	}
 
 }

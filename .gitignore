@@ -91,3 +91,6 @@ env.properties
 
 # OAuth Key
 application-oauth.yml
+*.jpg
+*.mp4
+*.gz
