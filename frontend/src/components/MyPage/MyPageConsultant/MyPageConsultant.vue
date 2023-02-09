@@ -1,5 +1,6 @@
 <template>
-  <div class="mypage">
+  <NowLoading v-if="!loaded"></NowLoading>
+  <div v-else class="mypage">
     <div class="mypage-inner border-sheet-four">
       <div class="mypage-title border-sheet-four">
         <v-icon class="mr-2" size="x-large">mdi-account</v-icon><h2>회원 정보</h2>
@@ -35,6 +36,7 @@ import MyPageConsultantInfo from '@/components/MyPage/MyPageConsultant/MyPageCon
 import MyPageConsultantModify from '@/components/MyPage/MyPageConsultant/MyPageConsultantModify.vue';
 import MyPageConsultantStar from '@/components/MyPage/MyPageConsultant/MyPageConsultantStar.vue';
 import MyPageConsultantGraph from '@/components/MyPage/MyPageConsultant/MyPageConsultantGraph/MyPageConsultantGraph.vue';
+import NowLoading from '@/views/NowLoading.vue';
 import { getUserConsultantInfo } from "@/api/userInfoConsultant.js";
 import { mapState } from "vuex";
 const userStore = "userStore";
@@ -45,7 +47,8 @@ export default {
     MyPageConsultantInfo,
     MyPageConsultantModify,
     MyPageConsultantStar,
-    MyPageConsultantGraph
+    MyPageConsultantGraph,
+    NowLoading
   },
   computed: {
     ...mapState(userStore, ["userId"]),
@@ -56,13 +59,23 @@ export default {
       return this.$store.getters.getInfoVersion;
     }
   },
-  created() {
-    console.log(1);
-    console.log(1);
-    if (this.getConsultantInfo.id != this.userId) {
-      console.log(2);
-      getUserConsultantInfo(this.userId);
+  data() {
+    return {
+      loaded: false
     }
+  },
+  async mounted() {
+    if (this.getConsultantInfo.id != this.userId) {
+      this.loaded = false;
+      
+      try {
+        await getUserConsultantInfo(this.userId);
+      } catch (e) {
+        console.error("# 회원정보 조회 오류", e);
+      }
+
+    }
+    this.loaded = true;
   }
 }
 </script>

@@ -16,8 +16,8 @@
     block
     >{{ phoneAuthMessage }}</v-btn
   >
-  <div class="warning" v-if="!phoneDisable">{{ phoneAuthWarning }}</div>
-  <div class="warning" v-else></div>
+  <div class="warnings" v-if="!phoneDisable">{{ phoneAuthWarning }}</div>
+  <div class="warnings" v-else></div>
 </template>
 
 <script>
@@ -92,7 +92,7 @@ export default {
 </script>
 
 <style scoped>
-.warning {
+.warnings {
   margin-top: 10px;
   font-size: 12px;
   color: #B00020;

@@ -55,7 +55,6 @@ export default {
     }
   },
   created() {
-
     const rating = this.getAverageRating * 10;
     var a = parseInt(rating / 10);
     var b = parseInt(rating % 10);

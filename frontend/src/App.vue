@@ -33,6 +33,7 @@ export default {
 
 <style>
 @import "@/css/font.css";
+@import "@/css/page.css";
 * {
   font-family: "SUIT-Regular";
 }
@@ -50,6 +51,6 @@ export default {
   padding: 48px;
 }
 .main .main-inner {
-  max-width: 1070px;
+  width: 1070px;
 }
 </style>

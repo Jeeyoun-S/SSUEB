@@ -114,7 +114,7 @@ export default {
   align-items: center;
   justify-content: space-between;
 
-  width: 300px;
+  width: 290px;
   height: 654.4px;
 }
 .main-right .main-right-item.bottom {
@@ -128,7 +128,7 @@ export default {
 
   width: 730px;
   height: 654.4px;
-  margin-right: 40px;
+  margin-right: 48px;
 }
 .main-center .main-center-item {
   display: flex;

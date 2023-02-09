@@ -60,7 +60,9 @@ const userValidStore = {
           (v.length == 1 && ["image/png", "image/jpeg"].includes(v[0].type)) ||
           "png, jpg 파일만 첨부 가능합니다.",
       ],
-      intro: [(v) => v.length <= 150 || "150자 이하로 입력해 주세요."],
+      intro: [
+        (v) => v == null || v.length <= 150 || "150자 이하로 입력해 주세요.",
+      ],
     },
     petRule: {
       petBirth: [
@@ -79,7 +81,7 @@ const userValidStore = {
           "png, jpg 파일만 첨부 가능합니다.",
       ],
       petInfo: [
-        (v) => v == null || v.length <= 40 || "20자 이하로 입력해 주세요.",
+        (v) => v == null || v.length <= 40 || "40자 이하로 입력해 주세요.",
       ],
       petName: [
         (v) => !!v || "이름은 필수 입력 사항입니다.",

@@ -46,7 +46,6 @@ async function getUserPartnerInfo(id) {
 
 // [POST] 반려인 회원 정보 수정
 async function updatePartnerInfo(partnerInfo) {
-  console.log("보낸 후 ", partnerInfo);
   partnerInfo.id = store.getters.getPartnerInfo.id;
 
   api.post(`user/info/partner`, partnerInfo).then((res) => {
@@ -123,8 +122,8 @@ async function modifyPetInfo(petInfo, petNo) {
     if (petInfo[key] != null) {
       if (key == "petImage" && petInfo[key].length >= 1) {
         petFormData.append(key, petInfo[key][0]);
-      } else if (key == "petBirth")
-        petFormData.append(key, petInfo[key] + "-01");
+      }
+      // else if (key == "petBirth") petFormData.append(key, petInfo[key] + "-01");
       else petFormData.append(key, petInfo[key]);
     }
   }
@@ -149,6 +148,7 @@ async function modifyPetInfo(petInfo, petNo) {
 
         result = false;
         petInfo.no = petNo;
+        petInfo.petImage = res.data.data.petImage;
         store.dispatch("updatePetInfo", petInfo);
       } else {
         console.log("#반려동물 수정 실패");

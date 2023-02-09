@@ -1,7 +1,9 @@
 <template>
   <v-dialog v-model="registOpen" width="700">
     <template v-slot:activator="{ props }">
-      <v-btn class="ma-2" rounded="pill" prepend-icon="mdi-plus" color="primary" variant="tonal" v-bind="props">
+      <v-btn class="ma-2" rounded="pill" v-bind="props"
+        prepend-icon="mdi-plus" color="primary" variant="tonal"
+      >
         등록
       </v-btn>
     </template>
@@ -15,12 +17,12 @@
             <v-row>
               <v-col class="pr-10" cols="5" align-self="center">
                 <v-row justify="center">
-                  <v-avatar color="#06BEE1" size="150">
+                  <v-avatar color="#06BEE1" size="200">
                     <img :src="imageUrl"/>
                   </v-avatar>
                 </v-row>
                 <v-row>
-                  <v-file-input v-model="petRegistInfo.petImage" accept="image/png, image/jpeg, image/bmp"
+                  <v-file-input v-model="petRegistInfo.petImage" accept="image/png, image/jpeg"
                     prepend-icon="mdi-camera" :rules="petRules.petImage" label="사진" variant="underlined">
                   </v-file-input>
                 </v-row>
@@ -97,12 +99,29 @@ export default {
   watch: {
     petRegistInfo: {
       handler() {
-        console.log("와따")
         if (this.petRegistInfo.petImage != null && this.petRegistInfo.petImage.length == 1) {
-          console.log("null 아니야");
-          console.log(this.petRegistInfo.petImage);
           this.imageUrl = URL.createObjectURL(this.petRegistInfo.petImage[0]);
-          console.log(this.imageUrl)
+
+          // 파일 이름 가져오기
+          var filename = this.petRegistInfo.petImage[0].name;
+
+          // 확장자
+          var extension = filename
+            .substring(filename.lastIndexOf("."), filename.length)
+            .toLowerCase();
+
+          // 파일 이름에서 확장자 없애기
+          filename = filename.substring(0, filename.lastIndexOf("."));
+
+          // 파일 이름 줄이기
+          Object.defineProperty(
+            this.petRegistInfo.petImage[0],
+            "name",
+            {
+              writable: true,
+              value: filename.substr(0, 10) + extension,
+            }
+          );
         } else {
           this.imageUrl = require('@/assets/profile/pet.png');
         }
@@ -123,15 +142,25 @@ export default {
             if (key == "petImage" && this.petRegistInfo[key].length >= 1) {
               petFormData.append(key, this.petRegistInfo[key][0]);
             }
-            else if (key == "petBirth") petFormData.append(key, this.petRegistInfo[key])
             else petFormData.append(key, this.petRegistInfo[key]);
           }
         }
 
         await registerPetInfo(petFormData, this.userId)
         .then((res) => {
-          console.log("#결과 확인", res)
+          console.log("#결과 확인", res);
           this.registOpen = res;
+
+          if (!res) {
+            this.petRegistInfo = {
+              petBirth: null,
+              petImage: null,
+              petInfo: null,
+              petName: null,
+              petType: null,
+              petVariety: null
+            }
+          }
         });
       }
     }
@@ -139,5 +168,10 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+img {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+}
 </style>

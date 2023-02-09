@@ -15,18 +15,24 @@ export default {
   data() {
     return {
       data: {
-        labels: [ 'January', 'February', 'March', 'April', 'May', 'June' ],
+        labels: this.$store.getters.getGraphLabels,
         datasets: [
           {
-            label: 'Data One',
-            backgroundColor: '#f87979',
-            data: [40, 20, 12, 39, 10, 40]
+            label: '별점 평균',
+            backgroundColor: '#00BCD4',
+            data: this.$store.getters.getGraphThree,
+            max: 5
           }
         ]
       },
       options: {
         responsive: true,
-        maintainAspectRatio: false
+        maintainAspectRatio: false,
+        elements: {
+          point: {
+            radius: 5
+          }
+        }
       }
     }
   }

@@ -9,6 +9,8 @@ const userInfoPartnerStore = {
     },
     petInfo: [],
     infoVer: true,
+    registOpen: false,
+    petImagePath: "@/image/pet/"
   },
   getters: {
     getPartnerInfo(state) {
@@ -20,6 +22,12 @@ const userInfoPartnerStore = {
     getInfoVersion(state) {
       return state.infoVer;
     },
+    getRegistOpen(state) {
+      return state.registOpen;
+    },
+    getPetImagePath(state) {
+      return state.petImagePath;
+    }
   },
   mutations: {
     SET_PARTNER_INFO(state, payload) {
@@ -58,14 +66,20 @@ const userInfoPartnerStore = {
     UPDATE_INFO_VERSION(state) {
       state.infoVer = !state.infoVer;
     },
+    UPDATE_REGISTER_OPEN(state) {
+      state.registOpen = !state.registOpen;
+    }
   },
   actions: {
     getPartnerInfo({ commit }, partnerInfo) {
       partnerInfo.userAlertFlag = String(partnerInfo.userAlertFlag);
       commit("SET_PARTNER_INFO", partnerInfo);
     },
-    getPetInfo({ commit }, petInfo) {
-      commit("SET_PET_INFO", petInfo);
+    async getPetInfo({ commit }, petInfo) {
+      for (var i=0; i<petInfo.length; i++) {
+        if (petInfo[i].petBirth != null) petInfo[i].petBirth = petInfo[i].petBirth.substr(0, 7);
+      }
+      await commit("SET_PET_INFO", petInfo);
     },
     addPetInfo({ commit }, petOneInfo) {
       commit("ADD_PET_INFO", petOneInfo);
@@ -78,6 +92,9 @@ const userInfoPartnerStore = {
     },
     updateInfoVersion({ commit }) {
       commit("UPDATE_INFO_VERSION");
+    },
+    updateRegisterOpen({ commit }) {
+      commit("UPDATE_REGISTER_OPEN");
     },
   },
 };

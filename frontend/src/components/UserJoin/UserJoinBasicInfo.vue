@@ -87,6 +87,7 @@ export default {
           this.lastCheckId != this.info.id
         ) {
           duplicateId(this.info.id).then((res) => {
+            console.log(res);
             this.duplicateIdCheck = res;
             this.lastCheckId = this.info.id;
             // rule을 한 번 더 확인할 수 있도록 id 값에 변화 주기

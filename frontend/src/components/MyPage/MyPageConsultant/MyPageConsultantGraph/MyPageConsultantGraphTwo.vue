@@ -12,28 +12,31 @@ export default {
   components: {
     Line
   },
+  computed: {
+    getGraphTwo() {
+      return this.$store.getters.getGraphTwo;
+    },
+  },
   data() {
     return {
       data: {
-        labels: [
-          'January',
-          'February',
-          'March',
-          'April',
-          'May',
-          'June'
-        ],
+        labels: this.$store.getters.getGraphLabels,
         datasets: [
           {
-            label: 'Data One',
-            backgroundColor: '#f87979',
-            data: [40, 20, 12, 39, 10, 40]
+            label: '예약 횟수',
+            backgroundColor: '#3F51B5',
+            data: this.$store.getters.getGraphTwo,
           }
         ]
       },
       options: {
         responsive: true,
-        maintainAspectRatio: false
+        maintainAspectRatio: false,
+        elements: {
+          point: {
+            radius: 5
+          }
+        }
       }
     }
   }
