@@ -51,9 +51,15 @@ const mainPageStore = {
           }
         },
         (error) => {
-          console.log(`#mainPageStore# ${error}`);
+          commit("SET_RESERVATION_COUNT", 0);
+          console.log(`#mainPageStore# 예약 건 수 조회 실패: ${error}`);
         }
       );
+    },
+    // [@Method] store 내 저장된 정보 초기화
+    initMainPageStore({ commit }) {
+      commit("SET_BOARD", []);
+      commit("SET_RESERVATION_COUNT", null);
     },
   },
 };

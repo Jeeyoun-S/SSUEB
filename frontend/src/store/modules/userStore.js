@@ -148,6 +148,9 @@ const userStore = {
       // userSocialStore에 저장된 소셜 로그인 정보(email, nickname) 초기화
       store.dispatch("initSocialUserInfo");
 
+      // mainPageStore에 저장된 정보 초기화
+      store.dispatch("mainPageStore/initMainPageStore", null, { root: true });
+
       router.push("/");
     },
     // [@Method] 회원 탈퇴
