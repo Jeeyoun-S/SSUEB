@@ -42,10 +42,6 @@ public class Reservation{
 	@ApiModelProperty(value = "상담받을 반려동물의 번호", dataType = "int", example="0")
     int reservationPetNo;
 	
-	@Column(name="reservation_pet_type")
-	@ApiModelProperty(value = "반려동물의 종")
-    String reservationPetType;
-	
 	@Column(name="reservation_date")
 	@ApiModelProperty(value = "상담 날짜", example = "2023-02-22 22:22:22")
 	String reservationDate;
@@ -81,5 +77,4 @@ public class Reservation{
 	@Column(name="reservation_cost")
 	@ApiModelProperty(value = "상담 가격", dataType = "int", example="0")
     int reservationCost;
-    
 }

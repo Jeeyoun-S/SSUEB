@@ -89,3 +89,8 @@ env.properties
 .env
 
 # End of https://www.toptal.com/developers/gitignore/api/vue,vuejs,macos,windows
+# OAuth Key
+application-oauth.yml
+*.jpg
+*.mp4
+*.gz

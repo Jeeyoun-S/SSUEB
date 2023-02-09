@@ -16,16 +16,15 @@ public interface UserPetService {
 	
 	/**
 	 * 입력 받은 반려동물 정보가 유효한지 확인하기
-	 * @param petRequest 반려동물 정보 DTO
-	 * @param checkEmpty 값이 null인 경우도 false로 처리할 경우 true로
+	 * @param petRequest 반려동물 정보 DT
 	 * **/
-	public boolean isValidPetInfo(PetRequest petRequest, boolean checkEmpty);
+	public boolean isValidPetInfo(PetRequest petRequest);
 	
 	/**
 	 * 반려동물 정보 수정하기
 	 * @param no 반려동물 번호
 	 * @param petRequest 반려동물 정보 DTO
 	 * **/
-	public boolean modifyPet(int no, PetRequest petRequest);
+	public String modifyPet(int no, PetRequest petRequest, boolean isPetDeleteImage);
 	
 }

@@ -50,7 +50,7 @@ public class ImageFile {
 			String extension = filename.substring(filename.lastIndexOf(".") + 1);
 			
 			// 경로 설정해서 파일 객체 생성
-			File file = new File("C:/Users/SSAFY/" + filename);
+			File file = new File(path + filename);
 			
 			// 저장하기
 			boolean result = ImageIO.write(imageResize, extension.toUpperCase(), file);
@@ -108,6 +108,17 @@ public class ImageFile {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	/**
+	 * 파일 삭제하기
+	 * @param filename 파일 명
+	 * @param path 파일이 저장돼 있는 경로
+	 * **/
+	public void deleteFile(String filename, String path) {
+		
+		File file = new File(path + filename);
+		file.delete();
 	}
 	
 }

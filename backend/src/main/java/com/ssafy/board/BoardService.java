@@ -29,6 +29,7 @@ public interface BoardService {
 	//보드 조회수 증가
 	Board increaseboardViews(int no) throws SQLException;
 	
+	
 	//좋아요 클릭
 	Heart createLike(Heart heart) throws SQLException;
 	//좋아요 취소

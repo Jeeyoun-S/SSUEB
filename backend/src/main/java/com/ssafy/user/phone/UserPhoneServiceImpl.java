@@ -30,10 +30,10 @@ import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ssafy.common.util.BasicResponse;
 import com.ssafy.user.phone.request.Message;
 import com.ssafy.user.phone.request.MessageApiRequest;
 import com.ssafy.user.phone.response.MessageApiResponse;
-import com.ssafy.user.phone.response.PhoneSendResponse;
 
 @Service("UserPhoneService")
 public class UserPhoneServiceImpl implements UserPhoneService {
@@ -47,11 +47,14 @@ public class UserPhoneServiceImpl implements UserPhoneService {
 	@Value("${naverCloudPlatform.secretKey}")
 	String secretKey;
 	
+	@Value("${ssueb.phone}")
+	String ssuebPhone;
+	
 	@Autowired
 	private StringRedisTemplate stringRedisTemplate;
 	
 	@Override
-	public ResponseEntity<PhoneSendResponse> sendSMS(String userPhone, String authNumber) throws InvalidKeyException, IllegalStateException, UnsupportedEncodingException, NoSuchAlgorithmException, JsonProcessingException, URISyntaxException {
+	public ResponseEntity<BasicResponse> sendSMS(String userPhone, String authNumber) throws InvalidKeyException, IllegalStateException, UnsupportedEncodingException, NoSuchAlgorithmException, JsonProcessingException, URISyntaxException {
 		
 		// 요청을 보낼 URL
 		String path = "/sms/v2/services/"+serviceId+"/messages";
@@ -62,7 +65,7 @@ public class UserPhoneServiceImpl implements UserPhoneService {
 		messageApiRequest.setType("SMS");
 		messageApiRequest.setContentType("COMM");
 		messageApiRequest.setCountryCode("82");
-		messageApiRequest.setFrom("01065316807");
+		messageApiRequest.setFrom(ssuebPhone);
 		messageApiRequest.setContent("[SSUEB] 인증번호 ["+authNumber+"]를 입력해 주세요.");
 		List<Message> messages = new ArrayList<>();
 		messages.add(new Message(userPhone));
@@ -88,11 +91,11 @@ public class UserPhoneServiceImpl implements UserPhoneService {
 		
 		// 메세지 전송에 성공한 경우
 		if (result.equals("success")) {
-			return new ResponseEntity<PhoneSendResponse>(new PhoneSendResponse("success", "인증번호를 전송했습니다."), HttpStatus.OK);
+			return new ResponseEntity<BasicResponse>(new BasicResponse("success", "인증번호를 전송했습니다."), HttpStatus.OK);
 		} 
 		
 		// 메세지 전송에 실패한 경우
-		return new ResponseEntity<PhoneSendResponse>(new PhoneSendResponse("failure", "인증번호를 전송에 실패했습니다. 전화번호를 다시 확인해 주세요."), HttpStatus.OK);
+		return new ResponseEntity<BasicResponse>(new BasicResponse("failure", "인증번호를 전송에 실패했습니다. 전화번호를 다시 확인해 주세요."), HttpStatus.OK);
 		
 	}
 	

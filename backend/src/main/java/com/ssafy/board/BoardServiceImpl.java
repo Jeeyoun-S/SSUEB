@@ -11,6 +11,7 @@ import com.ssafy.board.response.BoardSummary;
 import com.ssafy.db.entity.Board;
 import com.ssafy.db.entity.Heart;
 import com.ssafy.db.entity.Reply;
+import com.ssafy.common.util.ParameterCheck;
 
 
 @Service
@@ -23,6 +24,7 @@ public class BoardServiceImpl implements BoardService {
 	
 	@Autowired
 	ReplyRepo rRepo;
+	
 
 	@Override
 	public List<BoardSummary> readNotice() throws SQLException {
@@ -117,6 +119,4 @@ public class BoardServiceImpl implements BoardService {
 		return bRepo.findTop5ByOrderByBoardHeartnumDesc();
 	}
 
-	
-	
 }
