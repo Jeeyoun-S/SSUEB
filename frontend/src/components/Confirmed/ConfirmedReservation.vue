@@ -6,7 +6,7 @@
         <h2>예정된 상담 일정 목록</h2>
       </div>
       <div class="page-inner-items border-sheet-four">
-        <confirmed-card v-for="n in 7" :key="n"></confirmed-card>
+        <confirmed-card v-for="(reservation, idx) in reservations" :reservation="reservation" v-bind:key="idx" />
       </div>
     </div>
   </div>
@@ -43,10 +43,16 @@ export default {
             reservation["reservationConsultContent"] = data[i].reservationPet.reservationConsultContent;
 
             reservation["pno"] = data[i].reservationPet.pno;
+            reservation["petName"] = data[i].reservationPet.petName;
             reservation["petImage"] = data[i].reservationPet.petImage;
             reservation["petType"] = data[i].reservationPet.petType;
             reservation["petVariety"] = data[i].reservationPet.petVariety;
-            reservation["petBirth"] = data[i].reservationPet.petBirth;
+            if(data[i].petBirth != null){
+              reservation["petBirth"] = data[i].petBirth.substr(0,7);
+            }
+            else{
+              reservation["petBirth"] = "생년월일 미상";
+            }
             reservation["petInfo"] = data[i].reservationPet.petInfo;
 
             reservation["consultantName"] = data[i].consultantInfo.consultant_name;
@@ -57,7 +63,7 @@ export default {
             this.reservations.push(reservation);
           }
 
-          console.log(this.reservations[0])
+          //console.log(this.reservations[0])
         })
         .catch((err) => {
           console.log(err);

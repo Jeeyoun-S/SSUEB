@@ -6,7 +6,7 @@
         <h2>반려인에게 상담 제안 보내기</h2>
       </div>
       <div class="page-inner-items border-sheet-four">
-        <CreateCard v-for="n in 8" :key="n"></CreateCard>
+        <CreateCard v-for="(reservation, idx) in reservations" :reservation="reservation" v-bind:key="idx" />
       </div>
     </div>
   </div>
@@ -42,7 +42,12 @@ export default {
             reservation["petImage"] = data[i].petImage;
             reservation["petType"] = data[i].petType;
             reservation["petVariety"] = data[i].petVariety;
-            reservation["petBirth"] = data[i].petBirth;
+            if(data[i].petBirth != null){
+              reservation["petBirth"] = data[i].petBirth.substr(0,7);
+            }
+            else{
+              reservation["petBirth"] = "생년월일 미상";
+            }
             reservation["petInfo"] = data[i].petInfo;
 
             this.reservations.push(reservation);

@@ -74,12 +74,6 @@ export default {
   data: () => ({
     dialog: false,
     model: null,
-    reservation:{
-      userId: "aa@a",
-      reservationPetNo: 2,
-      reservationDate: "2023-02-22 22:22:22", //YYYY-MM-DD HH-mm-ss ex)2023-02-22 22:22:22
-      reservationConsultContent:"까비가 아파요",
-    }
   }),
 
   methods: {

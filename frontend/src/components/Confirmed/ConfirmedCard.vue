@@ -1,33 +1,79 @@
 <template>
   <v-hover v-slot="{ isHovering, props }">
-    <v-card class="ma-3 pa-3 d-flex justify-center flex-column"
-      width="492" height="400" variant="outlined"
-      :elevation="isHovering ? 8 : 0" :class="{ 'on-hover': isHovering }"
-      rounded="0" v-bind="props"
+    <v-card
+      class="ma-3 pa-3 d-flex justify-center flex-column"
+      width="492"
+      height="400"
+      variant="outlined"
+      :elevation="isHovering ? 8 : 0"
+      :class="{ 'on-hover': isHovering }"
+      rounded="0"
+      v-bind="props"
     >
       <v-card-title class="d-flex flex-row justify-space-between">
-        <h4>20XX - XX - XX XX:XX</h4>
+        <h4>{{ reservation.reservationDate }}</h4>
         <div>
-          <v-btn class="mr-3" rounded="pill" color="primary" disabled>D-2</v-btn>
+
+
+          <!--날짜계산-->
+          <v-btn class="mr-3" rounded="pill" color="primary" disabled
+            >D-2</v-btn
+          >
+
+
           <v-btn rounded="pill" color="primary" @click="timealert">입장</v-btn>
         </div>
       </v-card-title>
       <div class="d-flex flex-row justify-space-around">
-        <confirmed-pet></confirmed-pet>
+        <v-card class="pt-2" width="220" height="320" elevation="0">
+          <div class="d-flex align-center flex-column">
+            <img
+              class="image"
+              width="80"
+              :src="require('@/assets/placeholder/placeholder_dog.png')"
+            />
+            <v-card-title class="pb-0">{{ reservation.petName }} ({{ reservation.petBirth }})</v-card-title>
+            <v-card-subtitle>{{ reservation.petType }}</v-card-subtitle>
+            <v-card-subtitle>{{ reservation.petVariety }}</v-card-subtitle>
+          </div>
+          <v-card-text> {{ reservation.reservationConsultContent }} </v-card-text>
+        </v-card>
         <v-divider vertical></v-divider>
-        <confirmed-consultant></confirmed-consultant>
+        <v-card class="pt-2" width="220" height="320" elevation="0">
+          <div class="d-flex align-center flex-column">
+            <img
+              class="image"
+              width="80"
+              :src="require('@/assets/placeholder/placeholder_person.jpg')"
+            />
+            <v-card-title class="pb-0">{{ reservation.consultantName }}</v-card-title>
+            <v-card-subtitle class="mb-5">반려동물훈련지도사</v-card-subtitle>
+          </div>
+          <v-card-text>
+            <v-row>
+              <v-col class="bold-font pr-0" cols="3">금액</v-col>
+              <v-col class="pr-0 pl-0" cols="8">20,000원</v-col>
+            </v-row>
+            <v-row>
+              <v-col class="bold-font pr-0 pt-0" cols="3">이유</v-col>
+              <v-col class="pr-0 pl-0 pt-0" cols="9"
+                >상담 시간 30분, 난이도 중으로 예상됩니다.</v-col
+              >
+            </v-row>
+          </v-card-text>
+        </v-card>
       </div>
     </v-card>
   </v-hover>
 </template>
 
 <script>
-import ConfirmedPet from "@/components/Confirmed/ConfirmedPet.vue";
-import ConfirmedConsultant from "@/components/Confirmed/ConfirmedConsultant.vue";
-
 export default {
-  components: { ConfirmedPet, ConfirmedConsultant },
   name: "ConfirmedCard",
+  props: {
+    reservation: {},
+  },
+
   methods: {
     timealert() {
       this.$swal.fire(
@@ -37,6 +83,9 @@ export default {
       );
     },
   },
+  created(){
+    console.log(this.reservation);
+  }
 };
 </script>
 

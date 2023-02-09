@@ -50,7 +50,12 @@ export default {
             reservation["petImage"] = data[i].reservationPet.petImage;
             reservation["petType"] = data[i].reservationPet.petType;
             reservation["petVariety"] = data[i].reservationPet.petVariety;
-            reservation["petBirth"] = data[i].reservationPet.petBirth;
+            if(data[i].petBirth != null){
+              reservation["petBirth"] = data[i].petBirth.substr(0,7);
+            }
+            else{
+              reservation["petBirth"] = "생년월일 미상";
+            }
             reservation["petInfo"] = data[i].reservationPet.petInfo;
 
             let matchingConsultants = [];
