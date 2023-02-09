@@ -1,8 +1,13 @@
 import NotFoundPage from "@/components/ErrorPage/NotFoundPage.vue";
 
 const error = [
+  // {
+  //   path: "/404",
+  //   name: "notFoundPage",
+  //   component: NotFoundPage,
+  // },
   {
-    path: "/404",
+    path: "/:pathMatch(.*)*",
     name: "notFoundPage",
     component: NotFoundPage,
   },
