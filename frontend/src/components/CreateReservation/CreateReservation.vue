@@ -57,7 +57,7 @@
                 <v-card-title><h4>상담 시간 선택하기</h4></v-card-title>
                 <v-card-item>
                   <!-- {{ date.toISOString() }} 선택한 시간 정보 보기 -->
-                  <DatePicker v-model="date" mode="dateTime" timezone="Asia/Pyongyang" color="indigo"></DatePicker>
+                  <DatePicker v-model="date" mode="dateTime" timezone="Asia/Pyongyang" color="indigo" :minute-increment="10"></DatePicker>
                 </v-card-item>
               </v-card>
             </v-hover>
@@ -150,6 +150,7 @@
 import { mapState } from "vuex";
 import axios from "axios";
 import { DatePicker } from 'v-calendar';
+import moment from 'moment';
 const reservationStore = "reservationStore";
 
 export default {
@@ -167,6 +168,7 @@ export default {
   data: () => ({
     files:null,
     // 반려동물 목록에 필요한 데이터
+
     page: 1,
     pageSize: 4,
     petList: [
@@ -175,15 +177,13 @@ export default {
       { petName: '로이3', petType: '강아지' , petVariety: '이탈리안 그레이하운드', petBirth: '2022-02' },
       { petName: '로이4', petType: '강아지' , petVariety: '이탈리안 그레이하운드', petBirth: '2022-02' },
       { petName: '로이5', petType: '강아지' , petVariety: '이탈리안 그레이하운드', petBirth: '2022-02' },
-      { petName: '로이6', petType: '강아지' , petVariety: '이탈리안', petBirth: '2022-02' },
-      { petName: '로이7', petType: '강아지' , petVariety: '이탈리안 그레이하운드', petBirth: '2022-02' },
-      { petName: '로이8', petType: '강아지' , petVariety: '이탈리안 그레이하운드', petBirth: '2022-02' },
-      { petName: '로이9', petType: '강아지' , petVariety: '이탈리안 그레이하운드', petBirth: '2022-02' },
+      // { petName: '로이6', petType: '강아지' , petVariety: '이탈리안', petBirth: '2022-02' },
+      // { petName: '로이7', petType: '강아지' , petVariety: '이탈리안 그레이하운드', petBirth: '2022-02' },
+      // { petName: '로이8', petType: '강아지' , petVariety: '이탈리안 그레이하운드', petBirth: '2022-02' },
+      // { petName: '로이9', petType: '강아지' , petVariety: '이탈리안 그레이하운드', petBirth: '2022-02' },
     ],
     listCount: 0,
     historyList: [],
-    selectedPet: null,
-    //
     rules: [
       (v) => v != null || "필수 입력 사항입니다.",
       (v) => v.length <= 500 || "최대 500자"
@@ -191,31 +191,46 @@ export default {
     radio1: "radio1-no",
     radio2: "radio2-no",
     reservation:{
-      userId: null,
+      userId: "aa@a",//임시 값
       reservationPetNo: 0,
-      reservationPetType: null,
       reservationDate: null, //YYYY-MM-DD HH-mm-ss ex)2023-02-22 22:22:22
       reservationConsultContent:null,
     },
-    date: new Date()
+    selectedPet: null,
+    date: new Date(),
+    timeList: [],
+    loaded: false // 로딩 확인
   }),
   methods: {
-
     async registed() {
       const { valid } = await this.$refs.reservationForm.validate();
       if (valid) {
-        this.$swal.fire(
-          '상담 등록 완료',
-          '신규 상담 등록이 완료되었습니다. <br /> 전문가가 상담에 대한 제안을 보내면 받은 상담 제안 메뉴에서 확인 후 수락해 상담 예약을 확정할 수 있습니다.<br /> 상담 제안이 오면 메인페이지의 알림창에서 확인이 가능합니다.',
-          'success'
-        )
+        this.createReservation();
+        
       }
     },
-
-    select() {
-      const BASE_URL = `http://localhost:5000/api`;
-      // process.env.VUE_APP_API_BASE_URL
+    createReservation() {
+      // process.env.VUE_APP_API_BASE_URL -> baseurl env파일에서 호출
       
+      //날짜 timestamp형식으로
+      this.reservation.reservationDate = this.date.getFullYear()+"-"+(this.date.getMonth()+1)+"-"+this.date.getDate()+" "+
+          this.date.getHours()+":"+this.date.getMinutes()+":"+this.date.getSeconds();
+      this.reservation.reservationPetNo = this.selectedPet.no;
+
+      for(let i=0; i<this.timeList.length; i++){
+        const diff = 
+              moment.duration(moment(this.reservation.reservationDate, "YYYY-MM-DD HH:mm:ss").diff(moment(this.timeList[i], "YYYY-MM-DD HH:mm:ss"))).asMinutes();
+        if(-30 < diff && diff < 30){
+          //console.log("근처 시간대 존재");
+          this.$swal.fire(
+          '상담 등록 실패',
+          '신규 상담 등록이 실패하였습니다. <br /> 등록한 시간대 30분 이내에 상담이 있습니다. <br /> 시간을 다시 선택해 주세요.',
+          'error'
+          )
+          return;
+        }
+      }
+
       const frm = new FormData();
       frm.append("reservation",  new Blob([ JSON.stringify(this.reservation) ], {type : "application/json"}));
 
@@ -238,13 +253,65 @@ export default {
 
       console.log(frm);
       
-      axios.post(BASE_URL+`/reservation`, frm, {
+      axios.post(process.env.VUE_APP_API_BASE_URL+`/reservation`, frm, {
         headers: {'Content-Type': 'multipart/form-data'}
       }).then(() => {
-        console.log("업로드 완료!")
+        this.$swal.fire(
+          '상담 등록 완료',
+          '신규 상담 등록이 완료되었습니다. <br /> 전문가가 상담에 대한 제안을 보내면 받은 상담 제안 메뉴에서 확인 후 수락해 상담 예약을 확정할 수 있습니다.<br /> 상담 제안이 오면 메인페이지의 알림창에서 확인이 가능합니다.',
+          'success'
+        )
       }).catch(error => {
-        alert(error.message)
+        console.log(error.message)
+        this.$swal.fire(
+          '상담 등록 실패',
+          '신규 상담 등록이 실패하였습니다. <br /> 첨부한 파일, 반려동물 선택에 문제가 있는지 확인해주십시오.',
+          'error'
+        )
+        return;
       })
+    },
+    petInfo(){
+      axios({
+        url: process.env.VUE_APP_API_BASE_URL+`/reservation/pet-list/`+`aa@a`,
+        method: "get",
+      })
+        .then(({ data }) => {
+          for (var i = 0; i < data.length; i++) {
+            let petinfo={};
+            petinfo["no"] = data[i].no;
+            petinfo["petName"] = data[i].petName;
+            petinfo["petImage"] = data[i].petImage;
+            petinfo["petType"] = data[i].petType;
+            petinfo["petVariety"] = data[i].petVariety;
+            if(data[i].petBirth != null){
+              petinfo["petBirth"] = data[i].petBirth.substr(0,7);
+            }
+            else{
+              petinfo["petBirth"] = "생년월일 미상";
+            }
+            this.petList.push(petinfo);
+          }
+          console.log(this.petList);
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+    },
+    getTimeList(){
+      axios({
+        url: process.env.VUE_APP_API_BASE_URL+`/reservation/date-validation/`+`aa@a`,
+        method: "get",
+      })
+        .then(({ data }) => {
+          for (var i = 0; i < data.length; i++) {
+            this.timeList.push(data[i]);
+          }
+          //console.log(this.timeList);
+        })
+        .catch((err) => {
+          console.log(err);
+        })
     },
     initPage: function() {
 			this.listCount = this.petList.length;
@@ -297,8 +364,10 @@ export default {
     }
   },
   created() {
-		this.initPage();
-		this.updatePage(this.page);
+    this.petInfo();
+    this.getTimeList();
+    this.initPage();
+    this.updatePage(this.page);
   }
 };
 </script>
