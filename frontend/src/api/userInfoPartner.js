@@ -15,7 +15,7 @@ const token = localStorage.getItem("token");
 async function getUserPartnerInfo(id) {
   await api
     // .get(`/user/info/partner/${id}`) // #21# 기존 코드 주석처리
-    .get(`/user/info/partner/${id}`, {
+    .get(`${process.env.VUE_APP_API_BASE_URL}/user/info/partner/${id}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -48,22 +48,24 @@ async function getUserPartnerInfo(id) {
 async function updatePartnerInfo(partnerInfo) {
   partnerInfo.id = store.getters.getPartnerInfo.id;
 
-  api.post(`user/info/partner`, partnerInfo).then((res) => {
-    if (res.data.response == "success") {
-      console.log("#회원정보 수정 성공");
+  api
+    .post(`${process.env.VUE_APP_API_BASE_URL}/user/info/partner`, partnerInfo)
+    .then((res) => {
+      if (res.data.response == "success") {
+        console.log("#회원정보 수정 성공");
 
-      store.dispatch("getPartnerInfo", partnerInfo);
-      store.dispatch("updateInfoVersion");
-    } else {
-      console.log("#회원정보 수정 실패");
+        store.dispatch("getPartnerInfo", partnerInfo);
+        store.dispatch("updateInfoVersion");
+      } else {
+        console.log("#회원정보 수정 실패");
 
-      Swal.fire({
-        title: "FAIL",
-        text: "회원정보 수정에 실패했습니다. 다시 시도해 주시기 바랍니다.",
-        icon: "error",
-      });
-    }
-  });
+        Swal.fire({
+          title: "FAIL",
+          text: "회원정보 수정에 실패했습니다. 다시 시도해 주시기 바랍니다.",
+          icon: "error",
+        });
+      }
+    });
 }
 
 // [POST] 반려동물 등록
@@ -81,7 +83,7 @@ async function registerPetInfo(petInfo, id) {
     //     "Content-Type": "multipart/form-data; charset=utf-8;",
     //   },
     // })
-    .post(`/user/pet/${id}`, petInfo, {
+    .post(`${process.env.VUE_APP_API_BASE_URL}/user/pet/${id}`, petInfo, {
       headers: {
         "Content-Type": "multipart/form-data; charset=utf-8;",
         Authorization: `Bearer ${token}`,
@@ -131,7 +133,7 @@ async function modifyPetInfo(petInfo, petNo) {
   var result = true;
 
   await api
-    .put(`/user/pet/${petNo}`, petFormData, {
+    .put(`${process.env.VUE_APP_API_BASE_URL}/user/pet/${petNo}`, petFormData, {
       headers: {
         "Content-Type": "multipart/form-data; charset=utf-8;",
       },
@@ -160,15 +162,17 @@ async function modifyPetInfo(petInfo, petNo) {
 
 // [DELETE] 반려동물 삭제
 async function removePetInfo(petNo) {
-  await api.delete(`/user/pet/${petNo}`).then((res) => {
-    if (res.data.response == "success") {
-      console.log("#반려동물 삭제 성공");
+  await api
+    .delete(`${process.env.VUE_APP_API_BASE_URL}/user/pet/${petNo}`)
+    .then((res) => {
+      if (res.data.response == "success") {
+        console.log("#반려동물 삭제 성공");
 
-      store.dispatch("deletePetInfo", petNo);
-    } else {
-      console.log("#반려동물 삭제 실패");
-    }
-  });
+        store.dispatch("deletePetInfo", petNo);
+      } else {
+        console.log("#반려동물 삭제 실패");
+      }
+    });
 }
 
 // [POST] 회원정보 수정 전 비밀번호 확인
@@ -182,7 +186,10 @@ async function checkPassword(id) {
 
   console.log("비밀번호 확인을 위해 보내는 정보", id, password);
   await api
-    .post(`/user/info/password`, { id: id, password: password })
+    .post(`${process.env.VUE_APP_API_BASE_URL}/user/info/password`, {
+      id: id,
+      password: password,
+    })
     .then((res) => {
       if (res.data.response == "success") {
         console.log("#비밀번호 확인 성공");

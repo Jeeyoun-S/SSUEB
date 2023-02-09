@@ -23,8 +23,8 @@ const router = createRouter({
 const Swal = require("sweetalert2");
 
 router.beforeEach((to, from, next) => {
-  console.log("#21# router 가드 동작 to: ", to);
-  console.log("#21# router 가드 동작 from: ", from);
+  // console.log("#21# router 가드 동작 to: ", to);
+  // console.log("#21# router 가드 동작 from: ", from);
 
   // 메인페이지, 회원가입 페이지 제외
   if (to.path == "/" || to.path == "/join") {
