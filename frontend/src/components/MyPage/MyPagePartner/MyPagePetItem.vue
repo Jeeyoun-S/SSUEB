@@ -2,10 +2,20 @@
   <div v-show="getPetInfo.length < 3">
     <MyPagePartnerTest></MyPagePartnerTest>
   </div>
-  <v-hover v-slot="{ isHovering, props }" v-for="pet in getPetInfo" :key="pet.no">
-    <v-card class="mr-6 mb-6 pa-2" variant="outlined"
-      width="320" height="245" rounded="0"
-      :elevation="isHovering ? 8 : 0" :class="{ 'on-hover': isHovering }" v-bind="props"
+  <v-hover
+    v-slot="{ isHovering, props }"
+    v-for="pet in getPetInfo"
+    :key="pet.no"
+  >
+    <v-card
+      class="mr-6 mb-6 pa-2"
+      variant="outlined"
+      width="320"
+      height="245"
+      rounded="0"
+      :elevation="isHovering ? 8 : 0"
+      :class="{ 'on-hover': isHovering }"
+      v-bind="props"
     >
       <template v-slot:title>
         {{ pet.petName }}
@@ -28,7 +38,11 @@
       </template>
       <v-card-actions class="pt-0">
         <MyPagePetModify :pet="pet"></MyPagePetModify>
-        <v-btn variant="text" color="error" rounded="0" @click="removePet(pet.no)"
+        <v-btn
+          variant="text"
+          color="error"
+          rounded="0"
+          @click="removePet(pet.no)"
           >삭제</v-btn
         >
       </v-card-actions>
@@ -39,14 +53,14 @@
 <script>
 import { modifyPetInfo, removePetInfo } from "@/api/userInfoPartner.js";
 import MyPagePetModify from "@/components/MyPage/MyPagePartner/MyPagePetModify.vue";
-import MyPagePartnerTest from "@/components/MyPage/MyPagePartner/MyPagePartnerTest.vue"
+import MyPagePartnerTest from "@/components/MyPage/MyPagePartner/MyPagePartnerTest.vue";
 
 export default {
   name: "MyPagePetItem",
   data() {
     return {
-      petImagePath: process.env.VUE_APP_IMAGE_FILE_PATH_PET
-    }
+      petImagePath: process.env.VUE_APP_IMAGE_FILE_PATH_PET,
+    };
   },
   computed: {
     getPetInfo() {
@@ -58,7 +72,7 @@ export default {
   },
   components: {
     MyPagePetModify,
-    MyPagePartnerTest
+    MyPagePartnerTest,
   },
   methods: {
     modifyPet(pet) {
@@ -69,7 +83,7 @@ export default {
     },
     getImageUrl(img) {
       return require(`${process.env.VUE_APP_IMAGE_FILE_PATH_PET}` + img);
-    }
+    },
   },
 };
 </script>

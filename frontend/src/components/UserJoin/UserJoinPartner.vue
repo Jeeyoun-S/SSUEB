@@ -18,7 +18,12 @@
         <v-radio label="이메일" value="1"></v-radio>
         <v-radio label="문자" value="2"></v-radio>
       </v-radio-group>
-      <v-btn variant="outlined" size="large" rounded="0" @click="validate()" block
+      <v-btn
+        variant="outlined"
+        size="large"
+        rounded="0"
+        @click="validate()"
+        block
         >회원가입 하기</v-btn
       >
     </v-form>
@@ -66,7 +71,7 @@ export default {
     },
     ruleNickname() {
       return this.$store.getters.getUserRule.nickname;
-    }
+    },
   },
   methods: {
     async validate() {
@@ -111,5 +116,4 @@ export default {
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

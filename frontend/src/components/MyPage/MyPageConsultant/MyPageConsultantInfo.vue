@@ -3,10 +3,16 @@
     <v-row>
       <v-col cols="7">
         <v-row class="ma-1">
-
           <v-avatar class="mr-5 mb-2" color="primary" size="170">
-            <span v-if="getConsultantInfo.consultantProfile == null">{{ getConsultantInfo.userName }}</span>
-            <img v-else :src="getImageUrl(getConsultantInfo.consultantProfile)" height="170" width="170" />
+            <span v-if="getConsultantInfo.consultantProfile == null">{{
+              getConsultantInfo.userName
+            }}</span>
+            <img
+              v-else
+              :src="getImageUrl(getConsultantInfo.consultantProfile)"
+              height="170"
+              width="170"
+            />
           </v-avatar>
           <v-textarea
             v-model="getConsultantInfo.consultantIntro"
@@ -22,10 +28,17 @@
         <v-row class="ml-2">
           <v-chip-group
             selected-class="text-primary"
-            v-model="getConsultantInfo.consultantPetType" 
-            column disabled multiple>
-            <v-chip v-for="value, index in petType"
-              :key="index" filter variant="outlined">
+            v-model="getConsultantInfo.consultantPetType"
+            column
+            disabled
+            multiple
+          >
+            <v-chip
+              v-for="(value, index) in petType"
+              :key="index"
+              filter
+              variant="outlined"
+            >
               {{ value }}
             </v-chip>
           </v-chip-group>
@@ -53,15 +66,34 @@
           density="compact"
           readonly
         ></v-text-field>
-        <v-radio-group v-model="getConsultantInfo.userAlertFlag" color="primary" density="compact" inline readonly>
+        <v-radio-group
+          v-model="getConsultantInfo.userAlertFlag"
+          color="primary"
+          density="compact"
+          inline
+          readonly
+        >
           <v-label>알림방법</v-label>&ensp;
           <v-radio label="카카오톡" value="0"></v-radio>&ensp;
           <v-radio label="이메일" value="1"></v-radio>&ensp;
           <v-radio label="문자" value="2"></v-radio>
         </v-radio-group>
         <UserLogout></UserLogout>
-        <v-btn class="mr-3" variant="outlined" rounded="0" @click="modifyConsultantInfo()">회원 정보 수정</v-btn>
-        <v-btn class="mr-3" variant="outlined" color="error" rounded="0">탈퇴</v-btn>
+        <v-btn
+          class="mr-3"
+          variant="outlined"
+          rounded="0"
+          @click="modifyConsultantInfo()"
+          >회원 정보 수정</v-btn
+        >
+        <v-btn
+          class="mr-3"
+          variant="outlined"
+          color="error"
+          rounded="0"
+          @click="withdrawal"
+          >탈퇴</v-btn
+        >
       </v-col>
     </v-row>
   </v-sheet>
@@ -70,11 +102,15 @@
 <script>
 import UserLogout from "@/components/MyPage/UserLogout.vue";
 import { checkPassword } from "@/api/userInfoPartner.js";
+import { mapActions } from "vuex";
+
+const userStore = "userStore";
+const Swal = require("sweetalert2");
 
 export default {
   name: "MyPageConsultantInfo",
   components: {
-    UserLogout
+    UserLogout,
   },
   computed: {
     getConsultantInfo() {
@@ -84,24 +120,38 @@ export default {
   data() {
     return {
       petType: ["개", "고양이", "토끼", "패럿", "기니피그", "햄스터"],
-    }
+    };
   },
   methods: {
+    ...mapActions(userStore, ["excuteWithdrawal"]),
     modifyConsultantInfo() {
-      
       if (this.socialUserInfo != null) {
         this.$store.dispatch("updateInfoVersion");
       } else {
         checkPassword(this.getConsultantInfo.id);
       }
     },
+    // [@Method] 회원 탈퇴
+    async withdrawal() {
+      Swal.fire({
+        title: "탈퇴하시겠습니까?",
+        text: "탈퇴 시 해당 계정은 사용하지 못하게 됩니다.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        confirmButtonText: "Yes",
+      }).then(async (result) => {
+        if (result.isConfirmed) {
+          await this.excuteWithdrawal();
+        }
+      });
+    },
     getImageUrl(img) {
       return require(`${process.env.VUE_APP_IMAGE_FILE_PATH_PROFILE}` + img);
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
-<style>
-
-</style>
+<style></style>

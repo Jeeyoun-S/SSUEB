@@ -39,7 +39,7 @@ export default {
 }
 #app {
   /* 가로 스크롤 설정 */
-  overflow-x: auto; 
+  overflow-x: auto;
 }
 .main {
   min-height: 100vh;
@@ -48,11 +48,9 @@ export default {
   flex-direction: row;
   align-items: flex-start;
   justify-content: center;
-  
   padding: 48px;
 }
 .main .main-inner {
   width: 1070px;
 }
-
 </style>

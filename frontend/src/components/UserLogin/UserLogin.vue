@@ -63,7 +63,7 @@ export default {
   name: "UserLogin",
   data() {
     return {
-      isLoginFail: false,
+      // isLoginFail: false,
       loginInfo: {
         id: null,
         password: null,

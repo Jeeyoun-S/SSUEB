@@ -24,10 +24,11 @@
       </div>
     </div>
     <div class="main-right">
-      <UserLogin class="card" v-show="!isLogin"></UserLogin>
+      <!-- isLogin : [false - 로그인 X / true - 로그인 O]-->
+      <UserLogin class="card" v-show="!this.isLogin"></UserLogin>
       <UserAlert class="card" v-show="false"></UserAlert>
-      <UserMainAlert v-show="isLogin"></UserMainAlert>
-      <BoardTopFive v-show="isLogin"></BoardTopFive>
+      <UserMainAlert v-show="this.isLogin"></UserMainAlert>
+      <BoardTopFive v-show="this.isLogin"></BoardTopFive>
       <div class="main-right-item bottom">
         <MainPageChatBot></MainPageChatBot>
       </div>
@@ -39,9 +40,9 @@
 import { mapState, mapActions } from "vuex";
 import UserLogin from "../UserLogin/UserLogin.vue";
 import UserAlert from "../UserLogin/UserAlert.vue";
-import MainPageChatBot from "@/components/MainPage/MainPageChatBot.vue"
+import MainPageChatBot from "@/components/MainPage/MainPageChatBot.vue";
 import BoardTopFive from "@/components/MainPage/BoardTopFive.vue";
-import UserMainAlert from"@/components/MainPage/UserMainAlert.vue";
+import UserMainAlert from "@/components/MainPage/UserMainAlert.vue";
 
 const userStore = "userStore";
 const userOAuthStore = "userOAuthStore";
@@ -78,7 +79,7 @@ export default {
     UserAlert,
     MainPageChatBot,
     BoardTopFive,
-    UserMainAlert
+    UserMainAlert,
   },
   computed: {
     ...mapState(userStore, ["isLogin"]),
