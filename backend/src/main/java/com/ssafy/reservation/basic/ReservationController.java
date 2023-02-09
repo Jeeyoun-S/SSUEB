@@ -51,7 +51,6 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 @RequestMapping("/api/reservation")
-@CrossOrigin("*")
 public class ReservationController {
 	
 	@Autowired
