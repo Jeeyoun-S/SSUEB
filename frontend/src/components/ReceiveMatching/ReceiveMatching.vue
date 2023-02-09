@@ -8,29 +8,9 @@
       <div class="page-inner-items border-sheet-four">
         <ReceivedCard v-for="(reservation, idx) in reservations" :reservation="reservation" :key="idx">
         </ReceivedCard>
-        <ReceivedCard></ReceivedCard>
       </div>
     </div>
   </div>
-  <!-- <v-item-group>
-    <v-container>
-      <v-row>
-        <v-col v-for="n in 3" :key="n" cols="12" md="4">
-          <v-item>
-            <ReceivedCard></ReceivedCard>
-          </v-item>
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col v-for="n in 3" :key="n" cols="12" md="4">
-          <v-item>
-            <ReceivedCard></ReceivedCard>
-          </v-item>
-        </v-col>
-      </v-row>
-    </v-container>
-  </v-item-group> -->
-  <!-- <ReceivedCard></ReceivedCard> -->
 </template>
 
 <script>
@@ -39,7 +19,16 @@ import axios from "axios";
 export default {
   name: "ReceiveMatching",
   data: () => ({
-    reservations:[], // [{value,[]},{value,[]}] 꼴
+    reservations:[
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+    ], // [{value,[]},{value,[]}] 꼴
   }),
   components: {
     ReceivedCard,

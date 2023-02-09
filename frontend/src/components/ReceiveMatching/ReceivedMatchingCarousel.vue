@@ -1,62 +1,54 @@
 <template>
   <v-hover v-slot="{ isHovering, props }">
     <v-card class="ma-3 pa-2 d-flex justify-center flex-column"
-      width="320" height="450" variant="outlined"
+      width="310" height="450" variant="outlined"
       :elevation="isHovering ? 8 : 0" :class="{ 'on-hover': isHovering }"
       rounded="0" v-bind="props"
     >
-      <v-card-item class="align-self-center">
-        <v-avatar class="pt-1" color="white" size="100">
-          <img width="100" :src="require('@/assets/placeholder/placeholder_person.jpg')" />
+      <v-sheet class="d-flex flex-row justify-end">
+        <v-avatar class="mr-2 pt-1" color="white" size="100">
+          <img width="100" gradient="to top, rgba(0,0,0,.1), rgba(0,0,0,.5)" :src="require('@/assets/placeholder/placeholder_person.jpg')" />
         </v-avatar>
+        <v-btn class="ma-3 align-self-start" variant="outlined" color="primary" rounded="0" @click="accept">수락</v-btn>
+      </v-sheet>
+      <v-card-title class="align-self-center">
+        <h4>우싸피</h4>
+      </v-card-title>
+      <v-card-item class="pa-0 align-self-center">
+        <v-rating v-model="rating" color="orange darken-2" density="compact"></v-rating>
       </v-card-item>
-      <v-card-title><h4>우싸피</h4></v-card-title>
+      <v-card-text>
+        <v-sheet height="100">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam quis eros
+          sit amet nisi aliquam tincidunt.
+        </v-sheet>
+      </v-card-text>
       <v-divider></v-divider>
+      <v-card-text>
+        <v-row>
+            <v-col class="pb-0 bold-font" cols="3">금액</v-col>
+            <v-col class="pb-0">20,000원</v-col>
+          </v-row>
+          <v-row>
+            <v-col class="pb-0 bold-font" cols="3">설명</v-col>
+            <v-col class="pb-0">어려운 상담이 될 거 같습니다. 시간은 30분 정도 예상됩니다.</v-col>
+          </v-row>
+      </v-card-text>
     </v-card>
   </v-hover>
-
-  <v-card class="a-card" width="270" height="450" elevation="2">
-    <div class="top-row">
-      <img
-        width="120"
-        :src="require('@/assets/placeholder/placeholder_person.jpg')"
-      />
-      <v-btn variant="outlined" color="primary" @click="accept"> 수락 </v-btn>
-    </div>
-
-    <div class="text-center">
-      <h3>우싸피 4.8</h3>
-      <p color="grey">반려동물행동지도사</p>
-    </div>
-    <br />
-    <div>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam quis eros
-      sit amet nisi aliquam tincidunt.
-    </div>
-    <br />
-    <hr />
-    <br />
-    <div>
-      <span>
-        <strong> 금액 &nbsp;&nbsp;&nbsp;</strong>
-        20,000원 </span
-      ><br />
-      <span>
-        <strong> 이유 &nbsp;&nbsp;&nbsp;</strong>
-        상담 시간 30분, 난이도 중으로 예상됩니다.
-      </span>
-    </div>
-  </v-card>
 </template>
 
 <script>
 export default {
   name: "CarouselCard",
-
   props: {
     dialog:Boolean
   },
-
+  data() {
+    return {
+      rating: 3.5
+    }
+  },
   methods: {
     async accept() {
       this.$emit("dialog-off")

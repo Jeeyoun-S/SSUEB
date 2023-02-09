@@ -9,10 +9,10 @@
     </template>
     <v-card class="pa-5">
       <v-card-title><h3>20XX - XX - XX XX : XX</h3></v-card-title>
-      <v-card-subtitle>
+      <v-card-text class="pa-0 pl-5">
         <p>로이 (8세)</p>
         <p>강아지 - 이탈리안 그레이하운드</p>
-      </v-card-subtitle>
+      </v-card-text>
       <v-card-item>
         <v-slide-group v-model="model" selected-class="bg-success" show-arrows>
           <v-slide-group-item v-for="n in 10" :key="n">

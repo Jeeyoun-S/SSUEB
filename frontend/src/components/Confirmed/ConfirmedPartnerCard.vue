@@ -13,14 +13,10 @@
       <v-card-title class="d-flex flex-row justify-space-between">
         <h4>{{ reservation.reservationDate }}</h4>
         <div>
-
-
           <!--날짜계산-->
           <v-btn class="mr-3" rounded="pill" color="primary" disabled
             >D-2</v-btn
           >
-
-
           <v-btn rounded="pill" color="primary" @click="timealert">입장</v-btn>
         </div>
       </v-card-title>
@@ -32,9 +28,12 @@
               width="80"
               :src="require('@/assets/placeholder/placeholder_dog.png')"
             />
-            <v-card-title class="pb-0">{{ reservation.petName }} ({{ reservation.petBirth }})</v-card-title>
-            <v-card-subtitle>{{ reservation.petType }}</v-card-subtitle>
-            <v-card-subtitle>{{ reservation.petVariety }}</v-card-subtitle>
+            <v-card-title class="pb-0">{{ reservation.petName }}</v-card-title>
+            <v-card-subtitle>{{ reservation.petBirth }}</v-card-subtitle>
+            <v-card-subtitle>
+              <span>{{ reservation.petType }}</span>
+              <span v-show="reservation.petVariety != null"> - {{ reservation.petVariety }}</span>
+            </v-card-subtitle>
           </div>
           <v-card-text> {{ reservation.reservationConsultContent }} </v-card-text>
         </v-card>
@@ -69,7 +68,7 @@
 
 <script>
 export default {
-  name: "ConfirmedCard",
+  name: "ConfirmedPartnerCard",
   props: {
     reservation: {},
   },
@@ -90,25 +89,4 @@ export default {
 </script>
 
 <style>
-vl {
-  border: none;
-  border-left: 1px solid hsla(200, 10%, 50%, 100);
-  height: 27vh;
-  width: 1px;
-}
-.a-card {
-  margin: 15px;
-}
-.pill-box {
-  display: flex;
-}
-.left-pill {
-  display: flex;
-  justify-content: flex-end;
-  padding: 10 px;
-}
-.right-pill {
-  display: flex;
-  padding: 10 px;
-}
 </style>

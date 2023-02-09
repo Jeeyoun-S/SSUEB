@@ -1,5 +1,6 @@
 <template>
-  <div class="page max-page border-sheet-four">
+  <NowLoading v-if="!loaded"></NowLoading>
+  <div v-else class="page max-page border-sheet-four">
     <div class="page-inner">
       <div class="page-inner-title max-page border-sheet-four">
         <v-icon class="mr-2" size="x-large">mdi-text-box-plus</v-icon>
@@ -147,15 +148,19 @@
 </template>
 
 <script>
+import NowLoading from '@/views/NowLoading.vue';
 import { mapState } from "vuex";
 import axios from "axios";
 import { DatePicker } from 'v-calendar';
 import moment from 'moment';
+import { apiInstance } from "@/api/index.js";
 const reservationStore = "reservationStore";
+const userStore = "userStore";
 
 export default {
   name: "CreateReservation",
   computed: {
+    ...mapState(userStore, ["userId"]),
     ...mapState(reservationStore),
     pages() {
       if (this.pageSize == null || this.listCount == null) return 0;
@@ -163,20 +168,21 @@ export default {
     }
   },
   components: {
-    DatePicker
+    DatePicker,
+    NowLoading
   },
   data: () => ({
+    loaded: false,
     files:null,
     // 반려동물 목록에 필요한 데이터
-
     page: 1,
     pageSize: 4,
     petList: [
-      { petName: '로이1', petType: '강아지' , petVariety: '이탈리안', petBirth: '2022-02' },
-      { petName: '로이2', petType: '강아지' , petVariety: '이탈리안 그레이하운드', petBirth: '2022-02' },
-      { petName: '로이3', petType: '강아지' , petVariety: '이탈리안 그레이하운드', petBirth: '2022-02' },
-      { petName: '로이4', petType: '강아지' , petVariety: '이탈리안 그레이하운드', petBirth: '2022-02' },
-      { petName: '로이5', petType: '강아지' , petVariety: '이탈리안 그레이하운드', petBirth: '2022-02' },
+      // { petName: '로이1', petType: '강아지' , petVariety: '이탈리안', petBirth: '2022-02' },
+      // { petName: '로이2', petType: '강아지' , petVariety: '이탈리안 그레이하운드', petBirth: '2022-02' },
+      // { petName: '로이3', petType: '강아지' , petVariety: '이탈리안 그레이하운드', petBirth: '2022-02' },
+      // { petName: '로이4', petType: '강아지' , petVariety: '이탈리안 그레이하운드', petBirth: '2022-02' },
+      // { petName: '로이5', petType: '강아지' , petVariety: '이탈리안 그레이하운드', petBirth: '2022-02' },
       // { petName: '로이6', petType: '강아지' , petVariety: '이탈리안', petBirth: '2022-02' },
       // { petName: '로이7', petType: '강아지' , petVariety: '이탈리안 그레이하운드', petBirth: '2022-02' },
       // { petName: '로이8', petType: '강아지' , petVariety: '이탈리안 그레이하운드', petBirth: '2022-02' },
@@ -199,7 +205,6 @@ export default {
     selectedPet: null,
     date: new Date(),
     timeList: [],
-    loaded: false // 로딩 확인
   }),
   methods: {
     async registed() {
@@ -252,8 +257,9 @@ export default {
       }
 
       console.log(frm);
-      
-      axios.post(process.env.VUE_APP_API_BASE_URL+`/reservation`, frm, {
+
+      const api = apiInstance();
+      api.post(process.env.VUE_APP_API_BASE_URL+`/reservation`, frm, {
         headers: {'Content-Type': 'multipart/form-data'}
       }).then(() => {
         this.$swal.fire(
@@ -271,11 +277,10 @@ export default {
         return;
       })
     },
-    petInfo(){
-      axios({
-        url: process.env.VUE_APP_API_BASE_URL+`/reservation/pet-list/`+`aa@a`,
-        method: "get",
-      })
+    async petInfo(){
+      var result = true;
+      const api = apiInstance();
+      await api.get(`${process.env.VUE_APP_API_BASE_URL}/reservation/pet-list/${this.userId}`)
         .then(({ data }) => {
           for (var i = 0; i < data.length; i++) {
             let petinfo={};
@@ -297,7 +302,8 @@ export default {
         .catch((err) => {
           console.log(err);
         })
-    },
+        return await Promise.resolve(result);
+      },
     getTimeList(){
       axios({
         url: process.env.VUE_APP_API_BASE_URL+`/reservation/date-validation/`+`aa@a`,
@@ -363,11 +369,18 @@ export default {
       }
     }
   },
-  created() {
-    this.petInfo();
-    this.getTimeList();
-    this.initPage();
-    this.updatePage(this.page);
+  async created() {
+    this.loaded = false;
+    try {
+      await this.petInfo().then((res) => {
+        this.loaded = res;
+      });
+      this.getTimeList();
+      this.initPage();
+      this.updatePage(this.page);
+    } catch (e) {
+      console.error("# 회원정보 조회 오류", e);
+    }
   }
 };
 </script>
