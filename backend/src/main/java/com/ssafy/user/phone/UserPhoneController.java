@@ -10,6 +10,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,6 +28,7 @@ import io.swagger.annotations.ApiResponse;
 
 @RestController
 @RequestMapping("/api/user/phone")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @Api(tags = { "User/Join" }, description = "사용자 회원가입 API")
 public class UserPhoneController {
 	
