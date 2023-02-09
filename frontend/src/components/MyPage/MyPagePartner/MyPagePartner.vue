@@ -2,7 +2,8 @@
   <div class="mypage">
     <div class="mypage-inner border-sheet-four">
       <div class="mypage-title border-sheet-four">
-        <v-icon class="mr-2" size="x-large">mdi-account</v-icon><h2>회원 정보</h2>
+        <v-icon class="mr-2" size="x-large">mdi-account</v-icon>
+        <h2>회원 정보</h2>
       </div>
       <div class="mypage-content border-sheet-four">
         <MyPagePartnerInfo v-if="getInfoVersion"></MyPagePartnerInfo>
@@ -61,5 +62,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

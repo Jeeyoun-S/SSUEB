@@ -2,7 +2,9 @@ import { duplicateId } from "@/api/userJoin";
 import {
   getKakaoToken,
   getKakaoUserInfo,
+  withdrawalKakao,
   getGoogleInfo,
+  withdrawalGoogle,
 } from "@/api/userOAuth";
 import store from "..";
 
@@ -10,14 +12,26 @@ const userOAuthStore = {
   namespaced: true,
   state: {
     kakaoToken: null,
+    googleToken: null,
   },
-  getters: {},
+  getters: {
+    getKakaoToken: (state) => {
+      return state.kakaoToken;
+    },
+    getGoogleToken: (state) => {
+      return state.googleToken;
+    },
+  },
   mutations: {
     // #Kakao# 발급받은 Kakao Token 저장
     SET_KAKAO_TOKEN: (state, kakaoToken) => {
       state.kakaoToken = kakaoToken;
       // #Kakao# 현재 로그인한 Kakao 사용자 정보 가져오기
       getKakaoUserInfo(kakaoToken);
+    },
+    // #Google# 발급받은 Google Token 저장
+    SET_GOOGLE_TOKEN: (state, googleToken) => {
+      state.googleToken = googleToken;
     },
   },
   actions: {
@@ -34,11 +48,12 @@ const userOAuthStore = {
       await getKakaoToken(
         kakaoInfo,
         ({ data }) => {
-          // console.log(
-          //   "#userOAuthStore - getKakaoToken# Kakao Token 발급 성공: ",
-          //   data
-          // );
+          console.log(
+            "#userOAuthStore - getKakaoToken# Kakao Token 발급 성공: ",
+            data
+          );
           // 발급받은 access-token을 통해 현재 로그인한 사용자 정보 가져오기
+          localStorage.setItem("kakaoToken", data.access_token);
           commit("SET_KAKAO_TOKEN", data.access_token);
         },
         (error) => {
@@ -48,10 +63,13 @@ const userOAuthStore = {
     },
     // [@Method] #Google# Google 사용자 정보 가져오기 > 회원가입 OR 로그인
     async excuteGoogleInfo({ commit }, token) {
+      // Google Token 저장
+      localStorage.setItem("googleToken", token);
+      commit("SET_GOOGLE_TOKEN", token);
+
       await getGoogleInfo(
         token,
         async ({ data }) => {
-          commit;
           // console.log("#21# Google 사용자 정보: ", data);
           // console.log("#21# Google 사용자 email: ", data.email);
           const info = {
@@ -81,6 +99,50 @@ const userOAuthStore = {
         },
         (error) => {
           console.log(error);
+        }
+      );
+    },
+    // [@Method] #Kakao# 회원탈퇴
+    async excuteWithdrawalKakao(context) {
+      //if (context.state.kakaoToken == null) return;
+      context;
+      if (localStorage.getItem("kakaoToken") == null) return;
+      console.log("#userOAuthStore# KAKAO 회원탈퇴 동작");
+
+      await withdrawalKakao(
+        //context.state.kakaoToken,
+        // localStorage.getItem("kakaoToken"),
+        ({ data }) => {
+          console.log(
+            "#userOAuthStore - withdrawalKakao# Kakao 연결끊기 성공: ",
+            data
+          );
+        },
+        (error) => {
+          console.log(
+            "#userOAuthStore - withdrawalKakao# Kakao 연결끊기 실패: ",
+            error
+          );
+        }
+      );
+    },
+    // [@Method] #Google# 회원탈퇴
+    async excuteWithdrawalGoogle(context) {
+      if (context.state.googleToken == null) return;
+      console.log("#userOAuthStore# GOOGLE 회원탈퇴 동작");
+
+      await withdrawalGoogle(
+        ({ data }) => {
+          console.log(
+            "#userOAuthStore - withdrawalGoogle# Google 연결끊기 성공: ",
+            data
+          );
+        },
+        (error) => {
+          console.log(
+            "#userOAuthStore - withdrawalGoogle# Google 연결끊기 실패: ",
+            error
+          );
         }
       );
     },
