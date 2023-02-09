@@ -151,12 +151,15 @@ import { mapState } from "vuex";
 import axios from "axios";
 import { DatePicker } from 'v-calendar';
 import moment from 'moment';
+const userStore = "userStore";
 const reservationStore = "reservationStore";
 
 export default {
   name: "CreateReservation",
+
   computed: {
     ...mapState(reservationStore),
+    ...mapState(userStore, ["userId"]),
     pages() {
       if (this.pageSize == null || this.listCount == null) return 0;
       return Math.ceil(this.listCount / this.pageSize);
@@ -191,7 +194,7 @@ export default {
     radio1: "radio1-no",
     radio2: "radio2-no",
     reservation:{
-      userId: "aa@a",//임시 값
+      userId: null,
       reservationPetNo: 0,
       reservationDate: null, //YYYY-MM-DD HH-mm-ss ex)2023-02-22 22:22:22
       reservationConsultContent:null,
@@ -271,9 +274,10 @@ export default {
         return;
       })
     },
-    petInfo(){
-      axios({
-        url: process.env.VUE_APP_API_BASE_URL+`/reservation/pet-list/`+`aa@a`,
+    async petInfo(){
+      console.log(this.userId);
+      await axios({
+        url: process.env.VUE_APP_API_BASE_URL+`/reservation/pet-list/${this.userId}`,
         method: "get",
       })
         .then(({ data }) => {
@@ -363,8 +367,8 @@ export default {
       }
     }
   },
-  created() {
-    this.petInfo();
+  async created() {
+    await this.petInfo();
     this.getTimeList();
     this.initPage();
     this.updatePage(this.page);

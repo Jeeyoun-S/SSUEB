@@ -23,6 +23,7 @@ export default {
   components: {
     CreateCard,
   },
+  
   methods:{
     getReservation() {
       axios({

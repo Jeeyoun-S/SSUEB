@@ -35,7 +35,7 @@ export default {
   },
   methods:{
     async getReservation() {
-
+      console.log(this.userId);
       //consultant의 경우 -> 위랑 이거는 현재 유저가 유저인지 전문가인지에 따라 취사선택하도록?
       //const API_URL = `http://localhost:5000/api/reservation/consultant/`+`aa@a`;
       
