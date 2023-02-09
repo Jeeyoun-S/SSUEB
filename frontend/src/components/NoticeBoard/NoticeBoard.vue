@@ -5,16 +5,21 @@
         <v-icon class="mr-2" size="x-large">mdi-alert</v-icon>
         <h2>공지사항</h2>
       </div>
-      <div class="page-inner-items border-sheet-four">
-        <!-- <CreateCard v-for="n in 8" :key="n"></CreateCard> -->
+      <div class="pa-5 page-inner-items border-sheet-four">
+        <NoticeBoardTable></NoticeBoardTable>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-export default {
+import NoticeBoardTable from "@/components/NoticeBoard/NoticeBoardTable.vue"
 
+export default {
+  name: "NoticeBoard",
+  components: {
+    NoticeBoardTable
+  }
 }
 </script>
 

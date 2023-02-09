@@ -3,21 +3,52 @@
   <div v-else class="page max-page border-sheet-four">
     <div class="page-inner max-page">
       <div class="page-inner-title border-sheet-four">
+        <v-btn class="mr-1" variant="text" icon="mdi-arrow-left" @click="back()"></v-btn>
         <v-chip class="mr-3" color="primary">
           {{ String(boardDetail.no).padStart(4, '0') }}
         </v-chip>
         <h2>{{ boardDetail.boardTitle }}</h2>
       </div>
-      <div class="pa-8 page-inner-items border-sheet-four">
+      <div class="pa-8 d-flex flex-column page-inner-items border-sheet-four">
         <v-sheet>
-          {{ boardDetail.userNickname }}
-          {{ boardDetail.boardWritetime }}
-          {{ boardDetail.boardViews }}
-          {{ boardDetail.boardHeartnum }}
+          <v-chip class="ma-2" color="light-blue-darken-2" size="large" label>
+            <v-icon start icon="mdi-account-circle-outline"></v-icon>
+            {{ boardDetail.userNickname }}
+          </v-chip>
+          <v-chip class="ma-2" color="indigo-accent-4" size="large" label>
+            <v-icon start icon="mdi-star-box"></v-icon>
+            <span v-if="boardDetail.boardFlag == 0">관리자</span>
+            <span v-else-if="boardDetail.boardFlag == 1">전문가</span>
+            <span v-else>반려인</span>
+          </v-chip>
+          <v-chip class="ma-2" color="light-blue-darken-4" size="large" label>
+            <v-icon start icon="mdi-calendar-blank-outline"></v-icon>
+            {{ boardDetail.boardWritetime }}
+          </v-chip>
+          <v-chip class="ma-2" color="blue-accent-4" size="large" label>
+            <v-icon start icon="mdi-eye"></v-icon>
+            {{ boardDetail.boardViews }}
+          </v-chip>
+          <v-chip class="ma-2 pr-6" color="blue-darken-3" size="large" label>
+            <v-checkbox-btn false-icon="mdi-thumb-up-outline"
+              true-icon="mdi-thumb-up"
+            ></v-checkbox-btn>
+            <v-label>{{ boardDetail.boardHeartnum }}</v-label>
+          </v-chip>
+        </v-sheet>
+        <v-sheet class="ma-3">
           {{ boardDetail.boardContent }}
         </v-sheet>
-        <v-divider class="mt-3 mb-3"></v-divider>
-        <v-sheet class="max-page">
+        <v-sheet class="d-flex align-center ma-3" width="100%">
+          <v-btn class="me-auto" rounded="pill" variant="tonal" prepend-icon="mdi-paperclip">
+            {{ boardDetail.boardFile }}
+          </v-btn>
+          <v-sheet>
+            <v-btn class="ma-1" :rounded="0" color="primary" size="large">수정</v-btn>
+            <v-btn class="ma-1 mr-10" :rounded="0" color="error" size="large">삭제</v-btn>
+          </v-sheet>
+        </v-sheet>
+        <v-sheet class="ma-3">
           <FreeBoardReply></FreeBoardReply>
         </v-sheet>
       </div>
@@ -39,7 +70,7 @@ export default {
       boardDetail: {
         no: 5,
         userId: "",
-        userNickname: "닉네임",
+        userNickname: "와싸피",
         boardTitle: "제목",
         boardContent: "컨텐츠",
         boardFile: "파일명",
@@ -47,7 +78,13 @@ export default {
         boardHeartnum: 1,
         boardViews: 2,
         boardWritetime: "2023-01-25 16:43:28",
-      }
+      },
+      isHeart: false
+    }
+  },
+  methods: {
+    back() {
+      this.$router.go(-1)
     }
   },
   created() {
