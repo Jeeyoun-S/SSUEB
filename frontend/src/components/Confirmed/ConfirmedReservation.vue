@@ -1,20 +1,26 @@
 <template>
   <NowLoading v-if="!loaded"></NowLoading>
-  <div class="page max-page border-sheet-four">
+  <div v-else class="page max-page border-sheet-four">
     <div class="page-inner max-page">
       <div class="page-inner-title border-sheet-four">
         <v-icon class="mr-2" size="x-large">mdi-format-list-checkbox</v-icon>
         <h2>예정된 상담 일정 목록</h2>
       </div>
-      <div class="page-inner-items border-sheet-four">
-        <confirmed-card v-for="(reservation, idx) in reservations" :reservation="reservation" v-bind:key="idx" />
+      <div v-if="userAuth == 'ROLE_USER'" class="page-inner-items border-sheet-four">
+        <ConfirmedPartnerCard v-for="(reservation, idx) in reservations" :reservation="reservation" v-bind:key="idx">
+        </ConfirmedPartnerCard>
+      </div>
+      <div v-else-if="userAuth == 'ROLE_CONSULTANT'" class="page-inner-items border-sheet-four">
+        <ConfirmedConsultantCard v-for="(reservation, idx) in reservations" :reservation="reservation" v-bind:key="idx">
+        </ConfirmedConsultantCard>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import ConfirmedCard from "./ConfirmedCard.vue";
+import ConfirmedPartnerCard from "@/components/Confirmed/ConfirmedPartnerCard.vue";
+import ConfirmedConsultantCard from "@/components/Confirmed/ConfirmedConsultantCard.vue";
 import NowLoading from '@/views/NowLoading.vue';
 import axios from "axios";
 import { mapState } from "vuex";
@@ -23,19 +29,25 @@ const userStore = "userStore";
 export default {
   name: "ConfirmedReservation",
   data: () => ({
-    reservations:[],
+    reservations:[
+      {},
+      {},
+      {},
+      {}
+    ],
     loaded: false
   }),
   computed: {
-    ...mapState(userStore, ["userId"]),
+    ...mapState(userStore, ["userId", "userAuth"]),
   },
   components: {
-    ConfirmedCard,
+    ConfirmedPartnerCard,
+    ConfirmedConsultantCard,
     NowLoading
   },
   methods:{
-    async getReservation() {
-      console.log(this.userId);
+    async getPartnerReservation() {
+
       //consultant의 경우 -> 위랑 이거는 현재 유저가 유저인지 전문가인지에 따라 취사선택하도록?
       //const API_URL = `http://localhost:5000/api/reservation/consultant/`+`aa@a`;
       
@@ -85,10 +97,15 @@ export default {
   },
   async created(){
     this.loaded = false;
-    await this.getReservation()
-    .then((res) => {
-      this.loaded = res;
-    });
+    if (this.userAuth == 'ROLE_USER') {
+      await this.getPartnerReservation()
+      .then((res) => {
+        this.loaded = res;
+      });
+    } else if (this.userAuth == 'ROLE_CONSULTANT') {
+      // 전문가일 때
+      this.loaded = true; // 임시 코드
+    }
   },
   async mounted() {
   }

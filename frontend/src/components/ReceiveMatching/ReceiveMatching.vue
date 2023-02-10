@@ -1,31 +1,34 @@
 <template>
-  <v-item-group>
-    <v-container>
-      <v-row>
-        <v-col v-for="n in 3" :key="n" cols="12" md="4">
-          <v-item>
-            <ReceivedCard></ReceivedCard>
-          </v-item>
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col v-for="n in 3" :key="n" cols="12" md="4">
-          <v-item>
-            <ReceivedCard></ReceivedCard>
-          </v-item>
-        </v-col>
-      </v-row>
-    </v-container>
-  </v-item-group>
+  <div class="page max-page border-sheet-four">
+    <div class="page-inner max-page">
+      <div class="page-inner-title border-sheet-four">
+        <v-icon class="mr-2" size="x-large">mdi-email-open</v-icon>
+        <h2>전문가에게 받은 상담 제안 보기</h2>
+      </div>
+      <div class="page-inner-items border-sheet-four">
+        <ReceivedCard v-for="(reservation, idx) in reservations" :reservation="reservation" :key="idx">
+        </ReceivedCard>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
-import ReceivedCard from "@/components/ReceiveMatching/ReceivedCard.vue";
+import ReceivedCard from "@/components/ReceiveMatching/ReceivedMatchingCard.vue";
 import axios from "axios";
 export default {
   name: "ReceiveMatching",
   data: () => ({
-    reservations:[], // [{value,[]},{value,[]}] 꼴
+    reservations:[
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+      {},
+    ], // [{value,[]},{value,[]}] 꼴
   }),
   components: {
     ReceivedCard,

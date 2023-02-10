@@ -26,8 +26,9 @@ export default {
   
   methods:{
     getReservation() {
+      
       axios({
-        url: process.env.VUE_APP_API_BASE_URL+`/reservation/consultant/unconfirmed/`,
+        url: process.env.VUE_APP_API_BASE_URL+`/reservation/consultant/unconfirmed`,
         method: "get",
       })
         .then(({ data }) => {
