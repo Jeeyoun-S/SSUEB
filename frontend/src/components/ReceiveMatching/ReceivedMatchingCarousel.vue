@@ -4,13 +4,14 @@
       width="310" height="450" variant="outlined"
       :elevation="isHovering ? 8 : 0" :class="{ 'on-hover': isHovering }"
       rounded="0" v-bind="props"
+      v-for="(consultant, idx) in reservationItem.matchingConsultants" :key="idx"
     >
       <v-sheet class="d-flex flex-row justify-end">
         <v-avatar class="mr-2 pt-1" color="white" size="100">
           <img width="100" gradient="to top, rgba(0,0,0,.1), rgba(0,0,0,.5)" :src="require('@/assets/placeholder/placeholder_person.jpg')" />
         </v-avatar>
         <div>
-        <v-btn class="ma-3 align-self-start" variant="outlined" color="primary" rounded="0" @click="accept">수락</v-btn>
+        <v-btn class="ma-3 align-self-start" variant="outlined" color="primary" rounded="0" @click="accept(consultant)">수락</v-btn>
         </div>
       </v-sheet>
       <v-card-title class="align-self-center">
@@ -43,19 +44,26 @@
 export default {
   name: "CarouselCard",
   props: {
-    dialog:Boolean ,
+    // dialog: Boolean,
     consultant: Object,
+    dialogOff: Function,
+    reservationItem: Object
   },
+  emits: [
+    "dialogOff"
+  ],
   data() {
     return {
       rating: 3.5
     }
   },
   methods: {
-    async accept() {
+    async accept(consultant) {
       console.log("정신차려")
-      // this.$emit("dialogOff")
-      this.$parent.dialogOff();
+      this.$emit("dialogOff")
+      console.log(consultant)
+      console.log(this.reservationItem)
+      // this.dialogOff();
       this.$swal
         .fire({
           title: "상담 제안 수락",
@@ -78,9 +86,10 @@ export default {
                 timerProgressBar: true,
                 didOpen: () => {
                   this.$swal.showLoading();
-                  const b = this.$swal.getHtmlContainer().querySelector("b");
+                  //<b> 태그에 남은 시간을 넣어주는 코드로 시간을 나타내지 않는 현재 이 코드를 넣으면 오류 메세지 발생
+                  // const b = this.$swal.getHtmlContainer().querySelector("b");
                   timerInterval = setInterval(() => {
-                    b.textContent = this.$swal.getTimerLeft();
+                    // b.textContent = this.$swal.getTimerLeft();
                   }, 100);
                 },
                 willClose: () => {
@@ -91,7 +100,7 @@ export default {
                 if (result.dismiss === this.$swal.DismissReason.timer) {
                   this.$swal.fire({
                     title: "상담 제안 확정",
-                    html: " <strong>상담날짜</strong> {{ reservation.reservationDate }} <br> <strong>전문가</strong> {{ reservation.consultantName }} (반려동물행동지도사) <br> <strong>반려동물</strong> {{ reservation.petName }} ({{ reservation.petType }})",
+                    html: `<strong>상담날짜</strong> ${this.reservationItem.reservationDate} <br> <strong>전문가</strong> ${consultant.consultantName} (반려동물행동지도사) <br> <strong>반려동물</strong> ${this.reservationItem.petName} (${this.reservationItem.petType})`,
                     icon: "success",
                     showCancelButton: false,
                     confirmButtonColor: "primary",
@@ -114,16 +123,4 @@ export default {
 </script>
 
 <style scoped>
-hr {
-  margin: auto;
-  width: 250px;
-}
-.a-card {
-  padding: 5px;
-  margin: 15px;
-}
-.top-row {
-  display: flex;
-  justify-content: flex-end;
-}
 </style>

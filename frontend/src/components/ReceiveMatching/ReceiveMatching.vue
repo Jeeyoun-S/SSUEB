@@ -37,7 +37,7 @@ export default {
 
       const api = apiInstance();
       await api({
-        url: process.env.VUE_APP_API_BASE_URL+`/reservation/partner/unconfirm/`+`aa@a`, //이메일 바꾸고
+        url: `${process.env.VUE_APP_API_BASE_URL}/reservation/partner/unconfirm/${this.userId}`, //이메일 바꾸고
         method: "get",
       })
         .then(({ data }) => {
@@ -51,6 +51,7 @@ export default {
             reservation["pno"] = data[i].reservationPet.pno;
             reservation["petImage"] = data[i].reservationPet.petImage;
             reservation["petType"] = data[i].reservationPet.petType;
+            reservation["petName"] = data[i].reservationPet.petName;
             reservation["petVariety"] = data[i].reservationPet.petVariety;
             if(data[i].petBirth != null){
               reservation["petBirth"] = data[i].petBirth.substr(0,7);

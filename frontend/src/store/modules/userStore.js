@@ -100,6 +100,8 @@ const userStore = {
           console.log(error);
         }
       );
+
+      return await Promise.resolve();
     },
     // [@Method] Kakao, Naver 소셜 로그인 성공 시 저장
     excuteSocialLogin({ commit }) {

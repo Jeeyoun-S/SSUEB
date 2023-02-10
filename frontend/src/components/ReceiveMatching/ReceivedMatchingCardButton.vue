@@ -17,8 +17,8 @@
       <v-card-item>
         <v-slide-group v-model="model" selected-class="bg-success" show-arrows>
           <!--v-for 자리-->
-          <v-slide-group-item v-for="(consultant, idx) in reservation.matchingConsultants" :key="{idx}">
-            <ReceivedMatchingCarousel :consultant="consultant" />
+          <v-slide-group-item >
+            <ReceivedMatchingCarousel :reservationItem="reservation" @dialogOff="dialogOff()" />
           </v-slide-group-item>
         </v-slide-group>
       </v-card-item>
@@ -45,13 +45,14 @@ export default {
   }),
   methods: {
     dialogOff() {
+      console.log("dialogOff");
       this.dialog = false;
     }
   },
   created() {
     // console.log("#props 확인", this.reservation);
     // this.matchingConsultants = this.matchingConsultants;
-    console.log("#data 반영 확인", this.matchingConsultants);
+    console.log("#data 반영 확인", this.reservation);
   }
 }
 </script>

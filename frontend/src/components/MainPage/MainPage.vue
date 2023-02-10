@@ -27,12 +27,12 @@
     <div class="main-right">
       <!-- isLogin : [false - 로그인 X / true - 로그인 O]-->
       <div class="main-right-item" v-if="!this.isLogin">
-        <UserLogin class="card" v-show="!this.isLogin"></UserLogin>
+        <UserLogin class="card"></UserLogin>
         <!-- <UserAlert class="card" v-show="false"></UserAlert> -->
       </div>
       <div class="main-right-item" v-else>
-        <UserMainAlert class="mb-5" v-show="this.isLogin"></UserMainAlert>
-        <BoardTopFive v-show="this.isLogin"></BoardTopFive>
+        <UserMainAlert class="mb-5"></UserMainAlert>
+        <BoardTopFive></BoardTopFive>
       </div>
       <div class="main-right-item bottom">
         <MainPageChatBot></MainPageChatBot>
