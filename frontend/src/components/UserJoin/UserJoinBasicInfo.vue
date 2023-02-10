@@ -98,22 +98,6 @@ export default {
       deep: true,
     },
   },
-  // computed: {
-  //   // ...mapState(userJoinStore, ["socialUserInfo"]), // #21#
-  //   socialUserInfo() {
-  //     return this.$store.getters.getSocialUserInfo;
-  //     // return this.$store.state.socialUserInfo;
-  //   },
-  // },
-  created() {
-    // 소셜 로그인을 통해 회원가입 페이지로 접근 하였다면 > 소셜 로그인 info 적용
-    if (this.socialUserInfo != null) {
-      this.info.id = this.socialUserInfo.id;
-      // 비밀번호 입력칸 비활성화
-      // if (this.socialUserInfo.id != null) this.socialAccess = false;
-      if (this.socialUserInfo.id != null) this.info.socialAccess = false;
-    }
-  },
   computed: {
     socialUserInfo() {
       return this.$store.getters.getSocialUserInfo;
@@ -121,6 +105,13 @@ export default {
     rules() {
       return this.$store.getters.getUserRule;
     },
+  },
+  created() {
+    // 소셜 로그인을 통해 회원가입 페이지로 접근 하였다면 > 소셜 로그인 info 적용
+    this.info.id = this.socialUserInfo.id;
+    this.info.provider = this.socialUserInfo.provider;
+    // 비밀번호 입력칸 비활성화
+    if (this.socialUserInfo.id != null) this.info.socialAccess = false;
   },
 };
 </script>
