@@ -213,6 +213,7 @@ public class ParameterCheck {
 	/**
 	 * 파일의 확장자가 png, jpg, pdf인지 확인
 	 * @param file 확인할 파일
+	 * @pdfValid pdf 허용 여부
 	 * @return 파일 확장자가  png, jpg, pdf라면 true, 그 외는 false
 	 * **/
 	public boolean isValidImage(MultipartFile file, boolean pdfValid) {

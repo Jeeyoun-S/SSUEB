@@ -142,8 +142,8 @@ public class UserPetServiceImpl implements UserPetService {
 				
 				// 기존 파일 삭제하기
 				imageCheck.deleteFile(beforeFileName, petImagePath);
-				pet.setPetImage(imageName);
 			}
+			pet.setPetImage(imageName);
 		}
 		
 		else if (isPetDeleteImage && beforeFileName != null) {
@@ -160,7 +160,8 @@ public class UserPetServiceImpl implements UserPetService {
 		pet.setPetInfo(petRequest.getPetInfo());
 		
 		Pet result = petRepository.save(pet);
-		if (result != null) return imageName;
+		
+		if (petRequest.getPetImage() != null) return imageName;
 		else if (beforeFileName != null && !isPetDeleteImage) return beforeFileName;
 		return null;
 	}
