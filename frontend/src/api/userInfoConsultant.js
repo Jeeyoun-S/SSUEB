@@ -105,6 +105,9 @@ async function updateConsultantInfo(consultantInfo) {
 
         store.dispatch("updateConsultantUserInfo", consultantInfo);
         store.dispatch("updateInfoVersion");
+
+        // 수정된 회원정보 반영 (for. store 저장, 메인페이지 표시) > 권한검증을 통해 회원정보 get
+        store.dispatch("userStore/checkAnyPermit", null, { root: true });
       } else {
         console.log("#회원정보 수정 실패");
 
