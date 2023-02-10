@@ -51,12 +51,12 @@
           <v-card-text>
             <v-row>
               <v-col class="bold-font pr-0" cols="3">금액</v-col>
-              <v-col class="pr-0 pl-0" cols="8">20,000원</v-col>
+              <v-col class="pr-0 pl-0" cols="8">{{ reservation.reservationCost }}</v-col>
             </v-row>
             <v-row>
               <v-col class="bold-font pr-0 pt-0" cols="3">이유</v-col>
               <v-col class="pr-0 pl-0 pt-0" cols="9"
-                >상담 시간 30분, 난이도 중으로 예상됩니다.</v-col
+                >{{ reservation.reservationReason }}</v-col
               >
             </v-row>
           </v-card-text>

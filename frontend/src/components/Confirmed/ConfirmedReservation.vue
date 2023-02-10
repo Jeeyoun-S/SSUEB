@@ -22,7 +22,7 @@
 import ConfirmedPartnerCard from "@/components/Confirmed/ConfirmedPartnerCard.vue";
 import ConfirmedConsultantCard from "@/components/Confirmed/ConfirmedConsultantCard.vue";
 import NowLoading from '@/views/NowLoading.vue';
-import axios from "axios";
+import { apiInstance } from "@/api/index.js";
 import { mapState } from "vuex";
 const userStore = "userStore";
 
@@ -30,7 +30,6 @@ export default {
   name: "ConfirmedReservation",
   data: () => ({
     reservations:[
-      {},
       {},
       {},
       {}
@@ -49,9 +48,9 @@ export default {
     async getPartnerReservation() {
 
       //consultant의 경우 -> 위랑 이거는 현재 유저가 유저인지 전문가인지에 따라 취사선택하도록?
-      //const API_URL = `http://localhost:5000/api/reservation/consultant/`+`aa@a`;
       
-      await axios({
+      const api = apiInstance();
+      await api({
         url: process.env.VUE_APP_API_BASE_URL+`/reservation/partner/${this.userId}`,
         method: "get",
       })
@@ -64,6 +63,8 @@ export default {
             reservation["userId"] = data[i].reservationPet.userId;
             reservation["reservationDate"] = data[i].reservationPet.reservationDate;
             reservation["reservationConsultContent"] = data[i].reservationPet.reservationConsultContent;
+            reservation["reservationCost"] = data[i].reservationPet.reservationCost;
+            reservation["reservationReason"] = data[i].reservationPet.reservationReason;
 
             reservation["pno"] = data[i].reservationPet.pno;
             reservation["petName"] = data[i].reservationPet.petName;
@@ -83,6 +84,8 @@ export default {
             reservation["consultantProfile"] = data[i].consultantInfo.consultant_profile;
             reservation["consultantRate"] = data[i].consultantInfo.consultant_rate;
 
+            
+
             this.reservations.push(reservation);
           }
 
@@ -94,6 +97,50 @@ export default {
 
         return Promise.resolve(true);
     },
+    async getConsultantReservation() {
+
+      //consultant의 경우 -> 위랑 이거는 현재 유저가 유저인지 전문가인지에 따라 취사선택하도록?
+
+      const api = apiInstance();
+      await api({
+        url: process.env.VUE_APP_API_BASE_URL+`/reservation/consultant/${this.userId}`,
+        method: "get",
+      })
+        .then(({ data }) => {
+          console.log("확정 상담", data)
+          for (var i = 0; i < data.length; i++) {
+            console.log(data[i])
+            let reservation = {};
+            reservation["rno"] = data[i].rno;
+            reservation["userId"] = data[i].userId;
+            reservation["reservationDate"] = data[i].reservationDate.substr(0,16)+":00";
+            reservation["reservationConsultContent"] = data[i].reservationConsultContent;
+            reservation["reservationCost"] = data[i].reservationCost;
+            reservation["reservationReason"] = data[i].reservationReason;
+
+            reservation["pno"] = data[i].pno;
+            reservation["petName"] = data[i].petName;
+            reservation["petImage"] = data[i].petImage;
+            reservation["petType"] = data[i].petType;
+            reservation["petVariety"] = data[i].petVariety;
+            if(data[i].petBirth != null){
+              reservation["petBirth"] = data[i].petBirth.substr(0,7);
+            }
+            else{
+              reservation["petBirth"] = "생년월일 미상";
+            }
+            reservation["petInfo"] = data[i].petInfo;
+
+            this.reservations.push(reservation);
+          }
+
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+
+        return Promise.resolve(true);
+      },
   },
   async created(){
     this.loaded = false;
@@ -103,8 +150,10 @@ export default {
         this.loaded = res;
       });
     } else if (this.userAuth == 'ROLE_CONSULTANT') {
-      // 전문가일 때
-      this.loaded = true; // 임시 코드
+      await this.getConsultantReservation()
+      .then((res) => {
+        this.loaded = res;
+      });
     }
   },
   async mounted() {
@@ -114,6 +163,4 @@ export default {
 
 <style scoped>
 
-
-
-</style>>
+</style>

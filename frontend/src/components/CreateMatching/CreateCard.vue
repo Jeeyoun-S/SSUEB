@@ -103,10 +103,16 @@
 </template>
 
 <script>
-import axios from "axios";
+// import axios from "axios";
+import { apiInstance } from "@/api/index.js";
+import { mapState } from "vuex";
+const userStore = "userStore";
+
 export default {
   name: "CreateCard",
-
+  computed: {
+    ...mapState(userStore, ["userId"]),
+  },
   data: () => ({
     dialog: false,
     model: null,
@@ -131,10 +137,11 @@ export default {
   methods: {
     createMatching(){
       console.log("he")
-      axios.post(process.env.VUE_APP_API_BASE_URL+`/reservation/matching`,null,{
+      const api = apiInstance();
+      api.post(process.env.VUE_APP_API_BASE_URL+`/reservation/matching`,null,{
         params:{
           //createMathing에서 가져온 예약정보들이랑 현재 로그인한 아이디, 기입한 가격,이유 넣기
-          consultantId: "asd@fgh3",
+          consultantId: this.userId,
           matchingComment: this.matchingComment,
           matchingCost: this.matchingCost,
           reservationDate: this.reservation.reservationDate,
