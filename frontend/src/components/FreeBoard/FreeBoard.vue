@@ -8,7 +8,7 @@
         <FreeBoardRegist></FreeBoardRegist>
       </div>
       <div class="pa-5 page-inner-items border-sheet-four">
-        <FreeBoardTable></FreeBoardTable>
+        <FreeBoardTable :boardSummaryList="boardSummaryList"></FreeBoardTable>
       </div>
     </div>
   </div>
@@ -18,6 +18,7 @@
 import FreeBoardTable from "@/components/FreeBoard/FreeBoardTable.vue"
 import FreeBoardRegist from "@/components/FreeBoard/FreeBoardRegist.vue"
 import NowLoading from '@/views/NowLoading.vue';
+import { getFreeBoard } from "@/api/communityFree.js"
 
 export default {
   name: "FreeBoard",
@@ -28,11 +29,15 @@ export default {
   },
   data() {
     return {
-      loaded: true
+      loaded: false,
+      boardSummaryList: [],
     }
   },
-  created() {
-    
+  async created() {
+    this.loaded = false;
+    this.boardSummaryList = await getFreeBoard();
+    console.log(this.boardSummaryList)
+    this.loaded = true;
   }
 }
 </script>

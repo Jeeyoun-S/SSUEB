@@ -9,29 +9,30 @@
         <v-avatar class="mr-2 pt-1" color="white" size="100">
           <img width="100" gradient="to top, rgba(0,0,0,.1), rgba(0,0,0,.5)" :src="require('@/assets/placeholder/placeholder_person.jpg')" />
         </v-avatar>
+        <div>
         <v-btn class="ma-3 align-self-start" variant="outlined" color="primary" rounded="0" @click="accept">수락</v-btn>
+        </div>
       </v-sheet>
       <v-card-title class="align-self-center">
-        <h4>우싸피</h4>
+        <h4>{{ consultant.consultantName }}</h4>
       </v-card-title>
       <v-card-item class="pa-0 align-self-center">
         <v-rating v-model="rating" color="orange darken-2" density="compact"></v-rating>
       </v-card-item>
       <v-card-text>
         <v-sheet height="100">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam quis eros
-          sit amet nisi aliquam tincidunt.
+          {{ consultant.consultantIntro }}
         </v-sheet>
       </v-card-text>
       <v-divider></v-divider>
       <v-card-text>
         <v-row>
             <v-col class="pb-0 bold-font" cols="3">금액</v-col>
-            <v-col class="pb-0">20,000원</v-col>
+            <v-col class="pb-0">{{ consultant.matchingCost }}</v-col>
           </v-row>
           <v-row>
             <v-col class="pb-0 bold-font" cols="3">설명</v-col>
-            <v-col class="pb-0">어려운 상담이 될 거 같습니다. 시간은 30분 정도 예상됩니다.</v-col>
+            <v-col class="pb-0">{{ consultant.matchingComment }}</v-col>
           </v-row>
       </v-card-text>
     </v-card>
@@ -42,7 +43,8 @@
 export default {
   name: "CarouselCard",
   props: {
-    dialog:Boolean
+    dialog:Boolean ,
+    consultant: Object,
   },
   data() {
     return {
@@ -51,7 +53,9 @@ export default {
   },
   methods: {
     async accept() {
-      this.$emit("dialog-off")
+      console.log("정신차려")
+      // this.$emit("dialogOff")
+      this.$parent.dialogOff();
       this.$swal
         .fire({
           title: "상담 제안 수락",
@@ -87,7 +91,7 @@ export default {
                 if (result.dismiss === this.$swal.DismissReason.timer) {
                   this.$swal.fire({
                     title: "상담 제안 확정",
-                    html: " <strong>상담날짜</strong> 20XX-XX-XX XX:XX <br> <strong>전문가</strong> 우싸피 (반려동물행동지도사) <br> <strong>반려동물</strong> 로이 (강아지)",
+                    html: " <strong>상담날짜</strong> {{ reservation.reservationDate }} <br> <strong>전문가</strong> {{ reservation.consultantName }} (반려동물행동지도사) <br> <strong>반려동물</strong> {{ reservation.petName }} ({{ reservation.petType }})",
                     icon: "success",
                     showCancelButton: false,
                     confirmButtonColor: "primary",
@@ -106,6 +110,7 @@ export default {
     console.log("carousel");
   },
 };
+// runtime-core.esm-bundler.js?d2dd:40 [Vue warn]: Maximum recursive updates exceeded in component <VSlideGroup>. This means you have a reactive effect that is mutating its own dependencies and thus recursively triggering itself. Possible sources include component template, render function, updated hook or watcher source function.
 </script>
 
 <style scoped>

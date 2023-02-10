@@ -6,23 +6,21 @@
       rounded="0" v-bind="props"
     >
       <v-card-item>
-        <ReceivedMatchingCardButton></ReceivedMatchingCardButton>
+        <ReceivedMatchingCardButton :reservation="reservation" />
       </v-card-item>
       <v-card-item class="align-self-center">
         <v-avatar class="pt-1" color="white" size="100">
           <img width="100" :src="require('@/assets/placeholder/placeholder_dog.png')" />
         </v-avatar>
       </v-card-item>
-      <v-card-title>20XX - XX - XX XX : XX</v-card-title>
+      <v-card-title>{{ reservation.reservationDate }}</v-card-title>
       <v-card-subtitle>
-        <p>로이 (8세)</p>
-        <p>강아지 - 이탈리안 그레이하운드</p>
+        <p>{{ reservation.petName }} ({{ reservation.petBirth }})</p>
+        <p>{{ reservation.petType }} - {{ reservation.petVariety }}</p>
       </v-card-subtitle>
       <v-card-text>
         <div class="reservation-pet-info">
-          우리 갱얼쥐... 이제 노견인데 아직도 너무 긔 여 어 여 노견이 이렇게
-          귀여워도 돼요? 이거 문제있는거죠? 말이 됩니까??????? 우리 로이 좀 보세요
-          세상에
+          {{ reservation.reservationConsultContent }}
         </div>
       </v-card-text>
       <v-card-actions class="d-flex flex-row justify-space-between">
@@ -39,8 +37,10 @@
 
 <script>
 import ReceivedMatchingCardButton from "./ReceivedMatchingCardButton.vue";
+//import axios from "axios";
 import { mapState } from "vuex";
 //import { apiInstance } from "@/api/index.js";
+//const reservationStore = "reservationStore";
 const userStore = "userStore";
 
 export default {
@@ -74,7 +74,7 @@ export default {
   },
 
   created(){
-    
+    console.log("reservation", this.reservation);
   }
 };
 </script>

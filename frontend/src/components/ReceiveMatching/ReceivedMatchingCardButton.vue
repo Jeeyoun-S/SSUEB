@@ -5,8 +5,8 @@
       <v-btn variant="outlined" rounded="0" color="primary"
         v-bind="props" block
       >
-        받은 상담 제안 10건 보기
-      </v-btn> <!--건수 가져올 필요 있음-->
+        받은 상담 제안 {{ reservation.matchingConsultants.length }}건 보기
+      </v-btn>
     </template>
     <v-card class="pa-5">
       <v-card-title><h3>{{ reservation.reservationDate }}</h3></v-card-title>
@@ -16,8 +16,9 @@
       </v-card-text>
       <v-card-item>
         <v-slide-group v-model="model" selected-class="bg-success" show-arrows>
-          <v-slide-group-item v-for="n in 10" :key="n">
-            <ReceivedMatchingCarousel @dialog-off="dialog=false"> </ReceivedMatchingCarousel>
+          <!--v-for 자리-->
+          <v-slide-group-item v-for="(consultant, idx) in reservation.matchingConsultants" :key="{idx}">
+            <ReceivedMatchingCarousel :consultant="consultant" />
           </v-slide-group-item>
         </v-slide-group>
       </v-card-item>
@@ -30,19 +31,27 @@
 
 <script>
 import ReceivedMatchingCarousel from "@/components/ReceiveMatching/ReceivedMatchingCarousel.vue"
-
 export default {
   name: "ReceivedMatchingCardButton",
   components: {
     ReceivedMatchingCarousel
   },
   props: {
-    reservation:{},
+    reservation: {},
   },
-  data() {
-    return {
-      dialog: false
+  data: () => ({
+    dialog: false,
+    model: []
+  }),
+  methods: {
+    dialogOff() {
+      this.dialog = false;
     }
+  },
+  created() {
+    // console.log("#props 확인", this.reservation);
+    // this.matchingConsultants = this.matchingConsultants;
+    console.log("#data 반영 확인", this.matchingConsultants);
   }
 }
 </script>

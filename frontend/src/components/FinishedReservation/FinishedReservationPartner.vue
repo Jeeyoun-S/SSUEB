@@ -8,7 +8,7 @@
     </v-row>
   </v-sheet>
   <v-expansion-panels multiple>
-    <v-expansion-panel class="reservation" v-for="(reservation, idx) in reservations" :key="{idx}">
+    <v-expansion-panel v-for="(reservation, idx) in reservations" :key="{idx}">
 
       <!-- 타이틀 -->
       <v-expansion-panel-title>

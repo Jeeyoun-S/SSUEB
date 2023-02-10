@@ -6,7 +6,7 @@
         <h2>내가 보낸 상담 제안 확인하기</h2>
       </div>
       <div class="page-inner-items border-sheet-four">
-        <SendMatchingCard></SendMatchingCard>
+        <SendMatchingCard v-for="(matching, idx) in matchings" :matching="matching" v-bind:key="idx" />
       </div>
     </div>
   </div>
@@ -17,6 +17,7 @@ import SendMatchingCard from "@/components/SendMatching/SendMatchingCard.vue";
 import axios from "axios";
 import { mapState } from "vuex";
 const userStore = "userStore";
+//const reservationStore = "reservationStore";
 
 export default {
   name: "SendMatching",

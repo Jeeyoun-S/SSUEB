@@ -31,7 +31,7 @@
           </v-chip>
           <v-chip class="ma-2 pr-6" color="blue-darken-3" size="large" label>
             <v-checkbox-btn false-icon="mdi-thumb-up-outline"
-              true-icon="mdi-thumb-up"
+              true-icon="mdi-thumb-up" v-model="isHeart"
             ></v-checkbox-btn>
             <v-label>{{ boardDetail.boardHeartnum }}</v-label>
           </v-chip>
@@ -43,7 +43,7 @@
           <v-btn class="me-auto" rounded="pill" variant="tonal" prepend-icon="mdi-paperclip">
             {{ boardDetail.boardFile }}
           </v-btn>
-          <v-sheet>
+          <v-sheet v-show="this.userId == this.boardDetail.userId">
             <FreeBoardModify :boardDetail="boardDetail"></FreeBoardModify>
             <!-- <v-btn class="ma-1" :rounded="0" color="primary" size="large" @click="moveModify()">수정</v-btn> -->
             <v-btn class="ma-1 mr-10" :rounded="0" color="error" size="large">삭제</v-btn>
@@ -60,9 +60,15 @@
 <script>
 import FreeBoardReply from "@/components/FreeBoard/FreeBoardReply.vue";
 import FreeBoardModify from "@/components/FreeBoard/FreeBoardModify.vue"
+import { getDetailBoard } from "@/api/communityNotice.js"
+import { mapState } from "vuex";
+const userStore = "userStore";
 
 export default {
   name: "FreeBoardDetail",
+  computed: {
+    ...mapState(userStore, ["userId"]),
+  },
   components: {
     FreeBoardReply,
     FreeBoardModify
@@ -71,7 +77,7 @@ export default {
     return {
       loaded: true,
       boardDetail: {
-        no: 5,
+        //no: 5, //this.$route.params.no으로 호출하니까
         userId: "",
         userNickname: "와싸피",
         boardTitle: "제목",
@@ -90,9 +96,11 @@ export default {
       this.$router.go(-1)
     }
   },
-  created() {
+  async created() {
     // 게시글 상세 조회 API
     // 게시글 번호 this.$route.params.no로 조회해 boardDetail에 넣기
+    this.boardDetail = await getDetailBoard(this.$route.params.no);
+
   }
 }
 </script>

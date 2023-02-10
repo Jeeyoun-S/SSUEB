@@ -6,8 +6,7 @@
         <h2>전문가에게 받은 상담 제안 보기</h2>
       </div>
       <div class="page-inner-items border-sheet-four">
-        <ReceivedCard v-for="(reservation, idx) in reservations" :reservation="reservation" :key="idx">
-        </ReceivedCard>
+        <ReceivedCard v-for="(reservation, idx) in reservations" :reservation="reservation" :key="idx" />
       </div>
     </div>
   </div>
@@ -24,16 +23,7 @@ const userStore = "userStore";
 export default {
   name: "ReceiveMatching",
   data: () => ({
-    reservations:[
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-      {},
-    ], // [{value,[]},{value,[]}] 꼴
+    reservations:[], // [{value,[]},{value,[]}] 꼴
   }),
   computed: {
     ...mapState(userStore, ["userId"]),
