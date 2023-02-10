@@ -28,12 +28,14 @@
       <v-card-actions class="pa-6" style="font-size: small; color: slategrey"
         >🔔 금일 예약이 {{ this.reservationCount }}건 있습니다.</v-card-actions
       >
+      <user-logout></user-logout>
     </v-card>
   </div>
 </template>
 
 <script>
 import { mapActions, mapState } from "vuex";
+import UserLogout from "../MyPage/UserLogout.vue";
 
 const userStore = "userStore";
 const mainPageStore = "mainPageStore";
@@ -43,7 +45,9 @@ export default {
   data() {
     return {};
   },
-  components: {},
+  components: {
+    UserLogout,
+  },
   watch: {
     isLogin: function () {
       // [@Method] 권한 확인 및 유저 정보 가져오기

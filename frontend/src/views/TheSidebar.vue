@@ -46,7 +46,7 @@ export default {
         {
           title: "마이페이지",
           value: 2,
-          props: { prependIcon: "mdi-account", to: "/mypage" },
+          props: { prependIcon: "mdi-account", to: "/mypage", disabled: true },
         },
         { type: "divider" },
         { type: "subheader", title: "상담" },
@@ -109,7 +109,7 @@ export default {
         {
           title: "마이페이지",
           value: 2,
-          props: { prependIcon: "mdi-account", to: "/mypage" },
+          props: { prependIcon: "mdi-account", to: "/mypage", disabled: true },
         },
         { type: "divider" },
         { type: "subheader", title: "상담" },
@@ -165,6 +165,29 @@ export default {
   computed: {
     ...mapState(userStore, ["userAuth"]),
   },
+  watch: {
+    userAuth() {
+      console.log("실행");
+      if (this.userAuth == 'ROLE_USER') {
+        this.items[1].props.disabled = false;
+      } else if (this.userAuth == 'ROLE_CONSULTANT') {
+        this.consultantItems[1].props.disabled = false;
+      } else if (this.userAuth == null) {
+        this.items[1].props.disabled = true;
+        this.consultantItems[1].props.disabled = true;
+      }
+    }
+  },
+  created() {
+    if (this.userAuth == 'ROLE_USER') {
+      this.items[1].props.disabled = false;
+    } else if (this.userAuth == 'ROLE_CONSULTANT') {
+      this.consultantItems[1].props.disabled = false;
+    } else if (this.userAuth == null) {
+      this.items[1].props.disabled = true;
+      this.consultantItems[1].props.disabled = true;
+    }
+  }
 };
 </script>
 
