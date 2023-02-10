@@ -32,13 +32,11 @@
 <script>
 export default {
   name: "FreeBoardTable",
+  props:{
+    boardSummaryList: Array
+  },
   data() {
     return {
-      boardSummaryList: [
-        { no: 3, userNickname: "싸피인", boardTitle: "잘 모르겠는데 알려주실 분" },
-        { no: 2, userNickname: "인싸피인", boardTitle: "와 이건 뭐냐 신기하네~~" },
-        { no: 1, userNickname: "싸피인이야싸피인이야", boardTitle: "광고광고광고광고광고광고광고광고" },
-      ],
       keyword: ""
     }
   },

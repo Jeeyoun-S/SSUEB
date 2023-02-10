@@ -21,7 +21,7 @@
               variant="underlined" maxlength="500" counter="500"
               row-height="500" rows="8" auto-grow
             ></v-textarea>
-            <v-file-input v-model="newBoard.boardFile" label="첨부파일" variant="underlined"></v-file-input>
+            <v-file-input v-model="boardFile" label="첨부파일" variant="underlined"></v-file-input>
           </v-form>
         </v-container>
       </v-card-text>
@@ -35,20 +35,26 @@
 </template>
 
 <script>
+import { apiInstance } from "@/api/index.js";
+import { mapState } from "vuex";
+const userStore = "userStore";
 export default {
   name: "FreeBoardRegist",
+  computed: {
+    ...mapState(userStore, ["userId", "userinfo", "userAuth"]),
+  },
   data() {
     return {
       registBoardOpen: false,
+      boardFile: null,
       newBoard: {
         // 입력 받는 정보
         boardTitle: null,
         boardContent: null,
-        boardFile: null,
         // 넣어줄 정보
-        userId: null,
-        userNickname: null,
-        boardFlag: null,
+        userId: this.userId,
+        userNickname: "임시닉네임",//this.userinfo.usreNickname,//바로 못받아오는듯?
+        boardFlag: this.userAuth=="ROLE_ADMIN"?0:this.userAuth=="ROLE_CONSULTANT"?1:2,
       },
       boardRules: {
         boardTitle: [
@@ -68,11 +74,26 @@ export default {
   methods: {
     async validate() {
       const { valid } = await this.$refs.forms.validate();
-
       if (valid) {
-        // 게시글 등록 API
-        // newBoard 정보를 등록
-        alert("게시글 등록")
+        const frm = new FormData();
+        console.log(this.newBoard);
+        
+        frm.append("board",  new Blob([ JSON.stringify(this.newBoard) ], {type : "application/json"}));
+        frm.append("file", this.boardFile);
+
+        const api = apiInstance();
+        api.post(process.env.VUE_APP_API_BASE_URL+`/community`, frm, {
+          headers: {'Content-Type': 'multipart/form-data'}
+        }).then(() => {
+          this.$swal.fire(
+            '게시글 등록 완료',
+            '신규 게시글 등록이 완료되었습니다.',
+            'success'
+          )
+        }).catch(error => {
+          console.log(error.message)
+          return;
+        })
       }
 
       this.registBoardOpen = false;

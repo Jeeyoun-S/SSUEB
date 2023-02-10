@@ -7,12 +7,10 @@
         <h2>예정된 상담 일정 목록</h2>
       </div>
       <div v-if="userAuth == 'ROLE_USER'" class="page-inner-items border-sheet-four">
-        <ConfirmedPartnerCard v-for="(reservation, idx) in reservations" :reservation="reservation" v-bind:key="idx">
-        </ConfirmedPartnerCard>
+        <ConfirmedPartnerCard v-for="(reservation, idx) in reservations" :reservation="reservation" :key="idx" />
       </div>
       <div v-else-if="userAuth == 'ROLE_CONSULTANT'" class="page-inner-items border-sheet-four">
-        <ConfirmedConsultantCard v-for="(reservation, idx) in reservations" :reservation="reservation" v-bind:key="idx">
-        </ConfirmedConsultantCard>
+        <ConfirmedConsultantCard v-for="(reservation, idx) in reservations" :reservation="reservation" :key="idx" />
       </div>
     </div>
   </div>
@@ -83,8 +81,6 @@ export default {
             reservation["consultantIntro"] = data[i].consultantInfo.consultant_intro;
             reservation["consultantProfile"] = data[i].consultantInfo.consultant_profile;
             reservation["consultantRate"] = data[i].consultantInfo.consultant_rate;
-
-            
 
             this.reservations.push(reservation);
           }
