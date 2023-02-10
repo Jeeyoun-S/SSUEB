@@ -114,11 +114,9 @@ public class UserPetController {
 			
 			// DB에 넣기
 			String filename = userPetService.modifyPet(no, petRequest, petModifyRequest.isPetDeleteImage());
-			if (filename != null) {
-				Pet pet = new Pet();
-				pet.setPetImage(filename);
-				return ResponseEntity.status(200).body(new PetBasicResponse("success", "반려동물 정보를 수정했습니다.", pet));
-			}
+			Pet pet = new Pet();
+			pet.setPetImage(filename);
+			return ResponseEntity.status(200).body(new PetBasicResponse("success", "반려동물 정보를 수정했습니다.", pet));
 		}
 		
 		return ResponseEntity.status(200).body(new PetBasicResponse("failure", "반려동물 정보 수정에 실패했습니다.", null));

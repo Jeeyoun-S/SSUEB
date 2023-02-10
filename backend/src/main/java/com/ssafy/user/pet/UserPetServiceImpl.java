@@ -76,7 +76,6 @@ public class UserPetServiceImpl implements UserPetService {
 				return false;
 			}
 		}
-		
 		return true;
 	}
 	
@@ -159,7 +158,7 @@ public class UserPetServiceImpl implements UserPetService {
 		if (petRequest.getPetBirth() != null) pet.setPetBirth(petRequest.getPetBirth()+"-01");
 		pet.setPetInfo(petRequest.getPetInfo());
 		
-		Pet result = petRepository.save(pet);
+		petRepository.save(pet);
 		
 		if (petRequest.getPetImage() != null) return imageName;
 		else if (beforeFileName != null && !isPetDeleteImage) return beforeFileName;
