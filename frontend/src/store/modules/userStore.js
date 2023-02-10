@@ -71,6 +71,14 @@ const userStore = {
             commit("SET_IS_VALID_TOKEN", true);
             commit("SET_IS_LOGIN", true);
 
+            // 로그인 성공에 따른 메인페이지 정보 가져오기
+            // [@Method] 권한 확인 및 유저 정보 가져오기
+            store.dispatch("userStore/checkAnyPermit", null, { root: true });
+            // [@Method] 금일 예약 건 수 가져오기
+            store.dispatch("mainPageStore/excuteGetReservationCount", null, {
+              root: true,
+            });
+
             // 로그인 성공 alert창 출력
             const id = email.split("@");
             Swal.fire("SSEUB", `${id[0]} 님 환영합니다!`, "success");
@@ -199,6 +207,14 @@ const userStore = {
       localStorage.setItem("token", token);
       commit("SET_IS_VALID_TOKEN", true);
       commit("SET_IS_LOGIN", true);
+
+      // 로그인 성공에 따른 메인페이지 정보 가져오기
+      // [@Method] 권한 확인 및 유저 정보 가져오기
+      store.dispatch("userStore/checkAnyPermit", null, { root: true });
+      // [@Method] 금일 예약 건 수 가져오기
+      store.dispatch("mainPageStore/excuteGetReservationCount", null, {
+        root: true,
+      });
 
       // 로그인 성공 alert창 출력
       const id = email.split("@");
