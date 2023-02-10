@@ -59,9 +59,12 @@ const userValidStore = {
           v.length == 0 ||
           (v.length == 1 && ["image/png", "image/jpeg"].includes(v[0].type)) ||
           "png, jpg 파일만 첨부 가능합니다.",
+        (v) => v == null ||
+          v.length == 0 ||
+          (v.length == 1 && v[0].size <= 5000000) || "첨부 파일 크기는 최대 5MB까지만 가능합니다.",
       ],
       intro: [
-        (v) => v == null || v.length <= 150 || "150자 이하로 입력해 주세요.",
+        (v) => v == null || v.length <= 200 || "200자 이하로 입력해 주세요.",
       ],
     },
     petRule: {
@@ -79,9 +82,12 @@ const userValidStore = {
           v.length == 0 ||
           (v.length == 1 && ["image/png", "image/jpeg"].includes(v[0].type)) ||
           "png, jpg 파일만 첨부 가능합니다.",
+          (v) => v == null ||
+          v.length == 0 ||
+          (v.length == 1 && v[0].size <= 5000000) || "첨부 파일 크기는 최대 5MB까지만 가능합니다.",
       ],
       petInfo: [
-        (v) => v == null || v.length <= 40 || "40자 이하로 입력해 주세요.",
+        (v) => v == null || v.length <= 80 || "80자 이하로 입력해 주세요.",
       ],
       petName: [
         (v) => !!v || "이름은 필수 입력 사항입니다.",

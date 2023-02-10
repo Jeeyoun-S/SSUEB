@@ -107,9 +107,6 @@ export default {
     pet: Object
   },
   methods: {
-    modifyPet(pet) {
-      modifyPetInfo(pet);
-    },
     async validate() {
       const { valid } = await this.$refs.form.validate();
 
@@ -117,6 +114,16 @@ export default {
         await modifyPetInfo(this.petModifyInfo, this.pet.no)
         .then((res) => {
           this.modifyOpen = res;
+          // this.petModifyInfo = {
+          //   petBirth: null,
+          //   petImage: null,
+          //   petInfo: null,
+          //   petName: null,
+          //   petType: null,
+          //   petVariety: null,
+          //   petDeleteImage: false
+          // }
+          console.log("수정 후", this.petModifyInfo);
         });
       }
     },
@@ -155,14 +162,16 @@ export default {
       deep: true
     }
   },
-  created() {
+  beforeUpdate() {
     this.petModifyInfo.petBirth = this.pet.petBirth;
     this.petModifyInfo.petInfo = this.pet.petInfo;
     this.petModifyInfo.petName = this.pet.petName;
     this.petModifyInfo.petType = this.pet.petType;
     this.petModifyInfo.petVariety = this.pet.petVariety;
+    this.petModifyInfo.petImage = null;
     this.petOriginalImage = this.pet.petImage;
-  }
+    console.log("beforeUpdate");
+  },
 }
 </script>
 

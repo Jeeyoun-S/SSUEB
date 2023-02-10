@@ -59,7 +59,7 @@ export default {
   name: "MyPagePetItem",
   data() {
     return {
-      petImagePath: process.env.VUE_APP_IMAGE_FILE_PATH_PET,
+      // petImagePath: process.env.VUE_APP_IMAGE_FILE_PATH_PET,
     };
   },
   computed: {
@@ -82,6 +82,10 @@ export default {
       removePetInfo(petNo);
     },
     getImageUrl(img) {
+      console.log("이미지 파일", img);
+      if (img == null) {
+        return require("@/assets/profile/pet.png");
+      }
       return `${process.env.VUE_APP_FILE_PATH_PET}${img}`;
     },
   },

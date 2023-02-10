@@ -72,7 +72,17 @@ async function getUserConsultantInfo(id) {
 
 // [POST] 전문가 회원정보 수정
 async function updateConsultantInfo(consultantInfo) {
-  api
+
+  const petType = [0, 0, 0, 0, 0, 0];
+  for (var i in consultantInfo.consultantPetType) {
+    petType[consultantInfo.consultantPetType[i]] = 1;
+    console.log(i, petType[i])
+  }
+  consultantInfo.consultantPetType = petType.join('');
+  console.log("consultantInfo", petType);
+  console.log("consultantInfo", consultantInfo);
+
+  await api
     // .post(`user/info/consultant`, consultantInfo, {
     .post(
       `${process.env.VUE_APP_API_BASE_URL}/user/info/consultant`,

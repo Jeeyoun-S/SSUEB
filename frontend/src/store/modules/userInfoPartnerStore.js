@@ -50,12 +50,11 @@ const userInfoPartnerStore = {
       }
     },
     UPDATE_PET_INFO(state, payload) {
+      console.log("업데이트로");
       for (var key in payload) {
         console.log(key, payload[key]);
       }
-
       const petInfoArray = state.petInfo;
-
       for (let i = 0; i < petInfoArray.length; i++) {
         if (petInfoArray[i].no == payload.no) {
           state.petInfo[i] = payload;

@@ -148,7 +148,7 @@ export default {
       });
     },
     getImageUrl(img) {
-      return require(`${process.env.VUE_APP_IMAGE_FILE_PATH_PROFILE}` + img);
+      return `${process.env.VUE_APP_FILE_PATH_PROFILE}${img}`;
     },
   },
 };

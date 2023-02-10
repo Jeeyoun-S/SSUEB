@@ -149,9 +149,17 @@ async function modifyPetInfo(petInfo, petNo) {
         });
 
         result = false;
-        petInfo.no = petNo;
-        petInfo.petImage = res.data.data.petImage;
-        store.dispatch("updatePetInfo", petInfo);
+
+        const newModifyPetInfo = {};
+        for (var key in petInfo) {
+          newModifyPetInfo[key] = petInfo[key];
+          console.log(key, petInfo[key]);
+        }
+
+        newModifyPetInfo.no = petNo;
+        newModifyPetInfo.petImage = res.data.data.petImage;
+        console.log("수정 후", newModifyPetInfo);
+        store.dispatch("updatePetInfo", newModifyPetInfo);
       } else {
         console.log("#반려동물 수정 실패");
       }

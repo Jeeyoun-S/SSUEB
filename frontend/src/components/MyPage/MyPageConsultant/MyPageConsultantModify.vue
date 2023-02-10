@@ -184,13 +184,7 @@ export default {
 
       if (valid && this.phoneAuthStates) {
         this.consultantModifyInfo.userPhone = this.userPhone;
-        
-        const petType = [0, 0, 0, 0, 0, 0];
-        for (var i in this.consultantModifyInfo.consultantPetType) {
-          petType[i] = 1;
-        }
-        this.consultantModifyInfo.consultantPetType = petType.join('');
-        updateConsultantInfo(this.consultantModifyInfo);
+        await updateConsultantInfo(this.consultantModifyInfo);
       }
     },
     phoneAuth() {
@@ -198,6 +192,9 @@ export default {
       //   userPhone: this.userPhone,
       // });
       this.$store.dispatch("updatePhoneAuthMessage", this.userPhone);
+    },
+    getImageUrl(img) {
+      return `${process.env.VUE_APP_FILE_PATH_PROFILE}${img}`;
     },
   },
   created() {
