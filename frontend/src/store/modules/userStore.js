@@ -1,7 +1,7 @@
 import { login, anyPermit, partPermit, withdrawal } from "@/api/user";
 import VueJwtDecode from "vue-jwt-decode"; // ! JWT 디코드 설치 필요: npm i vue-jwt-decode
 import store from "@/store/index.js";
-import router from "@/router/index.js";
+// import router from "@/router/index.js";
 
 // sweetalert2 가져오기
 const Swal = require("sweetalert2");
@@ -151,7 +151,8 @@ const userStore = {
       // mainPageStore에 저장된 정보 초기화
       store.dispatch("mainPageStore/initMainPageStore", null, { root: true });
 
-      router.push("/");
+      // router.push("/");
+      location.href = `${process.env.VUE_APP_BASE_URL}`;
     },
     // [@Method] 회원 탈퇴
     async excuteWithdrawal(context) {
