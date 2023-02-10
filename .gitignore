@@ -79,6 +79,9 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+# Spring Boot 
+application.yml
+
 # OAuth Key
 application-oauth.yml
 

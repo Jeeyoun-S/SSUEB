@@ -32,6 +32,10 @@ public class Reply {
 	@ApiModelProperty(value = "댓글을 단 유저 아이디")
     String userId;
 	
+	@Column(name = "user_nickname")
+	@ApiModelProperty(value = "댓글을 단 유저 닉네임, 전문가의 경우 이름")
+    String userNickname;
+	
 	@Column(name = "reply_content")
 	@ApiModelProperty(value = "댓글 내용")
 	String replyContent;
