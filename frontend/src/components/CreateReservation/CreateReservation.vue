@@ -156,6 +156,7 @@ import moment from 'moment';
 import { apiInstance } from "@/api/index.js";
 const reservationStore = "reservationStore";
 const userStore = "userStore";
+import router from "@/router/index.js";
 
 export default {
   name: "CreateReservation",
@@ -177,17 +178,7 @@ export default {
     // 반려동물 목록에 필요한 데이터
     page: 1,
     pageSize: 4,
-    petList: [
-      // { petName: '로이1', petType: '강아지' , petVariety: '이탈리안', petBirth: '2022-02' },
-      // { petName: '로이2', petType: '강아지' , petVariety: '이탈리안 그레이하운드', petBirth: '2022-02' },
-      // { petName: '로이3', petType: '강아지' , petVariety: '이탈리안 그레이하운드', petBirth: '2022-02' },
-      // { petName: '로이4', petType: '강아지' , petVariety: '이탈리안 그레이하운드', petBirth: '2022-02' },
-      // { petName: '로이5', petType: '강아지' , petVariety: '이탈리안 그레이하운드', petBirth: '2022-02' },
-      // { petName: '로이6', petType: '강아지' , petVariety: '이탈리안', petBirth: '2022-02' },
-      // { petName: '로이7', petType: '강아지' , petVariety: '이탈리안 그레이하운드', petBirth: '2022-02' },
-      // { petName: '로이8', petType: '강아지' , petVariety: '이탈리안 그레이하운드', petBirth: '2022-02' },
-      // { petName: '로이9', petType: '강아지' , petVariety: '이탈리안 그레이하운드', petBirth: '2022-02' },
-    ],
+    petList: [],
     listCount: 0,
     historyList: [],
     rules: [
@@ -197,7 +188,7 @@ export default {
     radio1: "radio1-no",
     radio2: "radio2-no",
     reservation:{
-      userId: "aa@a",//임시 값
+      userId: null,
       reservationPetNo: 0,
       reservationDate: null, //YYYY-MM-DD HH-mm-ss ex)2023-02-22 22:22:22
       reservationConsultContent:null,
@@ -211,16 +202,15 @@ export default {
       const { valid } = await this.$refs.reservationForm.validate();
       if (valid) {
         this.createReservation();
-        
       }
     },
     createReservation() {
       // process.env.VUE_APP_API_BASE_URL -> baseurl env파일에서 호출
-      
       //날짜 timestamp형식으로
       this.reservation.reservationDate = this.date.getFullYear()+"-"+(this.date.getMonth()+1)+"-"+this.date.getDate()+" "+
           this.date.getHours()+":"+this.date.getMinutes()+":"+this.date.getSeconds();
       this.reservation.reservationPetNo = this.selectedPet.no;
+      this.reservation.userId = this.userId;
 
       for(let i=0; i<this.timeList.length; i++){
         const diff = 
@@ -242,8 +232,31 @@ export default {
       if(this.files){
         console.log("파일있음")
         for(let i=0; i<this.files.length; i++){
-          if(this.files[i].type.startsWith('image') || this.files[i].type.startsWith('video')){
-            frm.append("files", this.files[i]);
+          if(this.files[i].type.startsWith('image')){
+            if(this.files[i].size <= 3*1024*1024){//사진은 3메가
+              frm.append("files", this.files[i]);
+            }
+            else{
+              this.$swal.fire(
+              '상담 등록 실패',
+              '신규 상담 등록이 실패하였습니다. <br /> 이미지 파일의 크기가 3MB이상입니다.',
+              'error'
+              )
+              return;
+            }
+          }
+          else if(this.files[i].type.startsWith('video')){
+            if(this.files[i].size <= 50*1024*1024){//비디오는 50메가
+              frm.append("files", this.files[i]);
+            }
+            else{
+              this.$swal.fire(
+              '상담 등록 실패',
+              '신규 상담 등록이 실패하였습니다. <br /> 영상 파일의 크기가 50MB이상입니다.',
+              'error'
+              )
+              return;
+            }
           }
           else{
             console.log("잘못된 확장자")
@@ -267,6 +280,7 @@ export default {
           '신규 상담 등록이 완료되었습니다. <br /> 전문가가 상담에 대한 제안을 보내면 받은 상담 제안 메뉴에서 확인 후 수락해 상담 예약을 확정할 수 있습니다.<br /> 상담 제안이 오면 메인페이지의 알림창에서 확인이 가능합니다.',
           'success'
         )
+        router.push("/receive-matching");
       }).catch(error => {
         console.log(error.message)
         this.$swal.fire(

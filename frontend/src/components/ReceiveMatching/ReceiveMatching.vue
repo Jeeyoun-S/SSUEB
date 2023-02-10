@@ -16,6 +16,11 @@
 <script>
 import ReceivedCard from "@/components/ReceiveMatching/ReceivedMatchingCard.vue";
 import axios from "axios";
+import { mapState } from "vuex";
+import { apiInstance } from "@/api/index.js";
+const reservationStore = "reservationStore";
+const userStore = "userStore";
+
 export default {
   name: "ReceiveMatching",
   data: () => ({
@@ -30,20 +35,24 @@ export default {
       {},
     ], // [{value,[]},{value,[]}] 꼴
   }),
+  computed: {
+    ...mapState(userStore, ["userId"]),
+    ...mapState(reservationStore),
+  },
   components: {
     ReceivedCard,
   },
   methods:{
-    getReservation() {
-      axios({
-        url: process.env.VUE_APP_API_BASE_URL+`/reservation/partner/unconfirm/`+`aa@a`,
+    async getReservation() {
+
+      const api = apiInstance();
+      await api({
+        url: process.env.VUE_APP_API_BASE_URL+`/reservation/partner/unconfirm/`+`aa@a`, //이메일 바꾸고
         method: "get",
       })
         .then(({ data }) => {
           for (var i = 0; i < data.length; i++) {
-            let reservation = {
-
-            };
+            let reservation = {};
             reservation["rno"] = data[i].reservationPet.rno;
             reservation["userId"] = data[i].reservationPet.userId;
             reservation["reservationDate"] = data[i].reservationPet.reservationDate;
@@ -80,7 +89,7 @@ export default {
             reservation["matchingConsultants"] = matchingConsultants;
             this.reservations.push(reservation);
           }
-          console.log(this.reservations[0].matchingConsultants)
+          //console.log(this.reservations[0].matchingConsultants)
         })
         .catch((err) => {
           console.log(err);

@@ -39,12 +39,18 @@
 
 <script>
 import ReceivedMatchingCardButton from "./ReceivedMatchingCardButton.vue";
+import { mapState } from "vuex";
+//import { apiInstance } from "@/api/index.js";
+const userStore = "userStore";
 
 export default {
   name: "ReceivedMatchingCard",
   components: { 
     ReceivedMatchingCardButton
    },
+   computed: {
+    ...mapState(userStore, ["userId"]),
+  },
 
   data: () => ({
     dialog: false,
