@@ -44,7 +44,8 @@
             {{ boardDetail.boardFile }}
           </v-btn>
           <v-sheet>
-            <v-btn class="ma-1" :rounded="0" color="primary" size="large">수정</v-btn>
+            <FreeBoardModify :boardDetail="boardDetail"></FreeBoardModify>
+            <!-- <v-btn class="ma-1" :rounded="0" color="primary" size="large" @click="moveModify()">수정</v-btn> -->
             <v-btn class="ma-1 mr-10" :rounded="0" color="error" size="large">삭제</v-btn>
           </v-sheet>
         </v-sheet>
@@ -58,11 +59,13 @@
 
 <script>
 import FreeBoardReply from "@/components/FreeBoard/FreeBoardReply.vue";
+import FreeBoardModify from "@/components/FreeBoard/FreeBoardModify.vue"
 
 export default {
   name: "FreeBoardDetail",
   components: {
-    FreeBoardReply
+    FreeBoardReply,
+    FreeBoardModify
   },
   data() {
     return {

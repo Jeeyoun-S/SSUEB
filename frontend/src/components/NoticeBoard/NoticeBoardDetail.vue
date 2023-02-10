@@ -26,7 +26,7 @@ export default {
   data() {
     return {
       dialog: false,
-      boardNo: null,
+      // boardNo: null,
       boardDetail: {
         no: 5,
         boardTitle: "제목",
@@ -35,10 +35,6 @@ export default {
       },
     }
   },
-  created() {
-    // 디테일 가져오기
-    
-  }
 }
 </script>
 

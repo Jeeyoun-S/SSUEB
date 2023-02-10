@@ -82,7 +82,7 @@ export default {
       removePetInfo(petNo);
     },
     getImageUrl(img) {
-      return require(`${process.env.VUE_APP_IMAGE_FILE_PATH_PET}` + img);
+      return require(`${process.env.VUE_APP_FILE_PATH_PET}${img}`);
     },
   },
 };

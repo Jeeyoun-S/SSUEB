@@ -30,16 +30,15 @@
 
 <script>
 import NoticeBoardDetail from "@/components/NoticeBoard/NoticeBoardDetail.vue"
+import { getDetailBoard } from "@/api/communityNotice.js"
 
 export default {
   name: "NoticeBoardTable",
+  props: {
+    boardSummaryList: Array
+  },
   data() {
     return {
-      boardSummaryList: [
-        { no: 3, boardTitle: "잘 모르겠는데 알려주실 분" },
-        { no: 2, boardTitle: "와 이건 뭐냐 신기하네~~" },
-        { no: 1, boardTitle: "광고광고광고광고광고광고광고광고" },
-      ],
       keyword: ""
     }
   },
@@ -52,11 +51,12 @@ export default {
     },
   },
   methods: {
-    moveDetailBoard(no) {
-      this.$refs.noticeBoardDetail.boardNo = no;
+    async moveDetailBoard(no) {
+      const result = await getDetailBoard(no);
+      this.$refs.noticeBoardDetail.boardDetail = result;
       this.$refs.noticeBoardDetail.dialog = true;
     }
-  }
+  },
 }
 </script>
 
