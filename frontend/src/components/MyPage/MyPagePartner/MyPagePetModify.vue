@@ -121,7 +121,7 @@ export default {
       }
     },
     getImageUrl(img) {
-      return require(`${process.env.VUE_APP_FILE_PATH_PET}${img}`);
+      return `${process.env.VUE_APP_FILE_PATH_PET}${img}`;
     },
   },
   watch: {
