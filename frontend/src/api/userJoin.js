@@ -170,7 +170,10 @@ async function joinPartner(joinRequest, socialAccess, provider) {
             location.href = process.env.VUE_APP_BASE_URL;
           } else {
             // 로그인 성공 > 로그인 후 메인화면으로 이동
-            // console.log("#userJoin - api# [반려인] 회원가입 후 로그인 성공 res: ", res);
+            // console.log(
+            //   "#userJoin - api# [반려인] 회원가입 후 로그인 성공 res: ",
+            //   res
+            // );
             await store.dispatch("userStore/setAutoLogin", res, { root: true });
             await store.dispatch("userStore/moveMainPage", null, {
               root: true,
@@ -179,7 +182,6 @@ async function joinPartner(joinRequest, socialAccess, provider) {
           // location.href = process.env.VUE_APP_BASE_URL;
         });
       }
-
       // 회원가입 실패
       else {
         Swal.fire(

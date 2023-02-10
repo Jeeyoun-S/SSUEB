@@ -30,17 +30,16 @@ export default {
       
     };
   },
-  components: {
-    // UserLogout,
-  },
-  watch: {
-    isLogin: function () {
-      // [@Method] 권한 확인 및 유저 정보 가져오기
-      this.checkAnyPermit();
-      // [@Method] 금일 예약 건 수 가져오기
-      this.excuteGetReservationCount();
-    },
-  },
+  components: {},
+  // watch: {
+  //   isLogin: function () {
+  //     console.log("#21# 권한 확인 및 유저 정보 가져오기 동작");
+  //     // [@Method] 권한 확인 및 유저 정보 가져오기
+  //     this.checkAnyPermit();
+  //     // [@Method] 금일 예약 건 수 가져오기
+  //     this.excuteGetReservationCount();
+  //   },
+  // },
   computed: {
     ...mapState(userStore, ["userAuth", "userInfo", "isLogin"]),
     ...mapState(mainPageStore, ["reservationCount"]),

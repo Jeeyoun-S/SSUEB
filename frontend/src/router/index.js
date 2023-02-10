@@ -27,7 +27,7 @@ router.beforeEach((to, from, next) => {
   // console.log("#21# router 가드 동작 from: ", from);
 
   // 메인페이지, 회원가입 페이지 제외
-  if (to.path == "/" || to.path == "/join") {
+  if (to.path == "/" || to.path == "/join" || to.path == "/notice") {
     next();
   }
   // - 로그인한 상태가 아니라면, 메인 페이지(로그인)로 이동

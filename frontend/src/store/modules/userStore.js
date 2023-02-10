@@ -1,7 +1,7 @@
 import { login, anyPermit, partPermit, withdrawal } from "@/api/user";
 import VueJwtDecode from "vue-jwt-decode"; // ! JWT 디코드 설치 필요: npm i vue-jwt-decode
 import store from "@/store/index.js";
-import router from "@/router/index.js";
+// import router from "@/router/index.js";
 
 // sweetalert2 가져오기
 const Swal = require("sweetalert2");
@@ -70,6 +70,14 @@ const userStore = {
             localStorage.setItem("token", token);
             commit("SET_IS_VALID_TOKEN", true);
             commit("SET_IS_LOGIN", true);
+
+            // 로그인 성공에 따른 메인페이지 정보 가져오기
+            // [@Method] 권한 확인 및 유저 정보 가져오기
+            store.dispatch("userStore/checkAnyPermit", null, { root: true });
+            // [@Method] 금일 예약 건 수 가져오기
+            store.dispatch("mainPageStore/excuteGetReservationCount", null, {
+              root: true,
+            });
 
             // 로그인 성공 alert창 출력
             const id = email.split("@");
@@ -151,7 +159,8 @@ const userStore = {
       // mainPageStore에 저장된 정보 초기화
       store.dispatch("mainPageStore/initMainPageStore", null, { root: true });
 
-      router.push("/");
+      // router.push("/");
+      location.href = `${process.env.VUE_APP_BASE_URL}`;
     },
     // [@Method] 회원 탈퇴
     async excuteWithdrawal(context) {
@@ -198,6 +207,14 @@ const userStore = {
       localStorage.setItem("token", token);
       commit("SET_IS_VALID_TOKEN", true);
       commit("SET_IS_LOGIN", true);
+
+      // 로그인 성공에 따른 메인페이지 정보 가져오기
+      // [@Method] 권한 확인 및 유저 정보 가져오기
+      store.dispatch("userStore/checkAnyPermit", null, { root: true });
+      // [@Method] 금일 예약 건 수 가져오기
+      store.dispatch("mainPageStore/excuteGetReservationCount", null, {
+        root: true,
+      });
 
       // 로그인 성공 alert창 출력
       const id = email.split("@");

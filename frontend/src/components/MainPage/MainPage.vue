@@ -1,5 +1,6 @@
 <template>
-  <div class="main-page">
+  <NowLoading v-if="!loaded"></NowLoading>
+  <div v-else class="main-page">
     <div class="main-center">
       <div class="main-center-item first">
         <img class="image" :src="require('@/assets/main/wind.gif')" />
@@ -25,10 +26,14 @@
     </div>
     <div class="main-right">
       <!-- isLogin : [false - 로그인 X / true - 로그인 O]-->
-      <UserLogin class="card" v-show="!this.isLogin"></UserLogin>
-      <UserAlert class="card" v-show="false"></UserAlert>
-      <UserMainAlert v-show="this.isLogin"></UserMainAlert>
-      <BoardTopFive v-show="this.isLogin"></BoardTopFive>
+      <div class="main-right-item" v-if="!this.isLogin">
+        <UserLogin class="card" v-show="!this.isLogin"></UserLogin>
+        <!-- <UserAlert class="card" v-show="false"></UserAlert> -->
+      </div>
+      <div class="main-right-item" v-else>
+        <UserMainAlert class="mb-5" v-show="this.isLogin"></UserMainAlert>
+        <BoardTopFive v-show="this.isLogin"></BoardTopFive>
+      </div>
       <div class="main-right-item bottom">
         <MainPageChatBot></MainPageChatBot>
       </div>
@@ -39,10 +44,11 @@
 <script>
 import { mapState, mapActions } from "vuex";
 import UserLogin from "../UserLogin/UserLogin.vue";
-import UserAlert from "../UserLogin/UserAlert.vue";
+// import UserAlert from "../UserLogin/UserAlert.vue";
 import MainPageChatBot from "@/components/MainPage/MainPageChatBot.vue";
 import BoardTopFive from "@/components/MainPage/BoardTopFive.vue";
 import UserMainAlert from "@/components/MainPage/UserMainAlert.vue";
+import NowLoading from "@/views/NowLoading.vue";
 
 const userStore = "userStore";
 const userOAuthStore = "userOAuthStore";
@@ -53,9 +59,11 @@ export default {
     return {
       kakaoCode: null,
       googleToken: null,
+      loaded: false
     };
   },
   created() {
+    this.loaded = false;
     // #OAuth - 인가 code 받기 (Google, Kakao)
     // i) Kakao 인가 code
     this.kakaoCode = this.$route.query.code;
@@ -73,13 +81,15 @@ export default {
         this.google();
       }
     }
+    this.loaded = true;
   },
   components: {
     UserLogin,
-    UserAlert,
+    // UserAlert,
     MainPageChatBot,
     BoardTopFive,
     UserMainAlert,
+    NowLoading,
   },
   computed: {
     ...mapState(userStore, ["isLogin"]),
@@ -117,7 +127,7 @@ export default {
   width: 290px;
   height: 654.4px;
 }
-.main-right .main-right-item.bottom {
+.main-right .main-right-item {
   align-self: start;
 }
 .main-center {
