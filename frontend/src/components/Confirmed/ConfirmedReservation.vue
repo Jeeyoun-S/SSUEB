@@ -19,8 +19,8 @@
 </template>
 
 <script>
-import ConfirmedPartnerCard from "./ConfirmedPartnerCard.vue";
-import ConfirmedConsultantCard from "./ConfirmedConsultantCard.vue";
+import ConfirmedPartnerCard from "@/components/Confirmed/ConfirmedPartnerCard.vue";
+import ConfirmedConsultantCard from "@/components/Confirmed/ConfirmedConsultantCard.vue";
 import NowLoading from '@/views/NowLoading.vue';
 import axios from "axios";
 import { mapState } from "vuex";
