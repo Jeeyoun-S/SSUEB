@@ -116,39 +116,39 @@ export default {
         joinConsultant(this.formData, this.socialAccess, this.provider);
       }
       // #21# 소셜 로그인 접근 회원가입
-      else if (
-        !valid &&
-        this.phoneAuthStates &&
-        this.info.userPassword == null
-      ) {
-        // 펫 타입 확인
-        if (this.petCheck.includes("개")) this.info.consultPetType.push("1");
-        else this.info.consultPetType.push("0");
-        if (this.petCheck.includes("고양이"))
-          this.info.consultPetType.push("1");
-        else this.info.consultPetType.push("0");
-        if (this.petCheck.includes("토끼")) this.info.consultPetType.push("1");
-        else this.info.consultPetType.push("0");
-        if (this.petCheck.includes("패럿")) this.info.consultPetType.push("1");
-        else this.info.consultPetType.push("0");
-        if (this.petCheck.includes("기니피그"))
-          this.info.consultPetType.push("1");
-        else this.info.consultPetType.push("0");
-        if (this.petCheck.includes("햄스터"))
-          this.info.consultPetType.push("1");
-        else this.info.consultPetType.push("0");
+      // else if (
+      //   !valid &&
+      //   this.phoneAuthStates &&
+      //   this.info.userPassword == null
+      // ) {
+      //   // 펫 타입 확인
+      //   if (this.petCheck.includes("개")) this.info.consultPetType.push("1");
+      //   else this.info.consultPetType.push("0");
+      //   if (this.petCheck.includes("고양이"))
+      //     this.info.consultPetType.push("1");
+      //   else this.info.consultPetType.push("0");
+      //   if (this.petCheck.includes("토끼")) this.info.consultPetType.push("1");
+      //   else this.info.consultPetType.push("0");
+      //   if (this.petCheck.includes("패럿")) this.info.consultPetType.push("1");
+      //   else this.info.consultPetType.push("0");
+      //   if (this.petCheck.includes("기니피그"))
+      //     this.info.consultPetType.push("1");
+      //   else this.info.consultPetType.push("0");
+      //   if (this.petCheck.includes("햄스터"))
+      //     this.info.consultPetType.push("1");
+      //   else this.info.consultPetType.push("0");
 
-        this.info.consultPetType = this.info.consultPetType.join("");
+      //   this.info.consultPetType = this.info.consultPetType.join("");
 
-        // info를 formData 형식으로 바꿔서 보낸다.
-        for (var keySocial in this.info) {
-          if (keySocial == "consultantLicenseCopyImage")
-            this.formData.append(keySocial, this.info[keySocial][0]);
-          else this.formData.append(keySocial, this.info[keySocial]);
-        }
+      //   // info를 formData 형식으로 바꿔서 보낸다.
+      //   for (var keySocial in this.info) {
+      //     if (keySocial == "consultantLicenseCopyImage")
+      //       this.formData.append(keySocial, this.info[keySocial][0]);
+      //     else this.formData.append(keySocial, this.info[keySocial]);
+      //   }
 
-        joinConsultant(this.formData, this.socialAccess, this.provider);
-      }
+      //   joinConsultant(this.formData, this.socialAccess, this.provider);
+      // }
     },
     updatePhone(userPhone) {
       this.info.userPhone = userPhone;

@@ -200,7 +200,7 @@
 </template>
 
 <script>
-// import { updateConsultantInfo } from "@/api/userInfoConsultant.js";
+import { updateConsultantInfo } from "@/api/userInfoConsultant.js";
 
 export default {
   name: "MyPageConsultantModify",
@@ -250,6 +250,9 @@ export default {
     };
   },
   methods: {
+    getImageUrl(img) {
+      return `${process.env.VUE_APP_FILE_PATH_PROFILE}${img}`;
+    },
     back() {
       this.$store.dispatch("updateInfoVersion");
     },
@@ -257,12 +260,13 @@ export default {
       const { valid } = await this.$refs.forms.validate();
 
       if (valid && this.phoneAuthStates) {
-        this.excuteUpdate();
+        this.consultantModifyInfo.userPhone = this.userPhone;
+        updateConsultantInfo(this.consultantModifyInfo);
       }
       // 소셜 계정의 경우 비밀번호 미입력
-      else if (!valid && this.phoneAuthStates && this.isSocialUser) {
-        this.excuteUpdate();
-      }
+      // else if (!valid && this.phoneAuthStates && this.isSocialUser) {
+      //   this.excuteUpdate();
+      // }
     },
     phoneAuth() {
       // sendPhoneAuth({

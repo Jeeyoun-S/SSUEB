@@ -22,7 +22,7 @@
                 <!-- {{ selectedPet }} 선택한 반려동물 보기 -->
                 <v-item-group selected-class="bg-primary" v-model="selectedPet" mandatory>
                   <v-container>
-                    <v-sheet class="pl-5" height="280">
+                    <v-sheet class="pl-4" height="280">
                       <v-row class="d-flex flex-row justify-start align-start">
                         <RegisterPetBig v-if="petList.length < 4" @addPetList="addPetList"></RegisterPetBig>
                         <v-sheet class="mt-2 mb-4 mr-5" v-for="pet in historyList" :key="pet.no" height="120" width="300">
@@ -169,7 +169,7 @@ import axios from "axios";
 import { DatePicker } from 'v-calendar';
 import moment from 'moment';
 import { apiInstance } from "@/api/index.js";
-const reservationStore = "reservationStore";
+// const reservationStore = "reservationStore";
 const userStore = "userStore";
 import router from "@/router/index.js";
 
@@ -177,7 +177,7 @@ export default {
   name: "CreateReservation",
   computed: {
     ...mapState(userStore, ["userId"]),
-    ...mapState(reservationStore),
+    // ...mapState(reservationStore),
     pages() {
       if (this.pageSize == null || this.listCount == null) return 0;
       return Math.ceil(this.listCount / this.pageSize);

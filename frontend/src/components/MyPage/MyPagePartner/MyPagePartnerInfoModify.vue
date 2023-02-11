@@ -135,10 +135,10 @@ export default {
         updatePartnerInfo(this.userInfo);
       }
       // 소셜 계정의 경우 비밀번호 미입력
-      else if (!valid && this.phoneAuthStates && this.isSocialUser) {
-        this.userInfo.userPhone = this.userPhone;
-        updatePartnerInfo(this.userInfo);
-      }
+      // else if (!valid && this.phoneAuthStates && this.isSocialUser) {
+      //   this.userInfo.userPhone = this.userPhone;
+      //   updatePartnerInfo(this.userInfo);
+      // }
     },
     back() {
       this.$store.dispatch("updateInfoVersion");

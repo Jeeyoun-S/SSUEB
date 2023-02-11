@@ -5,25 +5,36 @@
       <div class="main-center-item first">
         <img class="image" :src="require('@/assets/main/wind.gif')" />
         <div class="explain one">
-          <h2>SSUEB's Service</h2>
+          <h2>SSUEB 소개</h2>
           <p>
-            SSUEB은 반려동물에 대한 고민을 해결하기 위해 만들어진 플랫폼이에요.
-            화상 미팅을 통해 반려동물행동지도사를 만나 반려동물에 대한 여러가지 궁금증을 해결해 보세요.
+            반려동물에 대한 고민을 해결하기 위해 만들어진 플랫폼입니다.<br>
+            화상 미팅을 통해 반려동물행동지도사를 만나 반려동물에 대한 여러 가지 궁금증을 해결해 보세요.
+            반려인이 상담을 신청하면, 전문가가 이에 상담 제안을 보내고, 이를 수락하면 상담이 진행됩니다.
           </p>
         </div>
       </div>
       <div class="main-center-item second">
         <div class="explain two">
-          <h2>SSUEB's User</h2>
-          <p>무슨 내용 적을지 고민해 봅시다.</p>
+          <h2>반려인 이용방법</h2>
+          <p>개, 고양이, 토끼, 패럿, 기니피그, 햄스터에 대해 상담받고 싶은 누구나</p>
+          <p>
+            (1) 신규 상담 등록에서 반려동물에 대한 상담을 신청합니다.<br>
+            (2) 이후 전문가의 상담 제안을 확인하고, 원하는 전문가를 선택합니다.<br>
+            (3) 예약 시간에 화상 상담 입장에서 화상 상담을 진행합니다.
+          </p>
         </div>
         <img class="image" :src="require('@/assets/main/startle.gif')" />
       </div>
       <div class="main-center-item third">
         <img class="image" :src="require('@/assets/main/walk.gif')" />
         <div class="explain three">
-          <h2>SSUEB's Happiness</h2>
-          <p>무슨 내용 적을지 고민해 봅시다.</p>
+          <h2>전문가 이용방법</h2>
+          <p>반려동물행동지도사 자격을 보유하고, 반려동물 상담 자격을 갖춘 사람</p>
+          <p>
+            (1) 신규 상담 제안에서 상담을 원하는 반려인에게 상담을 제안합니다.<br>
+            (2) 이후 반려인이 상담 제안을 수락하면 상담이 확정됩니다.<br>
+            (3) 예약 시간에 화상 상담 입장에서 화상 상담을 진행합니다.
+          </p>
         </div>
       </div>
     </div>
@@ -164,21 +175,23 @@ export default {
   height: 200px;
 
   border-radius: 10px;
-  padding: 35px;
+  padding: 30px;
 }
 .main-center .main-center-item .explain h2 {
-  font-size: 30px;
-  font-family: "Patua One", cursive;
-  font-weight: lighter;
+  font-size: 28px;
+  font-family: 'GongGothicMedium';
+  font-weight: 500;
 }
 .main-center .main-center-item .explain.one {
   background-color: #e8ebf6;
+  color: #1F3967;
 }
 .main-center .main-center-item .explain.two {
-  color: white;
   background-color: #3d6ec5;
+  color: white;
 }
-.main-page .main-center .main-center-item .explain.three {
+.main-center .main-center-item .explain.three {
   background-color: #e3e3e3;
+  color: #353535;
 }
 </style>
