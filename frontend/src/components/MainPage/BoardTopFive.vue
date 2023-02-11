@@ -8,11 +8,11 @@
     <v-card class="pt-4" flat rounded="0">
       <v-window v-model="onboarding">
         <div class="d-flex justify-center align-center">
-          <v-window-item v-for="n in board.length" :key="`card-${n}`" :value="n" @click="moveDetailBoard(board[n-1].no)">
+          <v-window-item v-for="n in board.length" :key="`card-${n}`" :value="n">
             <v-hover v-slot="{ isHovering, props }">
               <v-card class="pa-3 mb-1 d-flex flex-column justify-center align-center"
                 :elevation="isHovering ? 3 : 0" :class="{ 'on-hover': isHovering }" v-bind="props"
-                style="cursor: pointer;"
+                @click="moveDetailBoard(board[n-1].no)"
                 height="120" width="260" rounded="0" variant="outlined"
               >
                 <v-chip size="large" color="light-blue-darken-3">

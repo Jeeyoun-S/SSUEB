@@ -67,7 +67,11 @@
                 <v-card-title><h4>상담 시간 선택하기</h4></v-card-title>
                 <v-card-item>
                   <!-- {{ date.toISOString() }} 선택한 시간 정보 보기 -->
-                  <DatePicker v-model="date" mode="dateTime" timezone="Asia/Pyongyang" color="indigo" :minute-increment="10"></DatePicker>
+                  <!-- 내일부터 두 달 후까지만 선택 가능하도록 설정 -->
+                  <DatePicker v-model="date" mode="dateTime"
+                    timezone="Asia/Pyongyang" color="indigo" :minute-increment="10"
+                    :available-dates='{ start: new Date(new Date().setDate(new Date().getDate() + 1)), end: new Date(new Date().setMonth(new Date().getMonth() + 2)) }'
+                  ></DatePicker>
                 </v-card-item>
               </v-card>
             </v-hover>
@@ -208,7 +212,7 @@ export default {
       reservationConsultContent:null,
     },
     selectedPet: null,
-    date: new Date(),
+    date: new Date(new Date().setDate(new Date().getDate() + 1)),
     timeList: [],
   }),
   methods: {
@@ -219,7 +223,15 @@ export default {
     },
     async registed() {
       const { valid } = await this.$refs.reservationForm.validate();
-      if (valid) {
+
+      if (this.selectedPet == null) {
+          this.$swal.fire(
+            '반려동물 선택 필수',
+            '상담할 반려동물을 선택하지 않았습니다. 반려동물을 선택해 주세요.',
+            'error'
+          )
+      } 
+      else if (valid && this.selectedPet != null) {
         this.createReservation();
       }
     },
