@@ -110,7 +110,6 @@ export default {
   },
   methods: {
     ...mapActions(userOAuthStore, ["excuteKakaoToken", "excuteGoogleInfo"]),
-
     // #OAuth - Kakao# 받은 인가 코드를 사용하여 Kakao Token 발급요청
     async kakao() {
       await this.excuteKakaoToken(this.kakaoCode);
@@ -178,9 +177,9 @@ export default {
   padding: 30px;
 }
 .main-center .main-center-item .explain h2 {
-  font-size: 28px;
-  font-family: 'GongGothicMedium';
-  font-weight: 500;
+  font-size: 27px;
+  font-family: 'yg-jalnan';
+  font-weight: lighter;
 }
 .main-center .main-center-item .explain.one {
   background-color: #e8ebf6;

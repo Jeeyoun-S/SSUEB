@@ -1,5 +1,12 @@
 <template>
-  <div class="board-top border-sheet-two">
+  <div v-if="!loaded" class="board-top border-sheet-two d-flex justify-center align-center">
+    <v-progress-circular
+      :size="50"
+      color="primary"
+      indeterminate
+    ></v-progress-circular>
+  </div>
+  <div v-else class="board-top border-sheet-two">
     <h3 class="pa-4 pb-3">
       <v-icon class="mr-2" color="light-blue-darken-1">mdi-heart</v-icon>
       <span>인기 게시글</span>
@@ -48,12 +55,19 @@ export default {
   name: "BoardTopFive",
   data: () => ({
     onboarding: 0,
+    loaded: false
   }),
-  created() {
+  async created() {
+    this.loaded = false;
     if (this.isLogin == true) {
-      // [@Method] 좋아요 Top5 게시글 가져오기
-      this.excuteGetBoard();
+      try {
+        // [@Method] 좋아요 Top5 게시글 가져오기
+        await this.excuteGetBoard();
+      } catch (e) {
+        console.log("#게시글 가져오기 실패");
+      }
     }
+    this.loaded = true;
   },
   watch: {
     isLogin: function () {

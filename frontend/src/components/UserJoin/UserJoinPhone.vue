@@ -6,6 +6,7 @@
     label="휴대폰 번호"
     variant="underlined"
     color="primary"
+    maxlength="11"
     required
   ></v-text-field>
   <v-btn

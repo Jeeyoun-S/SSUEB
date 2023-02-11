@@ -9,6 +9,7 @@
         label="닉네임"
         variant="underlined"
         color="primary"
+        maxlength="10"
         required
       ></v-text-field>
       <UserJoinPhone @userPhone="updatePhone"></UserJoinPhone>

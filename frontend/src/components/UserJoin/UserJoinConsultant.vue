@@ -10,6 +10,7 @@
         label="반려동물행동지도사 자격번호"
         variant="underlined"
         color="primary"
+        maxlength="30"
         required
       ></v-text-field>
       <v-file-input

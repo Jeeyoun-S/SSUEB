@@ -6,6 +6,7 @@
         <h2>전문가에게 받은 상담 제안 보기</h2>
       </div>
       <div class="page-inner-items border-sheet-four">
+        <MoveCreateReservation v-if="reservations == null || reservations.length < 1" message="아직 받은 상담 제안이 없습니다."></MoveCreateReservation>
         <ReceivedCard v-for="(reservation, idx) in reservations" :reservation="reservation" :key="idx" />
       </div>
     </div>
@@ -14,6 +15,7 @@
 
 <script>
 import ReceivedCard from "@/components/ReceiveMatching/ReceivedMatchingCard.vue";
+import MoveCreateReservation from "@/components/CreateReservation/MoveCreateReservation.vue";
 import axios from "axios";
 import { mapState } from "vuex";
 import { apiInstance } from "@/api/index.js";
@@ -31,6 +33,7 @@ export default {
   },
   components: {
     ReceivedCard,
+    MoveCreateReservation
   },
   methods:{
     async getReservation() {
