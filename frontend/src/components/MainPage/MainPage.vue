@@ -6,7 +6,10 @@
         <img class="image" :src="require('@/assets/main/wind.gif')" />
         <div class="explain one">
           <h2>SSUEB's Service</h2>
-          <p>무슨 내용 적을지 고민해 봅시다.</p>
+          <p>
+            SSUEB은 반려동물에 대한 고민을 해결하기 위해 만들어진 플랫폼이에요.
+            화상 미팅을 통해 반려동물행동지도사를 만나 반려동물에 대한 여러가지 궁금증을 해결해 보세요.
+          </p>
         </div>
       </div>
       <div class="main-center-item second">
@@ -26,7 +29,7 @@
     </div>
     <div class="main-right">
       <!-- isLogin : [false - 로그인 X / true - 로그인 O]-->
-      <div class="main-right-item" v-if="!this.isLogin">
+      <div class="main-right-item" v-if="!isLogin">
         <UserLogin class="card"></UserLogin>
         <!-- <UserAlert class="card" v-show="false"></UserAlert> -->
       </div>

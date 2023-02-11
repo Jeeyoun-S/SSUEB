@@ -8,10 +8,11 @@
       </h2>
     </div>
     <div>
-      <v-alert density="compact" color="light-blue-darken-1">
-        <v-icon class="pb-1" color="white" size="20">mdi-bell</v-icon>
+      <v-btn prepend-icon="mdi-bell" color="light-blue-darken-2" size="large"
+        @click="moveConfirmed" block variant="outlined" rounded="0"
+      >
         금일 예약이 {{ this.reservationCount }}건 있습니다.
-      </v-alert>
+      </v-btn>
     </div>
   </div>
 </template>
@@ -47,13 +48,16 @@ export default {
   methods: {
     ...mapActions(userStore, ["checkAnyPermit"]),
     ...mapActions(mainPageStore, ["excuteGetReservationCount"]),
+    moveConfirmed() {
+      this.$router.push("/confirmed");
+    }
   },
 };
 </script>
 
 <style scoped>
 .main-alert {
-  height: 230px;
+  height: 210px;
   width: 300px;
   background-image: url("https://i.pinimg.com/originals/8f/10/c1/8f10c1d089561e3896d229bf673a04bc.gif");
   background-size: 150px;

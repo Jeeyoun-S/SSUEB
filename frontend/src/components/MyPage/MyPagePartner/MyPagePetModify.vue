@@ -62,7 +62,7 @@
               </v-col>
             </v-row>
             <v-row>
-              <v-textarea :rules="petRules.petInfo" v-model="petModifyInfo.petInfo" label="특이사항" variant="underlined" counter="40"></v-textarea>
+              <v-textarea :rules="petRules.petInfo" v-model="petModifyInfo.petInfo" label="특이사항" variant="underlined" counter="70" maxlength="70"></v-textarea>
             </v-row>
           </v-form>
         </v-container>

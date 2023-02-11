@@ -1,5 +1,6 @@
 <template>
-  <div class="mypage">
+  <NowLoading v-if="!loaded"></NowLoading>
+  <div v-else class="mypage">
     <div class="mypage-inner border-sheet-four">
       <div class="mypage-title border-sheet-four">
         <v-icon class="mr-2" size="x-large">mdi-account</v-icon>
@@ -28,6 +29,7 @@ import MyPagePetRegister from "@/components/MyPage/MyPagePartner/MyPagePetRegist
 import MyPagePetItem from "@/components/MyPage/MyPagePartner/MyPagePetItem.vue";
 import MyPagePartnerInfo from "@/components/MyPage/MyPagePartner/MyPagePartnerInfo.vue";
 import MyPagePartnerInfoModify from "@/components/MyPage/MyPagePartner/MyPagePartnerInfoModify.vue";
+import NowLoading from "@/views/NowLoading.vue";
 import { getUserPartnerInfo } from "@/api/userInfoPartner.js";
 import { mapState } from "vuex";
 const userStore = "userStore";
@@ -37,6 +39,7 @@ export default {
   data() {
     return {
       infoVer: true,
+      loaded: false
     };
   },
   components: {
@@ -44,6 +47,7 @@ export default {
     MyPagePetItem,
     MyPagePartnerInfo,
     MyPagePartnerInfoModify,
+    NowLoading
   },
   computed: {
     ...mapState(userStore, ["userId"]),
@@ -54,10 +58,16 @@ export default {
       return this.$store.getters.getInfoVersion;
     },
   },
-  created() {
+  async mounted() {
+    this.loaded = false;
     if (this.getPartnerInfo.id != this.userId) {
-      getUserPartnerInfo(this.userId);
+      try {
+        await getUserPartnerInfo(this.userId);
+      } catch (e) {
+        console.error("# 회원정보 조회 오류", e);
+      }
     }
+    this.loaded = true;
   },
 };
 </script>

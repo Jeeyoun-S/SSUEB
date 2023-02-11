@@ -87,7 +87,7 @@ const userValidStore = {
           (v.length == 1 && v[0].size <= 5000000) || "첨부 파일 크기는 최대 5MB까지만 가능합니다.",
       ],
       petInfo: [
-        (v) => v == null || v.length <= 80 || "80자 이하로 입력해 주세요.",
+        (v) => v == null || v.length <= 70 || "70자 이하로 입력해 주세요.",
       ],
       petName: [
         (v) => !!v || "이름은 필수 입력 사항입니다.",

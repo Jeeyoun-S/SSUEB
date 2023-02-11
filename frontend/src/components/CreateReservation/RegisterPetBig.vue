@@ -1,11 +1,28 @@
 <template>
   <v-dialog v-model="registOpen" width="700">
     <template v-slot:activator="{ props }">
-      <v-btn class="ma-2" rounded="pill" v-bind="props"
-        prepend-icon="mdi-plus" color="primary" variant="tonal"
-      >
-        등록
-      </v-btn>
+      <!-- <v-sheet v-bind="props" height="370"> -->
+      <v-sheet v-bind="props" class="mt-2 mb-4 mr-5">
+        <v-hover v-slot="{ isHovering, props }">
+          <v-card variant="outlined"
+            width="300" height="120" rounded="0"
+            :elevation="isHovering ? 8 : 0" :class="{ 'on-hover': isHovering }"
+            v-bind="props" style="cursor: pointer;"
+          >
+            <template v-slot:title>새 반려동물 등록</template>
+            <template v-slot:prepend>
+              <v-avatar color="grey-lighten-1" size="90">
+                <h1>+</h1>
+              </v-avatar>
+            </template>
+            <template v-slot:subtitle>
+              대분류<br />
+              품종<br />
+              생일
+            </template>
+          </v-card>
+        </v-hover>
+      </v-sheet>
     </template>
     <v-card class="pa-5">
       <v-card-title>
@@ -74,11 +91,14 @@ import { mapState } from "vuex";
 import { registerPetInfo } from '@/api/userInfoPartner.js'
 
 export default {
-  name: 'MyPagePetRegister',
+  name: 'RegisterPetBig',
   computed: {
     ...mapState(userStore, ["userId"]),
     petRules() {
       return this.$store.getters.getPetRule;
+    },
+    getPetInfo() {
+      return this.$store.getters.getPetInfo;
     },
   },
   data() {
@@ -148,11 +168,9 @@ export default {
 
         await registerPetInfo(petFormData, this.userId)
         .then((res) => {
-          console.log("#결과 확인", res);
-          console.log("#결과 확인", res.result);
-          this.registOpen = res.result;
-
-          if (!res.result) {
+          const result = res.result;
+          if (!result) {
+            this.$emit("addPetList", res.petInfo);
             this.petRegistInfo = {
               petBirth: null,
               petImage: null,
@@ -161,6 +179,7 @@ export default {
               petType: null,
               petVariety: null
             }
+            this.registOpen = result;
           }
         });
       }

@@ -1,6 +1,6 @@
 <template>
   <div v-show="getPetInfo.length < 3">
-    <MyPagePartnerTest></MyPagePartnerTest>
+    <MyPagePetRegisterBig></MyPagePetRegisterBig>
   </div>
   <v-hover
     v-slot="{ isHovering, props }"
@@ -10,8 +10,8 @@
     <v-card
       class="mr-6 mb-6 pa-2"
       variant="outlined"
-      width="320"
-      height="245"
+      width="319"
+      height="270"
       rounded="0"
       :elevation="isHovering ? 8 : 0"
       :class="{ 'on-hover': isHovering }"
@@ -53,7 +53,7 @@
 <script>
 import { modifyPetInfo, removePetInfo } from "@/api/userInfoPartner.js";
 import MyPagePetModify from "@/components/MyPage/MyPagePartner/MyPagePetModify.vue";
-import MyPagePartnerTest from "@/components/MyPage/MyPagePartner/MyPagePartnerTest.vue";
+import MyPagePetRegisterBig from "@/components/MyPage/MyPagePartner/MyPagePetRegisterBig.vue";
 
 export default {
   name: "MyPagePetItem",
@@ -72,7 +72,7 @@ export default {
   },
   components: {
     MyPagePetModify,
-    MyPagePartnerTest,
+    MyPagePetRegisterBig,
   },
   methods: {
     modifyPet(pet) {
@@ -82,10 +82,6 @@ export default {
       removePetInfo(petNo);
     },
     getImageUrl(img) {
-      console.log("이미지 파일", img);
-      if (img == null) {
-        return require("@/assets/profile/pet.png");
-      }
       return `${process.env.VUE_APP_FILE_PATH_PET}${img}`;
     },
   },
@@ -94,6 +90,6 @@ export default {
 
 <style scoped>
 .pet-info {
-  height: 47px;
+  height: 70px;
 }
 </style>

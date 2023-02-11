@@ -73,15 +73,22 @@ const userStore = {
 
             // 로그인 성공에 따른 메인페이지 정보 가져오기
             // [@Method] 권한 확인 및 유저 정보 가져오기
-            store.dispatch("userStore/checkAnyPermit", null, { root: true });
-            // [@Method] 금일 예약 건 수 가져오기
-            store.dispatch("mainPageStore/excuteGetReservationCount", null, {
-              root: true,
-            });
+            // return 값 = userNickname
+            var userNickname = "";
+            store.dispatch("userStore/checkAnyPermit", null, { root: true })
+            .then((res) => {
+              userNickname = res;
 
-            // 로그인 성공 alert창 출력
-            const id = email.split("@");
-            Swal.fire("SSEUB", `${id[0]} 님 환영합니다!`, "success");
+              // [@Method] 금일 예약 건 수 가져오기
+              store.dispatch("mainPageStore/excuteGetReservationCount", null, {
+                root: true,
+              })
+              .then(() => {
+                // 로그인 성공 alert창 출력
+                // const id = email.split("@");
+                Swal.fire("SSEUB", `${userNickname} 님 환영합니다!`, "success");
+              })
+            });
 
             // else) 로그인 실패
           } else {
@@ -109,21 +116,24 @@ const userStore = {
       commit("SET_IS_VALID_TOKEN", true);
     },
     // [@Method] 모든 권한 허용
+    // return userNickname (실패 시 null)
     async checkAnyPermit({ commit }) {
       console.log("#userStore - checkAnyPermit# 모든 권한 허용 동작");
       const token = localStorage.getItem("token");
-
+      var userNickname = null;
       await anyPermit(
         token,
         ({ data }) => {
           console.log("#userStore - checkAnyPermit# 성공");
           commit("SET_USER_INFO", data);
+          userNickname = data.userNickname;
         },
         (error) => {
           console.log("#userStore - checkAnyPermit# 실패");
           console.log(error);
         }
       );
+      return await Promise.resolve(userNickname);
     },
     // [@Method] 전문가, 관리자 권한만 허용
     async checkPartPermit({ commit }, userId) {
@@ -209,19 +219,25 @@ const userStore = {
       localStorage.setItem("token", token);
       commit("SET_IS_VALID_TOKEN", true);
       commit("SET_IS_LOGIN", true);
-
+      
       // 로그인 성공에 따른 메인페이지 정보 가져오기
       // [@Method] 권한 확인 및 유저 정보 가져오기
-      store.dispatch("userStore/checkAnyPermit", null, { root: true });
-      // [@Method] 금일 예약 건 수 가져오기
-      store.dispatch("mainPageStore/excuteGetReservationCount", null, {
-        root: true,
+      // return 값 = userNickname
+      var userNickname = "";
+      store.dispatch("userStore/checkAnyPermit", null, { root: true })
+      .then((res) => {
+        userNickname = res;
+
+        // [@Method] 금일 예약 건 수 가져오기
+        store.dispatch("mainPageStore/excuteGetReservationCount", null, {
+          root: true,
+        })
+        .then(() => {
+          // 로그인 성공 alert창 출력
+          // const id = email.split("@");
+          Swal.fire("SSEUB", `${userNickname} 님 환영합니다!`, "success");
+        })
       });
-
-      // 로그인 성공 alert창 출력
-      const id = email.split("@");
-      Swal.fire("SSEUB", `${id[0]} 님 환영합니다!`, "success");
-
       // 페이지 이동
       // location.href = process.env.VUE_APP_BASE_URL;
     },

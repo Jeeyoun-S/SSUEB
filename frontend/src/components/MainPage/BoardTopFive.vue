@@ -1,72 +1,38 @@
 <template>
   <div class="board-top border-sheet-two">
-    <h3 class="pa-4 pb-1">
-      <v-icon class="mr-2" color="yellow-darken-3">mdi-heart</v-icon>
+    <h3 class="pa-4 pb-3">
+      <v-icon class="mr-2" color="light-blue-darken-1">mdi-heart</v-icon>
       <span>인기 게시글</span>
     </h3>
-    <v-card height="180" flat rounded="0">
-      <v-window v-model="window">
-        <!-- <template v-slot:prev="{ props }">
-          <v-btn
-            icon="mdi-chevron-left"
-            variant="text"
-            color="light-blue-darken-3"
-            @click="props.onClick"
-          >
-          </v-btn>
-        </template>
-        <template v-slot:next="{ props }">
-          <v-btn
-            icon="mdi-chevron-right"
-            variant="text"s
-            color="light-blue-darken-3"
-            @click="props.onClick"
-          >
-          </v-btn>
-        </template> -->
+    <v-divider></v-divider>
+    <v-card class="pt-4" flat rounded="0">
+      <v-window v-model="onboarding">
         <div class="d-flex justify-center align-center">
-          <v-window-item v-for="no in board" :key="no">
-            <v-card elevation="0" height="120" width="220" class="pa-3 d-flex flex-column justify-start align-center">
-              <v-chip size="large" color="light-blue-darken-3">
-                <v-icon>mdi-pencil</v-icon>
-                <b class="mr-1">작성자</b>{{ no.userNickname }}
-              </v-chip>
-              <v-sheet height="100">
-                <v-card-text>{{ no.boardTitle }}</v-card-text>
-              </v-sheet>
-            </v-card>
+          <v-window-item v-for="n in board.length" :key="`card-${n}`" :value="n" @click="moveDetailBoard(board[n-1].no)">
+            <v-hover v-slot="{ isHovering, props }">
+              <v-card class="pa-3 mb-1 d-flex flex-column justify-center align-center"
+                :elevation="isHovering ? 3 : 0" :class="{ 'on-hover': isHovering }" v-bind="props"
+                style="cursor: pointer;"
+                height="120" width="260" rounded="0" variant="outlined"
+              >
+                <v-chip size="large" color="light-blue-darken-3">
+                  <v-icon>mdi-pencil</v-icon>
+                  <b class="mr-1">작성자</b>{{ board[n-1].userNickname }}
+                </v-chip>
+                <v-card-text><h3>{{ board[n-1].boardTitle }}</h3></v-card-text>
+              </v-card>
+            </v-hover>
           </v-window-item>
         </div>
       </v-window>
       <v-card-actions class="justify-space-between">
-        <v-btn
-          variant="plain"
-          icon="mdi-chevron-left"
-          @click="prev"
-        ></v-btn>
-        <v-item-group
-          v-model="window"
-          class="text-center"
-          mandatory
-        >
-          <v-item
-            v-for="n in board.length"
-            :key="`btn-${n}`"
-            v-slot="{ isSelected, toggle }"
-            :value="n"
-          >
-            <v-btn
-              :variant="isSelected ? 'outlined' : 'text'"
-              icon="mdi-record"
-              @click="toggle"
-            ></v-btn>
+        <v-btn variant="plain" icon="mdi-chevron-left" @click="prev"></v-btn>
+        <v-item-group v-model="onboarding" class="text-center" mandatory>
+          <v-item v-for="n in board.length" :key="`btn-${n}`" v-slot="{ isSelected, toggle }" :value="n">
+            <v-btn color="light-blue-lighten-1" :variant="isSelected ? 'outlined' : 'text'" icon="mdi-record" size="28" @click="toggle"></v-btn>
           </v-item>
         </v-item-group>
-        <v-btn
-          variant="plain"
-          icon="mdi-chevron-right"
-          @click="next"
-        ></v-btn>
+        <v-btn variant="plain" icon="mdi-chevron-right" @click="next"></v-btn>
       </v-card-actions>
     </v-card>
   </div>
@@ -81,7 +47,7 @@ const userStore = "userStore";
 export default {
   name: "BoardTopFive",
   data: () => ({
-    window: 0,
+    onboarding: 0,
   }),
   created() {
     if (this.isLogin == true) {
@@ -97,12 +63,15 @@ export default {
   },
   methods: {
     ...mapActions(mainPageStore, ["excuteGetBoard"]),
-    next () {
-      this.window = this.window + 1 > this.board.length ? 1 : this.window + 1
+    next() {
+      this.onboarding = this.onboarding + 1 > this.board.length ? 1 : this.onboarding + 1
     },
-    prev () {
-      this.window = this.window - 1 <= 0 ? this.board.length : this.window - 1
+    prev() {
+      this.onboarding = this.onboarding - 1 <= 0 ? this.board.length : this.onboarding - 1
     },
+    moveDetailBoard(no) {
+      this.$router.push(`/free-board/detail/${no}`)
+    }
   },
   computed: {
     ...mapState(mainPageStore, ["board"]),
@@ -113,7 +82,7 @@ export default {
 
 <style scoped>
 .board-top {
-  height: 250px;
+  height: 270px;
   width: 300px;
 }
 </style>

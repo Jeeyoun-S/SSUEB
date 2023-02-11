@@ -11,38 +11,47 @@
           <v-row class="d-flex flex-row justify-space-around">
             <v-hover v-slot="{ isHovering, props }">
               <v-card class="ma-3 mb-2 mr-1 pa-2 d-flex justify-space-between flex-column"
-                width="700" height="430" variant="outlined"
+                width="690" height="430" variant="outlined"
                 :elevation="isHovering ? 8 : 0" :class="{ 'on-hover': isHovering }"
                 rounded="0" v-bind="props"
               >
-                <v-card-title><h4>상담할 반려동물 선택하기</h4></v-card-title>
+                <v-card-title class="d-flex flex-row align-center">
+                  <h4 class="mr-2">상담할 반려동물 선택하기</h4>
+                  <RegistPet @addPetList="addPetList"></RegistPet>
+                </v-card-title>
                 <!-- {{ selectedPet }} 선택한 반려동물 보기 -->
                 <v-item-group selected-class="bg-primary" v-model="selectedPet" mandatory>
                   <v-container>
-                    <v-sheet height="290">
-                      <v-row class="dflex flex-row justify-center align-center">
-                        <v-col v-for="(pet, index) in historyList" :key="index" height="120" width="305">
+                    <v-sheet class="pl-5" height="280">
+                      <v-row class="d-flex flex-row justify-start align-start">
+                        <RegisterPetBig v-if="petList.length < 4" @addPetList="addPetList"></RegisterPetBig>
+                        <v-sheet class="mt-2 mb-4 mr-5" v-for="pet in historyList" :key="pet.no" height="120" width="300">
                           <v-item v-slot="{ selectedClass, toggle }" :value="pet">
-                            <v-card :class="['pa-5 d-flex flex-row', selectedClass]"
-                              dark height="130" width="305" @click="toggle" variant="outlined" rounded="0"
+                            <v-card :class="[selectedClass]"
+                              dark height="120" width="300" @click="toggle" variant="outlined" rounded="0"
                             >
-                              <v-card-item class="pa-0">
-                                <img width="80" :src="require('@/assets/placeholder/placeholder_dog.png')" />
-                              </v-card-item>
-                              <v-card-item>
-                                <v-card-title>{{ pet.petName }}</v-card-title>
-                                <v-card-subtitle>{{ pet.petBirth }}</v-card-subtitle>
-                                <v-card-subtitle>{{ pet.petType }}</v-card-subtitle>
-                                <v-card-subtitle>{{ pet.petVariety }}</v-card-subtitle>
-                              </v-card-item>
+                              <template v-slot:title>
+                                {{ pet.petName }}
+                              </template>
+                              <template v-slot:prepend>
+                                <v-avatar color="#06BEE1" size="90">
+                                  <span v-if="pet.petImage == null">{{ pet.petName }}</span>
+                                  <img v-else :src="getImageUrl(pet.petImage)" height="90" width="90" />
+                                </v-avatar>
+                              </template>
+                              <template v-slot:subtitle>
+                                {{ pet.petType }}<br />
+                                {{ pet.petVariety }}<br />
+                                {{ pet.petBirth }}
+                              </template>
                             </v-card>
                           </v-item>
-                        </v-col>
+                        </v-sheet>
                       </v-row>
                     </v-sheet>
                     <v-pagination class="pagination mt-3"
                       v-model="page" :length="pages" @update:modelValue="updatePage"
-                      rounded="0" size="32" density="compact"
+                      rounded="0" size="35"
                     >
                     </v-pagination>
                   </v-container>
@@ -149,6 +158,8 @@
 
 <script>
 import NowLoading from '@/views/NowLoading.vue';
+import RegistPet from '@/components/CreateReservation/RegistPet.vue';
+import RegisterPetBig from '@/components/CreateReservation/RegisterPetBig.vue'
 import { mapState } from "vuex";
 import axios from "axios";
 import { DatePicker } from 'v-calendar';
@@ -170,10 +181,13 @@ export default {
   },
   components: {
     DatePicker,
-    NowLoading
+    NowLoading,
+    RegistPet,
+    RegisterPetBig
   },
   data: () => ({
     loaded: false,
+    registBtnActive: true,
     files:null,
     // 반려동물 목록에 필요한 데이터
     page: 1,
@@ -198,11 +212,19 @@ export default {
     timeList: [],
   }),
   methods: {
+    async addPetList(petInfo) {
+      await this.petList.push(petInfo);
+      await this.initPage();
+      await this.updatePage(this.page);
+    },
     async registed() {
       const { valid } = await this.$refs.reservationForm.validate();
       if (valid) {
         this.createReservation();
       }
+    },
+    getImageUrl(img) {
+      return `${process.env.VUE_APP_FILE_PATH_PET}${img}`;
     },
     createReservation() {
       // process.env.VUE_APP_API_BASE_URL -> baseurl env파일에서 호출
