@@ -10,7 +10,7 @@ const kakao_api_auth = axios.create({
     "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
   },
 });
-// Kakao 사용자 정보를 가져오기 위한 API
+// Kakao 사용자 정보를 가져오기 & 메세지 전송을 위한 API
 const kakao_api_info = axios.create({
   baseURL: "https://kapi.kakao.com",
 });
@@ -123,10 +123,36 @@ async function withdrawalGoogle(success, fail) {
     .catch(fail);
 }
 
+// [POST] #Kakao# 카카오 메세지 보내기
+async function sendKakaoMessage(success, fail) {
+  // 전송할 메세지
+  const data = {
+    object_type: "text",
+    text: "자격 증명이 확인되었습니다.",
+    link: { web_url: "https://i8a801.p.ssafy.io/" },
+    button_title: "확인",
+  };
+
+  await kakao_api_info
+    .post(
+      `/v2/api/talk/memo/default/send`,
+      { template_object: JSON.stringify(data) },
+      {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
+          Authorization: `Bearer ${localStorage.getItem("kakaoToken")}`,
+        },
+      }
+    )
+    .then(success)
+    .catch(fail);
+}
+
 export {
   getKakaoToken,
   getKakaoUserInfo,
   withdrawalKakao,
   getGoogleInfo,
   withdrawalGoogle,
+  sendKakaoMessage,
 };

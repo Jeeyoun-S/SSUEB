@@ -1,10 +1,16 @@
 <template>
-  <div class="pa-7 d-flex flex-column justify-space-between main-alert border-sheet-two">
+  <div
+    class="pa-7 d-flex flex-column justify-space-between main-alert border-sheet-two"
+  >
     <div>
       <h2>
         <p>안녕하세요</p>
-        <p v-if="this.userAuth == 'ROLE_USER'">{{ userInfo.userNickname }} 님</p>
-        <p v-if="this.userAuth == 'ROLE_CONSULTANT'">{{ userInfo.userName }} 님</p>
+        <p v-if="this.userAuth == 'ROLE_USER'">
+          {{ userInfo.userNickname }} 님
+        </p>
+        <p v-if="this.userAuth == 'ROLE_CONSULTANT'">
+          {{ userInfo.userName }} 님
+        </p>
       </h2>
     </div>
     <div>
@@ -12,6 +18,8 @@
         <v-icon class="pb-1" color="white" size="20">mdi-bell</v-icon>
         금일 예약이 {{ this.reservationCount }}건 있습니다.
       </v-alert>
+      <!-- #21# -->
+      <v-btn @click="sendKakaoTalk">Kakao</v-btn>
     </div>
   </div>
 </template>
@@ -22,13 +30,12 @@ import { mapActions, mapState } from "vuex";
 
 const userStore = "userStore";
 const mainPageStore = "mainPageStore";
+const userOAuthStore = "userOAuthStore"; // #21#
 
 export default {
   name: "UserMainAlert",
   data() {
-    return {
-      
-    };
+    return {};
   },
   components: {},
   // watch: {
@@ -47,6 +54,11 @@ export default {
   methods: {
     ...mapActions(userStore, ["checkAnyPermit"]),
     ...mapActions(mainPageStore, ["excuteGetReservationCount"]),
+    // #21#
+    ...mapActions(userOAuthStore, ["excutedSendKakaoMessage"]),
+    sendKakaoTalk() {
+      this.excutedSendKakaoMessage();
+    },
   },
 };
 </script>
