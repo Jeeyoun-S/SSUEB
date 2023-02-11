@@ -127,10 +127,26 @@ async function withdrawalGoogle(success, fail) {
 async function sendKakaoMessage(success, fail) {
   // 전송할 메세지
   const data = {
-    object_type: "text",
-    text: "자격 증명이 확인되었습니다.",
-    link: { web_url: "https://i8a801.p.ssafy.io/" },
-    button_title: "확인",
+    object_type: "feed",
+    content: {
+      title: "자격 증명이 확인되었습니다.",
+      description: "[SSUEB] 등록하신 자격증이 검증되었습니다.",
+      image_url:
+        "https://i.pinimg.com/564x/46/a8/3a/46a83ad0d9308c7ee46af3833e898e54.jpg",
+      image_width: 640,
+      image_height: 640,
+      link: {
+        web_url: "https://i8a801.p.ssafy.io/",
+      },
+    },
+    buttons: [
+      {
+        title: "웹으로 이동",
+        link: {
+          web_url: "https://i8a801.p.ssafy.io/",
+        },
+      },
+    ],
   };
 
   await kakao_api_info
