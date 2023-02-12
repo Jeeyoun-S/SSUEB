@@ -78,7 +78,7 @@ public class UserLogoutController {
 			
 			// # 최근 예약 상담 내역 조회
 			Reservation reservation = userLogoutService.getRecentlyReservation(id);
-			if (reservation == null) return ResponseEntity.ok(UserLogoutReservationAlertResponse.of(200, "예약 상담 내역 없음", " success", null, null, null, null));
+			if (reservation == null) return ResponseEntity.ok(UserLogoutReservationAlertResponse.of(200, "예약된 상담 내역이 없습니다.", " success", null, null, null, null));
 //			logger.info("#21# 최근 예약 상담 내역 조회 - 실행 결과: {}", reservation);
 			String consultant = userLogoutService.getRecentlyReservationConsultant(reservation.getConsultantId());
 //			logger.info("#21# 최근 예약 상담을 진행하는 전문가 이름 조회 - 실행 결과: {}", consultant);
@@ -87,7 +87,7 @@ public class UserLogoutController {
 			
 			
 //			return ResponseEntity.ok(UserLogoutReservationAlertResponse.of(200, "가장 최근 예약 상담 내용 조회 성공", "success", reservationPetName, reservationPetType, reservation.getReservationDate(), reservationConsultName));
-			return ResponseEntity.ok(UserLogoutReservationAlertResponse.of(200, "가장 최근 예약 상담 내용 조회 성공", "success", pet.getPetName(), pet.getPetType(), reservation.getReservationDate(), consultant));
+			return ResponseEntity.ok(UserLogoutReservationAlertResponse.of(200, "예약된 상담 내역입니다.", "success", pet.getPetName(), pet.getPetType(), reservation.getReservationDate(), consultant));
 			
 		}catch(Exception e) {
 			e.printStackTrace();
