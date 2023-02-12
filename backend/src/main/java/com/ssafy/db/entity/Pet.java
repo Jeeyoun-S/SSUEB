@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * pet 테이블 모델 정의
  */
@@ -20,9 +22,11 @@ import javax.persistence.Table;
 public class Pet {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="no")
     int no;
 	
 	@Column(name = "user_id")
+	@JsonIgnore
     String userId;
 	
 	@Column(name = "pet_image")
@@ -42,4 +46,6 @@ public class Pet {
 	
 	@Column(name = "pet_info")
 	String petInfo;
+	
+	
 }

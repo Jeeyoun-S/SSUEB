@@ -20,4 +20,7 @@ public class PetModifyRequest {
 	
 	@ApiModelProperty(value = "반려동물 특이사항")
 	String petInfo;
+	
+	@ApiModelProperty(value = "이미지 삭제 여부")
+	boolean petDeleteImage;
 }

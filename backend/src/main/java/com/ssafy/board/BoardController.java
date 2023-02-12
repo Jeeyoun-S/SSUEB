@@ -1,25 +1,34 @@
 package com.ssafy.board;
 
+import java.io.File;
 import java.util.List;
+import java.util.UUID;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.board.request.BoardFixReq;
 import com.ssafy.board.request.HeartReq;
 import com.ssafy.board.request.HeartWhetherReq;
 import com.ssafy.board.response.BoardSummary;
+import com.ssafy.common.util.ParameterCheck;
 import com.ssafy.db.entity.Board;
 import com.ssafy.db.entity.Heart;
-
+import com.ssafy.db.entity.Reservation;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -32,11 +41,19 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
 
 @Api(tags = {"Board"}, description = "게시판 관련 API")
 @RestController
-@RequestMapping("/api/board/")
+@CrossOrigin(origins = "*", allowedHeaders = "*")
+@RequestMapping("/api/board")
 public class BoardController {
 	
+	private static final Logger logger = LoggerFactory.getLogger(BoardController.class);
+
 	@Autowired
 	BoardService bService;
+	
+	@Value("${file.image.path.board}")
+	String boardPath;
+	
+	ParameterCheck param = new ParameterCheck();
 	
 	private ResponseEntity<String> exceptionHandling(Exception e) {
 		e.printStackTrace();
@@ -98,9 +115,21 @@ public class BoardController {
         @ApiResponse(code = 200, message = "성공"),
         @ApiResponse(code = 500, message = "서버 오류")
     })
-	public ResponseEntity<?> createBoard(@RequestBody Board board) {
+	public ResponseEntity<?> createBoard(@RequestPart(value = "board") Board board, 
+			@RequestPart(value = "file", required = false)  MultipartFile file) {
 		try {
 			Board result = bService.createBoard(board);
+			
+			if(param.isValidFileSize(1024*1024*3, file)) {//3메가면
+				String uuid = UUID.randomUUID().toString();//랜덤한 코드명 ex)49eec5bf-dce3-43b2-8ff8-c041c792ed0a를 넣어준다
+				String savefileName = uuid + "_" + file.getOriginalFilename();
+				file.transferTo(new File(boardPath+savefileName));
+				board.setBoardFile(boardPath+savefileName);
+			}
+			else {
+				return new ResponseEntity<String>("파일 크기가 초과했습니다.", HttpStatus.OK);
+			}
+
 			return new ResponseEntity<Board>(result, HttpStatus.OK);
 		} catch (Exception e) {
 			return exceptionHandling(e);
@@ -222,6 +251,7 @@ public class BoardController {
     })
 	public ResponseEntity<?> readPopular() {
 		try {
+			logger.info("## [Controller] 인기 글목록 가져오기 동작");
 			List<BoardSummary> result = bService.readPopular();	
 			return new ResponseEntity<List<BoardSummary>>(result, HttpStatus.OK);
 		} catch (Exception e) {

@@ -27,4 +27,17 @@ public interface UserJoinService {
 	 * @param authorityName 권한 이름 (ROLE_ADMIN, ROLE_CONSULTANT, ROLE_USER)
 	 * **/
 	public boolean grantAuthority(String id, String authorityName);
+	
+	/**
+	 * 전달받은 User 정보 유효성 검사
+	 * @param joinRequest 사용자 정보
+	 * @param role 반려인 0, 전문가 1
+	 * **/
+	public boolean checkUserValid(JoinRequest joinRequest, int role);
+	
+	/**
+	 * 반려인 회원가입 진행
+	 * @param joinRequest 사용자 정보
+	 * **/
+	public boolean joinPartner(JoinRequest joinRequest);
 }

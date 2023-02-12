@@ -82,8 +82,8 @@ public class ParameterCheck {
 	 * **/
 	public boolean isValidPhone(String userPhone) {
 		
-		// 숫자 11자리
-		if (Pattern.matches("^[0-9]{11}$", userPhone)) {
+		// 휴대폰 번호 유효성 검사
+		if (Pattern.matches("^(01[016789]{1})[0-9]{3,4}[0-9]{4}$", userPhone) || Pattern.matches("^(070|02|0[3-9]{1}[0-9]{1})[0-9]{3,4}[0-9]{4}$", userPhone)) {
 			return true;
 		} return false;
 	}
@@ -93,7 +93,7 @@ public class ParameterCheck {
 	 * @param userAlertFlag 알람방식 : 카카오(0), 이메일(1), 문자(2)
 	 * @return 유효하다면 true, 유효하지 않다면 false
 	 * **/
-	public boolean isValueAlertFlag(int userAlertFlag) {
+	public boolean isValidAlertFlag(int userAlertFlag) {
 		
 		// 0, 1, 2 중 하나
 		if (userAlertFlag == 0 || userAlertFlag == 1 || userAlertFlag == 2) {
@@ -122,7 +122,7 @@ public class ParameterCheck {
 	public boolean isSpecialChar(String value) {
 		
 		// 특수문자가 없는지 확인
-		if (Pattern.matches("[^`~!@#$%^&*|\\\\\\'\\\";:\\/?]+", value)) {
+		if (Pattern.matches("[^`~!@#$%^&*|\\\\\\'\\\";:\\/?<>{}+-_()]+", value)) {
 			return false;
 		} return true;
 	}
@@ -132,7 +132,7 @@ public class ParameterCheck {
 	 * @param petType 확인할  값
 	 * @return 2진법 6자리가 맞다면 true, 그 외는 false
 	 * **/
-	public boolean isValidPetType(String petType) {
+	public boolean isValidPossiblePetType(String petType) {
 		
 		// 0 또는 1로 구성된 6자리인지
 		if (Pattern.matches("^[01]{6}$", petType)) {
@@ -140,6 +140,61 @@ public class ParameterCheck {
 		} return false;
 		
 	}
+	
+	/**
+	 * 휴대폰 인증 번호 6자리가 맞는지 확인
+	 * @param petType 확인할  값
+	 * @return 2진법 6자리가 맞다면 true, 그 외는 false
+	 * **/
+	public boolean isValidPhoneAuth(String auth) {
+		
+		// 숫자 6자리인지
+		if (Pattern.matches("^[0-9]{6}$", auth)) {
+			return true;
+		} return false;
+		
+	}
+	
+	/**
+	 * 자격번호 검증 (-, 영문자, 숫자만 가능)
+	 * @param licenseNumber 자격번호 검증
+	 * @return 자격번호가 맞다면 true, 그 외는 false
+	 * **/
+	public boolean isValidLicenseNumber(String licenseNumber) {
+		
+		// -, 영문자, 숫자만 & 30자 이하
+		if (Pattern.matches("^[0-9a-zA-z-]*$", licenseNumber) && licenseNumber.length() <= 30) {
+			return true;
+		} return false;
+		
+	}
+	
+	/**
+	 * 반려동물의 생일 형식이 맞는지 확인
+	 * @param petBirth 반려동물 생일
+	 * @return 반려동물의 생일이 맞다면 true, 그 외는 false
+	 * **/
+	public boolean isValidPetBirth(String petBirth) {
+		
+		// YYYY-MM 형식이 맞는지
+		if (Pattern.matches("^\\d{4}-(0[1-9]|1[012])$", petBirth)) {
+			return true;
+		} return false;
+	}
+	
+	/**
+	 * 반려동물 종류가 맞는지 확인
+	 * @param petType 반려동물 종류
+	 * @return 반려동물 종류가 맞다면 true, 아니라면 false
+	 * **/
+	public boolean isValidPetType(String petType) {
+		
+		// 개 고양이 토끼 패럿 기니피그 햄스터 중 하나
+		if (petType.equals("개") || petType.equals("고양이") || petType.equals("토끼") || petType.equals("패럿") || petType.equals("기니피그") || petType.equals("햄스터")) {
+			return true;
+		} return false;
+	}
+	
 	
 	/**
 	 * 파일이 byte 크기 이하인지 확인
@@ -158,6 +213,7 @@ public class ParameterCheck {
 	/**
 	 * 파일의 확장자가 png, jpg, pdf인지 확인
 	 * @param file 확인할 파일
+	 * @pdfValid pdf 허용 여부
 	 * @return 파일 확장자가  png, jpg, pdf라면 true, 그 외는 false
 	 * **/
 	public boolean isValidImage(MultipartFile file, boolean pdfValid) {
