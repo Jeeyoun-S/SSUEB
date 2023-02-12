@@ -1,20 +1,26 @@
 <template>
-    <v-card width="300" height="400" elevation="2">
-      <v-icon
-      size="small"
-      color="orange darken-2"
-    >
-      mdi-star
-    </v-icon>
-    </v-card>
-  </template>
-  
-  <script>
-  export default {
-    name: 'FinishedReservation'
+  <div class="history">
+    <FinishedReservationPartner v-if="userAuth == 'ROLE_USER'"></FinishedReservationPartner>
+    <FinishedReservationConsultant v-else-if="userAuth == 'ROLE_CONSULTANT'"></FinishedReservationConsultant>
+  </div>
+</template>
+
+<script>
+import FinishedReservationPartner from "./FinishedReservationPartner.vue";
+import FinishedReservationConsultant from "./FinishedReservationConsultant.vue";
+import { mapState } from "vuex";
+const userStore = "userStore";
+
+export default {
+  name: "FinishedReservation",
+  computed: {
+    ...mapState(userStore, ["userId", "userAuth"]),
+  },
+  components: {
+    FinishedReservationPartner,
+    FinishedReservationConsultant
   }
-  </script>
-  
-  <style>
-  
-  </style>
+};
+</script>
+
+<style></style>

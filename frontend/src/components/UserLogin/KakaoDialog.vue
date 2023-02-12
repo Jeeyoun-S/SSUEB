@@ -16,7 +16,7 @@ export default {
     // Kakao 인가 code 받기 (userOAuthStore로 전달)
     kakaoLogin() {
       window.location.replace(
-        `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.VUE_APP_OAUTH_KAKAO_CLIENT}&redirect_uri=${process.env.VUE_APP_OAUTH_KAKAO_REDIRECT_URI}`
+        `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.VUE_APP_OAUTH_KAKAO_CLIENT}&redirect_uri=${process.env.VUE_APP_OAUTH_REDIRECT_URI}`
       );
     },
   },

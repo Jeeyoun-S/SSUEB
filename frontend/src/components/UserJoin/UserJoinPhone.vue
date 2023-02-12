@@ -6,6 +6,7 @@
     label="휴대폰 번호"
     variant="underlined"
     color="primary"
+    maxlength="11"
     required
   ></v-text-field>
   <v-btn
@@ -16,14 +17,8 @@
     block
     >{{ phoneAuthMessage }}</v-btn
   >
-  <v-checkbox
-    class="none"
-    v-model="phoneAuthStates"
-    :rules="[
-      (phoneAuthStates) => !!phoneAuthStates || '휴대폰 인증을 진행해 주세요.',
-    ]"
-    label="Do you agree?"
-  ></v-checkbox>
+  <div class="warnings" v-if="!phoneDisable">{{ phoneAuthWarning }}</div>
+  <div class="warnings" v-else></div>
 </template>
 
 <script>
@@ -41,18 +36,18 @@ export default {
     phoneConfirm() {
       return this.$store.getters.getPhoneConfirm;
     },
+    phoneAuthWarning() {
+      return this.$store.getters.getPhoneAuthWarning;
+    },
+    phoneRules() {
+      return this.$store.getters.getUserRule.phone;
+    }
   },
   emits: ["userPhone"],
   data() {
     return {
       userPhone: null,
       phoneDisable: true,
-      phoneValid: /^[0-9]{11}$/,
-      phoneRules: [
-        (v) => !!v || "휴대폰 번호는 필수 입력 사항입니다.",
-        (v) =>
-          this.phoneValid.test(v) || "'-' 없이 숫자 11자리로 입력해 주세요.",
-      ],
     };
   },
   methods: {
@@ -72,7 +67,7 @@ export default {
       this.$emit("userPhone", this.userPhone);
 
       // 만약 휴대폰 번호 유효성 검사를 통과하지 못한다면
-      if (!this.userPhone || !this.phoneValid.test(this.userPhone)) {
+      if (!this.userPhone || !((/^[0-9]{11}$/).test(this.userPhone))) {
         // 인증 버튼 비활성화
         this.phoneDisable = true;
         // 인증 완료인 경우, 미완으로 변경
@@ -92,20 +87,16 @@ export default {
           this.$store.dispatch("resetPhoneAuthMessage");
         }
       }
-
-      // Vuetify 내부 validate 사용, 자동완성 사용 시 오류
-      // await this.$refs.userPhone.validate().then(
-      //   (v) => {
-      //     if (v.length > 0) {
-      //       this.phoneDisable = true;
-      //     } else {
-      //       this.phoneDisable = false;
-      //     }
-      //   }
-      // )
-    },
+    }
   },
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.warnings {
+  margin-top: 10px;
+  font-size: 12px;
+  color: #B00020;
+  height: 13px;
+}
+</style>

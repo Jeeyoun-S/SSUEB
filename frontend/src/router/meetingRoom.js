@@ -10,4 +10,4 @@ const meetingRoom = [
     
 ]
 
-export default meetingRoom
+export default meetingRoom;

@@ -1,94 +1,74 @@
 <template>
-  <div class="main-page">
+  <NowLoading v-if="!loaded"></NowLoading>
+  <div v-else class="main-page">
     <div class="main-center">
       <div class="main-center-item first">
         <img class="image" :src="require('@/assets/main/wind.gif')" />
         <div class="explain one">
-          <h2>SSUEB's Service</h2>
-          <p>무슨 내용 적을지 고민해 봅시다.</p>
+          <h2>SSUEB 소개</h2>
+          <p>
+            반려동물에 대한 고민을 해결하기 위해 만들어진 플랫폼입니다.<br>
+            화상 미팅을 통해 반려동물행동지도사를 만나 반려동물에 대한 여러 가지 궁금증을 해결해 보세요.
+            반려인이 상담을 신청하면, 전문가가 이에 상담 제안을 보내고, 이를 수락하면 상담이 진행됩니다.
+          </p>
         </div>
       </div>
       <div class="main-center-item second">
         <div class="explain two">
-          <h2>SSUEB's User</h2>
-          <p>무슨 내용 적을지 고민해 봅시다.</p>
+          <h2>반려인 이용방법</h2>
+          <p>개, 고양이, 토끼, 패럿, 기니피그, 햄스터에 대해 상담받고 싶은 누구나</p>
+          <p>
+            (1) 신규 상담 등록에서 반려동물에 대한 상담을 신청합니다.<br>
+            (2) 이후 전문가의 상담 제안을 확인하고, 원하는 전문가를 선택합니다.<br>
+            (3) 예약 시간에 화상 상담 입장에서 화상 상담을 진행합니다.
+          </p>
         </div>
         <img class="image" :src="require('@/assets/main/startle.gif')" />
       </div>
       <div class="main-center-item third">
         <img class="image" :src="require('@/assets/main/walk.gif')" />
         <div class="explain three">
-          <h2>SSUEB's Happiness</h2>
-          <p>무슨 내용 적을지 고민해 봅시다.</p>
+          <h2>전문가 이용방법</h2>
+          <p>반려동물행동지도사 자격을 보유하고, 반려동물 상담 자격을 갖춘 사람</p>
+          <p>
+            (1) 신규 상담 제안에서 상담을 원하는 반려인에게 상담을 제안합니다.<br>
+            (2) 이후 반려인이 상담 제안을 수락하면 상담이 확정됩니다.<br>
+            (3) 예약 시간에 화상 상담 입장에서 화상 상담을 진행합니다.
+          </p>
         </div>
       </div>
+      반려동물 정보 버튼<PetInfoButton></PetInfoButton>
+      반려인 종료 버튼<FinishedReview></FinishedReview>
+      전문가 종료 버튼<FinishedButton></FinishedButton>
     </div>
     <div class="main-right">
-      <div class="main-right-item top">
-        <UserLogin class="card" v-show="!isLogin"></UserLogin>
-        <UserAlert class="card" v-show="isLogin"></UserAlert>
+      <!-- isLogin : [false - 로그인 X / true - 로그인 O]-->
+      <div class="main-right-item" v-if="!isLogin">
+        <UserLogin class="card"></UserLogin>
+        <!-- <UserAlert class="card" v-show="false"></UserAlert> -->
       </div>
-      <div class="main-right-item border-sheet-two bottom"></div>
+      <div class="main-right-item" v-else>
+        <UserMainAlert class="mb-5"></UserMainAlert>
+        <BoardTopFive></BoardTopFive>
+      </div>
+      <div class="main-right-item bottom">
+        <MainPageChatBot></MainPageChatBot>
+      </div>
     </div>
   </div>
-
-  <!-- <div v-show="false" style="margin-top: 50px; margin-bottom: 70px">
-    <v-row class="pt-3" justify="center">
-      <v-col cols="3" class="mx-3">
-        <v-img
-          class="rounded-lg"
-          :src="require('@/assets/main/wind.gif')"
-        ></v-img>
-      </v-col>
-      <div class="col-5 main-content-card" elevation="2" style="padding: 0px">
-        <div class="background-color-filter">
-          <div style="margin-bottom: 30px">SSUEB</div>
-          <div style="font-size: 1.8rem; font-weight: bold">아 CSS</div>
-          <div style="font-size: 1.8rem; font-weight: bold">너무 싫타</div>
-        </div>
-      </div>
-    </v-row>
-
-    <v-row class="pt-3" justify="center">
-      <div class="col-5 main-content-card" elevation="2" style="padding: 0px">
-        <div class="background-color-filter" style="background-color: #2fd69c">
-          <div style="margin-bottom: 30px">SSUEB</div>
-          <div style="font-size: 1.8rem; font-weight: bold">언제쯤이면</div>
-          <div style="font-size: 1.8rem; font-weight: bold">
-            제대로 적용되나
-          </div>
-        </div>
-      </div>
-      <v-col cols="3" class="mx-3">
-        <v-img
-          class="rounded-lg"
-          :src="require('@/assets/main/startle.gif')"
-        ></v-img>
-      </v-col>
-    </v-row>
-
-    <v-row class="pt-3" justify="center">
-      <v-col cols="3" class="mx-3">
-        <v-img
-          class="rounded-lg"
-          :src="require('@/assets/main/walk.gif')"
-        ></v-img>
-      </v-col>
-      <div class="col-5 main-content-card" elevation="2" style="padding: 0px">
-        <div class="background-color-filter">
-          <div style="margin-bottom: 30px">SSUEB</div>
-          <div style="font-size: 1.8rem; font-weight: bold">아이스티</div>
-          <div style="font-size: 1.8rem; font-weight: bold">너무 마싯당</div>
-        </div>
-      </div>
-    </v-row>
-  </div> -->
 </template>
 
 <script>
 import { mapState, mapActions } from "vuex";
 import UserLogin from "../UserLogin/UserLogin.vue";
-import UserAlert from "../UserLogin/UserAlert.vue";
+// import UserAlert from "../UserLogin/UserAlert.vue";
+import MainPageChatBot from "@/components/MainPage/MainPageChatBot.vue";
+import BoardTopFive from "@/components/MainPage/BoardTopFive.vue";
+import UserMainAlert from "@/components/MainPage/UserMainAlert.vue";
+import NowLoading from "@/views/NowLoading.vue";
+import PetInfoButton from "@/components/MeetingRoom/PetInfoButton.vue"
+import FinishedReview from "@/components/MeetingRoom/FinishedReview.vue"
+import FinishedButton from "@/components/MeetingRoom/FinishedButton.vue"
 
 const userStore = "userStore";
 const userOAuthStore = "userOAuthStore";
@@ -98,29 +78,56 @@ export default {
   data() {
     return {
       kakaoCode: null,
+      googleToken: null,
+      loaded: false
     };
   },
   created() {
-    // #OAuth - Kakao# Kakao 인가 코드 받기
+    this.loaded = false;
+    // #OAuth - 인가 code 받기 (Google, Kakao)
+    // i) Kakao 인가 code
     this.kakaoCode = this.$route.query.code;
     if (this.kakaoCode != null) {
+      // console.log("#21# kakao 인가 code 확인: ", this.kakaoCode);
       this.kakao();
     }
+    // ii) Google access_token
+    else {
+      const url = new URL(window.location.href);
+      const hash = url.hash;
+      if (hash) {
+        this.googleToken = hash.split("=")[1].split("&")[0];
+        // console.log("#21# google access_token 확인: ", this.googleToken);
+        this.google();
+      }
+    }
+    this.loaded = true;
   },
   components: {
     UserLogin,
-    UserAlert,
+    // UserAlert,
+    MainPageChatBot,
+    BoardTopFive,
+    UserMainAlert,
+    NowLoading,
+    PetInfoButton,
+    FinishedReview,
+    FinishedButton
   },
   computed: {
     ...mapState(userStore, ["isLogin"]),
   },
   methods: {
-    ...mapActions(userOAuthStore, ["excuteKakaoToken"]),
-
+    ...mapActions(userOAuthStore, ["excuteKakaoToken", "excuteGoogleInfo"]),
     // #OAuth - Kakao# 받은 인가 코드를 사용하여 Kakao Token 발급요청
     async kakao() {
       await this.excuteKakaoToken(this.kakaoCode);
       this.kakaoCode = null; // 받은 인가 code 초기화
+    },
+    // #OAuth - Google# 받은 access_token을 사용하여 사용자 정보 요청
+    async google() {
+      await this.excuteGoogleInfo(this.googleToken);
+      this.googleToken = null; // 받은 access_token 초기화
     },
   },
 };
@@ -142,9 +149,8 @@ export default {
   width: 290px;
   height: 654.4px;
 }
-.main-right .main-right-item.bottom {
-  width: 300px;
-  height: 130px;
+.main-right .main-right-item {
+  align-self: start;
 }
 .main-center {
   display: flex;
@@ -165,10 +171,6 @@ export default {
   width: 730px;
   height: 200px;
 }
-/* .main-page .main-center .main-center-item.first,
-.second {
-  margin-bottom: 2.6%;
-} */
 .main-center .main-center-item img {
   width: 200px;
   height: 200px;
@@ -181,21 +183,23 @@ export default {
   height: 200px;
 
   border-radius: 10px;
-  padding: 35px;
+  padding: 30px;
 }
 .main-center .main-center-item .explain h2 {
-  font-size: 30px;
-  font-family: "Patua One", cursive;
+  font-size: 27px;
+  font-family: 'yg-jalnan';
   font-weight: lighter;
 }
 .main-center .main-center-item .explain.one {
   background-color: #e8ebf6;
+  color: #1F3967;
 }
 .main-center .main-center-item .explain.two {
-  color: white;
   background-color: #3d6ec5;
+  color: white;
 }
-.main-page .main-center .main-center-item .explain.three {
+.main-center .main-center-item .explain.three {
   background-color: #e3e3e3;
+  color: #353535;
 }
 </style>
