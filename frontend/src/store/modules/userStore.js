@@ -1,4 +1,10 @@
-import { login, anyPermit, partPermit, withdrawal } from "@/api/user";
+import {
+  login,
+  anyPermit,
+  partPermit,
+  withdrawal,
+  getRecentlyReservation,
+} from "@/api/user";
 import VueJwtDecode from "vue-jwt-decode"; // ! JWT 디코드 설치 필요: npm i vue-jwt-decode
 import store from "@/store/index.js";
 // import router from "@/router/index.js";
@@ -144,23 +150,19 @@ const userStore = {
       );
     },
     // [@Method] 로그아웃
-    async excuteLogout({ commit }) {
+    excuteLogout({ commit }) {
       console.log("#userStore - excuteLogout# 로그아웃 동작");
-      commit("SET_IS_LOGIN", false);
-      commit("SET_IS_VALID_TOKEN", false);
-      commit("SET_USER_AUTH", null);
-      commit("SET_USER_ID", null);
-      commit("SET_USER_INFO", "");
-      window.localStorage.clear();
+      commit;
 
-      // userSocialStore에 저장된 소셜 로그인 정보(email, nickname) 초기화
-      store.dispatch("initSocialUserInfo");
+      // ! 가장 최근 예약 상담 정보 alert
+      store.dispatch("userStore/excuteRecentlyReservationInfo", null, {
+        root: true,
+      });
 
-      // mainPageStore에 저장된 정보 초기화
-      store.dispatch("mainPageStore/initMainPageStore", null, { root: true });
-
-      // router.push("/");
-      location.href = `${process.env.VUE_APP_BASE_URL}`;
+      // 사용자 정보 clear
+      // store.dispatch("userStore/clearUserStoreInfo", null, {
+      //   root: true,
+      // });
     },
     // [@Method] 회원 탈퇴
     async excuteWithdrawal(context) {
@@ -226,6 +228,93 @@ const userStore = {
     // [@Method] 메인 페이지로 이동
     moveMainPage() {
       location.href = process.env.VUE_APP_BASE_URL;
+    },
+    // [@Method] 가장 최근 예약 상담 내역 조회
+    async excuteRecentlyReservationInfo({ commit }) {
+      commit;
+      // console.log(
+      //   "#21# 가장 최근 예약 상담 내역 조회 동작 - id: ",
+      //   this.state.userStore.userId
+      // );
+
+      await getRecentlyReservation(
+        this.state.userStore.userId,
+        ({ data }) => {
+          // 예약 상담 내역 조회 성공
+          if (data.response == "success" && data.reservationPetName != null) {
+            Swal.fire({
+              title: "<strong>예정된 상담 내역이 있습니다.</strong>",
+              icon: "info",
+              html:
+                "<b>반려동물</b>: " +
+                "[" +
+                data.reservationPetType +
+                "] " +
+                data.reservationPetName +
+                "<br>" +
+                "<b>상담 일자</b>: " +
+                data.reservationDate.substring(0, 16) +
+                "<br>" +
+                "<b>전문가</b>: " +
+                data.reservationConsultName +
+                "",
+              showDenyButton: true,
+              // showCancelButton: true,
+              confirmButtonText: "확인",
+              denyButtonText: `취소`,
+            }).then((result) => {
+              if (result.isConfirmed) {
+                store.dispatch("userStore/clearUserStoreInfo", null, {
+                  root: true,
+                });
+              }
+            });
+            // Swal.fire({
+            //   title: "<strong>예정된 상담 내역이 있습니다.</strong>",
+            //   icon: "info",
+            //   html:
+            //     "<b>반려동물</b>: " +
+            //     "[" +
+            //     data.reservationPetType +
+            //     "] " +
+            //     data.reservationPetName +
+            //     "<br>" +
+            //     "<b>상담 일자</b>: " +
+            //     data.reservationDate.substring(0, 16) +
+            //     "<br>" +
+            //     "<b>전문가</b>: " +
+            //     data.reservationConsultName +
+            //     "",
+            //   showCloseButton: true,
+            //   showCancelButton: true,
+            //   focusConfirm: false,
+            //   confirmButtonText: '<i class="fa fa-thumbs-up"></i> 확인',
+            //   cancelButtonText: '<i class="fa fa-thumbs-down">취소</i>',
+            // });
+          }
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    },
+    // [@Method] 로그아웃 시 사용자 정보 지우기 + 메인페이지로 이동
+    clearUserStoreInfo({ commit }) {
+      commit("SET_IS_LOGIN", false);
+      commit("SET_IS_VALID_TOKEN", false);
+      commit("SET_USER_AUTH", null);
+      commit("SET_USER_ID", null);
+      commit("SET_USER_INFO", "");
+      window.localStorage.clear();
+
+      // userSocialStore에 저장된 소셜 로그인 정보(email, nickname) 초기화
+      store.dispatch("initSocialUserInfo");
+
+      // mainPageStore에 저장된 정보 초기화
+      store.dispatch("mainPageStore/initMainPageStore", null, { root: true });
+
+      // router.push("/");
+      location.href = `${process.env.VUE_APP_BASE_URL}`;
     },
   },
 };

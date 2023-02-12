@@ -59,7 +59,7 @@ export default {
     return {
       kakaoCode: null,
       googleToken: null,
-      loaded: false
+      loaded: false,
     };
   },
   created() {
