@@ -16,6 +16,7 @@ import userInfoConsultantStore from "@/store/modules/userInfoConsultantStore.js"
 // for. OAuth 소셜 로그인
 import userOAuthStore from "./modules/userOAuthStore";
 import userSocialStore from "./modules/userSocialStore";
+import roomStore from "@/store/modules/roomStore.js";
 
 // for. 메인페이지
 import mainPageStore from "./modules/mainPageStore";
@@ -52,8 +53,8 @@ const store = new Vuex.Store({
     userOAuthStore: userOAuthStore,
     // for. OAuth 소셜 로그인 성공 시 user 정보를 저장하는 store
     userSocialStore: userSocialStore,
-    // for. 메인페이지
-    mainPageStore: mainPageStore,
+    roomStore: roomStore,
+    mainPageStore: mainPageStore
   },
   // vuex plugin 명시
   plugins: [
