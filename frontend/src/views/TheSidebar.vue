@@ -11,12 +11,16 @@
 
 <script>
 import LogoVer2 from "@/views/LogoVer2.vue";
-
+import { mapState } from "vuex"
+const roomStore = "roomStore";
 export default {
   name: "TheSidebar",
   components: {
     LogoVer2,
   },
+    computed:{
+        ...mapState(roomStore,["onAir"])
+    },
   data() {
     return {
       items: [
@@ -55,11 +59,11 @@ export default {
           value: 7,
           props: { prependIcon: "mdi-format-list-text", to: "/confirmed" },
         },
-        {
-          title: "화상 상담 입장",
-          value: 8,
-          props: { prependIcon: "mdi-video-account", to: "/meeting-room" },
-        },
+        // {
+        //   title: "화상 상담 입장",
+        //   value: 8,
+        //   props: { prependIcon: "mdi-video-account", to: "/meeting-room" },
+        // },
         {
           title: "이전 상담 이력",
           value: 9,

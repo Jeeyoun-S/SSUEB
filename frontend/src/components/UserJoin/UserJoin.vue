@@ -11,7 +11,7 @@
         color="primary"
         align-tabs="center"
         grow
-      >
+      > 
         <v-tab value="partner">반려인</v-tab>
         <v-tab value="consultant">전문가</v-tab>
       </v-tabs>

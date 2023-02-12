@@ -16,7 +16,7 @@
         <v-btn
       rounded="pill"
       color="primary"
-      @click="timealert"
+      @click="moveRoom"
     >
       입장하기
     </v-btn>
@@ -50,11 +50,23 @@
       </v-col>
     </v-row>
   </v-card>
+<!-- 새창띄우기 : 일단 보류 -->
+<!-- <RoomWindow v-if="roomToken!==null"></RoomWindow> -->
 </template>
 
 <script>
+  import {mapState } from "vuex"
+//component import
+// import RoomWindow from "../Room/RoomWindow.vue";
+const roomStore = "roomStore";
 export default {
   name: "ConfirmedCard",
+  components:{
+    // RoomWindow,
+  },
+  computed:{
+    ...mapState(roomStore,["roomToken"])
+  },
   methods :
   {
     timealert() {
@@ -62,9 +74,27 @@ export default {
         '화상 상담 입장 대기',
   '화상 상담은 10분 전부터 입장 가능합니다.',
   'warning'
-      )
+      ) 
+    },
+
+
+    moveRoom(){
+      //유효성검사후 없으면 적절한 alert띄우기 
+
+        this.$router.push("meeting-room")
+        // this.roomInitialize();
+
     }
   },
+  data(){
+    return{
+      //예시이름. 유저정보로 수정할것.
+      userName: "participant" + Math.floor(Math.random()*100),
+      token : null,
+
+      // video에 필요한 이것저것.....
+    }
+  }
 };
 </script>
 

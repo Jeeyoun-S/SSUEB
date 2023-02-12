@@ -4,12 +4,12 @@ import store from "@/store/index.js";
 
 // #Kakao API#
 // Kakao Token을 발급받기 위한 API
-const kakao_api_auth = axios.create({
+const kakao_api_auth = axios.create({ 
   baseURL: "https://kauth.kakao.com",
   headers: {
     "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
   },
-});
+}); 
 // Kakao 사용자 정보를 가져오기 위한 API
 const kakao_api_info = axios.create({
   baseURL: "https://kapi.kakao.com",
