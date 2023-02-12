@@ -60,8 +60,8 @@ public class UserPetController {
 			if (userPetService.isValidPetInfo(petRequest)) {
 				
 				// 반려동물 특이사항 HTML 변경
-				String info = petRequest.getPetInfo();
-				if (!parameterCheck.isEmpty(info)) petRequest.setPetInfo(changeHTML.changeStringToHTML(info));
+//				String info = petRequest.getPetInfo();
+//				if (!parameterCheck.isEmpty(info)) petRequest.setPetInfo(changeHTML.changeStringToHTML(info));
 				
 				// DB에 넣기
 				Pet result = userPetService.addPet(id, petRequest);
@@ -109,8 +109,8 @@ public class UserPetController {
 		if (userPetService.isValidPetInfo(petRequest)) {
 			
 			// 반려동물 특이사항 HTML 변경
-			String info = petRequest.getPetInfo();
-			if (info != null) petRequest.setPetInfo(changeHTML.changeStringToHTML(info));
+//			String info = petRequest.getPetInfo();
+//			if (info != null) petRequest.setPetInfo(changeHTML.changeStringToHTML(info));
 			
 			// DB에 넣기
 			String filename = userPetService.modifyPet(no, petRequest, petModifyRequest.isPetDeleteImage());

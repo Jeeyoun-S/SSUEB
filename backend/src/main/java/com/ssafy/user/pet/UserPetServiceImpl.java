@@ -72,7 +72,7 @@ public class UserPetServiceImpl implements UserPetService {
 		String info = petRequest.getPetInfo();
 		System.out.println("#특이사항 "+info);
 		if (info != null) {
-			if (info.length() > 40) {
+			if (info.length() > 80) {
 				return false;
 			}
 		}
