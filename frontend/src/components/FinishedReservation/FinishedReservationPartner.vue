@@ -97,7 +97,11 @@ const userStore = "userStore";
 export default {
   name: "FinishedReservationPartner",
   data: () => ({
-    reservations:[],
+    reservations: [
+      {},
+      {},
+      {}
+    ],
     rating: 3.5,
   }),
   computed: {

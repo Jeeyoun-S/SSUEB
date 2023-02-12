@@ -273,6 +273,14 @@ export default {
             disabled: true,
           },
         },
+        {
+          title: "공개된 상담",
+          value: 12,
+          props: {
+            prependIcon: "mdi-share-variant",
+            to: "/open-consult",
+          },
+        },
       ],
       consultantItems: [
         {
