@@ -7,7 +7,7 @@
         <h2>공개된 상담</h2>
       </div>
       <div class="pa-5 page-inner-items border-sheet-four">
-        <!-- <FreeBoardTable :boardSummaryList="boardSummaryList"></FreeBoardTable> -->
+        <OpenBoardTable :openBoardList="openBoardList"></OpenBoardTable>
       </div>
     </div>
   </div>
@@ -15,19 +15,26 @@
 
 <script>
 import NowLoading from '@/views/NowLoading.vue';
+import OpenBoardTable from '@/components/OpenBoard/OpenBoardTable.vue';
+import { getOpenBoard } from '@/api/communityOpen.js';
 
 export default {
-  name: "OpenConsultBoard",
+  name: "OpenBoard",
   components: {
-    NowLoading
+    NowLoading,
+    OpenBoardTable
   },
   data() {
     return {
       loaded: false,
+      openBoardList: []
     }
   },
   async created() {
     this.loaded = false;
+    await getOpenBoard().then((res) => {
+      this.openBoardList = res;
+    });
     this.loaded = true;
   }
 }
