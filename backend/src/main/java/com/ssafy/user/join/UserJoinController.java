@@ -67,7 +67,9 @@ public class UserJoinController {
 		// # 소셜 로그인(Kakao)인 경우 비밀번호 생성
 		if (joinRequest.getUserPassword().equals("socialKakao")) {
 			joinRequest.setUserPassword(userLoginController.createSocialPassword(joinRequest.getId(), "KAKAO"));
+			
 		}
+		
 		else if (joinRequest.getUserPassword().equals("socialGoogle")) {
 			joinRequest.setUserPassword(userLoginController.createSocialPassword(joinRequest.getId(), "GOOGLE"));
 		}
