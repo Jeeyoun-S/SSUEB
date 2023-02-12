@@ -78,6 +78,7 @@ public class UserLogoutController {
 			
 			// # 최근 예약 상담 내역 조회
 			Reservation reservation = userLogoutService.getRecentlyReservation(id);
+			if (reservation == null) return ResponseEntity.ok(UserLogoutReservationAlertResponse.of(200, "예약 상담 내역 없음", " success", null, null, null, null));
 //			logger.info("#21# 최근 예약 상담 내역 조회 - 실행 결과: {}", reservation);
 			String consultant = userLogoutService.getRecentlyReservationConsultant(reservation.getConsultantId());
 //			logger.info("#21# 최근 예약 상담을 진행하는 전문가 이름 조회 - 실행 결과: {}", consultant);
