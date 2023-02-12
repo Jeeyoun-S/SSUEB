@@ -1,5 +1,6 @@
 package com.ssafy.config;
 
+import com.ssafy.classroom.filter.RoomValidFilter;
 import com.ssafy.common.jwt.JwtAccessDeniedHandler;
 import com.ssafy.common.jwt.JwtAuthenticationEntryPoint;
 import com.ssafy.common.jwt.JwtAuthenticationFilter;
@@ -63,26 +64,29 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .antMatchers("/api/v1/users/me").authenticated()       //인증이 필요한 URL과 필요하지 않은 URL에 대하여 설정
 //    	        	    .anyRequest().permitAll()
 //                .and().cors();
-        		.authorizeRequests()				// URL 별 인증 관리
+        		.authorizeRequests()				// URL 별 인증 관리 
         		.antMatchers("/**").permitAll()		// 일단 모두 all로 체크
-        		.antMatchers("/api/auth/authenticate").permitAll()		
+        		.antMatchers("/api/auth/authenticate").permitAll()	
 //        		.antMatchers("/api/user/join").permitAll()				// /api/user/join URL인 경우 모든 요청 허용
         		.anyRequest().authenticated()							// 그 외의 요청은 모두 인증 필요
                 
         		// # JWT 토큰
-        		.and()
+        		.and() 
         		.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling()									// JWT token 관련 exceptionHandling을 위한 code
         		.authenticationEntryPoint(jwtAuthenticationEntryPoint)
         		.accessDeniedHandler(jwtAccessDeniedHandler)
         		//.apply(new JwtSecurityConfig(jwtTokenProvider));
-        		
+        
         		// # OAuth 관련 설정
         		.and()
         		.oauth2Login()								// oauth2 기반의 로그인인 경우
         		.userInfoEndpoint();						// 로그인 성공 후 사용자 정보 가져오기
         		//.userService(customOAuth2UserService);	// 소셜로그인 성공 시 후속 조치를 진행할 UserSerivce 인터페이스 구현체 등록 - 리소스 서버에서 사용자 정보를 가져온 상태에서 추가로 진행하고자 하는 기능 명시
-
+        
+//        		
+//        http
+//        		.addFilterAfter(new RoomValidFilter(), JwtAuthenticationFilter.class);
         //super.configure(http);
     }
     

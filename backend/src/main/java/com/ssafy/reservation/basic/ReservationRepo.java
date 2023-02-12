@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -36,6 +37,9 @@ public interface ReservationRepo extends JpaRepository<Reservation,Integer>{
 	
 	//해당 유저가 상담을 이미 받은 상담 내역을 가져온다.
 	List<Reservation> findByUserIdAndReservationFinish(String userId, int reservationFinish);
+	
+	@Query(value ="select reservation_date from reservation where user_id = :userId", nativeQuery = true)
+	String readRoomDate(@Param("userId") String userId);
 	
 	//reservation_date만 뽑기 위해 직접 nativeQuery를 날람 -> 해당 유저의 상담 예정(확정 미확정 둘 다) 시간 대를 전부 가져온다
 	@Query(value = "select reservation_date from reservation where user_id = ?1 and reservation_finish = 0", nativeQuery = true)
