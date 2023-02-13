@@ -189,6 +189,7 @@ export default {
     back() {
       this.$router.go(-1);
     },
+    // [@Method] 전문가 가입 수락 + 알림 발송 (SMS, EMAIL)
     accept() {
       acceptConsultant(this.getConsultantDetail.id);
     },
