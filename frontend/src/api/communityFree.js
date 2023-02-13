@@ -53,7 +53,7 @@ async function putBoard(modifyBoard, boardFile){
   const frm = new FormData();
   frm.append("board",  new Blob([ JSON.stringify(modifyBoard) ], {type : "application/json"}));
   if(boardFile){
-    frm.append("file", boardFile);
+    frm.append("file", boardFile[0]);
   }
 
   await api.put(`${process.env.VUE_APP_API_BASE_URL}/board/community`, frm, {

@@ -56,6 +56,7 @@ export default {
   methods: {
     async validate() {
       this.modifyBoard.boardNo = this.boardDetail.no;
+      console.log(this.modifyBoard, this.boardFile)
       await putBoard(this.modifyBoard, this.boardFile);
     }
   },

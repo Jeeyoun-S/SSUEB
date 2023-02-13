@@ -82,7 +82,7 @@ export default {
         this.newBoard.userNickname = this.userInfo.userNickname;
         frm.append("board",  new Blob([ JSON.stringify(this.newBoard) ], {type : "application/json"}));
         if(this.boardFile){
-          frm.append("file", this.boardFile);
+          frm.append("file", this.boardFile[0]);
         }
         
 
