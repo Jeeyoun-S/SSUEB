@@ -379,7 +379,7 @@ export default {
         {
           title: "회원 알림 보내기",
           value: 4,
-          props: { prependIcon: "mdi-comment-account", to: "/user-alert" },
+          props: { prependIcon: "mdi-comment-account", to: "/user-alarm" },
         },
         { type: "divider" },
         { type: "subheader", title: "게시판 관리" },
