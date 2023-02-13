@@ -11,8 +11,8 @@ import io.swagger.annotations.ApiModel;
 @ApiModel("ReservationPet")
 public interface ReservationPet {
 	//자세한 내용(전체)가 아닌 보이는 내용만 보이게 하려고
-	int getRno();
-   	String getUserId();
+	int getRno();//rno
+   	String getUserId();//userId
    	String getConsultantId();
    	String getReservationDate();
    	String getReservationConsultContent();

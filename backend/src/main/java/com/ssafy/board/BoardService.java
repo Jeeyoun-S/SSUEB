@@ -23,7 +23,7 @@ public interface BoardService {
 	Board readBoard(int no) throws SQLException;
 	
 	//보드 수정
-	Board fixBoard(BoardFixReq bfr) throws SQLException;
+	Board fixBoard(BoardFixReq bfr, String path) throws SQLException;
 	//보드 삭제
 	void deleteBoard(int no) throws SQLException;
 	//보드 조회수 증가

@@ -151,7 +151,25 @@ public class BoardController {
     })
 	public ResponseEntity<?> fixBoard(@RequestBody BoardFixReq bfr) {
 		try {
-			Board result = bService.fixBoard(bfr);
+			MultipartFile file = bfr.getFile();
+			String path = null;
+			if(file != null) {
+				System.out.println("파일이 있다.");
+				if(param.isValidFileSize(1024*1024*5, file)) {//3메가면
+					String uuid = UUID.randomUUID().toString();//랜덤한 코드명 ex)49eec5bf-dce3-43b2-8ff8-c041c792ed0a를 넣어준다
+					String savefileName = uuid + "_" + file.getOriginalFilename();
+					file.transferTo(new File(boardPath+savefileName));
+					path = boardPath+savefileName;
+				}
+				else {
+					return new ResponseEntity<String>("파일 크기가 초과했습니다.", HttpStatus.OK);
+				}
+			}
+			else {
+				System.out.println("파일이 없다");
+			}
+
+			Board result = bService.fixBoard(bfr, path);
 			return new ResponseEntity<Board>(result, HttpStatus.OK);
 		} catch (Exception e) {
 			return exceptionHandling(e);
