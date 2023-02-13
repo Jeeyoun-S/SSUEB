@@ -21,6 +21,9 @@ import roomStore from "@/store/modules/roomStore.js";
 // for. 메인페이지
 import mainPageStore from "./modules/mainPageStore";
 
+// for 관리자 페이지
+import adminStore from "./modules/adminStore";
+
 // for. 페이지 refresh 시 vuex store 값 유지
 // [기존 code] 주석 처리
 // import { createStore } from "vuex";
@@ -54,7 +57,8 @@ const store = new Vuex.Store({
     // for. OAuth 소셜 로그인 성공 시 user 정보를 저장하는 store
     userSocialStore: userSocialStore,
     roomStore: roomStore,
-    mainPageStore: mainPageStore
+    mainPageStore: mainPageStore,
+    adminStore: adminStore
   },
   // vuex plugin 명시
   plugins: [

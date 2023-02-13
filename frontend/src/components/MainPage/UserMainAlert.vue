@@ -4,10 +4,14 @@
       <h2>
         <p>안녕하세요</p>
         <p v-if="this.userAuth == 'ROLE_USER'">{{ userInfo.userNickname }} 님</p>
-        <p v-if="this.userAuth == 'ROLE_CONSULTANT'">{{ userInfo.userName }} 님</p>
+        <p v-else-if="this.userAuth == 'ROLE_CONSULTANT'">{{ userInfo.userName }} 님</p>
+        <p v-else-if="this.userAuth == 'ROLE_ADMIN'">관리자 님</p>
       </h2>
     </div>
-    <div>
+    <div class="align-self-end" v-if="this.userAuth == 'ROLE_ADMIN'">
+      <UserLogout block></UserLogout>
+    </div>
+    <div v-else>
       <v-btn prepend-icon="mdi-bell" color="light-blue-darken-2" size="large"
         @click="moveConfirmed" block variant="outlined" rounded="0"
       >
@@ -19,7 +23,7 @@
 
 <script>
 import { mapActions, mapState } from "vuex";
-// import UserLogout from "../MyPage/UserLogout.vue";
+import UserLogout from "@/components/MyPage/UserLogout.vue";
 
 const userStore = "userStore";
 const mainPageStore = "mainPageStore";
@@ -31,7 +35,9 @@ export default {
       
     };
   },
-  components: {},
+  components: {
+    UserLogout
+  },
   // watch: {
   //   isLogin: function () {
   //     console.log("#21# 권한 확인 및 유저 정보 가져오기 동작");

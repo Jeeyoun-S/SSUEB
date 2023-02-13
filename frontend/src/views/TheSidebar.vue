@@ -14,9 +14,17 @@
       ></v-list>
       <!-- 전문가 사이드바 -->
       <v-list
-        v-else
+        v-else-if="userAuth == 'ROLE_CONSULTANT'"
         active-color="primary"
         :items="consultantItems"
+        mandatory
+        link
+      ></v-list>
+      <!-- 관리자 사이드바 -->
+      <v-list
+        v-else-if="userAuth == 'ROLE_ADMIN'"
+        active-color="primary"
+        :items="adminItems"
         mandatory
         link
       ></v-list>
@@ -350,6 +358,53 @@ export default {
           },
         },
       ],
+      adminItems: [
+        {
+          title: "메인페이지",
+          value: 1,
+          props: { prependIcon: "mdi-home", to: "/" },
+        },
+        { type: "divider" },
+        { type: "subheader", title: "회원 관리" },
+        {
+          title: "전문가 가입 수락",
+          value: 2,
+          props: { prependIcon: "mdi-account-star", to: "/consultant-accept" },
+        },
+        {
+          title: "회원 탈퇴 처리",
+          value: 3,
+          props: { prependIcon: "mdi-account-off", to: "/user-withdrawal" },
+        },
+        {
+          title: "회원 알림 보내기",
+          value: 4,
+          props: { prependIcon: "mdi-comment-account", to: "/user-alert" },
+        },
+        { type: "divider" },
+        { type: "subheader", title: "게시판 관리" },
+        {
+          title: "공지사항",
+          value: 10,
+          props: { prependIcon: "mdi-bell", to: "/notice" },
+        },
+        {
+          title: "자유 게시판",
+          value: 11,
+          props: {
+            prependIcon: "mdi-clipboard-edit-outline",
+            to: "/free-board",
+          },
+        },
+        {
+          title: "공개된 상담",
+          value: 12,
+          props: {
+            prependIcon: "mdi-share-variant",
+            to: "/open-consult",
+          },
+        },
+      ]
     };
   },
   computed: {
