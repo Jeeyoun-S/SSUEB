@@ -1,4 +1,7 @@
 import { getUnCertifiedConsultantList } from "@/api/admin";
+import { withdrawal } from "@/api/user";
+
+const Swal = require("sweetalert2");
 
 const adminStore = {
   namespaced: true,
@@ -61,6 +64,32 @@ const adminStore = {
               "#adminStore# 자격증 미인증 전문가 List 조회 실패: ",
               data
             );
+          }
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    },
+    // [@Method] 관리자 - 회원 탈퇴 진행
+    async excuteAdminWithdrawalUser({ commit }, id) {
+      commit;
+      console.log("#adminStore# 관리자 - 회원 탈퇴 진행 동작");
+
+      const info = {
+        id: id,
+      };
+      await withdrawal(
+        info,
+        ({ data }) => {
+          // i) 회원탈퇴 성공
+          if (data.response == "success") {
+            console.log("#adminStore# 관리자 - 회원탈퇴 성공: ", data);
+            Swal.fire("SSEUB", `탈퇴처리 되었습니다.`, "success");
+          }
+          // ii) 회원탈퇴 실패
+          else {
+            console.log("#adminStore# 관리자 - 회원탈퇴 실패: ", data);
           }
         },
         (error) => {
