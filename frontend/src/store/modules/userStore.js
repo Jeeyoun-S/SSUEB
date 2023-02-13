@@ -81,20 +81,26 @@ const userStore = {
             // [@Method] 권한 확인 및 유저 정보 가져오기
             // return 값 = userNickname
             var userNickname = "";
-            store.dispatch("userStore/checkAnyPermit", null, { root: true })
-            .then((res) => {
-              userNickname = res;
+            store
+              .dispatch("userStore/checkAnyPermit", null, { root: true })
+              .then((res) => {
+                userNickname = res;
 
-              // [@Method] 금일 예약 건 수 가져오기
-              store.dispatch("mainPageStore/excuteGetReservationCount", null, {
-                root: true,
-              })
-              .then(() => {
-                // 로그인 성공 alert창 출력
-                // const id = email.split("@");
-                Swal.fire("SSEUB", `${userNickname} 님 환영합니다!`, "success");
-              })
-            });
+                // [@Method] 금일 예약 건 수 가져오기
+                store
+                  .dispatch("mainPageStore/excuteGetReservationCount", null, {
+                    root: true,
+                  })
+                  .then(() => {
+                    // 로그인 성공 alert창 출력
+                    // const id = email.split("@");
+                    Swal.fire(
+                      "SSEUB",
+                      `${userNickname} 님 환영합니다!`,
+                      "success"
+                    );
+                  });
+              });
 
             // else) 로그인 실패
           } else {
@@ -221,25 +227,27 @@ const userStore = {
       localStorage.setItem("token", token);
       commit("SET_IS_VALID_TOKEN", true);
       commit("SET_IS_LOGIN", true);
-      
+
       // 로그인 성공에 따른 메인페이지 정보 가져오기
       // [@Method] 권한 확인 및 유저 정보 가져오기
       // return 값 = userNickname
       var userNickname = "";
-      store.dispatch("userStore/checkAnyPermit", null, { root: true })
-      .then((res) => {
-        userNickname = res;
+      store
+        .dispatch("userStore/checkAnyPermit", null, { root: true })
+        .then((res) => {
+          userNickname = res;
 
-        // [@Method] 금일 예약 건 수 가져오기
-        store.dispatch("mainPageStore/excuteGetReservationCount", null, {
-          root: true,
-        })
-        .then(() => {
-          // 로그인 성공 alert창 출력
-          // const id = email.split("@");
-          Swal.fire("SSEUB", `${userNickname} 님 환영합니다!`, "success");
-        })
-      });
+          // [@Method] 금일 예약 건 수 가져오기
+          store
+            .dispatch("mainPageStore/excuteGetReservationCount", null, {
+              root: true,
+            })
+            .then(() => {
+              // 로그인 성공 alert창 출력
+              // const id = email.split("@");
+              Swal.fire("SSEUB", `${userNickname} 님 환영합니다!`, "success");
+            });
+        });
       // 페이지 이동
       // location.href = process.env.VUE_APP_BASE_URL;
     },
@@ -277,7 +285,6 @@ const userStore = {
                 data.reservationConsultName +
                 "",
               showDenyButton: true,
-              // showCancelButton: true,
               confirmButtonText: "확인",
               denyButtonText: `취소`,
             }).then((result) => {
@@ -287,28 +294,10 @@ const userStore = {
                 });
               }
             });
-            // Swal.fire({
-            //   title: "<strong>예정된 상담 내역이 있습니다.</strong>",
-            //   icon: "info",
-            //   html:
-            //     "<b>반려동물</b>: " +
-            //     "[" +
-            //     data.reservationPetType +
-            //     "] " +
-            //     data.reservationPetName +
-            //     "<br>" +
-            //     "<b>상담 일자</b>: " +
-            //     data.reservationDate.substring(0, 16) +
-            //     "<br>" +
-            //     "<b>전문가</b>: " +
-            //     data.reservationConsultName +
-            //     "",
-            //   showCloseButton: true,
-            //   showCancelButton: true,
-            //   focusConfirm: false,
-            //   confirmButtonText: '<i class="fa fa-thumbs-up"></i> 확인',
-            //   cancelButtonText: '<i class="fa fa-thumbs-down">취소</i>',
-            // });
+          } else {
+            store.dispatch("userStore/clearUserStoreInfo", null, {
+              root: true,
+            });
           }
         },
         (error) => {
@@ -318,6 +307,7 @@ const userStore = {
     },
     // [@Method] 로그아웃 시 사용자 정보 지우기 + 메인페이지로 이동
     clearUserStoreInfo({ commit }) {
+      console.log("#21# 로그아웃 동작");
       commit("SET_IS_LOGIN", false);
       commit("SET_IS_VALID_TOKEN", false);
       commit("SET_USER_AUTH", null);
