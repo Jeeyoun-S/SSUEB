@@ -3,9 +3,14 @@
   <div v-else class="page max-page border-sheet-four">
     <div class="page-inner max-page">
       <div class="page-inner-title border-sheet-four">
-        <v-btn class="mr-1" variant="text" icon="mdi-arrow-left" @click="back()"></v-btn>
+        <v-btn
+          class="mr-1"
+          variant="text"
+          icon="mdi-arrow-left"
+          @click="back()"
+        ></v-btn>
         <v-chip class="mr-3" color="primary">
-          {{ String(getConsultantDetail.index).padStart(4, '0') }}
+          {{ String(getConsultantDetail.index).padStart(4, "0") }}
         </v-chip>
         <h2>{{ getConsultantDetail.userName }}</h2>
       </div>
@@ -35,12 +40,18 @@
           </tr>
           <tr>
             <td class="bold-font" width="150">자격 번호</td>
-            <td width="920">{{ getConsultantDetail.consultantLicenseNumber }}</td>
+            <td width="920">
+              {{ getConsultantDetail.consultantLicenseNumber }}
+            </td>
           </tr>
           <tr>
             <td class="bold-font" width="150">자격증 사본</td>
             <td>
-              <v-btn rounded="pill" variant="tonal" prepend-icon="mdi-paperclip">
+              <v-btn
+                rounded="pill"
+                variant="tonal"
+                prepend-icon="mdi-paperclip"
+              >
                 {{ getConsultantDetail.consultantLicenseCopyImage }}
               </v-btn>
             </td>
@@ -60,7 +71,7 @@
 </template>
 
 <script>
-import NowLoading from '@/views/NowLoading.vue';
+import NowLoading from "@/views/NowLoading.vue";
 import { acceptConsultant } from "@/api/admin.js";
 
 export default {
@@ -71,12 +82,12 @@ export default {
   computed: {
     getConsultantDetail() {
       return this.$store.getters.getConsultantDetail;
-    }
+    },
   },
   data() {
     return {
       loaded: true,
-    }
+    };
   },
   methods: {
     back() {
@@ -84,11 +95,9 @@ export default {
     },
     accept() {
       acceptConsultant(this.getConsultantDetail.id);
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
-<style>
-
-</style>
+<style></style>

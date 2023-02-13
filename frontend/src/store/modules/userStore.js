@@ -307,7 +307,6 @@ const userStore = {
     },
     // [@Method] 로그아웃 시 사용자 정보 지우기 + 메인페이지로 이동
     clearUserStoreInfo({ commit }) {
-      console.log("#21# 로그아웃 동작");
       commit("SET_IS_LOGIN", false);
       commit("SET_IS_VALID_TOKEN", false);
       commit("SET_USER_AUTH", null);

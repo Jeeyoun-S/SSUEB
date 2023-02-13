@@ -105,7 +105,11 @@ export default {
       if (valid) {
         await this.excuteLogin(this.loginInfo);
       } else {
-        this.$swal.fire("로그인 실패", "id 또는 password를 다시 입력해 주세요.", "error");
+        this.$swal.fire(
+          "로그인 실패",
+          "id 또는 password를 다시 입력해 주세요.",
+          "error"
+        );
       }
     },
     // [@Method] 회원가입 페이지로 이동

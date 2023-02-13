@@ -404,7 +404,7 @@ export default {
             to: "/open-consult",
           },
         },
-      ]
+      ],
     };
   },
   computed: {
@@ -442,7 +442,7 @@ export default {
       this.items[7].props.disabled = true;
       this.items[11].props.disabled = true;
     },
-  }
+  },
 };
 </script>
 

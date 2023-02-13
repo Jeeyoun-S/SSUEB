@@ -2,7 +2,9 @@
   <v-sheet class="mr-2" width="150">
     <v-combobox
       :items="['이메일', '이름']"
-      variant="outlined" density="compact" v-model="range"
+      variant="outlined"
+      density="compact"
+      v-model="range"
       hide-details
     ></v-combobox>
   </v-sheet>
@@ -26,12 +28,15 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="(consultant, index) in consultantList" :key="index"
-        @click="moveDetailPage(consultant, index)" style="cursor: pointer;"
+      <tr
+        v-for="(consultant, index) in consultantList"
+        :key="index"
+        @click="moveDetailPage(consultant, index)"
+        style="cursor: pointer"
       >
-        <td>{{ String(index).padStart(4, '0') }}</td>
-        <td>{{ consultant.userJoindate }}</td>
-        <td>{{ consultant.userName }}</td>
+        <td>{{ String(index).padStart(4, "0") }}</td>
+        <td>{{ consultant.user_joindate }}</td>
+        <td>{{ consultant.user_name }}</td>
         <td>{{ consultant.id }}</td>
       </tr>
     </tbody>
@@ -42,24 +47,22 @@
 export default {
   name: "ConsultantAcceptTable",
   props: {
-    consultantList: Array
+    consultantList: Array,
   },
   data() {
     return {
       range: "이메일",
       keyword: "",
-    }
+    };
   },
   methods: {
     moveDetailPage(consultantDetail, index) {
       consultantDetail.index = index;
       this.$store.dispatch("updateConsultantDetail", consultantDetail);
       this.$router.push("/consultant-accept/detail");
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
-<style>
-
-</style>
+<style></style>
