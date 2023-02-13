@@ -31,4 +31,17 @@ async function acceptConsultant(id) {
   })
 }
 
-export { acceptConsultant };
+// [GET] 탈퇴하지 않은 모든 회원 조회
+async function getAllUserList() {
+  var result = [];
+  await api.get(`${process.env.VUE_APP_API_BASE_URL}/user/admin/list`)
+  .then((res) => {
+    if (res.data.response == "success") {
+      result = res.data.data;
+    }
+  })
+
+  return await Promise.resolve(result);
+}
+
+export { acceptConsultant, getAllUserList };
