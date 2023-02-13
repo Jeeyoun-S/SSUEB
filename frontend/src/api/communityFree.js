@@ -26,4 +26,27 @@ async function getHeartWhether(no, id) {
   return await Promise.resolve(result);
 }
 
-export {getFreeBoard, getHeartWhether};
+async function pushHeart(boardNo, id, isHeart){
+  var result = [];
+  await api.post(`${process.env.VUE_APP_API_BASE_URL}/board/heart`, null, {
+    params:{
+      boardNo: boardNo,
+      userId : id,
+      flag : isHeart,
+    }
+  })
+  .then((res) => {
+    result = res.data;
+  })
+  .catch()
+  return await Promise.resolve(result);
+}
+
+async function deleteBoard(boardNo){
+  await api.delete(`${process.env.VUE_APP_API_BASE_URL}/board/community/${boardNo}`)
+  .then(() => {
+    console.log("삭제");
+  })
+}
+
+export {getFreeBoard, getHeartWhether, pushHeart, deleteBoard};

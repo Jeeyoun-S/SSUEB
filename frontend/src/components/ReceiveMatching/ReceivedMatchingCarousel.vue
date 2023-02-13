@@ -41,8 +41,18 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+import { apiInstance } from "@/api/index.js";
+const reservationStore = "reservationStore";
+const userStore = "userStore";
+
+
 export default {
   name: "CarouselCard",
+  computed: {
+    ...mapState(userStore, ["userId"]),
+    ...mapState(reservationStore),
+    },
   props: {
     // dialog: Boolean,
     consultant: Object,
@@ -58,12 +68,21 @@ export default {
     }
   },
   methods: {
-    async accept(consultant) {
-      console.log("정신차려")
-      this.$emit("dialogOff")
+
+    async accept(consultant){
+      console.log("he")
+      const api = apiInstance();
+      await api.put(process.env.VUE_APP_API_BASE_URL+`/reservation/matching/confirm`,null,{
+        params:{
+          reservationNo: this.rno,
+          consultantId: this.consultantId,
+          matchingCost: this.matchingCost,
+          matchingReason: this.matchingComment,
+        },
+      }).then(() => {
+        this.$emit("dialogOff")
       console.log(consultant)
       console.log(this.reservationItem)
-      // this.dialogOff();
       this.$swal
         .fire({
           title: "상담 제안 수락",
@@ -112,7 +131,11 @@ export default {
             //if result is confirmed
           }
         });
+      }).catch(error => {
+        alert(error.message)
+      })
     },
+
   },
 
   mounted() {

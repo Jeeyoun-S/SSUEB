@@ -120,11 +120,7 @@ export default {
 
   data() {
     return {
-      reservations: [
-        {
-          consultantId: "consultant3@test.com",
-        },
-      ],
+      reservations: [],
     };
   },
 
@@ -136,9 +132,7 @@ export default {
     async getReservation() {
 
       const api = apiInstance();
-      await api.get({
-        url: process.env.VUE_APP_API_BASE_URL+`/reservation/partner/past/${this.userId}`,
-      })
+      await api.get(process.env.VUE_APP_API_BASE_URL+`/reservation/partner/past/${this.userId}`)
         .then(({ data }) => {
           for (var i = 0; i < data.length; i++) {
             console.log(data[i])
@@ -147,6 +141,8 @@ export default {
             reservation["userId"] = data[i].reservationPetFinish.userId;
             reservation["reservationDate"] = data[i].reservationPetFinish.reservationDate;
             reservation["reservationConsultContent"] = data[i].reservationPetFinish.reservationConsultContent;
+
+            reservation["consultantId"] = data[i].reservationPetFinish.consultant_id;
 
             reservation["reservationDignosisRecord"] = data[i].reservationPetFinish.reservationDignosisRecord;
             reservation["reviewGrade"] = data[i].reservationPetFinish.reviewGrade;

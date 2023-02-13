@@ -76,13 +76,15 @@ export default {
       const { valid } = await this.$refs.forms.validate();
       if (valid) {
         const frm = new FormData();
-        console.log(this.newBoard);
-        
+
+        this.newBoard.userId = this.userId;
         frm.append("board",  new Blob([ JSON.stringify(this.newBoard) ], {type : "application/json"}));
         frm.append("file", this.boardFile);
-
+        console.log(this.boardFile)
+        console.log(this.newBoard);
+        console.log(frm.getAll("file"))
         const api = apiInstance();
-        api.post(process.env.VUE_APP_API_BASE_URL+`/community`, frm, {
+        api.post(process.env.VUE_APP_API_BASE_URL+`/board/community`, frm, {
           headers: {'Content-Type': 'multipart/form-data'}
         }).then(() => {
           this.$swal.fire(

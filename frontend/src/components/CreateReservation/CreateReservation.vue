@@ -227,7 +227,6 @@ export default {
 
       const frm = new FormData();
       frm.append("reservation",  new Blob([ JSON.stringify(this.reservation) ], {type : "application/json"}));
-
       if(this.files){
         console.log("파일있음")
         for(let i=0; i<this.files.length; i++){
@@ -267,7 +266,6 @@ export default {
           return;
         }
       }
-
       console.log(frm);
 
       const api = apiInstance();
@@ -320,9 +318,7 @@ export default {
       },
     async getTimeList(){
       const api = apiInstance();
-      await api.get({
-        url: process.env.VUE_APP_API_BASE_URL+`/reservation/date-validation/`+`aa@a`,
-      })
+      await api.get(process.env.VUE_APP_API_BASE_URL+`/reservation/date-validation/${this.userId}`)
         .then(({ data }) => {
           for (var i = 0; i < data.length; i++) {
             this.timeList.push(data[i]);

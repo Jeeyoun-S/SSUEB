@@ -37,10 +37,7 @@ export default {
     async getReservation() {
       
       const api = apiInstance();
-      await api({
-        url: process.env.VUE_APP_API_BASE_URL+`/reservation/consultant/unconfirmed`,
-        method: "get",
-      })
+      await api.get(process.env.VUE_APP_API_BASE_URL+`/reservation/consultant/unconfirmed`)
         .then(({ data }) => {
           for (var i = 0; i < data.length; i++) {
             let reservation = {};

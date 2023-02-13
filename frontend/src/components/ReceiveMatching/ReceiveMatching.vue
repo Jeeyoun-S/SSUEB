@@ -33,12 +33,11 @@ export default {
   },
   methods:{
     async getReservation() {
-
+      console.log(`${process.env.VUE_APP_API_BASE_URL}/reservation/partner/unconfirm/${this.userId}`);
       const api = apiInstance();
-      await api.get({
-        url: `${process.env.VUE_APP_API_BASE_URL}/reservation/partner/unconfirm/${this.userId}`, //이메일 바꾸고
-      })
+      await api.get(`${process.env.VUE_APP_API_BASE_URL}/reservation/partner/unconfirm/${this.userId}`)
         .then(({ data }) => {
+          console.log("받은 상담 제안", data);
           for (var i = 0; i < data.length; i++) {
             let reservation = {};
             reservation["rno"] = data[i].reservationPet.rno;
@@ -83,10 +82,10 @@ export default {
           console.log(err);
         });
     },
-    deleteReservation(no) {
+    async deleteReservation(no) {
       //삭제 후 카운트 변경은 추후 생각해보자
       const api = apiInstance();
-      api
+      await api
         .delete(process.env.VUE_APP_API_BASE_URL + `/` + no)
         .then(() => {
           console.log("삭제");
