@@ -201,6 +201,11 @@ dependencies {
     // 파일 Resizing
     compile group: 'io.github.techgnious', name: 'IVCompressor', version: '2.0.0'
     implementation group: 'org.imgscalr', name: 'imgscalr-lib', version: '4.2'
+    
+    // for. 메일 발송
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
 }
 
 test {
