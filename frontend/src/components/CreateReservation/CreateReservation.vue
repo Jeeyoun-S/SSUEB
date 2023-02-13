@@ -202,7 +202,7 @@ import RegistPet from '@/components/CreateReservation/RegistPet.vue';
 import RegisterPetBig from '@/components/CreateReservation/RegisterPetBig.vue'
 import { mapState } from "vuex";
 import { DatePicker } from 'v-calendar';
-import moment from 'moment';
+// import moment from 'moment';
 import { apiInstance } from "@/api/index.js";
 // const reservationStore = "reservationStore";
 const userStore = "userStore";

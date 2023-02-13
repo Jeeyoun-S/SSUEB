@@ -29,7 +29,6 @@ import UserLogout from "@/components/MyPage/UserLogout.vue";
 
 const userStore = "userStore";
 const mainPageStore = "mainPageStore";
-const userOAuthStore = "userOAuthStore"; // #21#
 
 export default {
   name: "UserMainAlert",
