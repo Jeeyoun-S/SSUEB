@@ -23,7 +23,8 @@ public interface ReservationRepo extends JpaRepository<Reservation,Integer>{
 	//끝나지 않고 곧 실시한 상담이 필요하므로 reservationFinish는 0으로 고정
 	//해당 유저의 확정되어 곧 실시할 상담 내역들을 가져온다. 
 	@Query(value = "select r.no as rno, r.user_id as userId, r.consultant_id as consultantId, r.reservation_date as reservationDate, "
-			+ "r.reservation_consult_content as reservationConsultContent, p.no as pno, p.pet_image as petImage, p.pet_name as petName, "
+			+ "r.reservation_consult_content as reservationConsultContent, r.reservation_cost as reservationCost, r.reservation_reason as reservationReason, "
+			+ "p.no as pno, p.pet_image as petImage, p.pet_name as petName, "
 			+ "p.pet_type as petType, p.pet_variety as petVariety, p.pet_birth as petBirth, p.pet_info as petInfo "
 			+ "from reservation r, pet p "
 			+ "where r.reservation_pet_no = p.no and "
@@ -34,7 +35,8 @@ public interface ReservationRepo extends JpaRepository<Reservation,Integer>{
 	//reservationFinish가 0이다 -> 해당 전문가의 확정된 상담 내역 중 곧 실시할 상담을 불러온다
 	//reservationFinish가 1이다 -> 해당 전문가가 완료한 상담 내역을 가져온다
 	@Query(value = "select r.no as rno, r.user_id as userId, r.consultant_id as consultantId, r.reservation_date as reservationDate, "
-			+ "r.reservation_consult_content as reservationConsultContent, p.no as pno, p.pet_image as petImage, p.pet_name as petName, "
+			+ "r.reservation_consult_content as reservationConsultContent, r.reservation_cost as reservationCost, r.reservation_reason as reservationReason, "
+			+ "p.no as pno, p.pet_image as petImage, p.pet_name as petName, "
 			+ "p.pet_type as petType, p.pet_variety as petVariety, p.pet_birth as petBirth, p.pet_info as petInfo "
 			+ "from reservation r, pet p "
 			+ "where r.reservation_pet_no = p.no and "

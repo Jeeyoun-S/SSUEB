@@ -1,10 +1,15 @@
 package com.ssafy.board;
 
+import java.io.File;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.ssafy.board.request.BoardFixReq;
 import com.ssafy.board.response.BoardSummary;
@@ -25,7 +30,7 @@ public class BoardServiceImpl implements BoardService {
 	@Autowired
 	ReplyRepo rRepo;
 	
-
+	
 	@Override
 	public List<BoardSummary> readNotice() throws SQLException {
 		return bRepo.findByBoardFlag(0);//0 == admin -> admin이 작성한 글 목록 모두 불러오기
@@ -52,10 +57,13 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public Board fixBoard(BoardFixReq bfr) throws SQLException {//이게 no을 유지하면서 저장하면 그대로 바꿔주는듯 -> 프론트와 알아서 잘 맞춰서
+	public Board fixBoard(BoardFixReq bfr, String path) throws SQLException {//이게 no을 유지하면서 저장하면 그대로 바꿔주는듯 -> 프론트와 알아서 잘 맞춰서
 		Board board = bRepo.findById(bfr.getNo()).get();
 		board.setBoardContent(bfr.getBoardContent());
 		board.setBoardTitle(bfr.getBoardTitle());
+		if(path != null)
+			board.setBoardFile(path);
+		
 		return bRepo.save(board);
 	}
 
@@ -83,15 +91,15 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public void deleteLike(int no) throws SQLException {
+	public void deleteLike(int boardNo, String userId) throws SQLException {
 		//좋아요-1
-		Board board = bRepo.findById(no).get();
+		Board board = bRepo.findById(boardNo).get();
 		if(board.getBoardHeartnum() > 0) {
 			board.setBoardHeartnum(board.getBoardHeartnum()-1);
 			bRepo.save(board);
 		}
 		//좋아요 기록 삭제
-		hRepo.deleteById(no);
+		hRepo.deleteByBoardNoAndUserId(boardNo, userId);
 	}
 	
 	@Override
