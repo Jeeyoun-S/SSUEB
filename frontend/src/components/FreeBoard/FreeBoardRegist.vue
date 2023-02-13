@@ -41,7 +41,7 @@ const userStore = "userStore";
 export default {
   name: "FreeBoardRegist",
   computed: {
-    ...mapState(userStore, ["userId", "userinfo", "userAuth"]),
+    ...mapState(userStore, ["userId", "userInfo", "userAuth"]),
   },
   data() {
     return {
@@ -53,7 +53,7 @@ export default {
         boardContent: null,
         // 넣어줄 정보
         userId: this.userId,
-        userNickname: "임시닉네임",//this.userinfo.usreNickname,//바로 못받아오는듯?
+        userNickname: "임시닉네임",//this.userInfo.usreNickname,//바로 못받아오는듯?
         boardFlag: this.userAuth=="ROLE_ADMIN"?0:this.userAuth=="ROLE_CONSULTANT"?1:2,
       },
       boardRules: {
@@ -79,15 +79,29 @@ export default {
         const frm = new FormData();
 
         this.newBoard.userId = this.userId;
+        this.newBoard.userNickname = this.userInfo.userNickname;
         frm.append("board",  new Blob([ JSON.stringify(this.newBoard) ], {type : "application/json"}));
-        frm.append("file", this.boardFile);
-        console.log(this.boardFile)
-        console.log(this.newBoard);
-        console.log(frm.getAll("file"))
+        if(this.boardFile){
+          frm.append("file", this.boardFile);
+        }
+        
+
+
+        // console.log(this.boardFile)
+        // console.log(this.newBoard);
+        // console.log(frm.getAll("file"))
+
+
         const api = apiInstance();
-        api.post(process.env.VUE_APP_API_BASE_URL+`/board/community`, frm, {
+        await api.post(process.env.VUE_APP_API_BASE_URL+`/board/community`, frm, {
           headers: {'Content-Type': 'multipart/form-data; charset=utf-8;'}
-        }).then(() => {
+        }).then((data) => {
+          const board={};
+          board["no"] = data.data.no;
+          board["userNickname"] = data.data.userNickname;
+          board["boardTitle"] = data.data.boardTitle;
+
+          this.$parent.pushList(board);
           this.$swal.fire(
             '게시글 등록 완료',
             '신규 게시글 등록이 완료되었습니다.',

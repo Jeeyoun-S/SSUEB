@@ -49,4 +49,19 @@ async function deleteBoard(boardNo){
   })
 }
 
-export {getFreeBoard, getHeartWhether, pushHeart, deleteBoard};
+async function putBoard(modifyBoard, boardFile){
+  const frm = new FormData();
+  frm.append("board",  new Blob([ JSON.stringify(modifyBoard) ], {type : "application/json"}));
+  if(boardFile){
+    frm.append("file", boardFile);
+  }
+
+  await api.put(`${process.env.VUE_APP_API_BASE_URL}/board/community`, frm, {
+    headers: { 'Content-Type': 'multipart/form-data' },
+  })
+  .then(()=>{
+    console.log("업로드");
+  })
+}
+
+export {getFreeBoard, getHeartWhether, pushHeart, deleteBoard, putBoard};

@@ -15,7 +15,6 @@ async function getReply(no) {
 
 async function createReply(no, replyContent, userId, userNickname) {
   var result = [];
-  console.log(no, replyContent, userId, userNickname)
   await api.post(`${process.env.VUE_APP_API_BASE_URL}/board/reply`, null, {
     params:{
       boardNo : no,
@@ -24,8 +23,23 @@ async function createReply(no, replyContent, userId, userNickname) {
       userNickname : userNickname,
     }
   })
+  .then((res) => {
+    result = res.data;
+  })
+  .catch(error=>{
+    console.log(error);
+  })
   return await Promise.resolve(result);
 }
 
+async function removeReply(no) {
+  await api.delete(`${process.env.VUE_APP_API_BASE_URL}/board/reply/community/${no}`)
+  .then(() => {
+    console.log("딜리트")
+  })
+  .catch(error=>{
+    console.log(error);
+  })
+}
 
-export {getReply, createReply};
+export {getReply, createReply, removeReply};

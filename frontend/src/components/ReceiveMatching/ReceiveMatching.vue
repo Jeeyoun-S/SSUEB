@@ -69,7 +69,7 @@ export default {
               matchingConsultant["consultantProfile"] = data[i].matchingConsultants[j].consultant_profile;
               matchingConsultant["consultantRate"] = data[i].matchingConsultants[j].consultant_rate;
               matchingConsultant["matchingComment"] = data[i].matchingConsultants[j].matching_comment;
-              matchingConsultant["matchingCost"] = data[i].matchingConsultants[j].matching_comment;
+              matchingConsultant["matchingCost"] = data[i].matchingConsultants[j].matching_cost;
               matchingConsultant["matchingNo"] = data[i].matchingConsultants[j].no;
 
               matchingConsultants.push(matchingConsultant);

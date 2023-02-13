@@ -18,10 +18,10 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="board in getSearchList" :key="board.no"
+      <tr v-for="(board,index) in getSearchList" :key="index"
         @click="moveDetailBoard(board.no)" style="cursor: pointer;"
       >
-        <td>{{ String(board.no).padStart(4, '0') }}</td>
+        <td>{{ String(index+1).padStart(4, '0') }}</td>
         <td>{{ board.boardTitle }}</td>
         <td>{{ board.userNickname }}</td>
       </tr>

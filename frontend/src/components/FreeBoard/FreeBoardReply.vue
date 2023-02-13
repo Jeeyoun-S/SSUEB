@@ -17,13 +17,14 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="reply in replyList" :key="reply.no">
-        <td>{{ String(reply.no).padStart(4, '0') }}</td>
+      <tr v-for="(reply, index) in replyList" :key="reply.no">
+        <td>{{ String(index+1).padStart(2, '0') }}</td>
         <td>{{ reply.replyContent }}</td>
         <td>{{ reply.userNickname }}</td>
         <td>{{ reply.replyWritetime }}</td>
         <td>
-          <v-btn v-show="this.userId == reply.userId" variant="text" icon="mdi-delete" color="red-lighten-2"></v-btn>
+          <v-btn v-show="this.userId == reply.userId" @click="remove(reply.no, index)"
+          variant="text" icon="mdi-delete" color="red-lighten-2"></v-btn>
         </td>
       </tr>
     </tbody>
@@ -33,7 +34,7 @@
 <script>
 import { mapState } from "vuex";
 const userStore = "userStore";
-import { getReply, createReply } from "@/api/communityReply.js"
+import { getReply, createReply, removeReply } from "@/api/communityReply.js"
 
 export default {
   name: "FreeBoardReply",
@@ -56,14 +57,26 @@ export default {
     }
   },
   methods: {
-    async registReply() {
-      console.log(this.$route.params.no,this.replyContent,this.userId, this.userInfo.userNickname);
-      await createReply(this.$route.params.no, this.replyContent, this.userId, this.userInfo.userNickname);
+  async registReply() {
+      this.replyList.push(await createReply(this.$route.params.no, this.replyContent, this.userId, this.userInfo.userNickname));
+      
+      const date = new Date();
+      this.replyList[this.replyList.length-1].replyWritetime = 
+          date.getFullYear()+"-" + (date.getMonth()+1+'').padStart(2,'0') + "-"+date.getDate()+" "+
+          date.getHours()+":"+date.getMinutes()+":"+(date.getSeconds()+'').padStart(2,'0');
+      this.replyContent = null;
+    },
+    async remove(no, index){
+      await removeReply(no)
+      .then(()=>{
+        this.replyList.splice(index,1)
+      });
     }
   },
   async created() {
     this.replyList = await getReply(this.$route.params.no);
-  }
+  },
+  
 }
 </script>
 
