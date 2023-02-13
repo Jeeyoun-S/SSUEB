@@ -102,6 +102,7 @@ public class BoardController {
     })
 	public ResponseEntity<?> readBoardDetail(@PathVariable int no) {
 		try {
+			bService.increaseboardViews(no);
 			Board result = bService.readBoard(no);
 			return new ResponseEntity<Board>(result, HttpStatus.OK);
 		} catch (Exception e) {
@@ -118,18 +119,24 @@ public class BoardController {
 	public ResponseEntity<?> createBoard(@RequestPart(value = "board") Board board, 
 			@RequestPart(value = "file", required = false)  MultipartFile file) {
 		try {
+			System.out.println(board);
 			Board result = bService.createBoard(board);
 			
-			if(param.isValidFileSize(1024*1024*3, file)) {//3메가면
-				String uuid = UUID.randomUUID().toString();//랜덤한 코드명 ex)49eec5bf-dce3-43b2-8ff8-c041c792ed0a를 넣어준다
-				String savefileName = uuid + "_" + file.getOriginalFilename();
-				file.transferTo(new File(boardPath+savefileName));
-				board.setBoardFile(boardPath+savefileName);
-			}
-			else {
-				return new ResponseEntity<String>("파일 크기가 초과했습니다.", HttpStatus.OK);
-			}
 
+			if(file != null) {
+				System.out.println("파일이 있다.");
+				if(param.isValidFileSize(1024*1024*5, file)) {//3메가면
+					String uuid = UUID.randomUUID().toString();//랜덤한 코드명 ex)49eec5bf-dce3-43b2-8ff8-c041c792ed0a를 넣어준다
+					String savefileName = uuid + "_" + file.getOriginalFilename();
+					file.transferTo(new File(boardPath+savefileName));
+					board.setBoardFile(boardPath+savefileName);
+				}
+				else {
+					return new ResponseEntity<String>("파일 크기가 초과했습니다.", HttpStatus.OK);
+				}
+			}
+			else
+				System.out.println("파일이 없다");
 			return new ResponseEntity<Board>(result, HttpStatus.OK);
 		} catch (Exception e) {
 			return exceptionHandling(e);
@@ -219,7 +226,7 @@ public class BoardController {
 				return new ResponseEntity<Heart>(result, HttpStatus.OK);
 			}
 			else {
-				bService.deleteLike(heartReq.getNo());
+				bService.deleteLike(heartReq.getBoardNo(),heartReq.getUserId());
 				return new ResponseEntity<Void>(HttpStatus.OK);
 			}
 		} catch (Exception e) {

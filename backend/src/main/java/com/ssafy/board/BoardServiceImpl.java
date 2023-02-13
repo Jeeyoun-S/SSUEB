@@ -83,15 +83,15 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	public void deleteLike(int no) throws SQLException {
+	public void deleteLike(int boardNo, String userId) throws SQLException {
 		//좋아요-1
-		Board board = bRepo.findById(no).get();
+		Board board = bRepo.findById(boardNo).get();
 		if(board.getBoardHeartnum() > 0) {
 			board.setBoardHeartnum(board.getBoardHeartnum()-1);
 			bRepo.save(board);
 		}
 		//좋아요 기록 삭제
-		hRepo.deleteById(no);
+		hRepo.deleteByBoardNoAndUserId(boardNo, userId);
 	}
 	
 	@Override

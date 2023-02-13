@@ -16,6 +16,8 @@ public interface ReservationPet {
    	String getConsultantId();
    	String getReservationDate();
    	String getReservationConsultContent();
+   	String getReservationCost();
+   	String getReservationReason();
    	
    	int getPno();
    	String getPetImage();

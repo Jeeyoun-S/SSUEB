@@ -33,7 +33,7 @@ public interface BoardService {
 	//좋아요 클릭
 	Heart createLike(Heart heart) throws SQLException;
 	//좋아요 취소
-	void deleteLike(int no) throws SQLException;
+	void deleteLike(int boardNo, String userId) throws SQLException;
 	//좋아요 여부
 	boolean whetherLike(int boardNo, String userId) throws SQLException;
 	
