@@ -48,13 +48,9 @@ export default {
   methods: {
     moveDetailBoard(no) {
       this.$router.push(`/free-board/detail/${no}`);
-      // 조회수 높이는 API
-      // no의 조회수 1 올리기
     },
   },
   created() {
-    // 게시글 전체 조회 API
-    // 자유 게시판 전체 목록 불러와서 this.boardSummaryList에 넣기
   }
 }
 </script>

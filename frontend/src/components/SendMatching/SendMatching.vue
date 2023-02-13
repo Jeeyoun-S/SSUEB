@@ -17,7 +17,6 @@ import SendMatchingCard from "@/components/SendMatching/SendMatchingCard.vue";
 
 import { mapState } from "vuex";
 import { apiInstance } from "@/api/index.js";
-const reservationStore = "reservationStore";
 const userStore = "userStore";
 
 
@@ -31,7 +30,6 @@ export default {
   },
   computed: {
     ...mapState(userStore, ["userId"]),
-    ...mapState(reservationStore),
     },
   methods:{
     async getMatchings(){

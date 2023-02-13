@@ -4,6 +4,7 @@
     :rules="replyRule" append-inner-icon="mdi-plus"
     @click:append-inner="registReply()"
     v-on:keyup.enter="registReply()"
+    v-model="replyContent"
   ></v-text-field>
   <v-table fixed-header hover>
     <thead>
@@ -22,7 +23,7 @@
         <td>{{ reply.userNickname }}</td>
         <td>{{ reply.replyWritetime }}</td>
         <td>
-          <v-btn variant="text" icon="mdi-delete" color="red-lighten-2"></v-btn>
+          <v-btn v-show="this.userId == reply.userId" variant="text" icon="mdi-delete" color="red-lighten-2"></v-btn>
         </td>
       </tr>
     </tbody>
@@ -32,33 +33,36 @@
 <script>
 import { mapState } from "vuex";
 const userStore = "userStore";
+import { getReply, createReply } from "@/api/communityReply.js"
+
 export default {
   name: "FreeBoardReply",
   computed: {
-    ...mapState(userStore, ["userId"]),
+    ...mapState(userStore, ["userId", "userInfo"]),
   },
   data() {
     return {
       replyList: [
-        { no: 1, userNickname: "id@di.com", replyContent: "댓글 달아요~", replyWritetime: "2023-01-25 16:43:28" },
-        { no: 2, userNickname: "id@di.com", replyContent: "댓글 달아요~", replyWritetime: "2023-01-25 16:43:28" },
-        { no: 3, userNickname: "id@di.com", replyContent: "댓글 달아요~", replyWritetime: "2023-01-25 16:43:28" },
-        { no: 4, userNickname: "id@di.com", replyContent: "댓글 달아요~", replyWritetime: "2023-01-25 16:43:28" }
+        // { no: 1, userNickname: "id@di.com", replyContent: "댓글 달아요~", replyWritetime: "2023-01-25 16:43:28" },
+        // { no: 2, userNickname: "id@di.com", replyContent: "댓글 달아요~", replyWritetime: "2023-01-25 16:43:28" },
+        // { no: 3, userNickname: "id@di.com", replyContent: "댓글 달아요~", replyWritetime: "2023-01-25 16:43:28" },
+        // { no: 4, userNickname: "id@di.com", replyContent: "댓글 달아요~", replyWritetime: "2023-01-25 16:43:28" }
       ],
       replyRule: [
         (v) => v != null || v.length > 1 || "내용을 입력해 주세요.",
         (v) => v.length < 200 || "최대 200자까지 입력 가능합니다."
-      ]
+      ],
+      replyContent: null,
     }
   },
   methods: {
-    registReply() {
-      alert("댓글이다")
+    async registReply() {
+      console.log(this.$route.params.no,this.replyContent,this.userId, this.userInfo.userNickname);
+      await createReply(this.$route.params.no, this.replyContent, this.userId, this.userInfo.userNickname);
     }
   },
-  created() {
-    // 
-    // 
+  async created() {
+    this.replyList = await getReply(this.$route.params.no);
   }
 }
 </script>
