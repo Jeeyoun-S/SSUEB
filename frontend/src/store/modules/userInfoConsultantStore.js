@@ -21,7 +21,7 @@ const userInfoConsultantStore = {
     graphLabels: ["", "", "", "", "", ""],
     graphOne: [0, 0, 0, 0],
     graphTwo: [0, 0, 0, 0, 0, 0],
-    graphThree: [0, 0, 0, 0, 0, 0]
+    graphThree: [0, 0, 0, 0, 0, 0],
   },
   getters: {
     getConsultantInfo(state) {
@@ -44,7 +44,7 @@ const userInfoConsultantStore = {
     },
     getGraphLabels(state) {
       return state.graphLabels;
-    }
+    },
   },
   mutations: {
     UPDATE_CONSULTANT_INFO(state, payload) {
@@ -55,7 +55,7 @@ const userInfoConsultantStore = {
       state.consultantInfo.consultantIntro = payload.consultantIntro;
       state.consultantInfo.consultantProfile = payload.consultantProfile;
       const petType = Array.from(payload.consultantPetType);
-      for (var i=0; i<6; i++) {
+      for (var i = 0; i < 6; i++) {
         if (petType[i] == 1) {
           state.consultantInfo.consultantPetType.push(i);
         }
@@ -64,14 +64,15 @@ const userInfoConsultantStore = {
     UPDATE_GRAPH_INFO(state, payload) {
       state.graphOne = payload.graphOne;
 
-      for (var i=0; i<6; i++) {
-        for (var j=0; j<payload.graphTwo.length; j++) {
+      for (var i = 0; i < 6; i++) {
+        for (var j = 0; j < payload.graphTwo.length; j++) {
           const valueTwo = payload.graphTwo[j][state.graphLabels[i]];
           if (typeof valueTwo != "undefined") state.graphTwo[i] = valueTwo;
         }
-        for (var k=0; k<payload.graphThree.length; k++) {
+        for (var k = 0; k < payload.graphThree.length; k++) {
           const valueThree = payload.graphThree[k][state.graphLabels[i]];
-          if (typeof valueThree != "undefined") state.graphThree[i] = valueThree;
+          if (typeof valueThree != "undefined")
+            state.graphThree[i] = valueThree;
         }
       }
     },
@@ -79,37 +80,38 @@ const userInfoConsultantStore = {
       // 평균값 넣어주기
       state.averageRating = payload.averageRating;
       // 각 별점 개수 넣기
-      for (var i=0; i<payload.consultantRating.length; i++) {
+      for (var i = 0; i < payload.consultantRating.length; i++) {
         const value = payload.consultantRating[i];
         state.consultantRating[value.starNum].cnt = value.starCnt;
       }
     },
     UPDATE_GRAPH_LABEL(state) {
-      for (var i=1; i<7; i++) {
+      for (var i = 1; i < 7; i++) {
         var date = new Date(new Date().setMonth(new Date().getMonth() - i));
-        state.graphLabels[6-i] = date.getFullYear()+"-"+(date.getMonth()+1);
+        state.graphLabels[6 - i] =
+          date.getFullYear() + "-" + (date.getMonth() + 1);
       }
     },
     UPDATE_CONSULTANT_USER_INFO(state, payload) {
       state.consultantInfo = payload;
-    }
+    },
   },
   actions: {
     updateConsultantInfo({ commit }, data) {
-      commit('UPDATE_CONSULTANT_INFO', data);
+      commit("UPDATE_CONSULTANT_INFO", data);
     },
     updateStarInfo({ commit }, data) {
-      commit('UPDATE_STAR_INFO', data);
+      commit("UPDATE_STAR_INFO", data);
     },
     updateGraphInfo({ commit }, data) {
-      commit('UPDATE_GRAPH_INFO', data);
+      commit("UPDATE_GRAPH_INFO", data);
     },
     updateGraphLabel({ commit }) {
-      commit('UPDATE_GRAPH_LABEL');
+      commit("UPDATE_GRAPH_LABEL");
     },
     updateConsultantUserInfo({ commit }, consultantInfo) {
-      commit('UPDATE_CONSULTANT_USER_INFO', consultantInfo);
-    }
+      commit("UPDATE_CONSULTANT_USER_INFO", consultantInfo);
+    },
   },
 };
 

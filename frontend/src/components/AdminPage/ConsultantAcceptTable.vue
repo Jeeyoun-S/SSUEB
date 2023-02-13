@@ -2,7 +2,9 @@
   <v-sheet class="mr-2" width="150">
     <v-combobox
       :items="['이메일', '이름']"
-      variant="outlined" density="compact" v-model="range"
+      variant="outlined"
+      density="compact"
+      v-model="range"
       hide-details
     ></v-combobox>
   </v-sheet>
@@ -26,12 +28,15 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="(consultant, index) in consultantList" :key="index"
-        @click="moveDetailPage(consultant, index)" style="cursor: pointer;"
+      <tr
+        v-for="(consultant, index) in consultantList"
+        :key="index"
+        @click="moveDetailPage(consultant, index)"
+        style="cursor: pointer"
       >
-        <td>{{ String(index).padStart(4, '0') }}</td>
-        <td>{{ consultant.userJoindate }}</td>
-        <td>{{ consultant.userName }}</td>
+        <td>{{ String(index).padStart(4, "0") }}</td>
+        <td>{{ consultant.user_joindate.substring(0, 10) }}</td>
+        <td>{{ consultant.user_name }}</td>
         <td>{{ consultant.id }}</td>
       </tr>
     </tbody>
@@ -39,27 +44,31 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+const adminStore = "adminStore";
+
 export default {
   name: "ConsultantAcceptTable",
   props: {
-    consultantList: Array
+    consultantList: Array,
   },
   data() {
     return {
       range: "이메일",
       keyword: "",
-    }
+    };
   },
   methods: {
+    ...mapActions(adminStore, ["updateConsultantDetail"]),
+
+    // [@Method] 해당 전문가 Detail 페이지로 이동
     moveDetailPage(consultantDetail, index) {
       consultantDetail.index = index;
-      this.$store.dispatch("updateConsultantDetail", consultantDetail);
+      this.updateConsultantDetail(consultantDetail);
       this.$router.push("/consultant-accept/detail");
-    }
-  }
-}
+    },
+  },
+};
 </script>
 
-<style>
-
-</style>
+<style></style>
