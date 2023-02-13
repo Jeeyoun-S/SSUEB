@@ -49,7 +49,23 @@ public class MailServiceImpl implements MailService {
 		String html = makeHtml();
 		String subject = "SSEUB 자격증 검증 결과";
 		
-		// ii) 메일 전송 
+		return mailSender(email, html, subject);
+	}
+	
+	@Override
+	public String customMail(String email, String message) {
+		logger.info("#MailServiceImpl - sendMail# 메일 전송 동작");
+		
+		String subject = "[SSEUB] 관리자 알림";
+		String html = "<h2> [SSEUB 반려동물 상담 서비스] 관리자 알림 </h2> <br> "+message+" <br> <a href='https://i8a801.p.ssafy.io/'>SSUEB으로 이동하기</a>  <br>"; 
+		
+		return mailSender(email, html, subject);
+	}
+	
+	@Override
+	public String mailSender(String email, String html, String subject) {
+		
+		// 메일 전송 
 		MimeMessage mail = javaMailSender.createMimeMessage(); 
 		try {
 			mail.setSubject(subject, "utf-8");
@@ -64,5 +80,4 @@ public class MailServiceImpl implements MailService {
 			return "failure";
 		}
 	}
-
 }

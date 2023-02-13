@@ -5,6 +5,7 @@ import java.net.URISyntaxException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,12 +15,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.ssafy.common.util.BasicResponse;
 import com.ssafy.common.util.CommonVariable;
+import com.ssafy.common.util.ParameterCheck;
 import com.ssafy.db.entity.User;
 import com.ssafy.user.admin.model.UserConsultantDto;
 import com.ssafy.user.admin.response.UserAlertEmailResponse;
@@ -32,6 +37,8 @@ import com.ssafy.user.logout.response.UserLogoutPostResponse;
 import com.ssafy.user.phone.UserPhoneService;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -59,6 +66,9 @@ public class UserAdminController {
 	
 	@Autowired
 	JoinUserRepository joinUserRepository;
+	
+	// 유효성 검사
+	ParameterCheck parameterCheck = new ParameterCheck();
 	
 	/** 
 	 * 전문가 자격증 검증 합격 알림 이메일 발송
@@ -171,5 +181,50 @@ public class UserAdminController {
 			e.printStackTrace();
 			return ResponseEntity.ok(UserUncertifiedConsultantResponse.of(401, "failure", "자격증 미인증 전문가 조회 실패", null));
 		}
+	}
+	
+	@PostMapping("/alert")
+	@ApiOperation(value = "사용자 알람 전송", notes = "사용자에게 알람을 보낸다.")
+	@ApiResponse(code = 200, response = BasicResponse.class, message = "사용자 알람 전송 성공")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "id", value = "사용자 아이디", required = true),
+		@ApiImplicitParam(name = "message", value = "알람 메세지 내용", required = true)
+	})
+	public ResponseEntity<BasicResponse> alertUser(String id, String message) {
+		System.out.println(id+message);
+		// 아이디 유효성 검사
+		if (!parameterCheck.isEmpty(id) && parameterCheck.isValidId(id)) {
+			
+			Optional<User> optionalUser = joinUserRepository.findById(id);
+			
+			if (optionalUser.isPresent()) {
+				
+				User user = optionalUser.get();
+				int alertFlag = user.getUserAlertFlag();
+				
+				String result = "failure";
+				if (alertFlag == 0) {
+					// 카카오
+					
+				} else if (alertFlag == 1) {
+					// 이메일
+					result = mailService.customMail(id, message);
+				} else {
+					// 문자
+					String phone = user.getUserPhone();
+					try {
+						result = userPhoneService.sendSMS(phone, "[SSUEB] "+message).getBody().getResponse();
+					} catch (Exception e) {
+						e.printStackTrace();
+					} 
+				}
+				
+				if (result == "success") {
+					return ResponseEntity.status(200).body(new BasicResponse("success", null));
+				}
+			}
+		}
+		
+		return ResponseEntity.status(200).body(new BasicResponse("failure", null));
 	}
 }

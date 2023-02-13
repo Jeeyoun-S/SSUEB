@@ -6,5 +6,10 @@ public interface MailService {
 	
 	// 메일 전송
 	String sendMail(String email);
-
+	
+	// 입력한 메세지로 이메일 전송
+	String customMail(String email, String message);
+	
+	// 이메일 전송 로직
+	String mailSender(String email, String html, String subject);
 }
