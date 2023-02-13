@@ -11,38 +11,47 @@
           <v-row class="d-flex flex-row justify-space-around">
             <v-hover v-slot="{ isHovering, props }">
               <v-card class="ma-3 mb-2 mr-1 pa-2 d-flex justify-space-between flex-column"
-                width="700" height="430" variant="outlined"
+                width="690" height="430" variant="outlined"
                 :elevation="isHovering ? 8 : 0" :class="{ 'on-hover': isHovering }"
                 rounded="0" v-bind="props"
               >
-                <v-card-title><h4>상담할 반려동물 선택하기</h4></v-card-title>
+                <v-card-title class="d-flex flex-row align-center">
+                  <h4 class="mr-2">상담할 반려동물 선택하기</h4>
+                  <RegistPet @addPetList="addPetList"></RegistPet>
+                </v-card-title>
                 <!-- {{ selectedPet }} 선택한 반려동물 보기 -->
                 <v-item-group selected-class="bg-primary" v-model="selectedPet" mandatory>
                   <v-container>
-                    <v-sheet height="290">
-                      <v-row class="dflex flex-row justify-center align-center">
-                        <v-col v-for="(pet, index) in historyList" :key="index" height="120" width="305">
+                    <v-sheet class="pl-4" height="280">
+                      <v-row class="d-flex flex-row justify-start align-start">
+                        <RegisterPetBig v-if="petList.length < 4" @addPetList="addPetList"></RegisterPetBig>
+                        <v-sheet class="mt-2 mb-4 mr-5" v-for="pet in historyList" :key="pet.no" height="120" width="300">
                           <v-item v-slot="{ selectedClass, toggle }" :value="pet">
-                            <v-card :class="['pa-5 d-flex flex-row', selectedClass]"
-                              dark height="130" width="305" @click="toggle" variant="outlined" rounded="0"
+                            <v-card :class="[selectedClass]"
+                              dark height="120" width="300" @click="toggle" variant="outlined" rounded="0"
                             >
-                              <v-card-item class="pa-0">
-                                <img width="80" :src="require('@/assets/placeholder/placeholder_dog.png')" />
-                              </v-card-item>
-                              <v-card-item>
-                                <v-card-title>{{ pet.petName }}</v-card-title>
-                                <v-card-subtitle>{{ pet.petBirth }}</v-card-subtitle>
-                                <v-card-subtitle>{{ pet.petType }}</v-card-subtitle>
-                                <v-card-subtitle>{{ pet.petVariety }}</v-card-subtitle>
-                              </v-card-item>
+                              <template v-slot:title>
+                                {{ pet.petName }}
+                              </template>
+                              <template v-slot:prepend>
+                                <v-avatar color="#06BEE1" size="90">
+                                  <span v-if="pet.petImage == null">{{ pet.petName }}</span>
+                                  <img v-else :src="getImageUrl(pet.petImage)" height="90" width="90" />
+                                </v-avatar>
+                              </template>
+                              <template v-slot:subtitle>
+                                {{ pet.petType }}<br />
+                                {{ pet.petVariety }}<br />
+                                {{ pet.petBirth }}
+                              </template>
                             </v-card>
                           </v-item>
-                        </v-col>
+                        </v-sheet>
                       </v-row>
                     </v-sheet>
                     <v-pagination class="pagination mt-3"
                       v-model="page" :length="pages" @update:modelValue="updatePage"
-                      rounded="0" size="32" density="compact"
+                      rounded="0" size="35"
                     >
                     </v-pagination>
                   </v-container>
@@ -58,7 +67,11 @@
                 <v-card-title><h4>상담 시간 선택하기</h4></v-card-title>
                 <v-card-item>
                   <!-- {{ date.toISOString() }} 선택한 시간 정보 보기 -->
-                  <DatePicker v-model="date" mode="dateTime" timezone="Asia/Pyongyang" color="indigo" :minute-increment="10"></DatePicker>
+                  <!-- 내일부터 두 달 후까지만 선택 가능하도록 설정 -->
+                  <DatePicker v-model="date" mode="dateTime"
+                    timezone="Asia/Pyongyang" color="indigo" :minute-increment="10"
+                    :available-dates='{ start: new Date(new Date().setDate(new Date().getDate() + 1)), end: new Date(new Date().setMonth(new Date().getMonth() + 2)) }'
+                  ></DatePicker>
                 </v-card-item>
               </v-card>
             </v-hover>
@@ -149,11 +162,14 @@
 
 <script>
 import NowLoading from '@/views/NowLoading.vue';
+import RegistPet from '@/components/CreateReservation/RegistPet.vue';
+import RegisterPetBig from '@/components/CreateReservation/RegisterPetBig.vue'
 import { mapState } from "vuex";
+import axios from "axios";
 import { DatePicker } from 'v-calendar';
 import moment from 'moment';
 import { apiInstance } from "@/api/index.js";
-const reservationStore = "reservationStore";
+// const reservationStore = "reservationStore";
 const userStore = "userStore";
 import router from "@/router/index.js";
 
@@ -161,7 +177,7 @@ export default {
   name: "CreateReservation",
   computed: {
     ...mapState(userStore, ["userId"]),
-    ...mapState(reservationStore),
+    // ...mapState(reservationStore),
     pages() {
       if (this.pageSize == null || this.listCount == null) return 0;
       return Math.ceil(this.listCount / this.pageSize);
@@ -169,10 +185,13 @@ export default {
   },
   components: {
     DatePicker,
-    NowLoading
+    NowLoading,
+    RegistPet,
+    RegisterPetBig
   },
   data: () => ({
     loaded: false,
+    registBtnActive: true,
     files:null,
     // 반려동물 목록에 필요한 데이터
     page: 1,
@@ -193,17 +212,33 @@ export default {
       reservationConsultContent:null,
     },
     selectedPet: null,
-    date: new Date(),
+    date: new Date(new Date().setDate(new Date().getDate() + 1)),
     timeList: [],
   }),
   methods: {
+    async addPetList(petInfo) {
+      await this.petList.push(petInfo);
+      await this.initPage();
+      await this.updatePage(this.page);
+    },
     async registed() {
       const { valid } = await this.$refs.reservationForm.validate();
-      if (valid) {
+
+      if (this.selectedPet == null) {
+          this.$swal.fire(
+            '반려동물 선택 필수',
+            '상담할 반려동물을 선택하지 않았습니다. 반려동물을 선택해 주세요.',
+            'error'
+          )
+      } 
+      else if (valid && this.selectedPet != null) {
         this.createReservation();
       }
     },
-    async createReservation() {
+    getImageUrl(img) {
+      return `${process.env.VUE_APP_FILE_PATH_PET}${img}`;
+    },
+    createReservation() {
       // process.env.VUE_APP_API_BASE_URL -> baseurl env파일에서 호출
       //날짜 timestamp형식으로
       this.reservation.reservationDate = this.date.getFullYear()+"-"+(this.date.getMonth()+1)+"-"+this.date.getDate()+" "+
@@ -227,6 +262,7 @@ export default {
 
       const frm = new FormData();
       frm.append("reservation",  new Blob([ JSON.stringify(this.reservation) ], {type : "application/json"}));
+
       if(this.files){
         console.log("파일있음")
         for(let i=0; i<this.files.length; i++){
@@ -266,10 +302,11 @@ export default {
           return;
         }
       }
+
       console.log(frm);
 
       const api = apiInstance();
-      await api.post(process.env.VUE_APP_API_BASE_URL+`/reservation`, frm, {
+      api.post(process.env.VUE_APP_API_BASE_URL+`/reservation`, frm, {
         headers: {'Content-Type': 'multipart/form-data'}
       }).then(() => {
         this.$swal.fire(
@@ -288,7 +325,6 @@ export default {
         return;
       })
     },
-
     async petInfo(){
       var result = true;
       const api = apiInstance();
@@ -316,9 +352,11 @@ export default {
         })
         return await Promise.resolve(result);
       },
-    async getTimeList(){
-      const api = apiInstance();
-      await api.get(process.env.VUE_APP_API_BASE_URL+`/reservation/date-validation/${this.userId}`)
+    getTimeList(){
+      axios({
+        url: process.env.VUE_APP_API_BASE_URL+`/reservation/date-validation/`+`aa@a`,
+        method: "get",
+      })
         .then(({ data }) => {
           for (var i = 0; i < data.length; i++) {
             this.timeList.push(data[i]);
@@ -344,7 +382,6 @@ export default {
 			this.page = pageIndex;
 		}
   },
-
   watch: {
     files() {
       // 등록한 파일 이름 짧게 수정하기
@@ -380,7 +417,6 @@ export default {
       }
     }
   },
-
   async created() {
     this.loaded = false;
     try {
@@ -397,4 +433,5 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+</style>

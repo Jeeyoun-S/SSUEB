@@ -1,32 +1,11 @@
 <template>
   <v-dialog v-model="registOpen" width="700">
     <template v-slot:activator="{ props }">
-      <div v-bind="props" style="cursor: pointer;">
-        <v-hover v-slot="{ isHovering, props }">
-          <v-card class="mr-5 mb-5 pa-2" variant="outlined"
-            width="320" height="245" rounded="0"
-            :elevation="isHovering ? 8 : 0" :class="{ 'on-hover': isHovering }"
-            v-bind="props"
-          >
-            <template v-slot:title>새 반려동물 등록</template>
-            <template v-slot:prepend>
-              <v-avatar color="grey-lighten-1" size="90">
-                <h1>+</h1>
-              </v-avatar>
-            </template>
-            <template v-slot:subtitle>
-              대분류<br />
-              품종<br />
-              생일
-            </template>
-            <template v-slot:text>
-              <div class="pet-info">
-                해당 카드를 클릭하시면 새로운 반려동물을 등록하실 수 있습니다.
-              </div>
-            </template>
-          </v-card>
-        </v-hover>
-      </div>
+      <v-btn rounded="pill" v-bind="props"
+        prepend-icon="mdi-plus" color="primary" variant="tonal"
+      >
+        새 반려동물 등록
+      </v-btn>
     </template>
     <v-card class="pa-5">
       <v-card-title>
@@ -74,7 +53,7 @@
             </v-row>
             <v-row>
               <v-textarea :rules="petRules.petInfo" v-model="petRegistInfo.petInfo" label="특이사항" variant="underlined"
-                counter="40">
+                counter="70" maxlength="70">
               </v-textarea>
             </v-row>
           </v-form>
@@ -95,14 +74,11 @@ import { mapState } from "vuex";
 import { registerPetInfo } from '@/api/userInfoPartner.js'
 
 export default {
-  name: 'MyPagePetRegister',
+  name: 'RegistPet',
   computed: {
     ...mapState(userStore, ["userId"]),
     petRules() {
       return this.$store.getters.getPetRule;
-    },
-    getPetInfo() {
-      return this.$store.getters.getPetInfo;
     },
   },
   data() {
@@ -172,10 +148,9 @@ export default {
 
         await registerPetInfo(petFormData, this.userId)
         .then((res) => {
-          console.log("#결과 확인", res);
-          this.registOpen = res;
-
-          if (!res) {
+          const result = res.result;
+          if (!result) {
+            this.$emit("addPetList", res.petInfo);
             this.petRegistInfo = {
               petBirth: null,
               petImage: null,
@@ -184,6 +159,7 @@ export default {
               petType: null,
               petVariety: null
             }
+            this.registOpen = result;
           }
         });
       }

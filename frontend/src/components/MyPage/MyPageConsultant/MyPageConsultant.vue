@@ -66,9 +66,8 @@ export default {
     };
   },
   async mounted() {
+    this.loaded = false;
     if (this.getConsultantInfo.id != this.userId) {
-      this.loaded = false;
-
       try {
         await getUserConsultantInfo(this.userId);
       } catch (e) {

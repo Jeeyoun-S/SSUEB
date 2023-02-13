@@ -10,11 +10,14 @@
 <style scoped>
 .main-error {
   display: flex;
-  margin-right: 30%;
-  /* margin-bottom: 20%; */
+  justify-content: center;
+  align-items: center;
+  height: 600px;
 }
 .errorImg {
-  margin-left: 30%;
-  width: 100%;
+  object-fit: cover;
+  height: 300px;
+  width: 600px;
+  object-position: 30% 32%;
 }
 </style>

@@ -53,7 +53,7 @@
             </v-row>
             <v-row>
               <v-textarea :rules="petRules.petInfo" v-model="petRegistInfo.petInfo" label="특이사항" variant="underlined"
-                counter="40">
+                counter="70" maxlength="70">
               </v-textarea>
             </v-row>
           </v-form>
@@ -149,9 +149,10 @@ export default {
         await registerPetInfo(petFormData, this.userId)
         .then((res) => {
           console.log("#결과 확인", res);
-          this.registOpen = res;
+          console.log("#결과 확인", res.result);
+          this.registOpen = res.result;
 
-          if (!res) {
+          if (!res.result) {
             this.petRegistInfo = {
               petBirth: null,
               petImage: null,

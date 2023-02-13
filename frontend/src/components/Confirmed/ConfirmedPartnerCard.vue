@@ -17,7 +17,7 @@
           <v-btn class="mr-3" rounded="pill" color="primary" disabled
             >D-2</v-btn
           >
-          <v-btn rounded="pill" color="primary" @click="timealert">입장</v-btn>
+          <v-btn rounded="pill" color="primary" @click="moveRoom">입장</v-btn>
         </div>
       </v-card-title>
       <div class="d-flex flex-row justify-space-around">
@@ -74,13 +74,11 @@ export default {
   },
 
   methods: {
-    timealert() {
-      this.$swal.fire(
-        "화상 상담 입장 대기",
-        "화상 상담은 10분 전부터 입장 가능합니다.",
-        "warning"
-      );
-    },
+    moveRoom(){
+      //유효성검사후 없으면 적절한 alert띄우기 
+        this.$router.push("meeting-room");
+        // this.roomInitialize();
+    }
   },
   created(){
     console.log(this.reservation);

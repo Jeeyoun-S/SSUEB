@@ -73,7 +73,9 @@ async function updatePartnerInfo(partnerInfo) {
 
 // [POST] 반려동물 등록
 async function registerPetInfo(petInfo, id) {
-  var result = true;
+  var value = {};
+  value.result = true;
+  value.petInfo = null;
 
   for (let key of petInfo.keys()) {
     console.log(key, ":", petInfo.get(key));
@@ -102,7 +104,8 @@ async function registerPetInfo(petInfo, id) {
           icon: "success",
         });
 
-        result = false;
+        value.result = false;
+        value.petInfo = res.data.data;
         console.log(petInfo);
         store.dispatch("addPetInfo", res.data.data);
       } else {
@@ -116,7 +119,7 @@ async function registerPetInfo(petInfo, id) {
       }
     });
 
-  return await Promise.resolve(result);
+  return await Promise.resolve(value);
 }
 
 // [PUT] 반려동물 수정

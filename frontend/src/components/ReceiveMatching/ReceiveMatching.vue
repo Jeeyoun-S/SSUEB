@@ -6,6 +6,7 @@
         <h2>전문가에게 받은 상담 제안 보기</h2>
       </div>
       <div class="page-inner-items border-sheet-four">
+        <MoveCreateReservation v-if="reservations == null || reservations.length < 1" message="아직 받은 상담 제안이 없습니다."></MoveCreateReservation>
         <ReceivedCard v-for="(reservation, idx) in reservations" :reservation="reservation" :key="idx" />
       </div>
     </div>
@@ -14,9 +15,11 @@
 
 <script>
 import ReceivedCard from "@/components/ReceiveMatching/ReceivedMatchingCard.vue";
+import MoveCreateReservation from "@/components/CreateReservation/MoveCreateReservation.vue";
+import axios from "axios";
 import { mapState } from "vuex";
 import { apiInstance } from "@/api/index.js";
-const reservationStore = "reservationStore";
+// const reservationStore = "reservationStore";
 const userStore = "userStore";
 
 export default {
@@ -26,18 +29,21 @@ export default {
   }),
   computed: {
     ...mapState(userStore, ["userId"]),
-    ...mapState(reservationStore),
+    // ...mapState(reservationStore),
   },
   components: {
     ReceivedCard,
+    MoveCreateReservation
   },
   methods:{
     async getReservation() {
-      console.log(`${process.env.VUE_APP_API_BASE_URL}/reservation/partner/unconfirm/${this.userId}`);
+
       const api = apiInstance();
-      await api.get(`${process.env.VUE_APP_API_BASE_URL}/reservation/partner/unconfirm/${this.userId}`)
+      await api({
+        url: `${process.env.VUE_APP_API_BASE_URL}/reservation/partner/unconfirm/${this.userId}`, //이메일 바꾸고
+        method: "get",
+      })
         .then(({ data }) => {
-          console.log("받은 상담 제안", data);
           for (var i = 0; i < data.length; i++) {
             let reservation = {};
             reservation["rno"] = data[i].reservationPet.rno;
@@ -66,6 +72,7 @@ export default {
               matchingConsultant["consultantName"] = data[i].matchingConsultants[j].consultant_name;
               matchingConsultant["consultantProfile"] = data[i].matchingConsultants[j].consultant_profile;
               matchingConsultant["consultantRate"] = data[i].matchingConsultants[j].consultant_rate;
+
               matchingConsultant["matchingComment"] = data[i].matchingConsultants[j].matching_comment;
               matchingConsultant["matchingCost"] = data[i].matchingConsultants[j].matching_comment;
               matchingConsultant["matchingNo"] = data[i].matchingConsultants[j].no;
@@ -82,10 +89,9 @@ export default {
           console.log(err);
         });
     },
-    async deleteReservation(no) {
+    deleteReservation(no) {
       //삭제 후 카운트 변경은 추후 생각해보자
-      const api = apiInstance();
-      await api
+      axios
         .delete(process.env.VUE_APP_API_BASE_URL + `/` + no)
         .then(() => {
           console.log("삭제");

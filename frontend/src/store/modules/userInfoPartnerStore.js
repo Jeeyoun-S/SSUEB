@@ -81,6 +81,7 @@ const userInfoPartnerStore = {
       await commit("SET_PET_INFO", petInfo);
     },
     addPetInfo({ commit }, petOneInfo) {
+      if (petOneInfo.petBirth != null) petOneInfo.petBirth = petOneInfo.petBirth.substr(0, 7);
       commit("ADD_PET_INFO", petOneInfo);
     },
     deletePetInfo({ commit }, petNo) {

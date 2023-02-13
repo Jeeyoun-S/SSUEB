@@ -45,7 +45,6 @@ export default {
   }),
   methods: {
     dialogOff() {
-      console.log("dialogOff");
       this.dialog = false;
     }
   },

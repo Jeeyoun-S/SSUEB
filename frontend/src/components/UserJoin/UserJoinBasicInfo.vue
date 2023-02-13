@@ -8,6 +8,7 @@
     variant="underlined"
     color="primary"
     :disabled="!info.socialAccess"
+    maxlength="30"
     required
   ></v-text-field>
   <!-- #21# disabled 추가: 소셜 로그인을 통해 접근한 경우 아이디, 비밀번호 비활성화 -->
@@ -22,6 +23,7 @@
     variant="underlined"
     color="primary"
     :disabled="!info.socialAccess"
+    maxlength="20"
     required
   ></v-text-field>
   <v-text-field
@@ -31,6 +33,7 @@
     label="이름"
     variant="underlined"
     color="primary"
+    maxlength="10"
     required
   ></v-text-field>
 </template>

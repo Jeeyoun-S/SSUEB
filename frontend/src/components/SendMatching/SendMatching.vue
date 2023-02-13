@@ -27,7 +27,7 @@ export default {
     matchings:[], 
   }),
   components: {
-    SendMatchingCard
+    SendMatchingCard,
   },
   computed: {
     ...mapState(userStore, ["userId"]),

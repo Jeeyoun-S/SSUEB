@@ -1,6 +1,6 @@
 <template>
   <MyPagePartner v-if="userAuth == 'ROLE_USER'"></MyPagePartner>
-  <MyPageConsultant v-else></MyPageConsultant>
+  <MyPageConsultant v-else-if="userAuth == 'ROLE_CONSULTANT'"></MyPageConsultant>
 </template>
 
 <script>

@@ -9,9 +9,12 @@ const userValidStore = {
         (v) => v.length <= 30 || "30자 이하로 입력해 주세요.",
       ],
       password: [
-        (v) => !!v || "비밀번호는 필수 입력 사항입니다.",
+        (v) => 
+          localStorage.getItem("kakaoToken") != null || localStorage.getItem("googleToken") != null
+          || !!v || "비밀번호는 필수 입력 사항입니다.",
         (v) =>
-          /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[~!@$!%*#^?&])(?!.*[^a-zA-z0-9~!@$!%*#^?&]).{10,20}$/.test(
+          localStorage.getItem("kakaoToken") != null || localStorage.getItem("googleToken") != null
+          || /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[~!@$!%*#^?&])(?!.*[^a-zA-z0-9~!@$!%*#^?&]).{10,20}$/.test(
             v
           ) || "영어, 숫자, 특수문자 포함 10~20자로 입력해 주세요.",
       ],
@@ -87,7 +90,7 @@ const userValidStore = {
           (v.length == 1 && v[0].size <= 5000000) || "첨부 파일 크기는 최대 5MB까지만 가능합니다.",
       ],
       petInfo: [
-        (v) => v == null || v.length <= 80 || "80자 이하로 입력해 주세요.",
+        (v) => v == null || v.length <= 70 || "70자 이하로 입력해 주세요.",
       ],
       petName: [
         (v) => !!v || "이름은 필수 입력 사항입니다.",

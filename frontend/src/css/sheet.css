@@ -6,6 +6,7 @@
 .border-sheet-two {
   border: 3px solid #00171F;
   box-shadow: 7px 7px 0px #06BEE1;
+  /* box-shadow: 7px 7px 0px #d2f7ff */
   border-radius: 0px;
 }
 .border-sheet-three {

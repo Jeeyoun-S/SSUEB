@@ -9,6 +9,7 @@
         label="닉네임"
         variant="underlined"
         color="primary"
+        maxlength="10"
         required
       ></v-text-field>
       <UserJoinPhone @userPhone="updatePhone"></UserJoinPhone>
@@ -81,13 +82,13 @@ export default {
         joinPartner(this.info, this.socialAccess); // #21# 소셜 로그인 접근 여부 확인을 위해 코드 변경
       }
       // #21# 소셜 로그인 접근 회원가입
-      else if (
-        !valid &&
-        this.phoneAuthStates &&
-        this.info.userPassword == null
-      ) {
-        joinPartner(this.info, this.socialAccess, this.provider);
-      }
+      // else if (
+      //   !valid &&
+      //   this.phoneAuthStates &&
+      //   this.info.userPassword == null
+      // ) {
+      //   joinPartner(this.info, this.socialAccess, this.provider);
+      // }
     },
     updatePhone(userPhone) {
       this.info.userPhone = userPhone;
