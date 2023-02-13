@@ -11,7 +11,7 @@
           <img width="100" gradient="to top, rgba(0,0,0,.1), rgba(0,0,0,.5)" :src="require('@/assets/placeholder/placeholder_person.jpg')" />
         </v-avatar>
         <div>
-        <v-btn class="ma-3 align-self-start" variant="outlined" color="primary" rounded="0" @click="accept(consultant)">수락</v-btn>
+        <v-btn class="ma-3 align-self-start" variant="outlined" color="primary" rounded="0" @click="accept(reservationItem.rno, consultant.consultantId, consultant.matchingCost, consultant.matchingComment)">수락</v-btn>
         </div>
       </v-sheet>
       <v-card-title class="align-self-center">
@@ -69,20 +69,18 @@ export default {
   },
   methods: {
 
-    async accept(consultant){
-      console.log("he")
+    async accept(rno, consultantId, matchingComment, matchingCost){
+      console.log(rno, consultantId, matchingComment, matchingCost)
       const api = apiInstance();
       await api.put(process.env.VUE_APP_API_BASE_URL+`/reservation/matching/confirm`,null,{
         params:{
-          reservationNo: this.rno,
-          consultantId: this.consultantId,
-          matchingCost: this.matchingCost,
-          matchingReason: this.matchingComment,
+          reservationNo: rno,
+          consultantId: consultantId,
+          matchingCost: matchingCost,
+          matchingReason: matchingComment,
         },
       }).then(() => {
         this.$emit("dialogOff")
-      console.log(consultant)
-      console.log(this.reservationItem)
       this.$swal
         .fire({
           title: "상담 제안 수락",
@@ -119,7 +117,7 @@ export default {
                 if (result.dismiss === this.$swal.DismissReason.timer) {
                   this.$swal.fire({
                     title: "상담 제안 확정",
-                    html: `<strong>상담날짜</strong> ${this.reservationItem.reservationDate} <br> <strong>전문가</strong> ${consultant.consultantName} (반려동물행동지도사) <br> <strong>반려동물</strong> ${this.reservationItem.petName} (${this.reservationItem.petType})`,
+                    html: `<strong>상담날짜</strong> ${this.reservationItem.reservationDate} <br> <strong>전문가</strong> ${this.consultant.consultantName} (반려동물행동지도사) <br> <strong>반려동물</strong> ${this.reservationItem.petName} (${this.reservationItem.petType})`,
                     icon: "success",
                     showCancelButton: false,
                     confirmButtonColor: "primary",

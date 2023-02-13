@@ -79,16 +79,16 @@ export default {
     return {
       loaded: true,
       boardDetail: {
-        no: 5, //this.$route.params.no으로 호출하긴함
-        userId: "",
-        userNickname: "와싸피",
-        boardTitle: "제목",
-        boardContent: "컨텐츠",
-        boardFile: "파일명",
-        boardFlag: 0,
-        boardHeartnum: 1,
-        boardViews: 2,
-        boardWritetime: "2023-01-25 16:43:28",
+        // no: 5, //this.$route.params.no으로 호출하긴함
+        // userId: "",
+        // userNickname: "와싸피",
+        // boardTitle: "제목",
+        // boardContent: "컨텐츠",
+        // boardFile: "파일명",
+        // boardFlag: 0,
+        // boardHeartnum: 1,
+        // boardViews: 2,
+        // boardWritetime: "2023-01-25 16:43:28",
       },
       isHeart: false
     }
