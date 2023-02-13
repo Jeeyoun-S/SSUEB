@@ -27,11 +27,7 @@ const userStore = "userStore";
 export default {
   name: "ConfirmedReservation",
   data: () => ({
-    reservations:[
-      {},
-      {},
-      {}
-    ],
+    reservations:[],
     loaded: false
   }),
   computed: {
@@ -48,14 +44,10 @@ export default {
       //consultant의 경우 -> 위랑 이거는 현재 유저가 유저인지 전문가인지에 따라 취사선택하도록?
       
       const api = apiInstance();
-      await api({
-        url: process.env.VUE_APP_API_BASE_URL+`/reservation/partner/${this.userId}`,
-        method: "get",
-      })
+      await api.get(process.env.VUE_APP_API_BASE_URL+`/reservation/partner/${this.userId}`)
         .then(({ data }) => {
           console.log("확정 상담", data)
           for (var i = 0; i < data.length; i++) {
-            console.log(data[i])
             let reservation = {};
             reservation["rno"] = data[i].reservationPet.rno;
             reservation["userId"] = data[i].reservationPet.userId;
@@ -63,7 +55,7 @@ export default {
             reservation["reservationConsultContent"] = data[i].reservationPet.reservationConsultContent;
             reservation["reservationCost"] = data[i].reservationPet.reservationCost;
             reservation["reservationReason"] = data[i].reservationPet.reservationReason;
-
+            
             reservation["pno"] = data[i].reservationPet.pno;
             reservation["petName"] = data[i].reservationPet.petName;
             reservation["petImage"] = data[i].reservationPet.petImage;
@@ -76,7 +68,6 @@ export default {
               reservation["petBirth"] = "생년월일 미상";
             }
             reservation["petInfo"] = data[i].reservationPet.petInfo;
-
             reservation["consultantName"] = data[i].consultantInfo.consultant_name;
             reservation["consultantIntro"] = data[i].consultantInfo.consultant_intro;
             reservation["consultantProfile"] = data[i].consultantInfo.consultant_profile;
@@ -98,10 +89,7 @@ export default {
       //consultant의 경우 -> 위랑 이거는 현재 유저가 유저인지 전문가인지에 따라 취사선택하도록?
 
       const api = apiInstance();
-      await api({
-        url: process.env.VUE_APP_API_BASE_URL+`/reservation/consultant/${this.userId}`,
-        method: "get",
-      })
+      await api.get(process.env.VUE_APP_API_BASE_URL+`/reservation/consultant/${this.userId}`)
         .then(({ data }) => {
           console.log("확정 상담", data)
           for (var i = 0; i < data.length; i++) {
@@ -157,6 +145,4 @@ export default {
 };
 </script>
 
-<style scoped>
-
-</style>
+<style></style>

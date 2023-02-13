@@ -14,10 +14,12 @@
 
 <script>
 import SendMatchingCard from "@/components/SendMatching/SendMatchingCard.vue";
-import axios from "axios";
+
 import { mapState } from "vuex";
+import { apiInstance } from "@/api/index.js";
+const reservationStore = "reservationStore";
 const userStore = "userStore";
-//const reservationStore = "reservationStore";
+
 
 export default {
   name: "SendMatching",
@@ -29,13 +31,12 @@ export default {
   },
   computed: {
     ...mapState(userStore, ["userId"]),
-  },
+    ...mapState(reservationStore),
+    },
   methods:{
-    getMatchings(){
-      axios({
-        url: process.env.VUE_APP_API_BASE_URL+`/reservation/matching/consultant/${this.userId}`,
-        method: "get",
-      })
+    async getMatchings(){
+      const api = apiInstance();
+      await api.get(process.env.VUE_APP_API_BASE_URL+`/reservation/matching/consultant/${this.userId}`)
         .then(({ data }) => {
           for (var i = 0; i < data.length; i++) {
             console.log(data[i]);
@@ -60,7 +61,6 @@ export default {
             }
             matching["petInfo"] = data[i].pet_info;
 
-            
             this.matchings.push(matching);
           }
           console.log(this.matchings);
@@ -69,8 +69,9 @@ export default {
           console.log(err);
         });
     },
-    deleteMatching(no) {
-      axios
+    async deleteMatching(no) {
+      const api = apiInstance();
+      await api
         .delete(process.env.VUE_APP_API_BASE_URL + `/reservation/matching/` + no)
         .then(() => {
           console.log("삭제");
@@ -86,6 +87,4 @@ export default {
 };
 </script>
 
-<style scoped>
-
-</style>
+<style></style>

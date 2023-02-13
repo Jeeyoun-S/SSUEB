@@ -165,7 +165,6 @@ import NowLoading from '@/views/NowLoading.vue';
 import RegistPet from '@/components/CreateReservation/RegistPet.vue';
 import RegisterPetBig from '@/components/CreateReservation/RegisterPetBig.vue'
 import { mapState } from "vuex";
-import axios from "axios";
 import { DatePicker } from 'v-calendar';
 import moment from 'moment';
 import { apiInstance } from "@/api/index.js";
@@ -238,7 +237,7 @@ export default {
     getImageUrl(img) {
       return `${process.env.VUE_APP_FILE_PATH_PET}${img}`;
     },
-    createReservation() {
+    async createReservation() {
       // process.env.VUE_APP_API_BASE_URL -> baseurl env파일에서 호출
       //날짜 timestamp형식으로
       this.reservation.reservationDate = this.date.getFullYear()+"-"+(this.date.getMonth()+1)+"-"+this.date.getDate()+" "+
@@ -262,7 +261,6 @@ export default {
 
       const frm = new FormData();
       frm.append("reservation",  new Blob([ JSON.stringify(this.reservation) ], {type : "application/json"}));
-
       if(this.files){
         console.log("파일있음")
         for(let i=0; i<this.files.length; i++){
@@ -302,11 +300,10 @@ export default {
           return;
         }
       }
-
       console.log(frm);
 
       const api = apiInstance();
-      api.post(process.env.VUE_APP_API_BASE_URL+`/reservation`, frm, {
+      await api.post(process.env.VUE_APP_API_BASE_URL+`/reservation`, frm, {
         headers: {'Content-Type': 'multipart/form-data'}
       }).then(() => {
         this.$swal.fire(
@@ -325,6 +322,7 @@ export default {
         return;
       })
     },
+
     async petInfo(){
       var result = true;
       const api = apiInstance();
@@ -352,11 +350,9 @@ export default {
         })
         return await Promise.resolve(result);
       },
-    getTimeList(){
-      axios({
-        url: process.env.VUE_APP_API_BASE_URL+`/reservation/date-validation/`+`aa@a`,
-        method: "get",
-      })
+    async getTimeList(){
+      const api = apiInstance();
+      await api.get(process.env.VUE_APP_API_BASE_URL+`/reservation/date-validation/${this.userId}`)
         .then(({ data }) => {
           for (var i = 0; i < data.length; i++) {
             this.timeList.push(data[i]);
@@ -382,6 +378,7 @@ export default {
 			this.page = pageIndex;
 		}
   },
+
   watch: {
     files() {
       // 등록한 파일 이름 짧게 수정하기
@@ -417,6 +414,7 @@ export default {
       }
     }
   },
+
   async created() {
     this.loaded = false;
     try {
@@ -433,5 +431,4 @@ export default {
 };
 </script>
 
-<style scoped>
-</style>
+<style></style>

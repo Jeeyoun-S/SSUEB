@@ -11,7 +11,7 @@
           <img width="100" gradient="to top, rgba(0,0,0,.1), rgba(0,0,0,.5)" :src="require('@/assets/placeholder/placeholder_person.jpg')" />
         </v-avatar>
         <div>
-        <v-btn class="ma-3 align-self-start" variant="outlined" color="primary" rounded="0" @click="accept(consultant)">수락</v-btn>
+        <v-btn class="ma-3 align-self-start" variant="outlined" color="primary" rounded="0" @click="accept(reservationItem.rno, consultant.consultantId, consultant.matchingCost, consultant.matchingComment)">수락</v-btn>
         </div>
       </v-sheet>
       <v-card-title class="align-self-center">
@@ -41,8 +41,18 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+import { apiInstance } from "@/api/index.js";
+const reservationStore = "reservationStore";
+const userStore = "userStore";
+
+
 export default {
   name: "CarouselCard",
+  computed: {
+    ...mapState(userStore, ["userId"]),
+    ...mapState(reservationStore),
+    },
   props: {
     // dialog: Boolean,
     consultant: Object,
@@ -58,12 +68,19 @@ export default {
     }
   },
   methods: {
-    async accept(consultant) {
-      console.log("정신차려")
-      this.$emit("dialogOff")
-      console.log(consultant)
-      console.log(this.reservationItem)
-      // this.dialogOff();
+
+    async accept(rno, consultantId, matchingComment, matchingCost){
+      console.log(rno, consultantId, matchingComment, matchingCost)
+      const api = apiInstance();
+      await api.put(process.env.VUE_APP_API_BASE_URL+`/reservation/matching/confirm`,null,{
+        params:{
+          reservationNo: rno,
+          consultantId: consultantId,
+          matchingCost: matchingCost,
+          matchingReason: matchingComment,
+        },
+      }).then(() => {
+        this.$emit("dialogOff")
       this.$swal
         .fire({
           title: "상담 제안 수락",
@@ -82,7 +99,7 @@ export default {
               .fire({
                 title: "결제 진행 화면!",
                 html: "이후 구현 예정",
-                timer: 5000,
+                timer: 2500,
                 timerProgressBar: true,
                 didOpen: () => {
                   this.$swal.showLoading();
@@ -100,7 +117,7 @@ export default {
                 if (result.dismiss === this.$swal.DismissReason.timer) {
                   this.$swal.fire({
                     title: "상담 제안 확정",
-                    html: `<strong>상담날짜</strong> ${this.reservationItem.reservationDate} <br> <strong>전문가</strong> ${consultant.consultantName} (반려동물행동지도사) <br> <strong>반려동물</strong> ${this.reservationItem.petName} (${this.reservationItem.petType})`,
+                    html: `<strong>상담날짜</strong> ${this.reservationItem.reservationDate} <br> <strong>전문가</strong> ${this.consultant.consultantName} (반려동물행동지도사) <br> <strong>반려동물</strong> ${this.reservationItem.petName} (${this.reservationItem.petType})`,
                     icon: "success",
                     showCancelButton: false,
                     confirmButtonColor: "primary",
@@ -112,7 +129,11 @@ export default {
             //if result is confirmed
           }
         });
+      }).catch(error => {
+        alert(error.message)
+      })
     },
+
   },
 
   mounted() {
@@ -122,5 +143,4 @@ export default {
 // runtime-core.esm-bundler.js?d2dd:40 [Vue warn]: Maximum recursive updates exceeded in component <VSlideGroup>. This means you have a reactive effect that is mutating its own dependencies and thus recursively triggering itself. Possible sources include component template, render function, updated hook or watcher source function.
 </script>
 
-<style scoped>
-</style>
+<style></style>

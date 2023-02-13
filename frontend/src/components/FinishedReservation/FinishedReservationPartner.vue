@@ -129,8 +129,11 @@
 import FinishedReviewModify from "@/components/FinishedReservation/FinishedReviewModify.vue"
 import NowLoading from "@/views/NowLoading.vue";
 import { mapState } from "vuex";
+import { apiInstance } from "@/api/index.js";
+const reservationStore = "reservationStore";
 const userStore = "userStore";
 import { apiInstance } from "@/api/index.js";
+
 
 export default {
   name: "FinishedReservationPartner",
@@ -146,15 +149,14 @@ export default {
   },
   computed: {
     ...mapState(userStore, ["userId"]),
+    ...mapState(reservationStore),
+
   },
   methods:{
     async getReservation() {
-      const api = apiInstance();
 
-      await api({
-        url: process.env.VUE_APP_API_BASE_URL+`/reservation/partner/past/${this.userId}`,
-        method: "get",
-      })
+      const api = apiInstance();
+      await api.get(process.env.VUE_APP_API_BASE_URL+`/reservation/partner/past/${this.userId}`)
         .then(({ data }) => {
           for (var i = 0; i < data.length; i++) {
             console.log(data[i])
@@ -181,6 +183,7 @@ export default {
             }
             reservation["petInfo"] = data[i].reservationPetFinish.petInfo;
 
+            reservation["consultantId"] = data[i].reservationPetFinish.consultant_id;
             reservation["consultantName"] = data[i].consultantInfo.consultant_name;
             reservation["consultantIntro"] = data[i].consultantInfo.consultant_intro;
             reservation["consultantProfile"] = data[i].consultantInfo.consultant_profile;
@@ -210,6 +213,4 @@ export default {
 }
 </script>
 
-<style>
-
-</style>
+<style></style>

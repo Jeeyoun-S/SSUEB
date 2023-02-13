@@ -38,13 +38,14 @@ export default {
       modifyBoardOpen: false,
       modifyBoard: {
         // 입력 받는 정보
+        boardNo: 0,
         boardTitle: null,
         boardContent: null,
         boardFile: null,
-        // 넣어줄 정보
-        userId: null,
-        userNickname: null,
-        boardFlag: null,
+        // 넣어줄 정보 -> 안 보내줘도 됨
+        // userId: null,
+        // userNickname: null,
+        // boardFlag: null,
       },
     }
   },
@@ -57,12 +58,11 @@ export default {
     }
   },
   created() {
+    console.log(this.boardDetail)
     this.modifyBoard.boardTitle = this.boardDetail.boardTitle;
     this.modifyBoard.boardContent = this.boardDetail.boardContent;
   }
 }
 </script>
 
-<style>
-
-</style>
+<style></style>

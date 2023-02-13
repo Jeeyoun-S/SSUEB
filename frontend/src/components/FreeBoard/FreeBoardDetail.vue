@@ -32,6 +32,7 @@
           <v-chip class="ma-2 pr-6" color="blue-darken-3" size="large" label>
             <v-checkbox-btn false-icon="mdi-thumb-up-outline"
               true-icon="mdi-thumb-up" v-model="isHeart"
+              @click="recommend"
             ></v-checkbox-btn>
             <v-label>{{ boardDetail.boardHeartnum }}</v-label>
           </v-chip>
@@ -46,7 +47,7 @@
           <v-sheet v-show="this.userId == this.boardDetail.userId">
             <FreeBoardModify :boardDetail="boardDetail"></FreeBoardModify>
             <!-- <v-btn class="ma-1" :rounded="0" color="primary" size="large" @click="moveModify()">수정</v-btn> -->
-            <v-btn class="ma-1 mr-10" :rounded="0" color="error" size="large">삭제</v-btn>
+            <v-btn class="ma-1 mr-10" :rounded="0" color="error" size="large" @click="remove">삭제</v-btn>
           </v-sheet>
         </v-sheet>
         <v-sheet class="ma-3">
@@ -61,6 +62,7 @@
 import FreeBoardReply from "@/components/FreeBoard/FreeBoardReply.vue";
 import FreeBoardModify from "@/components/FreeBoard/FreeBoardModify.vue"
 import { getDetailBoard } from "@/api/communityNotice.js"
+import { getHeartWhether, pushHeart, deleteBoard } from "@/api/communityFree.js"
 import { mapState } from "vuex";
 const userStore = "userStore";
 
@@ -77,16 +79,16 @@ export default {
     return {
       loaded: true,
       boardDetail: {
-        //no: 5, //this.$route.params.no으로 호출하니까
-        userId: "",
-        userNickname: "와싸피",
-        boardTitle: "제목",
-        boardContent: "컨텐츠",
-        boardFile: "파일명",
-        boardFlag: 0,
-        boardHeartnum: 1,
-        boardViews: 2,
-        boardWritetime: "2023-01-25 16:43:28",
+        // no: 5, //this.$route.params.no으로 호출하긴함
+        // userId: "",
+        // userNickname: "와싸피",
+        // boardTitle: "제목",
+        // boardContent: "컨텐츠",
+        // boardFile: "파일명",
+        // boardFlag: 0,
+        // boardHeartnum: 1,
+        // boardViews: 2,
+        // boardWritetime: "2023-01-25 16:43:28",
       },
       isHeart: false
     }
@@ -94,17 +96,36 @@ export default {
   methods: {
     back() {
       this.$router.go(-1)
+    },
+    async recommend(){
+      if(this.isHeart){
+        this.boardDetail.boardHeartnum -= 1;
+      }
+      else{
+        this.boardDetail.boardHeartnum += 1;
+      }
+      this.isHeart = this.isHeart?false:true;
+      await pushHeart(this.$route.params.no, this.userId, this.isHeart?0:1)//isHeart를 reverse한거라 isHeart 넣어주는 값도 반대
+    },
+    async remove(){
+      await deleteBoard(this.$route.params.no)
+      .then(()=>{
+        this.$swal.fire(
+          '글 삭제 완료',
+          '게시글의 삭제가 완료되었습니다.',
+          'success'
+        )
+        this.back()
+      });
     }
   },
   async created() {
     // 게시글 상세 조회 API
     // 게시글 번호 this.$route.params.no로 조회해 boardDetail에 넣기
     this.boardDetail = await getDetailBoard(this.$route.params.no);
-
+    this.isHeart = await getHeartWhether(this.$route.params.no, this.userId);
   }
 }
 </script>
 
-<style>
-
-</style>
+<style></style>
