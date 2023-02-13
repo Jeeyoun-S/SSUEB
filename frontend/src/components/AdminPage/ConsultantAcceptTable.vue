@@ -35,7 +35,7 @@
         style="cursor: pointer"
       >
         <td>{{ String(index).padStart(4, "0") }}</td>
-        <td>{{ consultant.user_joindate }}</td>
+        <td>{{ consultant.user_joindate.substring(0, 10) }}</td>
         <td>{{ consultant.user_name }}</td>
         <td>{{ consultant.id }}</td>
       </tr>
@@ -44,6 +44,9 @@
 </template>
 
 <script>
+import { mapActions } from "vuex";
+const adminStore = "adminStore";
+
 export default {
   name: "ConsultantAcceptTable",
   props: {
@@ -56,9 +59,12 @@ export default {
     };
   },
   methods: {
+    ...mapActions(adminStore, ["updateConsultantDetail"]),
+
+    // [@Method] 해당 전문가 Detail 페이지로 이동
     moveDetailPage(consultantDetail, index) {
       consultantDetail.index = index;
-      this.$store.dispatch("updateConsultantDetail", consultantDetail);
+      this.updateConsultantDetail(consultantDetail);
       this.$router.push("/consultant-accept/detail");
     },
   },
