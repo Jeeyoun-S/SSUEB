@@ -61,7 +61,7 @@
         inline
       >
         <v-label>알림방법</v-label>
-        <v-radio label="카카오톡" value="0"></v-radio>
+        <!-- <v-radio label="카카오톡" value="0"></v-radio> -->
         <v-radio label="이메일" value="1"></v-radio>
         <v-radio label="문자" value="2"></v-radio>
       </v-radio-group>

@@ -1,10 +1,10 @@
 <template>
   <v-sheet class="mr-2" width="150">
-    <v-combobox
+    <v-select
       :items="['이메일', '이름', '닉네임']"
       variant="outlined" density="compact" v-model="range"
       hide-details
-    ></v-combobox>
+    ></v-select>
   </v-sheet>
   <v-text-field
     class="mb-1"
@@ -28,7 +28,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="(user, index) in userList" :key="index"
+      <tr v-for="(user, index) in getSearchList" :key="index"
         style="cursor: pointer;"
       >
         <td>{{ String(index).padStart(4, '0') }}</td>
@@ -59,7 +59,23 @@ export default {
   },
   data() {
     return {
-      range: "이메일"
+      range: "이메일",
+      keyword: ""
+    }
+  },
+  computed: {
+    getSearchList() {
+      if (this.range == '이메일') {
+        return this.userList.filter(v => v.id.includes(this.keyword));
+      } else if (this.range == '이름') {
+        return this.userList.filter(v => v.userName.includes(this.keyword));
+      } else if (this.range == '닉네임') {
+        return this.userList.filter(v => 
+          v.userNickname != null && v.userNickname.includes(this.keyword)
+        );
+      } else {
+        return this.userList;
+      }
     }
   },
   methods: {

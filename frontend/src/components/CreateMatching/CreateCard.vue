@@ -20,7 +20,7 @@
               <v-container>
                 <v-row>
                   <v-col class="bold-font" cols="2">날짜</v-col>
-                  <v-col cols="10">{{ reservation.reservationDate }}</v-col>
+                  <v-col cols="10">{{ reservation.reservationDate.substr(0, 16) }}</v-col>
                 </v-row>
                 <v-row>
                   <v-col class="bold-font mt-2" cols="2">이름</v-col>
@@ -28,7 +28,7 @@
                 </v-row>
                 <v-row>
                   <v-col class="bold-font mt-2" cols="2">품종</v-col>
-                  <v-col class="mt-2" cols="10">{{ reservation.petType }} - {{ reservation.petVariety }}</v-col>
+                  <v-col class="mt-2" cols="10">{{ reservation.petType }} <span v-show="reservation.petVariety != null">-</span> {{ reservation.petVariety }}</v-col>
                 </v-row>
                 <v-row>
                   <v-col class="bold-font mt-2" cols="2">금액</v-col>
@@ -79,14 +79,15 @@
         </v-dialog>
       </v-card-item>
       <v-card-item class="align-self-center">
-        <v-avatar class="pt-1" color="white" size="100">
-          <img width="100" :src="require('@/assets/placeholder/placeholder_dog.png')" />
+        <v-avatar color="#06BEE1" size="100">
+          <span v-if="reservation.petImage == null">{{ reservation.petName }}</span>
+          <img v-else :src="getImageUrl(reservation.petImage)" height="100" width="100" />
         </v-avatar>
       </v-card-item>
-      <v-card-title class="text-h6">{{ reservation.reservationDate }}</v-card-title>
+      <v-card-title class="text-h6">{{ reservation.reservationDate.substr(0, 16) }}</v-card-title>
       <v-card-subtitle>
         <p>{{ reservation.petName }} ({{ reservation.petBirth }})</p>
-        <p>{{ reservation.petType }} - {{ reservation.petVariety }}</p>
+        <p>{{ reservation.petType }} <span v-show="reservation.petVariety != null">-</span> {{ reservation.petVariety }}</p>
       </v-card-subtitle>
       <v-card-text>
         <div class="reservation-pet-info">
@@ -103,6 +104,7 @@
 </template>
 
 <script>
+import router from "@/router/index.js";
 import { mapState } from "vuex";
 import { apiInstance } from "@/api/index.js";
 const reservationStore = "reservationStore";
@@ -157,7 +159,8 @@ export default {
           text : '반려인에게 상담 제안을 보냈습니다.',
           icon : 'success'
         })
-        console.log("견적 제안 완료!")
+        console.log("견적 제안 완료!");
+        router.push("/send-matching");
       }).catch(error => {
         alert(error.message)
       })
@@ -168,6 +171,9 @@ export default {
         imageUrl: "https://unsplash.it/400/200",
         imageWidth: 600,
       });
+    },
+    getImageUrl(img) {
+      return `${process.env.VUE_APP_FILE_PATH_PET}${img}`;
     },
   },
 };

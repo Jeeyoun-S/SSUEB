@@ -1,5 +1,6 @@
 <template>
-  <div class="page max-page border-sheet-four">
+  <NowLoading v-if="!loaded"></NowLoading>
+  <div v-else class="page max-page border-sheet-four">
     <div class="page-inner max-page">
       <div class="page-inner-title border-sheet-four">
         <v-icon class="mr-2" size="x-large">mdi-email-open</v-icon>
@@ -25,6 +26,7 @@ const userStore = "userStore";
 export default {
   name: "ReceiveMatching",
   data: () => ({
+    loaded: false,
     reservations:[], // [{value,[]},{value,[]}] 꼴
   }),
   computed: {
@@ -71,7 +73,7 @@ export default {
               matchingConsultant["consultantProfile"] = data[i].matchingConsultants[j].consultant_profile;
               matchingConsultant["consultantRate"] = data[i].matchingConsultants[j].consultant_rate;
               matchingConsultant["matchingComment"] = data[i].matchingConsultants[j].matching_comment;
-              matchingConsultant["matchingCost"] = data[i].matchingConsultants[j].matching_comment;
+              matchingConsultant["matchingCost"] = data[i].matchingConsultants[j].matching_cost;
               matchingConsultant["matchingNo"] = data[i].matchingConsultants[j].no;
 
               matchingConsultants.push(matchingConsultant);
@@ -85,6 +87,7 @@ export default {
         .catch((err) => {
           console.log(err);
         });
+      return await Promise.resolve(true);
     },
     async deleteReservation(no) {
       //삭제 후 카운트 변경은 추후 생각해보자
@@ -99,8 +102,11 @@ export default {
         });
     },
   },
-  created(){
-    this.getReservation();
+  async created(){
+    this.loaded = false;
+    await this.getReservation().then((res) => {
+      this.loaded = res;
+    });
   }
 };
 </script>

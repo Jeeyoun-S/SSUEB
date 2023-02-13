@@ -10,7 +10,7 @@
           @click="back()"
         ></v-btn>
         <v-chip class="mr-3" color="primary">
-          {{ String(this.consultantDetail.index).padStart(4, "0") }}
+          {{ String(this.index).padStart(4, "0") }}
         </v-chip>
         <h2>{{ this.consultantDetail.user_name }}</h2>
       </div>
@@ -25,7 +25,7 @@
           <tr>
             <td class="bold-font" width="150">가입 날짜</td>
             <td width="900">
-              {{ this.consultantDetail.user_joindate.substring(0, 10) }}
+              {{ this.consultantDetail.user_joindate.substr(0, 10) }}
             </td>
           </tr>
           <tr>
@@ -35,9 +35,9 @@
           <tr>
             <td class="bold-font" width="150">휴대폰 번호</td>
             <td width="900">
-              {{ this.consultantDetail.user_phone.substring(0, 3) }}-{{
-                this.consultantDetail.user_phone.substring(3, 7)
-              }}-{{ this.consultantDetail.user_phone.substring(7, 11) }}
+              {{ this.consultantDetail.user_phone.substr(0, 3) }}-{{
+                this.consultantDetail.user_phone.substr(3, 7)
+              }}-{{ this.consultantDetail.user_phone.substr(7, 11) }}
             </td>
           </tr>
           <tr>
@@ -70,12 +70,11 @@
           <tr>
             <td class="bold-font" width="150">자격증 사본</td>
             <td>
-              <v-btn :href="getLicenseUrl(consultantDetail.consultant_license_copy_image)" 
-                rounded="pill" variant="tonal" prepend-icon="mdi-paperclip"
-                download
-              >
-                {{ this.consultantDetail.consultant_license_copy_image }}
-              </v-btn>
+              <a style="text-decoration: none;" :href="getLicenseUrl(consultantDetail.consultant_license_copy_image)"  target="_blank">
+                <v-btn rounded="pill" variant="tonal" prepend-icon="mdi-paperclip">
+                  {{ this.consultantDetail.consultant_license_copy_image }}
+                </v-btn>
+              </a>
             </td>
           </tr>
           <tr>
@@ -107,12 +106,14 @@ export default {
     NowLoading,
   },
   computed: {
-    ...mapState(adminStore, ["consultantDetail"]),
+    ...mapState(adminStore, ["consultantList"]),
   },
   data() {
     return {
-      loaded: true,
+      loaded: false,
       petType: ["개", "고양이", "토끼", "패럿", "기니피그", "햄스터"],
+      consultantDetail: null,
+      index: null
     };
   },
   methods: {
@@ -121,12 +122,31 @@ export default {
     },
     // [@Method] 전문가 가입 수락 + 알림 발송 (SMS, EMAIL)
     accept() {
-      acceptConsultant(this.getConsultantDetail.id);
+      acceptConsultant(this.consultantDetail.id);
     },
     getLicenseUrl(img) {
       return `${process.env.VUE_APP_FILE_PATH_LICENSE}${img}`;
-    }
+    },
   },
+  async created() {
+    this.loaded = false;
+    const index = await this.$route.params.no;
+    if (index < this.consultantList.length) {
+      this.consultantDetail = await this.consultantList[index];
+
+      var consultantPetType = [];
+      const petType = Array.from(this.consultantDetail.consultant_pet_type);
+      for (var i = 0; i < 6; i++) {
+        if (petType[i] == 1) {
+          consultantPetType.push(i);
+        }
+      }
+      this.consultantDetail.consultant_pet_type = consultantPetType;
+
+      this.index = await this.$route.params.no;
+      this.loaded = true;
+    } 
+  }
 };
 </script>
 

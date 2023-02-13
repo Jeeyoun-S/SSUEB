@@ -19,8 +19,7 @@ module.exports = defineConfig({
         onProxyReq: function(request) {
           request.setHeader("origin", "http://localhost:5000");
         },
-        
-      }
+      },
     },
   },
   outputDir: 'C:/Users/SSAFY/S08P12A801/backend/src/main/resources/static'

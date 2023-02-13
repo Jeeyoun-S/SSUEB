@@ -7,8 +7,9 @@
       v-for="(consultant, idx) in reservationItem.matchingConsultants" :key="idx"
     >
       <v-sheet class="d-flex flex-row justify-end">
-        <v-avatar class="mr-2 pt-1" color="white" size="100">
-          <img width="100" gradient="to top, rgba(0,0,0,.1), rgba(0,0,0,.5)" :src="require('@/assets/placeholder/placeholder_person.jpg')" />
+        <v-avatar class="mr-2 mt-5" color="#06BEE1" size="100">
+          <img v-if="consultant.consultantProfile == null" width="100" gradient="to top, rgba(0,0,0,.1), rgba(0,0,0,.5)" :src="require('@/assets/placeholder/placeholder_person.jpg')" />
+          <img v-else :src="getImageUrl(consultant.consultantProfile)" height="100" width="100" />
         </v-avatar>
         <div>
         <v-btn class="ma-3 align-self-start" variant="outlined" color="primary" rounded="0" @click="accept(reservationItem.rno, consultant.consultantId, consultant.matchingCost, consultant.matchingComment)">수락</v-btn>
@@ -21,7 +22,7 @@
         <v-rating v-model="rating" color="orange darken-2" density="compact"></v-rating>
       </v-card-item>
       <v-card-text>
-        <v-sheet height="100">
+        <v-sheet height="70">
           {{ consultant.consultantIntro }}
         </v-sheet>
       </v-card-text>
@@ -68,7 +69,9 @@ export default {
     }
   },
   methods: {
-
+    getImageUrl(img) {
+      return `${process.env.VUE_APP_FILE_PATH_PET}${img}`;
+    },
     async accept(rno, consultantId, matchingComment, matchingCost){
       console.log(rno, consultantId, matchingComment, matchingCost)
       const api = apiInstance();

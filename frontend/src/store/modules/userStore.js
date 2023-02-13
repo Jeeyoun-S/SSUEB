@@ -80,11 +80,11 @@ const userStore = {
             // 로그인 성공에 따른 메인페이지 정보 가져오기
             // [@Method] 권한 확인 및 유저 정보 가져오기
             // return 값 = userNickname
-            var userNickname = "";
+            var userName = "";
             store
               .dispatch("userStore/checkAnyPermit", null, { root: true })
               .then((res) => {
-                userNickname = res;
+                userName = res;
 
                 // [@Method] 금일 예약 건 수 가져오기
                 store
@@ -96,7 +96,7 @@ const userStore = {
                     // const id = email.split("@");
                     Swal.fire(
                       "SSEUB",
-                      `${userNickname} 님 환영합니다!`,
+                      `${userName} 님 환영합니다!`,
                       "success"
                     );
                   });
@@ -132,20 +132,20 @@ const userStore = {
     async checkAnyPermit({ commit }) {
       console.log("#userStore - checkAnyPermit# 모든 권한 허용 동작");
       const token = localStorage.getItem("token");
-      var userNickname = null;
+      var userName = null;
       await anyPermit(
         token,
         ({ data }) => {
           console.log("#userStore - checkAnyPermit# 성공");
           commit("SET_USER_INFO", data);
-          userNickname = data.userNickname;
+          userName = data.userName;
         },
         (error) => {
           console.log("#userStore - checkAnyPermit# 실패");
           console.log(error);
         }
       );
-      return await Promise.resolve(userNickname);
+      return await Promise.resolve(userName);
     },
     // [@Method] 전문가, 관리자 권한만 허용
     async checkPartPermit({ commit }, userId) {

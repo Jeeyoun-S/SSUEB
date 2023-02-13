@@ -7,9 +7,7 @@
         <h2>전문가 회원가입 수락하기</h2>
       </div>
       <div class="pa-5 page-inner-items border-sheet-four">
-        <ConsultantAcceptTable
-          :consultantList="this.consultantList"
-        ></ConsultantAcceptTable>
+        <ConsultantAcceptTable></ConsultantAcceptTable>
       </div>
     </div>
   </div>
@@ -30,15 +28,17 @@ export default {
   },
   data() {
     return {
-      loaded: true,
+      loaded: false,
     };
   },
   computed: {
     ...mapState(adminStore, ["consultantList"]),
   },
   created() {
+    this.loaded = false;
     // [@Method] 미검증 자격증 전문가 list 조회
     this.excuteGetUnCertifiedConsultantList();
+    this.loaded = true;
   },
   methods: {
     ...mapActions(adminStore, ["excuteGetUnCertifiedConsultantList"]),

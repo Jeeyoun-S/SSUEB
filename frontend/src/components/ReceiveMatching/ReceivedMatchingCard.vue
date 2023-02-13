@@ -9,14 +9,18 @@
         <ReceivedMatchingCardButton :reservation="reservation" />
       </v-card-item>
       <v-card-item class="align-self-center">
-        <v-avatar class="pt-1" color="white" size="100">
-          <img width="100" :src="require('@/assets/placeholder/placeholder_dog.png')" />
+        <v-avatar color="#06BEE1" size="100">
+          <span v-if="reservation.petImage == null">{{ reservation.petName }}</span>
+          <img v-else :src="getImageUrl(reservation.petImage)" height="100" width="100" />
         </v-avatar>
+        <!-- <v-avatar class="pt-1" color="white" size="100">
+          <img width="100" :src="require('@/assets/placeholder/placeholder_dog.png')" />
+        </v-avatar> -->
       </v-card-item>
       <v-card-title>{{ reservation.reservationDate }}</v-card-title>
       <v-card-subtitle>
         <p>{{ reservation.petName }} ({{ reservation.petBirth }})</p>
-        <p>{{ reservation.petType }} - {{ reservation.petVariety }}</p>
+        <p>{{ reservation.petType }} <span v-show="reservation.petVariety != null">-</span> {{ reservation.petVariety }}</p>
       </v-card-subtitle>
       <v-card-text>
         <div class="reservation-pet-info">
@@ -70,6 +74,9 @@ export default {
         imageUrl: "https://unsplash.it/400/200",
         imageWidth: 600,
       });
+    },
+    getImageUrl(img) {
+      return `${process.env.VUE_APP_FILE_PATH_PET}${img}`;
     },
   },
 
