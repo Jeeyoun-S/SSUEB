@@ -72,11 +72,10 @@ public class UserPetServiceImpl implements UserPetService {
 		String info = petRequest.getPetInfo();
 		System.out.println("#특이사항 "+info);
 		if (info != null) {
-			if (info.length() > 40) {
+			if (info.length() > 80) {
 				return false;
 			}
 		}
-		
 		return true;
 	}
 	
@@ -142,8 +141,8 @@ public class UserPetServiceImpl implements UserPetService {
 				
 				// 기존 파일 삭제하기
 				imageCheck.deleteFile(beforeFileName, petImagePath);
-				pet.setPetImage(imageName);
 			}
+			pet.setPetImage(imageName);
 		}
 		
 		else if (isPetDeleteImage && beforeFileName != null) {
@@ -159,8 +158,9 @@ public class UserPetServiceImpl implements UserPetService {
 		if (petRequest.getPetBirth() != null) pet.setPetBirth(petRequest.getPetBirth()+"-01");
 		pet.setPetInfo(petRequest.getPetInfo());
 		
-		Pet result = petRepository.save(pet);
-		if (result != null) return imageName;
+		petRepository.save(pet);
+		
+		if (petRequest.getPetImage() != null) return imageName;
 		else if (beforeFileName != null && !isPetDeleteImage) return beforeFileName;
 		return null;
 	}

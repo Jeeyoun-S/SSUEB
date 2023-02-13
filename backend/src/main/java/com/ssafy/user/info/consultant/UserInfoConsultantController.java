@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -63,6 +64,9 @@ public class UserInfoConsultantController {
 	
 	@Value("${file.image.path.profile}")
 	String profileImagePath;
+	
+	@Autowired
+	PasswordEncoder passwordEncoder;
 	
 	@Autowired
 	UserInfoConsultantService userInfoConsultantService;
@@ -202,8 +206,11 @@ public class UserInfoConsultantController {
 						User user = optionUser.get();
 						Consultant consultant = optionConsultant.get();
 						
-						user.setUserNickname(consultantInfoRequest.getUserName());
-						if (consultantInfoRequest.getUserPassword() != null) user.setUserPassword(consultantInfoRequest.getUserPassword());
+						user.setUserName(consultantInfoRequest.getUserName());
+						if (consultantInfoRequest.getUserPassword() != null) {
+							String password = passwordEncoder.encode(consultantInfoRequest.getUserPassword());	
+							user.setUserPassword(password);
+						}
 						user.setUserPhone(consultantInfoRequest.getUserPhone());
 						
 						consultant.setConsultantPetType(consultantInfoRequest.getConsultantPetType());
