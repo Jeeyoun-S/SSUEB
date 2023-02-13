@@ -99,7 +99,7 @@ export default {
               .fire({
                 title: "결제 진행 화면!",
                 html: "이후 구현 예정",
-                timer: 5000,
+                timer: 2500,
                 timerProgressBar: true,
                 didOpen: () => {
                   this.$swal.showLoading();
