@@ -60,8 +60,9 @@
 
 <script>
 import FreeBoardReply from "@/components/FreeBoard/FreeBoardReply.vue";
-import FreeBoardModify from "@/components/FreeBoard/FreeBoardModify.vue"
-import { getDetailBoard } from "@/api/communityNotice.js"
+import FreeBoardModify from "@/components/FreeBoard/FreeBoardModify.vue";
+import NowLoading from '@/views/NowLoading.vue';
+import { getDetailBoard } from "@/api/communityNotice.js";
 import { getHeartWhether, pushHeart, deleteBoard } from "@/api/communityFree.js"
 import { mapState } from "vuex";
 const userStore = "userStore";
@@ -73,7 +74,8 @@ export default {
   },
   components: {
     FreeBoardReply,
-    FreeBoardModify
+    FreeBoardModify,
+    NowLoading
   },
   data() {
     return {

@@ -67,6 +67,7 @@ export default {
         ],
         boardFile: [
           (v) => v == null || v.length <= 1 || "첨부파일은 최대 1개까지만 첨부 가능합니다.",
+          (v) => v == null || v[0].size <= 5000000 || "첨부 파일 크기는 최대 5MB까지만 가능합니다.",
         ]
       }
     }
@@ -85,7 +86,7 @@ export default {
         console.log(frm.getAll("file"))
         const api = apiInstance();
         api.post(process.env.VUE_APP_API_BASE_URL+`/board/community`, frm, {
-          headers: {'Content-Type': 'multipart/form-data'}
+          headers: {'Content-Type': 'multipart/form-data; charset=utf-8;'}
         }).then(() => {
           this.$swal.fire(
             '게시글 등록 완료',

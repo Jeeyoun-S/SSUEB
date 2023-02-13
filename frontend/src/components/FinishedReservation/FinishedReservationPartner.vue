@@ -132,7 +132,6 @@ import { mapState } from "vuex";
 import { apiInstance } from "@/api/index.js";
 const reservationStore = "reservationStore";
 const userStore = "userStore";
-import { apiInstance } from "@/api/index.js";
 
 
 export default {
