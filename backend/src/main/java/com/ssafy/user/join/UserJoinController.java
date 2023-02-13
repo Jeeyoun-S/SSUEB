@@ -1,5 +1,6 @@
 package com.ssafy.user.join;
 
+import java.util.Map;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -67,7 +69,9 @@ public class UserJoinController {
 		// # 소셜 로그인(Kakao)인 경우 비밀번호 생성
 		if (joinRequest.getUserPassword().equals("socialKakao")) {
 			joinRequest.setUserPassword(userLoginController.createSocialPassword(joinRequest.getId(), "KAKAO"));
+			
 		}
+		
 		else if (joinRequest.getUserPassword().equals("socialGoogle")) {
 			joinRequest.setUserPassword(userLoginController.createSocialPassword(joinRequest.getId(), "GOOGLE"));
 		}
@@ -179,7 +183,7 @@ public class UserJoinController {
 	@ApiOperation(value = "전문가 회원가입 수락", notes = "전문가의 자격 검증이 끝난 뒤, 회원가입을 수락한다.")
 	@ApiResponse(code = 200, response = BasicResponse.class, message = "전문가 회원가입 수락")
 	@ApiImplicitParam(name = "id", value = "전문가 아이디", required = true)
-	public ResponseEntity<BasicResponse> acceptConsultant(String id) {
+	public ResponseEntity<BasicResponse> acceptConsultant(@RequestParam("id") String id) {
 		
 		if (!parameterCheck.isEmpty(id) && parameterCheck.isValidId(id)) {
 			
