@@ -37,11 +37,11 @@
 
 <script>
 import ReceivedMatchingCardButton from "./ReceivedMatchingCardButton.vue";
-//import axios from "axios";
+
 import { mapState } from "vuex";
-//import { apiInstance } from "@/api/index.js";
-//const reservationStore = "reservationStore";
 const userStore = "userStore";
+const reservationStore = "reservationStore";
+
 
 export default {
   name: "ReceivedMatchingCard",
@@ -50,6 +50,7 @@ export default {
    },
    computed: {
     ...mapState(userStore, ["userId"]),
+    ...mapState(reservationStore),
   },
 
   data: () => ({
@@ -62,7 +63,6 @@ export default {
   methods: {
 
     dialogOff() {
-      
     },
 
     async seefile() {
@@ -79,5 +79,4 @@ export default {
 };
 </script>
 
-<style scoped>
-</style>
+<style></style>

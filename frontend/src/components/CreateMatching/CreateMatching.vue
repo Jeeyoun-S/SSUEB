@@ -14,20 +14,30 @@
 
 <script>
 import CreateCard from "@/components/CreateMatching/CreateCard.vue";
-import axios from "axios";
+
+import { mapState } from "vuex";
+import { apiInstance } from "@/api/index.js";
+const reservationStore = "reservationStore";
+const userStore = "userStore";
+
 export default {
   name: "CreateMatching",
   data: () => ({
     reservations:[], // [{value,[]},{value,[]}] 꼴
   }),
+  computed: {
+    ...mapState(userStore, ["userId"]),
+    ...mapState(reservationStore),
+    },
   components: {
     CreateCard,
   },
   
   methods:{
-    getReservation() {
+    async getReservation() {
       
-      axios({
+      const api = apiInstance();
+      await api({
         url: process.env.VUE_APP_API_BASE_URL+`/reservation/consultant/unconfirmed`,
         method: "get",
       })
@@ -38,7 +48,6 @@ export default {
             reservation["userId"] = data[i].userId;
             reservation["reservationDate"] = data[i].reservationDate;
             reservation["reservationConsultContent"] = data[i].reservationConsultContent;
-
             reservation["pno"] = data[i].pno;
             reservation["petName"] = data[i].petName;
             reservation["petImage"] = data[i].petImage;
@@ -67,5 +76,4 @@ export default {
 };
 </script>
 
-<style scoped>
-</style>
+<style></style>

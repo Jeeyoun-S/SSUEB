@@ -122,5 +122,4 @@ export default {
 // runtime-core.esm-bundler.js?d2dd:40 [Vue warn]: Maximum recursive updates exceeded in component <VSlideGroup>. This means you have a reactive effect that is mutating its own dependencies and thus recursively triggering itself. Possible sources include component template, render function, updated hook or watcher source function.
 </script>
 
-<style scoped>
-</style>
+<style></style>

@@ -90,9 +90,11 @@
 </template>
 
 <script>
-import axios from "axios";
 import { mapState } from "vuex";
+import { apiInstance } from "@/api/index.js";
+const reservationStore = "reservationStore";
 const userStore = "userStore";
+
 
 export default {
   name: "FinishedReservationPartner",
@@ -102,13 +104,15 @@ export default {
   }),
   computed: {
     ...mapState(userStore, ["userId"]),
+    ...mapState(reservationStore),
+
   },
   methods:{
-    getReservation() {
+    async getReservation() {
 
-      axios({
+      const api = apiInstance();
+      await api.get({
         url: process.env.VUE_APP_API_BASE_URL+`/reservation/partner/past/${this.userId}`,
-        method: "get",
       })
         .then(({ data }) => {
           for (var i = 0; i < data.length; i++) {
@@ -157,6 +161,4 @@ export default {
 }
 </script>
 
-<style>
-
-</style>
+<style></style>

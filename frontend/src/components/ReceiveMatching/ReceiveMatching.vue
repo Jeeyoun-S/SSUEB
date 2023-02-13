@@ -14,7 +14,6 @@
 
 <script>
 import ReceivedCard from "@/components/ReceiveMatching/ReceivedMatchingCard.vue";
-import axios from "axios";
 import { mapState } from "vuex";
 import { apiInstance } from "@/api/index.js";
 const reservationStore = "reservationStore";
@@ -36,9 +35,8 @@ export default {
     async getReservation() {
 
       const api = apiInstance();
-      await api({
+      await api.get({
         url: `${process.env.VUE_APP_API_BASE_URL}/reservation/partner/unconfirm/${this.userId}`, //이메일 바꾸고
-        method: "get",
       })
         .then(({ data }) => {
           for (var i = 0; i < data.length; i++) {
@@ -69,7 +67,6 @@ export default {
               matchingConsultant["consultantName"] = data[i].matchingConsultants[j].consultant_name;
               matchingConsultant["consultantProfile"] = data[i].matchingConsultants[j].consultant_profile;
               matchingConsultant["consultantRate"] = data[i].matchingConsultants[j].consultant_rate;
-
               matchingConsultant["matchingComment"] = data[i].matchingConsultants[j].matching_comment;
               matchingConsultant["matchingCost"] = data[i].matchingConsultants[j].matching_comment;
               matchingConsultant["matchingNo"] = data[i].matchingConsultants[j].no;
@@ -88,7 +85,8 @@ export default {
     },
     deleteReservation(no) {
       //삭제 후 카운트 변경은 추후 생각해보자
-      axios
+      const api = apiInstance();
+      api
         .delete(process.env.VUE_APP_API_BASE_URL + `/` + no)
         .then(() => {
           console.log("삭제");

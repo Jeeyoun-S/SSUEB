@@ -150,7 +150,6 @@
 <script>
 import NowLoading from '@/views/NowLoading.vue';
 import { mapState } from "vuex";
-import axios from "axios";
 import { DatePicker } from 'v-calendar';
 import moment from 'moment';
 import { apiInstance } from "@/api/index.js";
@@ -204,7 +203,7 @@ export default {
         this.createReservation();
       }
     },
-    createReservation() {
+    async createReservation() {
       // process.env.VUE_APP_API_BASE_URL -> baseurl env파일에서 호출
       //날짜 timestamp형식으로
       this.reservation.reservationDate = this.date.getFullYear()+"-"+(this.date.getMonth()+1)+"-"+this.date.getDate()+" "+
@@ -272,7 +271,7 @@ export default {
       console.log(frm);
 
       const api = apiInstance();
-      api.post(process.env.VUE_APP_API_BASE_URL+`/reservation`, frm, {
+      await api.post(process.env.VUE_APP_API_BASE_URL+`/reservation`, frm, {
         headers: {'Content-Type': 'multipart/form-data'}
       }).then(() => {
         this.$swal.fire(
@@ -291,6 +290,7 @@ export default {
         return;
       })
     },
+
     async petInfo(){
       var result = true;
       const api = apiInstance();
@@ -318,10 +318,10 @@ export default {
         })
         return await Promise.resolve(result);
       },
-    getTimeList(){
-      axios({
+    async getTimeList(){
+      const api = apiInstance();
+      await api.get({
         url: process.env.VUE_APP_API_BASE_URL+`/reservation/date-validation/`+`aa@a`,
-        method: "get",
       })
         .then(({ data }) => {
           for (var i = 0; i < data.length; i++) {
@@ -348,6 +348,7 @@ export default {
 			this.page = pageIndex;
 		}
   },
+
   watch: {
     files() {
       // 등록한 파일 이름 짧게 수정하기
@@ -383,6 +384,7 @@ export default {
       }
     }
   },
+
   async created() {
     this.loaded = false;
     try {
@@ -399,5 +401,4 @@ export default {
 };
 </script>
 
-<style scoped>
-</style>
+<style></style>

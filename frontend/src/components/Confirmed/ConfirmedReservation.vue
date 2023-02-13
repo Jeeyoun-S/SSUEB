@@ -27,11 +27,7 @@ const userStore = "userStore";
 export default {
   name: "ConfirmedReservation",
   data: () => ({
-    reservations:[
-      {},
-      {},
-      {}
-    ],
+    reservations:[],
     loaded: false
   }),
   computed: {
@@ -157,6 +153,4 @@ export default {
 };
 </script>
 
-<style scoped>
-
-</style>
+<style></style>
