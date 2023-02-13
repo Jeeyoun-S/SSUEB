@@ -1,5 +1,7 @@
 <template>
-  <div class="pa-7 d-flex flex-column justify-space-between main-alert border-sheet-two">
+  <div
+    class="pa-7 d-flex flex-column justify-space-between main-alert border-sheet-two"
+  >
     <div>
       <h2>
         <p>안녕하세요</p>
@@ -27,13 +29,12 @@ import UserLogout from "@/components/MyPage/UserLogout.vue";
 
 const userStore = "userStore";
 const mainPageStore = "mainPageStore";
+const userOAuthStore = "userOAuthStore"; // #21#
 
 export default {
   name: "UserMainAlert",
   data() {
-    return {
-      
-    };
+    return {};
   },
   components: {
     UserLogout

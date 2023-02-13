@@ -58,4 +58,16 @@ async function withdrawal(info, success, fail) {
     .catch(fail);
 }
 
-export { login, anyPermit, partPermit, withdrawal };
+// [GET] 최근 예약 상담 내역 조회
+async function getRecentlyReservation(id, success, fail) {
+  console.log("#user - 최근 예약 상담 내역 조회# id: ", id);
+
+  await api
+    .get(
+      `${process.env.VUE_APP_API_BASE_URL}/user/logout/alert/reservation/${id}`
+    )
+    .then(success)
+    .catch(fail);
+}
+
+export { login, anyPermit, partPermit, withdrawal, getRecentlyReservation };
