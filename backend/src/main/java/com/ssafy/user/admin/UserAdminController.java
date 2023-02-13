@@ -97,11 +97,11 @@ public class UserAdminController {
 			List<UserConsultantDto> consultants = userAdminService.getUncertifiedConsultantList(); 
 //			logger.info("#21# 자격증 미인증 전문가 list: {}", consultant);
 			
-			return ResponseEntity.ok(UserUncertifiedConsultantResponse.of(200, "자격증 미인증 전문가 조회 성공", "success", consultants));
+			return ResponseEntity.ok(UserUncertifiedConsultantResponse.of(200, "success", "자격증 미인증 전문가 조회 성공", consultants));
 			
 		}catch(Exception e) {
 			e.printStackTrace();
-			return ResponseEntity.ok(UserUncertifiedConsultantResponse.of(401, "자격증 미인증 전문가 조회 실패", "failure", null));
+			return ResponseEntity.ok(UserUncertifiedConsultantResponse.of(401, "failure", "자격증 미인증 전문가 조회 실패", null));
 		}
 	}
 }
