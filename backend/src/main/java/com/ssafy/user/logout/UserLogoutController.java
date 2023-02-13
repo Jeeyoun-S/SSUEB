@@ -85,7 +85,6 @@ public class UserLogoutController {
 			Pet pet = userLogoutService.getRecentlyReservationPet(reservation.getReservationPetNo());
 //			logger.info("#21# 최근 예약 상담을 진행하는 반려동물 정보 조회 - 실행 결과: {}", pet);
 			
-			
 //			return ResponseEntity.ok(UserLogoutReservationAlertResponse.of(200, "가장 최근 예약 상담 내용 조회 성공", "success", reservationPetName, reservationPetType, reservation.getReservationDate(), reservationConsultName));
 			return ResponseEntity.ok(UserLogoutReservationAlertResponse.of(200, "예약된 상담 내역입니다.", "success", pet.getPetName(), pet.getPetType(), reservation.getReservationDate(), consultant));
 			

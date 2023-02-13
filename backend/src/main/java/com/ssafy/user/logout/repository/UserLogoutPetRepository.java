@@ -13,7 +13,4 @@ public interface UserLogoutPetRepository extends JpaRepository<Pet, Integer>{
 	 * @param reservationPetNo 조회할 반려동물 no
 	 */
 	Pet findByNo(int reservationPetNo);
-//	@Transactional
-//    @Query(value = "select * from pet where no = ?1", nativeQuery = true)
-//	Pet getRecentlyReservationPet(int reservationPetNo);
 }
