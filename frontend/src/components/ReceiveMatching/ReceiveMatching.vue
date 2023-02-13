@@ -16,7 +16,7 @@
 <script>
 import ReceivedCard from "@/components/ReceiveMatching/ReceivedMatchingCard.vue";
 import MoveCreateReservation from "@/components/CreateReservation/MoveCreateReservation.vue";
-import axios from "axios";
+// import axios from "axios";
 import { mapState } from "vuex";
 import { apiInstance } from "@/api/index.js";
 // const reservationStore = "reservationStore";
@@ -37,13 +37,11 @@ export default {
   },
   methods:{
     async getReservation() {
-
+      console.log(`${process.env.VUE_APP_API_BASE_URL}/reservation/partner/unconfirm/${this.userId}`);
       const api = apiInstance();
-      await api({
-        url: `${process.env.VUE_APP_API_BASE_URL}/reservation/partner/unconfirm/${this.userId}`, //이메일 바꾸고
-        method: "get",
-      })
+      await api.get(`${process.env.VUE_APP_API_BASE_URL}/reservation/partner/unconfirm/${this.userId}`)
         .then(({ data }) => {
+          console.log("받은 상담 제안", data);
           for (var i = 0; i < data.length; i++) {
             let reservation = {};
             reservation["rno"] = data[i].reservationPet.rno;
@@ -72,7 +70,6 @@ export default {
               matchingConsultant["consultantName"] = data[i].matchingConsultants[j].consultant_name;
               matchingConsultant["consultantProfile"] = data[i].matchingConsultants[j].consultant_profile;
               matchingConsultant["consultantRate"] = data[i].matchingConsultants[j].consultant_rate;
-
               matchingConsultant["matchingComment"] = data[i].matchingConsultants[j].matching_comment;
               matchingConsultant["matchingCost"] = data[i].matchingConsultants[j].matching_comment;
               matchingConsultant["matchingNo"] = data[i].matchingConsultants[j].no;
@@ -89,9 +86,10 @@ export default {
           console.log(err);
         });
     },
-    deleteReservation(no) {
+    async deleteReservation(no) {
       //삭제 후 카운트 변경은 추후 생각해보자
-      axios
+      const api = apiInstance();
+      await api
         .delete(process.env.VUE_APP_API_BASE_URL + `/` + no)
         .then(() => {
           console.log("삭제");

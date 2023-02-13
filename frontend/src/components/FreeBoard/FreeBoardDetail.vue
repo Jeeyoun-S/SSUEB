@@ -60,8 +60,9 @@
 
 <script>
 import FreeBoardReply from "@/components/FreeBoard/FreeBoardReply.vue";
-import FreeBoardModify from "@/components/FreeBoard/FreeBoardModify.vue"
-import { getDetailBoard } from "@/api/communityNotice.js"
+import FreeBoardModify from "@/components/FreeBoard/FreeBoardModify.vue";
+import NowLoading from '@/views/NowLoading.vue';
+import { getDetailBoard } from "@/api/communityNotice.js";
 import { getHeartWhether, pushHeart, deleteBoard } from "@/api/communityFree.js"
 import { mapState } from "vuex";
 const userStore = "userStore";
@@ -73,22 +74,23 @@ export default {
   },
   components: {
     FreeBoardReply,
-    FreeBoardModify
+    FreeBoardModify,
+    NowLoading
   },
   data() {
     return {
       loaded: true,
       boardDetail: {
-        no: 5, //this.$route.params.no으로 호출하긴함
-        userId: "",
-        userNickname: "와싸피",
-        boardTitle: "제목",
-        boardContent: "컨텐츠",
-        boardFile: "파일명",
-        boardFlag: 0,
-        boardHeartnum: 1,
-        boardViews: 2,
-        boardWritetime: "2023-01-25 16:43:28",
+        // no: 5, //this.$route.params.no으로 호출하긴함
+        // userId: "",
+        // userNickname: "와싸피",
+        // boardTitle: "제목",
+        // boardContent: "컨텐츠",
+        // boardFile: "파일명",
+        // boardFlag: 0,
+        // boardHeartnum: 1,
+        // boardViews: 2,
+        // boardWritetime: "2023-01-25 16:43:28",
       },
       isHeart: false
     }

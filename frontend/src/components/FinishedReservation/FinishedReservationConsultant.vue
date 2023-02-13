@@ -98,48 +98,85 @@
 <script>
 import FinishedResultModify from "@/components/FinishedReservation/FinishedResultModify.vue";
 import NowLoading from "@/views/NowLoading.vue";
+import { mapState } from "vuex";
+import { apiInstance } from "@/api/index.js";
+const reservationStore = "reservationStore";
+const userStore = "userStore";
 
 export default {
   name: "FinishedReservationConsultant",
+
   data() {
     return {
       loaded: true,
       panel: [],
-      reservations: [
-        {
-          userId: "partner@test.com",
-          consultantId: "consultant3@test.com",
-          reviewGrade: 3,
-          reviewComment: "사장님;;",
-          rno: 21,
-          petName: "ㅎㅎㅎㅎㅎㅎㅎ",
-          petBirth: "2022-02",
-          petImage: "b72c28b8-5b56-43ee-b6f8-f100fa8cab84.jpg",
-          petInfo: null,
-          petType: "기니피그",
-          petVariety: null,
-          reservationDignosisRecord: "아쉽게도",
-          reservationDate: "2023-01-19 10:20:00.0",
-          reservationConsultContent: "asdfasdfasd",
-          pno: 27
-        }
-      ]
+      reservations: [],
     }
   },
   components: {
     FinishedResultModify,
     NowLoading
   },
-  methods: {
+  computed: {
+    ...mapState(userStore, ["userId"]),
+    ...mapState(reservationStore),
+  },
+  methods:{
     async updateRecord(dignosis) {
       this.loaded = false;
       this.reservations[dignosis.idx].reservationDignosisRecord = await dignosis.reservationDignosisRecord;
       this.loaded = true;
-    }
+    },
+    async getReservation() {
+
+      const api = apiInstance();
+      await api.get(process.env.VUE_APP_API_BASE_URL+`/reservation/partner/past/${this.userId}`)
+        .then(({ data }) => {
+          for (var i = 0; i < data.length; i++) {
+            console.log(data[i])
+            let reservation = {};
+            reservation["rno"] = data[i].reservationPetFinish.rno;
+            reservation["userId"] = data[i].reservationPetFinish.userId;
+            reservation["reservationDate"] = data[i].reservationPetFinish.reservationDate;
+            reservation["reservationConsultContent"] = data[i].reservationPetFinish.reservationConsultContent;
+
+            reservation["consultantId"] = data[i].reservationPetFinish.consultant_id;
+
+            reservation["reservationDignosisRecord"] = data[i].reservationPetFinish.reservationDignosisRecord;
+            reservation["reviewGrade"] = data[i].reservationPetFinish.reviewGrade;
+            reservation["reviewComment"] = data[i].reservationPetFinish.reviewComment;
+
+            reservation["pno"] = data[i].reservationPetFinish.pno;
+            reservation["petName"] = data[i].reservationPetFinish.petName;
+            reservation["petImage"] = data[i].reservationPetFinish.petImage;
+            reservation["petType"] = data[i].reservationPetFinish.petType;
+            reservation["petVariety"] = data[i].reservationPetFinish.petVariety;
+            if(data[i].petBirth != null){
+              reservation["petBirth"] = data[i].petBirth.substr(0,7);
+            }
+            else{
+              reservation["petBirth"] = "생년월일 미상";
+            }
+            reservation["petInfo"] = data[i].reservationPetFinish.petInfo;
+
+            reservation["consultantName"] = data[i].consultantInfo.consultant_name;
+            reservation["consultantIntro"] = data[i].consultantInfo.consultant_intro;
+            reservation["consultantProfile"] = data[i].consultantInfo.consultant_profile;
+            reservation["consultantRate"] = data[i].consultantInfo.consultant_rate;
+
+            this.reservations.push(reservation);
+          }
+          console.log(this.reservations)
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+  },
+  created(){
+    this.getReservation();
   }
 }
 </script>
 
-<style>
-
-</style>
+<style></style>

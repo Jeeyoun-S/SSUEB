@@ -30,8 +30,13 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
+const userStore = "userStore";
 export default {
   name: "FreeBoardReply",
+  computed: {
+    ...mapState(userStore, ["userId"]),
+  },
   data() {
     return {
       replyList: [
