@@ -28,7 +28,7 @@ export default {
       loaded: true,
       consultantList: [
         {
-          id: "consultant@consultant",
+          id: "consultant@test.com",
           userName: "전문가 이름",
           userPhone: "010111111111",
           userJoindate: "2023-02-13 22:41",

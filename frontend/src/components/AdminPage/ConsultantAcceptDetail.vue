@@ -39,7 +39,19 @@
           </tr>
           <tr>
             <td class="bold-font" width="150">자격증 사본</td>
-            <td width="920">{{ getConsultantDetail.consultantLicenseCopyImage }}</td>
+            <td>
+              <v-btn rounded="pill" variant="tonal" prepend-icon="mdi-paperclip">
+                {{ getConsultantDetail.consultantLicenseCopyImage }}
+              </v-btn>
+            </td>
+          </tr>
+          <tr>
+            <td class="bold-font" width="150">가입 수락</td>
+            <td>
+              <v-btn rounded="pill" variant="tonal" @click="accept">
+                수락
+              </v-btn>
+            </td>
           </tr>
         </tbody>
       </v-table>
@@ -49,6 +61,7 @@
 
 <script>
 import NowLoading from '@/views/NowLoading.vue';
+import { acceptConsultant } from "@/api/admin.js";
 
 export default {
   name: "ConsultantAcceptDetail",
@@ -68,6 +81,9 @@ export default {
   methods: {
     back() {
       this.$router.go(-1);
+    },
+    accept() {
+      acceptConsultant(this.getConsultantDetail.id);
     }
   }
 }
