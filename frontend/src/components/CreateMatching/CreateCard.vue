@@ -1,7 +1,7 @@
 <template>
   <v-hover v-slot="{ isHovering, props }">
     <v-card class="ma-3 pa-2 d-flex justify-center flex-column"
-      width="320" height="450" variant="outlined"
+      width="320" height="550" variant="outlined"
       :elevation="isHovering ? 8 : 0" :class="{ 'on-hover': isHovering }"
       rounded="0" v-bind="props"
     >
@@ -82,16 +82,35 @@
         <v-avatar color="#06BEE1" size="100">
           <span v-if="reservation.petImage == null">{{ reservation.petName }}</span>
           <img v-else :src="getImageUrl(reservation.petImage)" height="100" width="100" />
+          <v-tooltip
+            activator="parent"
+            location="bottom" width="300"
+          >{{ reservation.petInfo }}</v-tooltip>
         </v-avatar>
       </v-card-item>
-      <v-card-title class="text-h6">{{ reservation.reservationDate.substr(0, 16) }}</v-card-title>
+      <v-card-title><h4>{{ reservation.reservationDate.substr(0, 16) }}</h4></v-card-title>
       <v-card-subtitle>
-        <p>{{ reservation.petName }} ({{ reservation.petBirth }})</p>
-        <p>{{ reservation.petType }} <span v-show="reservation.petVariety != null">-</span> {{ reservation.petVariety }}</p>
+        <p>{{ reservation.petName }}</p>
+        <p>{{ reservation.petBirth }} - {{ reservation.petType }}</p>
+        <p>{{ reservation.petVariety }}</p>
       </v-card-subtitle>
       <v-card-text>
         <div class="reservation-pet-info">
-          {{ reservation.reservationConsultContent }}
+          <span>
+            {{ reservation.reservationConsultContent.substr(0, 120) }}
+          </span>
+          <span v-if="reservation.reservationConsultContent.length > 120">···</span>
+          <v-btn v-if="reservation.reservationConsultContent.length > 120" color="primary" class="mt-2" @click="overlay = !overlay" variant="outlined" rounded="0" block>
+            더보기
+          </v-btn>
+          <v-overlay v-model="overlay" class="d-flex flex-column align-center justify-center" contained>
+            <v-sheet class="pa-4 detail-info">
+              {{ reservation.reservationConsultContent }}
+              <v-btn class="mt-2" color="primary" @click="overlay = false" rounded="0" block>
+                닫기
+              </v-btn>
+            </v-sheet>
+          </v-overlay>
         </div>
       </v-card-text>
       <v-card-actions>
@@ -119,10 +138,12 @@ export default {
   data: () => ({
     dialog: false,
     model: null,
+    overlay: false,
     rules: {
         matchingCost: [
           (v) => !!v || "필수 입력 사항입니다.",
           (v) => /^[0-9]*$/.test(v) || '숫자만 입력 가능합니다.',
+          (v) => v <= 1000000 || '최대 100만 원까지만 가능합니다.'
         ],
         matchingComment: [
           (v) => !!v || "필수 입력 사항입니다.",

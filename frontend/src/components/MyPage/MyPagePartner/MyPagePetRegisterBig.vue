@@ -51,7 +51,7 @@
               <v-col>
                 <v-row>
                   <v-text-field :rules="petRules.petName" v-model="petRegistInfo.petName"
-                    label="이름" variant="underlined" required>
+                    label="이름" variant="underlined" maxlength="20" required>
                   </v-text-field>
                 </v-row>
                 <v-row>
@@ -62,12 +62,12 @@
                 </v-row>
                 <v-row>
                   <v-text-field :rules="petRules.petVariety" v-model="petRegistInfo.petVariety"
-                    label="품종" variant="underlined">
+                    label="품종" variant="underlined" maxlength="20">
                   </v-text-field>
                 </v-row>
                 <v-row v-show="knowBirth == '0'">
                   <v-text-field :rules="petRules.petBirth" v-model="petRegistInfo.petBirth" label="생일"
-                    variant="underlined">
+                    variant="underlined" maxlength="7">
                   </v-text-field>
                 </v-row>
               </v-col>
@@ -166,7 +166,7 @@ export default {
             if (key == "petImage" && this.petRegistInfo[key].length >= 1) {
               petFormData.append(key, this.petRegistInfo[key][0]);
             }
-            else petFormData.append(key, this.petRegistInfo[key]);
+            else if (this.petRegistInfo[key] != null && this.petRegistInfo[key] != "") petFormData.append(key, this.petRegistInfo[key]);
           }
         }
 
@@ -184,6 +184,16 @@ export default {
               petType: null,
               petVariety: null
             }
+          } else {
+            this.registOpen = false;
+            this.$swal.fire({
+              title: "FAIL",
+              text: "반려동물을 등록에 실패했습니다. 등록 정보를 다시 확인해 주세요.",
+              icon: "error",
+            })
+            .then(() => {
+              this.registOpen = true;
+            })
           }
         });
       }

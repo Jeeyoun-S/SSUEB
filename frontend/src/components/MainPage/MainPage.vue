@@ -40,11 +40,11 @@
     </div>
     <div class="main-right">
       <!-- isLogin : [false - 로그인 X / true - 로그인 O]-->
-      <div class="main-right-item" v-if="!isLogin">
+      <div v-if="userAuth == null" class="main-right-item">
         <UserLogin class="card"></UserLogin>
         <!-- <UserAlert class="card" v-show="false"></UserAlert> -->
       </div>
-      <div class="main-right-item" v-else>
+      <div v-else class="main-right-item">
         <UserMainAlert class="mb-5"></UserMainAlert>
         <BoardTopFive></BoardTopFive>
       </div>
@@ -106,7 +106,7 @@ export default {
     NowLoading,
   },
   computed: {
-    ...mapState(userStore, ["isLogin"]),
+    ...mapState(userStore, ["userAuth"]),
   },
   methods: {
     ...mapActions(userOAuthStore, ["excuteKakaoToken", "excuteGoogleInfo"]),

@@ -66,7 +66,8 @@ async function sendPhoneAuth(phoneNumber) {
           }
         });
       }
-    });
+    })
+    .catch()
 }
 
 // [GET] 인증번호 전송 - 문자 안 보내는 테스트용
@@ -136,7 +137,8 @@ async function confirmPhoneAuth(authNumber, userPhone) {
           "error"
         );
       }
-    });
+    })
+    .catch()
 }
 
 // [GET] 반려인 회원가입 진행
@@ -192,7 +194,8 @@ async function joinPartner(joinRequest, socialAccess, provider) {
           // 회원가입 창으로 이동
         });
       }
-    });
+    })
+    .catch()
 }
 
 // [POST] 전문가 회원가입 진행
@@ -249,7 +252,8 @@ async function joinConsultant(formData, socialAccess, provider) {
           location.href = process.env.VUE_APP_BASE_URL;
         });
       }
-    });
+    })
+    .catch()
 }
 
 // [GET] 아이디 중복 확인
@@ -264,7 +268,8 @@ async function duplicateId(id) {
       if (res.data.response == "success") {
         result = true;
       }
-    });
+    })
+    .catch()
 
   return await Promise.resolve(result);
 }

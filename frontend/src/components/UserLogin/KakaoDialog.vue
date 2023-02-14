@@ -1,6 +1,6 @@
 <template>
   <div class="sns-login">
-    <img :src="require('@/assets/login/kakao_logo.png')" @click="kakaoLogin" />
+    <img :src="require('@/assets/login/kakao_logo.png')" @click="kakaoLogin" alt="google login" />
   </div>
 </template>
 
