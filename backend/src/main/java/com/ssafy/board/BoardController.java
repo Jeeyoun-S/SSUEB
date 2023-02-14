@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -110,17 +111,16 @@ public class BoardController {
 		}
 	}
 	
-	@PostMapping("/community")
+	@PostMapping(value = "/community", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ApiOperation(value = "자유게시판 글 작성하기", notes = "자유게시판에 글을 작성한다.", response = Board.class) 
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),
         @ApiResponse(code = 500, message = "서버 오류")
     })
-	public ResponseEntity<?> createBoard(@RequestPart(value = "board") Board board, 
+	public ResponseEntity<?> createBoard(@RequestBody Board board, 
 			@RequestPart(value = "file", required = false)  MultipartFile file) {
 		try {
 			System.out.println(board);
-			Board result = bService.createBoard(board);
 			
 
 			if(file != null) {
@@ -129,7 +129,7 @@ public class BoardController {
 					String uuid = UUID.randomUUID().toString();//랜덤한 코드명 ex)49eec5bf-dce3-43b2-8ff8-c041c792ed0a를 넣어준다
 					String savefileName = uuid + "_" + file.getOriginalFilename();
 					file.transferTo(new File(boardPath+savefileName));
-					board.setBoardFile(boardPath+savefileName);
+					board.setBoardFile(savefileName);
 				}
 				else {
 					return new ResponseEntity<String>("파일 크기가 초과했습니다.", HttpStatus.OK);
@@ -137,6 +137,8 @@ public class BoardController {
 			}
 			else
 				System.out.println("파일이 없다");
+			
+			Board result = bService.createBoard(board);
 			return new ResponseEntity<Board>(result, HttpStatus.OK);
 		} catch (Exception e) {
 			return exceptionHandling(e);
