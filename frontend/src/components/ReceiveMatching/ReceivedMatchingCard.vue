@@ -31,7 +31,7 @@
         <v-btn variant="text" color="primary" @click="seefile">
           관련 첨부파일 보기
         </v-btn>
-        <v-btn variant="text" color="error">
+        <v-btn variant="text" color="error" @click="deleteRese">
           삭제
         </v-btn>
       </v-card-actions>
@@ -41,7 +41,7 @@
 
 <script>
 import ReceivedMatchingCardButton from "./ReceivedMatchingCardButton.vue";
-
+import { apiInstance } from "@/api/index.js";
 import { mapState } from "vuex";
 const userStore = "userStore";
 const reservationStore = "reservationStore";
@@ -56,13 +56,14 @@ export default {
     ...mapState(userStore, ["userId"]),
     ...mapState(reservationStore),
   },
-
+  emits: ["deleteReservation"],
   data: () => ({
     dialog: false,
     model: null,
   }),
   props: {
-    reservation:{},
+    reservation: Object,
+    idx: Number
   },
   methods: {
 
@@ -77,6 +78,21 @@ export default {
     },
     getImageUrl(img) {
       return `${process.env.VUE_APP_FILE_PATH_PET}${img}`;
+    },
+    async deleteRese() {
+      //삭제 후 카운트 변경은 추후 생각해보자
+      const api = apiInstance();
+      await api
+        .delete(`${process.env.VUE_APP_API_BASE_URL}/reservation/${this.reservation.rno}`)
+        .then(() => {
+          this.$emit("deleteReservation", this.idx);
+          this.$swal.fire(
+            '상담 삭제 완료',
+            '상담이 삭제되었습니다.',
+            'success'
+          )
+        })
+        .catch();
     },
   },
 

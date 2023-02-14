@@ -47,7 +47,11 @@
                       height="270" width="178" rounded="0"
                       v-bind="props"
                     >
-                      <img width="100" :src="require('@/assets/placeholder/placeholder_dog.png')" />
+                      <v-avatar color="#06BEE1" size="100">
+                        <span v-if="reservation.petImage == null">{{ reservation.petName }}</span>
+                        <img v-else :src="getImageUrl(reservation.petImage)" height="100" width="100" />
+                      </v-avatar>
+                      <!-- <img width="100" :src="require('@/assets/placeholder/placeholder_dog.png')" /> -->
                       <v-card-title class="pa-1">{{ reservation.petName }}</v-card-title> <!--애기 이름--><!--(출생연월)-->
                       <v-card-subtitle>{{ reservation.petBirth }}</v-card-subtitle><!--생일-->
                       <v-card-subtitle>{{ reservation.petType }}</v-card-subtitle><!--품종 대분류-->

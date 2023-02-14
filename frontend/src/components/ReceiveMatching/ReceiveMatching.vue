@@ -8,7 +8,9 @@
       </div>
       <div class="page-inner-items border-sheet-four">
         <MoveCreateReservation v-if="reservations == null || reservations.length < 1" message="아직 받은 상담 제안이 없습니다."></MoveCreateReservation>
-        <ReceivedCard v-for="(reservation, idx) in reservations" :reservation="reservation" :key="idx" />
+        <ReceivedCard v-for="(reservation, idx) in reservations" :reservation="reservation"
+          :idx="idx" :key="idx" @deleteReservation="deleteReservation"
+        />
       </div>
     </div>
   </div>
@@ -17,6 +19,7 @@
 <script>
 import ReceivedCard from "@/components/ReceiveMatching/ReceivedMatchingCard.vue";
 import MoveCreateReservation from "@/components/CreateReservation/MoveCreateReservation.vue";
+import NowLoading from "@/views/NowLoading.vue";
 // import axios from "axios";
 import { mapState } from "vuex";
 import { apiInstance } from "@/api/index.js";
@@ -35,7 +38,8 @@ export default {
   },
   components: {
     ReceivedCard,
-    MoveCreateReservation
+    MoveCreateReservation,
+    NowLoading
   },
   methods:{
     async getReservation() {
@@ -89,18 +93,21 @@ export default {
         });
       return await Promise.resolve(true);
     },
-    async deleteReservation(no) {
-      //삭제 후 카운트 변경은 추후 생각해보자
-      const api = apiInstance();
-      await api
-        .delete(process.env.VUE_APP_API_BASE_URL + `/` + no)
-        .then(() => {
-          console.log("삭제");
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
+    deleteReservation(idx) {
+      this.reservations.splice(idx, 1);
+    }
+    // async deleteReservation(no) {
+    //   //삭제 후 카운트 변경은 추후 생각해보자
+    //   const api = apiInstance();
+    //   await api
+    //     .delete(process.env.VUE_APP_API_BASE_URL + `/` + no)
+    //     .then(() => {
+    //       console.log("삭제");
+    //     })
+    //     .catch((err) => {
+    //       console.log(err);
+    //     });
+    // },
   },
   async created(){
     this.loaded = false;

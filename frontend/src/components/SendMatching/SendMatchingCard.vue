@@ -1,5 +1,5 @@
 <template>
-<div>
+  <div>
     <v-hover v-slot="{ isHovering, props }">
       <v-card class="ma-3 pa-2 d-flex justify-center flex-column"
         width="320" height="480" variant="outlined"
@@ -40,14 +40,27 @@
 </template>
 
 <script>
+import { deleteMatching } from "@/api/reservationMatching.js";
+
 export default {
   name: "SendMatchingCard",
   props: {
-    matching: {},
+    matching: Object,
+    idx: Number
   },
   methods: {
-    deleteSendMatching() {
-      alert("삭제 버튼 활성화")
+    async deleteSendMatching() {
+      await deleteMatching(this.matching.no)
+      .then((res) => {
+        if (res) {
+          this.$emit("deleteMatching", this.idx);
+          this.$swal.fire(
+            '제안한 상담 삭제 완료',
+            '제안하신 상담이 삭제되었습니다.',
+            'success'
+          )
+        }
+      })
     },
     getImageUrl(img) {
       return `${process.env.VUE_APP_FILE_PATH_PET}${img}`;

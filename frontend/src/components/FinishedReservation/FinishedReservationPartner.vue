@@ -47,7 +47,11 @@
                     >
                       <!-- 좌측 반려동물 정보 -->
                       <v-card class="mr-5 d-flex flex-column justify-center align-center" height="180" width="190" elevation="0">
-                        <img width="80" :src="require('@/assets/placeholder/placeholder_dog.png')" />
+                        <v-avatar color="#06BEE1" size="80">
+                          <span v-if="reservation.petImage == null">{{ reservation.petName }}</span>
+                          <img v-else :src="getImageUrl(reservation.petImage)" height="80" width="80" />
+                        </v-avatar>
+                        <!-- <img width="80" :src="require('@/assets/placeholder/placeholder_dog.png')" /> -->
                         <v-card-title class="pa-1">{{ reservation.petName }}</v-card-title> <!--애기 이름--><!--(출생연월)-->
                         <v-card-subtitle>{{ reservation.petBirth }}</v-card-subtitle><!--품종 대분류-->
                         <v-card-subtitle>{{ reservation.petType }}</v-card-subtitle><!--품종 대분류-->

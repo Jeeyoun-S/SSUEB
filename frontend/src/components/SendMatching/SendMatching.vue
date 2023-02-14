@@ -8,7 +8,10 @@
       </div>
       <div class="page-inner-items border-sheet-four">
         <MoveCreateMatching v-if="matchings == null || matchings.length < 1" message="보낸 상담 제안이 없습니다."></MoveCreateMatching>
-        <SendMatchingCard v-for="(matching, idx) in matchings" :matching="matching" v-bind:key="idx" />
+        <SendMatchingCard v-for="(matching, idx) in matchings" 
+          :matching="matching" :idx="idx" :key="idx"
+          @deleteMatching="deleteMatching"
+        />
       </div>
     </div>
   </div>
@@ -76,17 +79,20 @@ export default {
         });
       return await Promise.resolve(true);
     },
-    async deleteMatching(no) {
-      const api = apiInstance();
-      await api
-        .delete(process.env.VUE_APP_API_BASE_URL + `/reservation/matching/` + no)
-        .then(() => {
-          console.log("삭제");
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
+    async deleteMatching(index) {
+      this.matchings.splice(index, 1);
+    }
+    // async deleteMatching(no) {
+    //   const api = apiInstance();
+    //   await api
+    //     .delete(process.env.VUE_APP_API_BASE_URL + `/reservation/matching/` + no)
+    //     .then(() => {
+    //       console.log("삭제");
+    //     })
+    //     .catch((err) => {
+    //       console.log(err);
+    //     });
+    // },
   },
   created(){
     this.loaded = false;
