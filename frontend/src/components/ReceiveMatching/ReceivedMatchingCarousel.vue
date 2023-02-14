@@ -93,8 +93,8 @@ export default {
   },
   methods: {
 
-    async accept(rno, consultantId, matchingComment, matchingCost, consultantName){
-      console.log(rno, consultantId, matchingComment, matchingCost, consultantName)
+    async accept(rno, consultantId, matchingCost, matchingComment, consultantName){
+      console.log(rno, consultantId, matchingCost, matchingComment, consultantName)
       const api = apiInstance();
       await api
         .put(

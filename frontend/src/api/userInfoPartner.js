@@ -68,7 +68,8 @@ async function updatePartnerInfo(partnerInfo) {
           icon: "error",
         });
       }
-    });
+    })
+    .catch()
 }
 
 // [POST] 반려동물 등록
@@ -117,7 +118,8 @@ async function registerPetInfo(petInfo, id) {
           icon: "error",
         });
       }
-    });
+    })
+    .catch()
 
   return await Promise.resolve(value);
 }
@@ -169,7 +171,8 @@ async function modifyPetInfo(petInfo, petNo) {
       } else {
         console.log("#반려동물 수정 실패");
       }
-    });
+    })
+    .catch()
 
   return await Promise.resolve(result);
 }
@@ -186,7 +189,8 @@ async function removePetInfo(petNo) {
       } else {
         console.log("#반려동물 삭제 실패");
       }
-    });
+    })
+    .catch()
 }
 
 // [POST] 회원정보 수정 전 비밀번호 확인
