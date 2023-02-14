@@ -1,7 +1,7 @@
 <template>
   <NowLoading v-if="!loaded"></NowLoading>
   <div v-else class="page max-page border-sheet-four">
-    <div class=" page-inner max-page">
+    <div class="page-inner max-page">
       <div class="page-inner-title border-sheet-four">
         <v-icon class="mr-2" size="x-large">mdi-bulletin-board</v-icon>
         <h2>자유게시판</h2>
@@ -15,26 +15,26 @@
 </template>
 
 <script>
-import FreeBoardTable from "@/components/FreeBoard/FreeBoardTable.vue"
-import FreeBoardRegist from "@/components/FreeBoard/FreeBoardRegist.vue"
-import NowLoading from '@/views/NowLoading.vue';
-import { getFreeBoard } from "@/api/communityFree.js"
+import FreeBoardTable from "@/components/FreeBoard/FreeBoardTable.vue";
+import FreeBoardRegist from "@/components/FreeBoard/FreeBoardRegist.vue";
+import NowLoading from "@/views/NowLoading.vue";
+import { getFreeBoard } from "@/api/communityFree.js";
 
 export default {
   name: "FreeBoard",
   components: {
     FreeBoardTable,
     FreeBoardRegist,
-    NowLoading
+    NowLoading,
   },
   data() {
     return {
       loaded: false,
       boardSummaryList: [],
-    }
+    };
   },
-  methods:{
-    pushList(board){
+  methods: {
+    pushList(board) {
       console.log(board);
       this.boardSummaryList.push(board);
     },
@@ -43,9 +43,9 @@ export default {
     this.loaded = false;
     this.boardSummaryList = await getFreeBoard();
     this.loaded = true;
-    console.log(this.boardSummaryList)
-  }
-}
+    console.log(this.boardSummaryList);
+  },
+};
 </script>
 
 <style></style>
