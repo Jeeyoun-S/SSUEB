@@ -121,7 +121,7 @@ public class MatchingController {
     })
 	public ResponseEntity<?> confirmMatching(@RequestBody MatchingConfirm matchingConfirm) {
 		try {
-			mService.confirmMatching(matchingConfirm.getReservationNo(), matchingConfirm.getConsultantId(), matchingConfirm.getMatchingCost());
+			mService.confirmMatching(matchingConfirm.getReservationNo(), matchingConfirm.getConsultantId(), matchingConfirm.getMatchingCost(), matchingConfirm.getMatchingReason());
 			return new ResponseEntity<Void>(HttpStatus.OK);
 		} catch (Exception e) {
 			return exceptionHandling(e);

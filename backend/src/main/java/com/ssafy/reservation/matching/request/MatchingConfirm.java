@@ -19,7 +19,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@ApiModel("ReservationDignosis")
+@ApiModel("MatchingConfirm")
 public class MatchingConfirm {
 	
 	@ApiModelProperty(value = "매칭이 확정될 상담 테이블 번호", dataType = "int", example="0")
@@ -30,5 +30,8 @@ public class MatchingConfirm {
 	
 	@ApiModelProperty(value = "예약금액", dataType = "int", example="22222")
     int matchingCost;
+	
+	@ApiModelProperty(value = "예약 금액에 대한 이유")
+	String matchingReason;
 }
 

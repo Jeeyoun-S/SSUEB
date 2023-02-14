@@ -80,4 +80,8 @@ public class Reservation{
 	@Column(name="reservation_cost")
 	@ApiModelProperty(value = "상담 가격", dataType = "int", example="0")
     int reservationCost;
+	
+	@Column(name="reservation_reason")
+	@ApiModelProperty(value = "상담 가격에 대한 이유")
+    String reservationReason;
 }

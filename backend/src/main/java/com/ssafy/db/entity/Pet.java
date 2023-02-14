@@ -2,6 +2,7 @@ package com.ssafy.db.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,6 +20,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Table(name = "pet")
 @Getter
 @Setter
+@ToString
 public class Pet {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

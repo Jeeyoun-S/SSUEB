@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -20,6 +21,7 @@ import com.ssafy.common.util.BasicResponse;
 import com.ssafy.common.util.ParameterCheck;
 import com.ssafy.db.entity.Consultant;
 import com.ssafy.db.entity.User;
+import com.ssafy.user.admin.UserAdminController;
 import com.ssafy.user.join.repository.JoinConsultantRepository;
 import com.ssafy.user.join.repository.JoinUserRepository;
 import com.ssafy.user.join.request.ConsultantJoinRequest;
@@ -56,6 +58,9 @@ public class UserJoinController {
 	
 	@Autowired
 	JoinConsultantRepository joinConsultantRepository;
+	
+	@Autowired
+	UserAdminController userAdminController;
 	
 	@PostMapping("/partner")
 	@ApiOperation(value = "반려인 회원가입", notes = "반려인의 정보를 입력받아 회원 정보에 추가하고 로그인한다.")
@@ -194,6 +199,25 @@ public class UserJoinController {
 				Consultant consultant = optionalConsultant.get();
 				consultant.setConsultantCertified(1);
 				joinConsultantRepository.save(consultant);
+				
+				Optional<User> optionalUser = userJoinRepository.findById(id);
+				
+				if (optionalUser.isPresent()) {
+					
+					User user = optionalUser.get();
+					
+					int alertFlag = user.getUserAlertFlag();
+					if (alertFlag == 0) {
+						// 카카오
+						
+					} else if (alertFlag == 1) {
+						// 이메일
+						userAdminController.sendCertifiedPassEmail(id);
+					} else {
+						// 문자
+						userAdminController.sendCertifiedPassMessage(user.getUserPhone());
+					}
+				}
 				
 				return ResponseEntity.status(200).body(new BasicResponse("success", null));
 			}
