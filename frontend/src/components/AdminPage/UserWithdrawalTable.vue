@@ -2,7 +2,9 @@
   <v-sheet class="mr-2" width="150">
     <v-select
       :items="['이메일', '이름', '닉네임']"
-      variant="outlined" density="compact" v-model="range"
+      variant="outlined"
+      density="compact"
+      v-model="range"
       hide-details
     ></v-select>
   </v-sheet>
@@ -31,14 +33,18 @@
       <tr v-for="(user, index) in getSearchList" :key="index"
         style="cursor: pointer;"
       >
-        <td>{{ String(index).padStart(4, '0') }}</td>
+        <td>{{ String(index).padStart(4, "0") }}</td>
         <td>{{ user.id }}</td>
         <td>{{ user.userName }}</td>
         <td>{{ user.userNickname }}</td>
         <td>{{ user.authorities[0].authorityName.substr(5, 10) }}</td>
         <td>
-          <v-btn class="mr-3" variant="outlined" color="error" rounded="0"
-            @click="withdrawal(user.id, user.userIsSocialId)"
+          <v-btn
+            class="mr-3"
+            variant="outlined"
+            color="error"
+            rounded="0"
+            @click="withdrawal(user.id, index)"
           >
             탈퇴
           </v-btn>
@@ -49,13 +55,14 @@
 </template>
 
 <script>
-const userStore = "userStore";
+// const userStore = "userStore";
+const adminStore = "adminStore";
 import { mapActions } from "vuex";
 
 export default {
   name: "UserWithdrawalTable",
   props: {
-    userList: Array
+    userList: Array,
   },
   data() {
     return {
@@ -79,28 +86,29 @@ export default {
     }
   },
   methods: {
-    ...mapActions(userStore, ["excuteWithdrawal"]),
-    // [@Method] 회원 탈퇴
-    async withdrawal(id, userIsSocialId) {
-      userIsSocialId
-      this.$swal.fire({
-        title: "탈퇴하시겠습니까?",
-        text: `탈퇴 시 ${id} 계정은 사용하지 못하게 됩니다.`,
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        confirmButtonText: "Yes",
-      }).then(async (result) => {
-        if (result.isConfirmed) {
-          await this.excuteWithdrawal();
-        }
-      });
+    ...mapActions(adminStore, ["excuteAdminWithdrawalUser"]),
+    // [@Method] 관리자 - 회원탈퇴
+    async withdrawal(id, index) {
+      this.$swal
+        .fire({
+          title: "탈퇴하시겠습니까?",
+          text: `탈퇴 시 ${id} 계정은 사용하지 못하게 됩니다.`,
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Yes",
+        })
+        .then(async (result) => {
+          if (result.isConfirmed) {
+            await this.excuteAdminWithdrawalUser(id);
+            this.$emit("deleteRemoveUser", index);
+            // location.reload();
+          }
+        });
     },
-  }
-}
+  },
+};
 </script>
 
-<style>
-
-</style>
+<style></style>
