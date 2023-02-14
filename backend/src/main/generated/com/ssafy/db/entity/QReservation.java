@@ -37,6 +37,8 @@ public class QReservation extends EntityPathBase<Reservation> {
 
     public final NumberPath<Integer> reservationPetNo = createNumber("reservationPetNo", Integer.class);
 
+    public final StringPath reservationReason = createString("reservationReason");
+
     public final StringPath reservationRegisterTime = createString("reservationRegisterTime");
 
     public final StringPath reviewComment = createString("reviewComment");
