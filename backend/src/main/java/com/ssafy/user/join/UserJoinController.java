@@ -186,7 +186,7 @@ public class UserJoinController {
 	@ApiOperation(value = "전문가 회원가입 수락", notes = "전문가의 자격 검증이 끝난 뒤, 회원가입을 수락한다.")
 	@ApiResponse(code = 200, response = BasicResponse.class, message = "전문가 회원가입 수락")
 	@ApiImplicitParam(name = "id", value = "전문가 아이디", required = true)
-	public ResponseEntity<BasicResponse> acceptConsultant(@RequestParam("id") String id) {
+	public ResponseEntity<BasicResponse> acceptConsultant(String id) {
 		
 		if (!parameterCheck.isEmpty(id) && parameterCheck.isValidId(id)) {
 			

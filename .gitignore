@@ -99,7 +99,6 @@ application-oauth.yml
 *.gz
 backend/src/main/resources/application-mail.yml
 backend/src/main/resources/application.yml
-backend/src/main/resources/application.yml
-backend/src/main/resources/application.yml
 *.gz
-*.txt
+*.yml
+backend/src/main/resources/application.yml
