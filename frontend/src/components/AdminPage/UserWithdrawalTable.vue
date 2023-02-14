@@ -89,7 +89,6 @@ export default {
         .then(async (result) => {
           if (result.isConfirmed) {
             await this.excuteAdminWithdrawalUser(id);
-            location.reload();
           }
         });
     },
