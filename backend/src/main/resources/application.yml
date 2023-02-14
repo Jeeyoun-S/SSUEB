@@ -50,9 +50,9 @@ server:
 spa:
   default-file: /dist/index.html
 spring:
-  # for. oauth 정보 가져오기
+  # for. mail 정보 가져오기
   profiles:
-    include: oauth
+    include: mail
   data:
     web:
       pageable:
