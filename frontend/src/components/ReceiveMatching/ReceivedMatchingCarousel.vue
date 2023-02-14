@@ -103,8 +103,8 @@ export default {
     async accept(
       rno,
       consultantId,
-      matchingComment,
       matchingCost,
+      matchingComment,
       consultantName
     ) {
       console.log(

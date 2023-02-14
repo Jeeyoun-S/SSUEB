@@ -44,7 +44,7 @@
         </div>
       </v-card-text>
       <v-card-actions class="d-flex flex-row justify-space-between">
-        <ReceivedMatchingCardMenus />
+        <SeeAttatchedFiles :reservation="reservation"/>
         <v-btn variant="text" color="error" @click="deleteRese"> 삭제 </v-btn>
       </v-card-actions>
     </v-card>
@@ -53,7 +53,7 @@
 
 <script>
 import ReceivedMatchingCardButton from "./ReceivedMatchingCardButton.vue";
-import ReceivedMatchingCardMenus from "./ReceivedMatchingCardMenus.vue";
+import SeeAttatchedFiles from "../SeeAttachedFiles/SeeAttatchedFiles.vue";
 import { apiInstance } from "@/api/index.js";
 import { mapState } from "vuex";
 const userStore = "userStore";
@@ -62,7 +62,7 @@ export default {
   name: "ReceivedMatchingCard",
   components: {
     ReceivedMatchingCardButton,
-    ReceivedMatchingCardMenus,
+    SeeAttatchedFiles,
   },
   computed: {
     ...mapState(userStore, ["userId"]),
@@ -77,8 +77,9 @@ export default {
     idx: Number,
   },
   methods: {
+
     dialogOff() {},
-    
+
     async deleteRese() {
       const api = apiInstance();
       await api
@@ -96,6 +97,9 @@ export default {
         .catch((err) => {
           alert(err);
         });
+    },
+    getImageUrl(img) {
+      return `${process.env.VUE_APP_FILE_PATH_PET}${img}`;
     },
   },
 

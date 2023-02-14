@@ -258,10 +258,10 @@ const userStore = {
     // [@Method] 가장 최근 예약 상담 내역 조회
     async excuteRecentlyReservationInfo({ commit }) {
       commit;
-      // console.log(
-      //   "#21# 가장 최근 예약 상담 내역 조회 동작 - id: ",
-      //   this.state.userStore.userId
-      // );
+      console.log(
+        "#21# 가장 최근 예약 상담 내역 조회 동작 - id: ",
+        this.state.userStore.userId
+      );
 
       await getRecentlyReservation(
         this.state.userStore.userId,
@@ -295,6 +295,7 @@ const userStore = {
               }
             });
           } else {
+            console.log("#21# 예약 상담 조회 실패");
             store.dispatch("userStore/clearUserStoreInfo", null, {
               root: true,
             });
