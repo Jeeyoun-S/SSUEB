@@ -87,7 +87,7 @@
       <v-card-title><h4>{{ reservation.reservationDate.substr(0, 16) }}</h4></v-card-title>
       <v-card-subtitle>
         <p>{{ reservation.petName }}</p>
-        <p>{{ reservation.petBirth }} - {{ reservation.petType }}</p>
+        <p>{{ reservation.petType }}({{ reservation.petBirth }})</p>
         <p>{{ reservation.petVariety }}</p>
       </v-card-subtitle>
       <v-card-text>
@@ -120,6 +120,7 @@
 import router from "@/router/index.js";
 import { mapState } from "vuex";
 import { apiInstance } from "@/api/index.js";
+import SeeAttatchedFiles from "../SeeAttachedFiles/SeeAttatchedFiles.vue";
 const userStore = "userStore";
 
 
@@ -128,7 +129,9 @@ export default {
   computed: {
     ...mapState(userStore, ["userId"]),
     },
-
+  components: {
+    SeeAttatchedFiles,
+  },
   data: () => ({
     dialog: false,
     model: null,

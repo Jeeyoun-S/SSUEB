@@ -139,30 +139,10 @@ export default {
 
                 BootPay.request({
                   price: 1000, // 결제할 금액
-                  application_id:
-                    "(부트페이 관리자에서 Web용 Application ID 입력해주세요.)",
-                  name: "(판매할 아이템이름)", // 아이템 이름,
+                  application_id: `${process.env.VUE_APP_BOOTPAY_JS}`,
+                  name: `SSEUB 상담`, // 아이템 이름,
                   phone: "(구매자 전화번호 ex) 01000000000)",
-                  order_id: "(이 결제를 식별할 수 있는 고유 주문 번호)",
-                  pg: "(결제창을 띄우려는 PG 회사명 ex) kcp, danal)",
-                  method: "(결제수단 정보 ex) card, phone, vbank, bank)",
-                  show_agree_window: 0, // 결제 동의창 띄우기 여부 1 - 띄움, 0 - 띄우지 않음
-                  items: [
-                    // 결제하려는 모든 아이템 정보 ( 통계 데이터로 쓰이므로 입력해주시면 좋습니다. 입력하지 않아도 결제는 가능합니다.)
-                    {
-                      item_name: "(판매된 아이템 명)",
-                      qty: 1, // 판매한 아이템의 수량
-                      unique: "(아이템을 식별할 수 있는 unique key)",
-                      price: 3000, // 아이템 하나의 단가
-                    },
-                  ],
-                  user_info: {
-                    // 구매한 고객정보 ( 통계 혹은 PG사에서 요구하는 고객 정보 )
-                    email: "(이메일)",
-                    phone: "(고객의 휴대폰 정보)",
-                    username: "구매자성함",
-                    addr: "(고객의 거주지역)",
-                  },
+                  order_id: `${rno}`,
                 })
                   .error(function (data) {
                     // 결제가 실패했을 때 호출되는 함수입니다.

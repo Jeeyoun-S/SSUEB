@@ -1,24 +1,39 @@
 <template>
   <div>
     <v-hover v-slot="{ isHovering, props }">
-      <v-card class="ma-3 pa-2 d-flex justify-center flex-column"
-      width="320" height="560" variant="outlined"
-      :elevation="isHovering ? 8 : 0" :class="{ 'on-hover': isHovering }"
-        rounded="0" v-bind="props"
+      <v-card
+        class="ma-3 pa-2 d-flex justify-center flex-column"
+        width="320"
+        height="560"
+        variant="outlined"
+        :elevation="isHovering ? 8 : 0"
+        :class="{ 'on-hover': isHovering }"
+        rounded="0"
+        v-bind="props"
       >
-        <v-btn class="ms-auto align-self-end" color="error" variant="text" @click="deleteSendMatching()">
+        <v-btn
+          class="ms-auto align-self-end"
+          color="error"
+          variant="text"
+          @click="deleteSendMatching()"
+        >
           삭제
         </v-btn>
         <v-avatar class="align-self-center" color="#06BEE1" size="100">
           <span v-if="matching.petImage == null">{{ matching.petName }}</span>
-          <img v-else :src="getImageUrl(matching.petImage)" height="100" width="100" />
+          <img
+            v-else
+            :src="getImageUrl(matching.petImage)"
+            height="100"
+            width="100"
+          />
         </v-avatar>
         <v-card-title>
           <h4>{{ matching.reservationDate.substr(0, 16) }}</h4>
         </v-card-title>
         <v-card-subtitle>
           <p>{{ matching.petName }}</p>
-          <p>{{ matching.petBirth }} - {{ matching.petType }}</p>
+          <p>{{ matching.petType }}({{ matching.petBirth }})</p>
           <p>{{ matching.petVariety }}</p>
         </v-card-subtitle>
         <v-card-text>
@@ -26,14 +41,34 @@
             <span>
               {{ matching.reservationConsultContent.substr(0, 60) }}
             </span>
-            <span v-if="matching.reservationConsultContent.length > 60">···</span>
-            <v-btn v-if="matching.reservationConsultContent.length > 60" color="primary" class="mt-2" @click="overlay = !overlay" variant="outlined" rounded="0" block>
+            <span v-if="matching.reservationConsultContent.length > 60"
+              >···</span
+            >
+            <v-btn
+              v-if="matching.reservationConsultContent.length > 60"
+              color="primary"
+              class="mt-2"
+              @click="overlay = !overlay"
+              variant="outlined"
+              rounded="0"
+              block
+            >
               더보기
             </v-btn>
-            <v-overlay v-model="overlay" class="d-flex flex-column align-center justify-center" contained>
+            <v-overlay
+              v-model="overlay"
+              class="d-flex flex-column align-center justify-center"
+              contained
+            >
               <v-sheet class="pa-4 detail-info">
                 {{ matching.reservationConsultContent }}
-                <v-btn class="mt-2" color="primary" @click="overlay = false" rounded="0" block>
+                <v-btn
+                  class="mt-2"
+                  color="primary"
+                  @click="overlay = false"
+                  rounded="0"
+                  block
+                >
                   닫기
                 </v-btn>
               </v-sheet>
@@ -52,6 +87,9 @@
               <span>{{ matching.matchingComment }}</span>
             </p>
           </v-card-text>
+          <v-card-actions>
+            <SeeAttatchedFiles :reservation="reservation" />
+          </v-card-actions>
         </v-sheet>
       </v-card>
     </v-hover>
@@ -60,37 +98,41 @@
 
 <script>
 import { deleteMatching } from "@/api/reservationMatching.js";
+import SeeAttatchedFiles from "../SeeAttachedFiles/SeeAttatchedFiles.vue";
 
 export default {
   name: "SendMatchingCard",
   data() {
     return {
-      overlay: false
-    }
+      overlay: false,
+    };
   },
   props: {
+    reservation: Object,
     matching: Object,
-    idx: Number
+    idx: Number,
+  },
+  components: {
+    SeeAttatchedFiles,
   },
   methods: {
     async deleteSendMatching() {
-      await deleteMatching(this.matching.no)
-      .then((res) => {
+      await deleteMatching(this.matching.no).then((res) => {
         if (res) {
           this.$emit("deleteMatching", this.idx);
           this.$swal.fire(
-            '제안한 상담 삭제 완료',
-            '제안하신 상담이 삭제되었습니다.',
-            'success'
-          )
+            "제안한 상담 삭제 완료",
+            "제안하신 상담이 삭제되었습니다.",
+            "success"
+          );
         }
-      })
+      });
     },
     getImageUrl(img) {
       return `${process.env.VUE_APP_FILE_PATH_PET}${img}`;
     },
-  }
-}
+  },
+};
 </script>
 
 <style></style>

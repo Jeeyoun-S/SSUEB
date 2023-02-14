@@ -24,7 +24,7 @@
       <v-card-title><h4>{{ reservation.reservationDate.substr(0, 16) }}</h4></v-card-title>
       <v-card-subtitle>
         <p>{{ reservation.petName }}</p>
-        <p>{{ reservation.petBirth }} - {{ reservation.petType }}</p>
+        <p>{{ reservation.petType }}({{ reservation.petBirth }})</p>
         <p>{{ reservation.petVariety }} </p>
       </v-card-subtitle>
       <v-card-text>

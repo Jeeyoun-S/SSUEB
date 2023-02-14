@@ -60,8 +60,8 @@ export default {
             matching["petImage"] = data[i].pet_image;
             matching["petType"] = data[i].pet_type;
             matching["petVariety"] = data[i].pet_variety;
-            if(data[i].petBirth != null){
-              matching["petBirth"] = data[i].petBirth.substr(0,7);
+            if(data[i].pet_birth != null){
+              matching["petBirth"] = data[i].pet_birth.substr(0,7);
             }
             else{
               matching["petBirth"] = "생년월일 미상";
