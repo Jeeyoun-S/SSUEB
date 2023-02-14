@@ -48,7 +48,7 @@
               </v-btn>
             </a>
           </div>
-          <v-sheet class="ms-auto" v-show="this.userId == this.boardDetail.userId">
+          <v-sheet class="ms-auto" v-if="this.userId == this.boardDetail.userId || userAuth == 'ROLE_ADMIN'">
             <FreeBoardModify :boardDetail="boardDetail" @updateBoardDetail="updateBoardDetail"></FreeBoardModify>
             <v-btn class="ma-1 mr-10" :rounded="0" color="error" size="large" @click="remove">삭제</v-btn>
           </v-sheet>
@@ -73,7 +73,7 @@ const userStore = "userStore";
 export default {
   name: "FreeBoardDetail",
   computed: {
-    ...mapState(userStore, ["userId"]),
+    ...mapState(userStore, ["userId", "userAuth", "userInfo"]),
   },
   components: {
     FreeBoardReply,

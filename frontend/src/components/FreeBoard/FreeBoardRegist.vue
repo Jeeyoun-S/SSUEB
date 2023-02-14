@@ -54,7 +54,6 @@ export default {
         // 넣어줄 정보
         userId: this.userId,
         userNickname: "임시닉네임",//this.userInfo.usreNickname,//바로 못받아오는듯?
-        boardFlag: this.userAuth=="ROLE_ADMIN"?0:this.userAuth=="ROLE_CONSULTANT"?1:2,
       },
       boardRules: {
         boardTitle: [
@@ -79,9 +78,14 @@ export default {
         const frm = new FormData();
 
         frm.append("boardContent", this.newBoard.boardContent);
-        frm.append("boardFlag", this.newBoard.boardFlag);
+        console.log(this.userAuth)
+        if (this.userAuth == 'ROLE_ADMIN') frm.append("boardFlag", 0);
+        else if (this.userAuth == 'ROLE_CONSULTANT') frm.append("boardFlag", 1);
+        else frm.append("boardFlag", 2);
+
         frm.append("boardTitle", this.newBoard.boardTitle);
-        frm.append("userNickname", this.userInfo.userNickname);
+        if (this.userAuth == 'ROLE_CONSULTANT') frm.append("userNickname", this.userInfo.userName);
+        else frm.append("userNickname", this.userInfo.userNickname);
         frm.append("userId", this.userId);
         if (this.boardFile != null && this.boardFile.length == 1) frm.append("file", this.boardFile[0]);
 
@@ -94,7 +98,7 @@ export default {
           board["userNickname"] = data.data.userNickname;
           board["boardTitle"] = data.data.boardTitle;
 
-          this.$parent.pushList(board);
+          if (this.userAuth != 'ROLE_ADMIN')this.$parent.pushList(board);
           this.$swal.fire(
             '게시글 등록 완료',
             '신규 게시글 등록이 완료되었습니다.',

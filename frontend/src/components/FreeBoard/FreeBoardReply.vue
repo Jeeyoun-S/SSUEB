@@ -23,7 +23,7 @@
         <td>{{ reply.userNickname }}</td>
         <td>{{ reply.replyWritetime }}</td>
         <td>
-          <v-btn v-show="this.userId == reply.userId" @click="remove(reply.no, index)"
+          <v-btn v-show="this.userId == reply.userId || userAuth == 'ROLE_ADMIN'" @click="remove(reply.no, index)"
           variant="text" icon="mdi-delete" color="red-lighten-2"></v-btn>
         </td>
       </tr>

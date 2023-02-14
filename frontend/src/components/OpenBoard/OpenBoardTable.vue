@@ -31,7 +31,7 @@
         <td>{{ String(index).padStart(4, '0') }}</td>
         <td>{{ board.petType }}</td>
         <td>
-          {{ board.reservationConsultContent.substr(0, 25) }}
+          {{ board.reservationConsultContent.substr(0, 40) }}
           <span v-show="board.reservationConsultContent.length > 25">···</span>
         </td>
       </tr>

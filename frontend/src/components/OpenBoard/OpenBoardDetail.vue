@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="dialog" transition="dialog-bottom-transition" width="900">
+  <v-dialog v-model="dialog" transition="dialog-bottom-transition" width="900" scrollable>
     <v-card>
       <v-toolbar
         class="pa-1 pr-3 pl-3"
