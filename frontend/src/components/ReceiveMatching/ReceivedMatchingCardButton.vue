@@ -51,7 +51,7 @@ export default {
   created() {
     // console.log("#props 확인", this.reservation);
     // this.matchingConsultants = this.matchingConsultants;
-    console.log("#data 반영 확인", this.reservation);
+    //console.log("#data 반영 확인", this.reservation);
   }
 }
 </script>
