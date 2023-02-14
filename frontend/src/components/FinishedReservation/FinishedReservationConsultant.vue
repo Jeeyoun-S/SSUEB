@@ -12,9 +12,9 @@
           <v-sheet class="ma-7 mt-5" width="95%">
             <v-row>
               <v-col class="pa-0 pl-2" cols="1"><h3>번호</h3></v-col>
-              <v-col class="pa-0" cols="3"><h3>상담일시</h3></v-col>
+              <v-col class="pa-0" cols="2"><h3>상담일시</h3></v-col>
               <v-col class="pa-0" cols="1"><h3>대분류</h3></v-col>
-              <v-col class="pa-0" cols="3"><h3>반려동물 이름</h3></v-col>
+              <v-col class="pa-0" cols="4"><h3>반려동물 이름</h3></v-col>
               <v-col class="pa-0"><h3>별점</h3></v-col>
             </v-row>
           </v-sheet>
@@ -23,10 +23,10 @@
         
               <!-- 타이틀 -->
               <v-expansion-panel-title>
-                <v-col class="pa-0 pl-2 bold-font" cols="1">{{ idx + 1 }}</v-col> <!--번호, 연결하지 않음-->
-                <v-col class="pa-0" cols="3">{{ reservation.reservationDate }}</v-col> <!--상담일시-->
+                <v-col class="pa-0 pl-2 bold-font" cols="1">{{ String(idx + 1).padStart(4, '0') }}</v-col> <!--번호, 연결하지 않음-->
+                <v-col class="pa-0" cols="2">{{ reservation.reservationDate.substr(0,16) }}</v-col> <!--상담일시-->
                 <v-col class="pa-0" cols="1">{{ reservation.petType }}</v-col> <!--대분류-->
-                <v-col class="pa-0" cols="3">{{ reservation.petName }}</v-col> <!--애기이름-->
+                <v-col class="pa-0" cols="4">{{ reservation.petName }}</v-col> <!--애기이름-->
                 <v-col class="pa-0"> <!--별점-->
                   <v-rating v-model="reservation.reviewGrade"  color="orange darken-2" density="compact" half-increments readonly></v-rating>
                 </v-col>
@@ -43,16 +43,16 @@
                     <v-card
                       :elevation="isHovering ? 3 : 0"
                       :class="{ 'on-hover': isHovering }"
-                      class="pa-2 mb-5 d-flex flex-column justify-center align-center" variant="outlined"
-                      height="270" width="178" rounded="0"
+                      class="pa-2 mb-5 d-flex flex-column justify-center" variant="outlined"
+                      height="500" width="178" rounded="0"
                       v-bind="props"
                     >
-                      <v-avatar color="#06BEE1" size="100">
+                      <v-avatar class="align-self-center" color="#06BEE1" size="100">
                         <span v-if="reservation.petImage == null">{{ reservation.petName }}</span>
                         <img v-else :src="getImageUrl(reservation.petImage)" height="100" width="100" />
                       </v-avatar>
                       <!-- <img width="100" :src="require('@/assets/placeholder/placeholder_dog.png')" /> -->
-                      <v-card-title class="pa-1">{{ reservation.petName }}</v-card-title> <!--애기 이름--><!--(출생연월)-->
+                      <v-card-title>{{ reservation.petName }}</v-card-title> <!--애기 이름--><!--(출생연월)-->
                       <v-card-subtitle>{{ reservation.petBirth }}</v-card-subtitle><!--생일-->
                       <v-card-subtitle>{{ reservation.petType }}</v-card-subtitle><!--품종 대분류-->
                       <v-card-subtitle>{{ reservation.petVariety }}</v-card-subtitle><!--품종 소분류-->
@@ -67,7 +67,7 @@
                       :elevation="isHovering ? 3 : 0"
                       :class="{ 'on-hover': isHovering }"
                       class="pa-3 mb-5 d-flex flex-column justify-center" variant="outlined"
-                      height="270" width="385" rounded="0"
+                      height="500" width="405" rounded="0"
                       v-bind="props"
                     >
                       <v-card-title><h4>상담 신청 내용</h4></v-card-title>
@@ -85,7 +85,7 @@
                       :elevation="isHovering ? 3 : 0"
                       :class="{ 'on-hover': isHovering }"
                       class="pa-3 mb-5 d-flex flex-column justify-center" variant="outlined"
-                      height="270" width="390" rounded="0"
+                      height="500" width="350" rounded="0"
                       v-bind="props"
                     >
                       <v-card-title><h4>상담 결과</h4></v-card-title>
@@ -182,6 +182,9 @@ export default {
         .catch((err) => {
           console.log(err);
         });
+    },
+    getImageUrl(img) {
+      return `${process.env.VUE_APP_FILE_PATH_PET}${img}`;
     },
   },
   created(){

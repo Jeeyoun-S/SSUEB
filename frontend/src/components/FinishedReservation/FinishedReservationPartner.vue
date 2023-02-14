@@ -14,8 +14,8 @@
             <v-row>
               <v-col class="pa-0 pl-2" cols="1"><h3>번호</h3></v-col>
               <v-col class="pa-0" cols="3"><h3>상담일시</h3></v-col>
-              <v-col class="pa-0" cols="4"><h3>전문가 / 반려동물</h3></v-col>
-              <v-col class="pa-0" cols="4"><h3>별점</h3></v-col>
+              <v-col class="pa-0" cols="5"><h3>전문가 / 반려동물</h3></v-col>
+              <v-col class="pa-0" cols="3"><h3>별점</h3></v-col>
             </v-row>
           </v-sheet>
           <v-expansion-panels v-model="panel" multiple>
@@ -23,9 +23,9 @@
         
               <!-- 타이틀 -->
               <v-expansion-panel-title>
-                <v-col class="pa-0 pl-2 bold-font" cols="1">{{ idx + 1 }}</v-col> <!--번호, 연결하지 않음-->
-                <v-col class="pa-0" cols="3">{{ reservation.reservationDate }}</v-col> <!--상담일시-->
-                <v-col class="pa-0" cols="4">{{ reservation.consultantName }} / {{ reservation.petName }}</v-col> <!--전문가/애기이름-->
+                <v-col class="pa-0 pl-2 bold-font" cols="1">{{ String(idx + 1).padStart(4, '0') }}</v-col> <!--번호, 연결하지 않음-->
+                <v-col class="pa-0" cols="3">{{ reservation.reservationDate.substr(0,16) }}</v-col> <!--상담일시-->
+                <v-col class="pa-0" cols="5">{{ reservation.consultantName }} / {{ reservation.petName }}</v-col> <!--전문가/애기이름-->
                 <v-col class="pa-0"> <!--별점-->
                   <v-rating v-model="reservation.reviewGrade"  color="orange darken-2" density="compact" half-increments readonly></v-rating>
                 </v-col>
@@ -33,7 +33,7 @@
         
               <!-- 내용 -->
               <v-expansion-panel-text class="pa-3">
-                <v-sheet class="mb-5 d-flex flex-row justify-space-between align-start" height="210" width="965">  
+                <v-sheet class="mb-5 d-flex flex-row justify-space-between align-start" height="490" width="965">  
                   <v-hover
                     v-slot="{ isHovering, props }"
                     open-delay="200"
@@ -41,24 +41,28 @@
                     <v-card
                       :elevation="isHovering ? 3 : 0"
                       :class="{ 'on-hover': isHovering }"
-                      class="d-flex flex-row justify-start align-center" variant="outlined"
-                      height="210" width="560" rounded="0"
+                      class=" pa-3 d-flex flex-column justify-start align-center" variant="outlined"
+                      height="490" width="580" rounded="0"
                       v-bind="props"
                     >
                       <!-- 좌측 반려동물 정보 -->
-                      <v-card class="mr-5 d-flex flex-column justify-center align-center" height="180" width="190" elevation="0">
-                        <v-avatar color="#06BEE1" size="80">
-                          <span v-if="reservation.petImage == null">{{ reservation.petName }}</span>
-                          <img v-else :src="getImageUrl(reservation.petImage)" height="80" width="80" />
-                        </v-avatar>
-                        <!-- <img width="80" :src="require('@/assets/placeholder/placeholder_dog.png')" /> -->
-                        <v-card-title class="pa-1">{{ reservation.petName }}</v-card-title> <!--애기 이름--><!--(출생연월)-->
-                        <v-card-subtitle>{{ reservation.petBirth }}</v-card-subtitle><!--품종 대분류-->
-                        <v-card-subtitle>{{ reservation.petType }}</v-card-subtitle><!--품종 대분류-->
-                        <v-card-subtitle>{{ reservation.petVariety }}</v-card-subtitle><!--품종 소분류-->
+                      <v-card class="pl-3" height="140" width="560" elevation="0">
+                        <v-card-item>
+                          <template v-slot:prepend>
+                            <v-avatar class="align-self-center" color="#06BEE1" size="100">
+                              <span v-if="reservation.petImage == null">{{ reservation.petName }}</span>
+                              <img v-else :src="getImageUrl(reservation.petImage)" height="100" width="100" />
+                            </v-avatar>
+                          </template>
+                          <!-- <img width="80" :src="require('@/assets/placeholder/placeholder_dog.png')" /> -->
+                          <v-card-title>{{ reservation.petName }}</v-card-title> <!--애기 이름--><!--(출생연월)-->
+                          <v-card-subtitle>{{ reservation.petBirth }}</v-card-subtitle><!--품종 대분류-->
+                          <v-card-subtitle>{{ reservation.petType }}</v-card-subtitle><!--품종 대분류-->
+                          <v-card-subtitle>{{ reservation.petVariety }}</v-card-subtitle><!--품종 소분류-->
+                        </v-card-item>
                       </v-card>
                       <!-- 우측 상담 신청 내용 -->
-                      <v-card class="d-flex flex-column" height="180" width="370" elevation="0">
+                      <v-card class="pa-3 d-flex flex-column" height="440" width="580" elevation="0">
                         <v-card-title>상담 신청 내용</v-card-title>
                         <v-card-text>
                           {{ reservation.reservationConsultContent }}
@@ -75,7 +79,7 @@
                       :elevation="isHovering ? 3 : 0"
                       :class="{ 'on-hover': isHovering }"
                       class="mb-5 pa-2 d-flex flex-column justify-start" variant="outlined"
-                      height="210" width="380" rounded="0"
+                      height="490" width="360" rounded="0"
                       v-bind="props"
                     >
                       <v-sheet class="d-flex align-center">
@@ -107,27 +111,27 @@
                     :elevation="isHovering ? 3 : 0"
                     :class="{ 'on-hover': isHovering }"
                     class="mt-5 d-flex flex-row justify-start align-center" variant="outlined"
-                    height="180" rounded="0"
+                    height="240" rounded="0"
                     v-bind="props"
                   >
-                    <!-- 좌측 반려동물 정보 -->
-                    <v-card class="mr-5 d-flex flex-column justify-center align-center" height="165" width="200" elevation="0">
-                      <v-avatar color="#06BEE1" size="80">
+                    <!-- 좌측 전문가 정보 -->
+                    <v-card class="d-flex flex-column justify-center align-center" height="210" width="190" elevation="0">
+                      <v-avatar color="#06BEE1" size="100">
                           <span v-if="reservation.consultantProfile == null">{{ reservation.consultantName }}</span>
-                          <img v-else :src="getImageUrl(reservation.consultantProfile)" height="80" width="80" />
+                          <img v-else :src="getProfileUrl(reservation.consultantProfile)" height="100" width="100" />
                         </v-avatar>
                       <!-- <img width="80" :src="require('@/assets/placeholder/placeholder_dog.png')" /> -->
-                      <v-card-title class="pa-1">
-                        {{ reservation.consultantName }}
-                      </v-card-title>
-                      <v-rating v-model="reservation.consultantRate" icon="mdi-star"
-                        color="yellow-darken-3" density="compact"
-                        empty-icon="mdi-star-outline" full-icon="mdi-star" half-icon="mdi-star-half"
-                        half-increments readonly
-                      ></v-rating>
+                      <v-card-title>{{ reservation.consultantName }}</v-card-title>
+                      <v-card-item class="pa-0">
+                        <v-rating v-model="reservation.consultantRate" icon="mdi-star"
+                          color="yellow-darken-3" density="compact"
+                          empty-icon="mdi-star-outline" full-icon="mdi-star" half-icon="mdi-star-half"
+                          half-increments readonly
+                        ></v-rating>
+                      </v-card-item>
                     </v-card>
-                    <!-- 우측 상담 신청 내용 -->
-                    <v-card class="d-flex flex-column" height="165" width="700" elevation="0">
+                    <!-- 우측 상담 결과 -->
+                    <v-card class="d-flex flex-column" height="210" width="763" elevation="0">
                       <v-card-title>상담 결과</v-card-title>
                       <v-card-text>
                         {{ reservation.reservationDignosisRecord }}
@@ -222,7 +226,13 @@ export default {
       this.reservations[review.idx].reviewGrade = await review.reviewGrade;
       this.reservations[review.idx].reviewComment = await review.reviewComment;
       this.loaded = true;
-    }
+    },
+    getImageUrl(img) {
+      return `${process.env.VUE_APP_FILE_PATH_PET}${img}`;
+    },
+    getProfileUrl(img) {
+      return `${process.env.VUE_APP_FILE_PATH_PROFILE}${img}`;
+    },
   },
   async created(){
     this.loaded = false;

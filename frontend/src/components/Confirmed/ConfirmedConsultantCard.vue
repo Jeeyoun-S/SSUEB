@@ -13,21 +13,21 @@
         </div>
       </v-card-title>
       <v-sheet class="d-flex flex-row justify-start align-center" height="90">
-        <v-card-item>
-          <v-avatar color="#06BEE1" size="80">
-            <span v-if="reservation.petImage == null">{{ reservation.petName }}</span>
-            <img v-else :src="getImageUrl(reservation.petImage)" height="100" width="100" />
-            <v-tooltip
-              activator="parent"
-              location="end" width="300"
-            >{{ reservation.petInfo }}</v-tooltip>
-          </v-avatar>
+        <v-card-item class="d-flex flex-row">
+          <template v-slot:prepend>
+            <v-avatar color="#06BEE1" size="80">
+              <span v-if="reservation.petImage == null">{{ reservation.petName }}</span>
+              <img v-else :src="getImageUrl(reservation.petImage)" height="100" width="100" />
+              <v-tooltip
+                activator="parent"
+                location="end" width="300"
+              >{{ reservation.petInfo }}</v-tooltip>
+            </v-avatar>
+          </template>
+          <v-card-title>{{ reservation.petName }}</v-card-title>
+          <v-card-subtitle>{{ reservation.petType }} ({{ reservation.petBirth }})</v-card-subtitle>
+          <v-card-subtitle v-if="reservation.petVariety != null">{{ reservation.petVariety }}</v-card-subtitle>
         </v-card-item>
-        <div>
-          <v-card-title class="pa-0 pl-2">{{ reservation.petName }}</v-card-title>
-          <v-card-subtitle class="pl-2">{{ reservation.petType }} - {{ reservation.petBirth }}</v-card-subtitle>
-          <v-card-subtitle class="pl-2" v-show="reservation.petVariety != null">{{ reservation.petVariety }}</v-card-subtitle>
-        </div>
       </v-sheet>
       <v-sheet height="110">
         <v-card-text>
@@ -40,7 +40,7 @@
               더보기
             </v-btn>
             <v-overlay v-model="overlay" class="d-flex flex-column align-center justify-center" contained>
-              <v-sheet class="pa-4 detail-info">
+              <v-sheet class="pa-4 detail-info" height="400">
                 {{ reservation.reservationConsultContent }}
                 <v-btn class="mt-2" color="primary" @click="overlay = false" rounded="0" block>
                   닫기

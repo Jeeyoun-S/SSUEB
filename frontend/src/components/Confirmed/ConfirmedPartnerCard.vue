@@ -26,7 +26,7 @@
             <v-avatar color="#06BEE1" size="80" class="align-self-center">
               <span v-if="reservation.petImage == null">{{ reservation.petName }}</span>
               <img v-else :src="getImageUrl(reservation.petImage)" height="100" width="100" />
-              <v-tooltip
+              <v-tooltip v-if="reservation.petInfo != null"
                 activator="parent"
                 location="bottom" width="230"
               >{{ reservation.petInfo }}</v-tooltip>
@@ -42,10 +42,19 @@
               </span>
               <span v-if="reservation.reservationConsultContent.length > 80">···</span>
               <v-btn v-if="reservation.reservationConsultContent.length > 80"
-                color="primary" class="mt-2" @click="showDetail(reservation.reservationConsultContent)"
+                color="primary" class="mt-2" v-model="overlayDetail"
                 variant="outlined" rounded="0" block
               >
                 더보기
+                <v-dialog v-model="overlayDetail" activator="parent" width="600">
+                  <v-card class="pa-8">
+                    <h2 class="mb-3">상담 신청 내용</h2>
+                    {{ reservation.reservationConsultContent }}
+                    <v-btn class="mt-4" color="primary" @click="overlayDetail = false" rounded="0" block>
+                      닫기
+                    </v-btn>
+                  </v-card>
+                </v-dialog>
               </v-btn>
             </div>
           </v-card-text>
@@ -57,7 +66,7 @@
             <v-avatar color="#06BEE1" size="80" class="align-self-center">
               <img v-if="reservation.consultantProfile == null" class="image" width="80" :src="require('@/assets/placeholder/placeholder_person.jpg')" />
               <img v-else :src="getProfileUrl(reservation.consultantProfile)" height="80" width="80" />
-              <v-tooltip
+              <v-tooltip v-if="reservation.consultantIntro != null"
                 activator="parent"
                 location="bottom" width="230"
               >{{ reservation.consultantIntro }}</v-tooltip>
@@ -88,6 +97,11 @@ export default {
   name: "ConfirmedPartnerCard",
   props: {
     reservation: {},
+  },
+  data() {
+    return {
+      overlayDetail: false
+    }
   },
   methods: {
     moveRoom(){

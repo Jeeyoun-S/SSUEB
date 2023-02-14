@@ -12,7 +12,7 @@
         <v-avatar class="align-self-center" color="#06BEE1" size="100">
           <span v-if="matching.petImage == null">{{ matching.petName }}</span>
           <img v-else :src="getImageUrl(matching.petImage)" height="100" width="100" />
-          <v-tooltip
+          <v-tooltip v-if="matching.petInfo != null"
             activator="parent"
             location="bottom" width="300"
           >{{ matching.petInfo }}</v-tooltip>
@@ -27,19 +27,21 @@
         </v-card-subtitle>
         <v-card-text>
           <div>
-            <span>
+            <v-sheet height="70">
               {{ matching.reservationConsultContent.substr(0, 60) }}
-            </span>
-            <span v-if="matching.reservationConsultContent.length > 60">···</span>
+              <span v-if="matching.reservationConsultContent.length > 60">···</span>
+            </v-sheet>
             <v-btn v-if="matching.reservationConsultContent.length > 60" color="primary" class="mt-2" @click="overlay = !overlay" variant="outlined" rounded="0" block>
               더보기
             </v-btn>
-            <v-overlay v-model="overlay" class="d-flex flex-column align-center justify-center" contained>
-              <v-sheet class="pa-4 detail-info">
-                {{ matching.reservationConsultContent }}
-                <v-btn class="mt-2" color="primary" @click="overlay = false" rounded="0" block>
-                  닫기
-                </v-btn>
+            <v-overlay v-model="overlay" contained>
+              <v-sheet class="d-flex flex-column justify-center align-center pa-4 detail-info" width="320" height="560">
+                <v-sheet color="transparent" width="280" height="540">
+                  {{ matching.reservationConsultContent }}
+                  <v-btn class="mt-2" color="primary" @click="overlay = false" rounded="0" block>
+                    닫기
+                  </v-btn>
+                </v-sheet>
               </v-sheet>
             </v-overlay>
           </div>

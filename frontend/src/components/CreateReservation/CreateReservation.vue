@@ -479,7 +479,7 @@ export default {
 </script>
 
 <style>
-svg {
+.page svg {
   width: 26px !important;
   height: 26px !important;
 }
