@@ -54,7 +54,7 @@ public class UserPhoneController {
 			String authNumber = userPhoneService.makeAuthNumber(userPhone);
 			
 			// SMS 전송 API 요청 보내기
-			ResponseEntity<BasicResponse> apiResponse = userPhoneService.sendSMS(userPhone, authNumber);
+			ResponseEntity<BasicResponse> apiResponse = userPhoneService.sendSMS(userPhone, "[SSUEB] 인증번호 ["+authNumber+"]를 입력해 주세요.");
 			
 			return apiResponse;
 		}

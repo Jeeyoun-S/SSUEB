@@ -21,7 +21,7 @@ public interface UserPhoneService {
 	 * @param userPhone 사용자 휴대폰 번호
 	 * @param authNumber 인증 번호
 	 * **/
-	public ResponseEntity<BasicResponse> sendSMS(String userPhone, String authNumber)
+	public ResponseEntity<BasicResponse> sendSMS(String userPhone, String message)
 			throws InvalidKeyException, IllegalStateException, UnsupportedEncodingException, NoSuchAlgorithmException,
 			JsonProcessingException, URISyntaxException;
 	
