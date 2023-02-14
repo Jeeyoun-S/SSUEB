@@ -45,7 +45,7 @@ export default {
       const api = apiInstance();
       await api.get(`${process.env.VUE_APP_API_BASE_URL}/reservation/partner/unconfirm/${this.userId}`)
         .then(({ data }) => {
-          console.log("받은 상담 제안", data);
+          //console.log("받은 상담 제안", data);
           for (var i = 0; i < data.length; i++) {
             let reservation = {};
             reservation["rno"] = data[i].reservationPet.rno;

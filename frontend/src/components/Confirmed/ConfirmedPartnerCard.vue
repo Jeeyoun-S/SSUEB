@@ -3,7 +3,7 @@
     <v-card
       class="ma-3 pa-3 d-flex justify-center flex-column"
       width="492"
-      height="400"
+      height="450"
       variant="outlined"
       :elevation="isHovering ? 8 : 0"
       :class="{ 'on-hover': isHovering }"
@@ -11,7 +11,7 @@
       v-bind="props"
     >
       <v-card-title class="d-flex flex-row justify-space-between">
-        <h4>{{ reservation.reservationDate }}</h4>
+        <h4>{{ reservation.reservationDate.substr(0, 16) }}</h4>
         <div>
           <!--날짜계산-->
           <v-btn class="mr-3" rounded="pill" color="primary" disabled
@@ -21,43 +21,62 @@
         </div>
       </v-card-title>
       <div class="d-flex flex-row justify-space-around">
-        <v-card class="pt-2" width="220" height="320" elevation="0">
-          <div class="d-flex align-center flex-column">
-            <v-avatar color="#06BEE1" size="80">
+        <v-card class="pt-2 mb-5" width="220" height="350" elevation="0">
+          <div class="d-flex flex-column">
+            <v-avatar color="#06BEE1" size="80" class="align-self-center">
               <span v-if="reservation.petImage == null">{{ reservation.petName }}</span>
               <img v-else :src="getImageUrl(reservation.petImage)" height="100" width="100" />
+              <v-tooltip
+                activator="parent"
+                location="bottom" width="230"
+              >{{ reservation.petInfo }}</v-tooltip>
             </v-avatar>
             <v-card-title class="pb-0">{{ reservation.petName }}</v-card-title>
-            <v-card-subtitle>{{ reservation.petBirth }}</v-card-subtitle>
-            <v-card-subtitle>
-              <span>{{ reservation.petType }}</span>
-              <span v-show="reservation.petVariety != null"> - {{ reservation.petVariety }}</span>
-            </v-card-subtitle>
+            <v-card-subtitle>{{ reservation.petBirth }} - {{ reservation.petType }}</v-card-subtitle>
+            <v-card-subtitle>{{ reservation.petVariety }}</v-card-subtitle>
           </div>
-          <v-card-text> {{ reservation.reservationConsultContent }} </v-card-text>
+          <v-card-text>
+            <div class="reservation-pet-info">
+              <span>
+                {{ reservation.reservationConsultContent.substr(0, 80) }}
+              </span>
+              <span v-if="reservation.reservationConsultContent.length > 80">···</span>
+              <v-btn v-if="reservation.reservationConsultContent.length > 80"
+                color="primary" class="mt-2" @click="showDetail(reservation.reservationConsultContent)"
+                variant="outlined" rounded="0" block
+              >
+                더보기
+              </v-btn>
+            </div>
+          </v-card-text>
+          <!-- <v-card-text> {{ reservation.reservationConsultContent }} </v-card-text> -->
         </v-card>
         <v-divider vertical></v-divider>
-        <v-card class="pt-2" width="220" height="320" elevation="0">
-          <div class="d-flex align-center flex-column">
-            <v-avatar color="#06BEE1" size="80">
+        <v-card class="pt-2 mb-5" width="220" height="350" elevation="0">
+          <div class="d-flex flex-column">
+            <v-avatar color="#06BEE1" size="80" class="align-self-center">
               <img v-if="reservation.consultantProfile == null" class="image" width="80" :src="require('@/assets/placeholder/placeholder_person.jpg')" />
-              <img v-else :src="getImageUrl(reservation.consultantProfile)" height="80" width="80" />
+              <img v-else :src="getProfileUrl(reservation.consultantProfile)" height="80" width="80" />
+              <v-tooltip
+                activator="parent"
+                location="bottom" width="230"
+              >{{ reservation.consultantIntro }}</v-tooltip>
             </v-avatar>
             <v-card-title class="pb-0">{{ reservation.consultantName }}</v-card-title>
             <v-card-subtitle class="mb-5">반려동물훈련지도사</v-card-subtitle>
           </div>
-          <v-card-text>
-            <v-row>
-              <v-col class="bold-font pr-0" cols="3">금액</v-col>
-              <v-col class="pr-0 pl-0" cols="8">{{ reservation.reservationCost }}</v-col>
-            </v-row>
-            <v-row>
-              <v-col class="bold-font pr-0 pt-0" cols="3">이유</v-col>
-              <v-col class="pr-0 pl-0 pt-0" cols="9"
-                >{{ reservation.reservationReason }}</v-col
-              >
-            </v-row>
+          <v-sheet height="162">
+          <v-card-text class="pa-4">
+            <p>
+              <span class="bold-font mr-2">금액</span>
+              <span>{{ reservation.reservationCost }}</span>
+            </p>
+            <p class="mt-2">
+              <span class="bold-font mr-2">설명</span>
+              <span>{{ reservation.reservationReason }}</span>
+            </p>
           </v-card-text>
+        </v-sheet>
         </v-card>
       </div>
     </v-card>
@@ -70,7 +89,6 @@ export default {
   props: {
     reservation: {},
   },
-
   methods: {
     moveRoom(){
       //유효성검사후 없으면 적절한 alert띄우기 
@@ -80,6 +98,15 @@ export default {
     getImageUrl(img) {
       return `${process.env.VUE_APP_FILE_PATH_PET}${img}`;
     },
+    getProfileUrl(img) {
+      return `${process.env.VUE_APP_FILE_PATH_PROFILE}${img}`;
+    },
+    showDetail(detail) {
+      this.$swal.fire({
+        title: '상담 신청 내용',
+        text: detail,
+      })
+    }
   },
   created(){
     console.log(this.reservation);

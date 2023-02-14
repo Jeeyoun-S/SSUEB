@@ -67,7 +67,7 @@ export default {
         id: null,
         userPassword: null,
         userName: null,
-        userAlertFlag: "0", // #21# 0 = 카카오톡
+        userAlertFlag: "1", // #21# 0 = 카카오톡
         userPhone: null,
         consultPetType: [],
         consultantLicenseNumber: null,

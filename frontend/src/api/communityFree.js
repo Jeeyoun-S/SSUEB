@@ -54,6 +54,8 @@ async function deleteBoard(boardNo) {
 }
 
 async function putBoard(modifyBoard, boardFile) {
+  var result = null;
+
   const frm = new FormData();
   frm.append(
     "board",
@@ -67,9 +69,12 @@ async function putBoard(modifyBoard, boardFile) {
     .put(`${process.env.VUE_APP_API_BASE_URL}/board/community`, frm, {
       headers: { "Content-Type": "multipart/form-data" },
     })
-    .then(() => {
+    .then((res) => {
+      result = res.data;
       console.log("업로드");
-    });
+    })
+    .catch();
+  return await Promise.resolve(result);
 }
 
 export { getFreeBoard, getHeartWhether, pushHeart, deleteBoard, putBoard };

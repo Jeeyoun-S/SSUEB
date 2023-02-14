@@ -1,9 +1,5 @@
 <template>
   <div class="sns-login">
-    <!-- <img
-      :src="require('@/assets/login/google_logo.png')"
-      @click="googleLogin"
-    /> -->
     <img
       :src="require('@/assets/login/google_square_logo.png')"
       @click="googleLogin"

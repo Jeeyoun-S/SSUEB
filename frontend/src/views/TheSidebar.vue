@@ -281,7 +281,6 @@ export default {
 </script>
 
 <style>
-@import "@/css/sheet.css";
 .sidebar {
   padding-right: 48px;
 }

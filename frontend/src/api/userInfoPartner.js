@@ -22,8 +22,6 @@ async function getUserPartnerInfo(id) {
     })
     .then((res) => {
       if (res.data.response == "success") {
-        console.log("#회원정보 조회 성공");
-
         store.dispatch("getPartnerInfo", res.data.data.userInfo);
         const petInfo = res.data.data.petInfo;
         if (petInfo != null)
@@ -68,7 +66,8 @@ async function updatePartnerInfo(partnerInfo) {
           icon: "error",
         });
       }
-    });
+    })
+    .catch()
 }
 
 // [POST] 반려동물 등록
@@ -111,13 +110,14 @@ async function registerPetInfo(petInfo, id) {
       } else {
         console.log("#반려동물 등록 실패");
 
-        Swal.fire({
-          title: "FAIL",
-          text: "반려동물을 등록에 실패했습니다. 등록 정보를 다시 확인해 주세요.",
-          icon: "error",
-        });
+        // Swal.fire({
+        //   title: "FAIL",
+        //   text: "반려동물을 등록에 실패했습니다. 등록 정보를 다시 확인해 주세요.",
+        //   icon: "error",
+        // });
       }
-    });
+    })
+    .catch()
 
   return await Promise.resolve(value);
 }
@@ -169,7 +169,8 @@ async function modifyPetInfo(petInfo, petNo) {
       } else {
         console.log("#반려동물 수정 실패");
       }
-    });
+    })
+    .catch()
 
   return await Promise.resolve(result);
 }
@@ -186,7 +187,8 @@ async function removePetInfo(petNo) {
       } else {
         console.log("#반려동물 삭제 실패");
       }
-    });
+    })
+    .catch()
 }
 
 // [POST] 회원정보 수정 전 비밀번호 확인
