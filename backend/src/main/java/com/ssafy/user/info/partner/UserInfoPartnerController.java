@@ -90,6 +90,7 @@ public class UserInfoPartnerController {
 				userInfoResponse.setUserName(user.getUserName());
 				userInfoResponse.setUserNickname(user.getUserNickname());
 				userInfoResponse.setUserPhone(user.getUserPhone());
+				userInfoResponse.setUserAlertFlag(user.getUserAlertFlag());
 				
 				// 응답 값에 넣어주기
 				userPartnerInfoData.setUserInfo(userInfoResponse);
