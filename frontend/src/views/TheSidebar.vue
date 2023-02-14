@@ -1,5 +1,5 @@
 <template>
-  <div class="sidebar">
+  <div v-if="!onAir" class="sidebar">
     <div class="border-sheet-one sheet">
       <LogoVer2></LogoVer2>
     </div>
@@ -195,7 +195,7 @@ import LogoVer2 from "@/views/LogoVer2.vue";
 import { mapState } from "vuex";
 
 const userStore = "userStore";
-
+const roomStore = "roomStore";
 export default {
   name: "TheSidebar",
   components: {
@@ -346,6 +346,7 @@ export default {
   },
   computed: {
     ...mapState(userStore, ["userAuth"]),
+    ...mapState(roomStore,["onAir"])
   },
   watch: {
     userAuth() {

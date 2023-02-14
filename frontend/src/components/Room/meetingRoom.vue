@@ -1,8 +1,11 @@
 <template>
-    <div id ="video-bound" class="border-sheet-one">
+    <div v-if="roomToken!==null" id ="video-bound" class="border-sheet-one">
       <v-row id="video-main">
         <v-col  cols="9">
-        <UserVideo id="main-video-stream" :stream-manager="mainStreamManager" />
+        <UserVideo v-if="toggleVideo" id="main-video-stream" :stream-manager="mainStreamManager" />
+        <div v-if="!toggleVideo">
+          <UserVideo id="main-video-stream" v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub"/>
+        </div>
         </v-col>
           <div id="chatbox" class="border-sheet-one">
             <div id="chatbox-body">
@@ -14,7 +17,7 @@
                                   <div class="chat-title">{{ item.from}}({{item.time}})</div>
                                   <div>{{ item.msg }}</div>
                                   </div>
-                                <div v-if="item.from != '당신'" class="one-chat blue--text">
+                                <div v-if="item.from != '당신'" class="one-chat blue--text">``
                                   <div class="chat-title">{{ item.from}}({{item.time}})</div>
                                   <div>{{ item.msg }}</div>
                                   </div>
@@ -46,18 +49,29 @@
           </div>
           <div>
             <div class="option-btn">
-              <div class="option-svg"> <svg-icon type="mdi" :path="pathCamera"></svg-icon></div>
+              <!-- 상담내역보기: 클릭시 모달창이벤트. -->
+              <div class="option-svg"> <svg-icon type="mdi" :path="pathReservation"></svg-icon></div>
+              <!-- <div v-if="!toggleCamera" class="option-svg"> <svg-icon type="mdi" :path="pathOffCamera"></svg-icon></div> -->
+              <div class="option-text">상담내역보기</div> 
+            </div>
+
+          </div>
+          <div>
+            <div class="option-btn" @click="muteCamera">
+              <div v-if="toggleCamera" class="option-svg"> <svg-icon type="mdi" :path="pathCamera"></svg-icon></div>
+              <div v-if="!toggleCamera" class="option-svg"> <svg-icon type="mdi" :path="pathOffCamera"></svg-icon></div>
               <div class="option-text">카메라 ON/OFF</div> 
             </div>
           </div>
           <div>
-            <div class="option-btn">
-             <div class="option-svg">  <svg-icon type="mdi" :path="pathMicro"></svg-icon></div>
+            <div class="option-btn" @click="muteAudio">
+             <div v-if="toggleAudio" class="option-svg">  <svg-icon type="mdi" :path="pathMicro"></svg-icon></div>
+             <div v-if="!toggleAudio" class="option-svg">  <svg-icon type="mdi" :path="pathOffMicro"></svg-icon></div>
               <div class="option-text">마이크 ON/OFF</div> 
             </div>
           </div>
           <div>
-            <div class="option-btn">
+            <div class="option-btn" @click="updateMainVideo">
               <div class="option-svg"> <svg-icon type="mdi" :path="pathChange"></svg-icon> </div> 
               <div class="option-text">화면전환</div> 
             </div>
@@ -70,7 +84,10 @@
           </div>
         </v-col>
         <v-col id="sub-video" cols="2">
-          <UserVideo id="subvideo" v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub"/>
+          <div v-if="toggleVideo">
+           <UserVideo id="subvideo" v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub"/>
+          </div>
+          <UserVideo v-if="!toggleVideo" id="subvideo" :stream-manager="mainStreamManager" />
         </v-col>
       </v-row>
     </div>
@@ -83,7 +100,7 @@ const roomStore = "roomStore";
 import { OpenVidu } from "openvidu-browser";
 import {joinRoomSession} from "@/api/room";
 import SvgIcon from '@jamescoyle/vue-icon';
-import { mdiCamera, mdiSwapHorizontal, mdiMicrophone,mdiExitToApp} from '@mdi/js';
+import { mdiBookOpenBlankVariant,mdiMicrophoneOff,mdiCameraOff ,mdiCamera, mdiSwapHorizontal, mdiMicrophone,mdiExitToApp} from '@mdi/js';
 // import LogoVer2 from "@/views/LogoVer2.vue";
 
 export default{
@@ -124,11 +141,21 @@ export default{
         
                 },
                 (error)=>{
-                  console.log(error);
+                  // console.log(error);
                 //  this.timealert();
+                  //유효성(권한, 시간)에러
+                
+                this.timealert(error.response.data);
+                this.$router.push("/confirmed")
               })
 
             }
+        },
+        timealert(msg) {
+          this.$swal.fire(
+              '화상 상담 입장 대기',
+              msg,
+            'warning') 
         },
         roomInitialize(){
 
@@ -205,7 +232,6 @@ export default{
           .catch((error) => {
             console.log("There was an error connecting to the session:", error.code, error.message);
           });
-
         window.addEventListener("beforeunload", this.leaveSession);
 
     },
@@ -262,13 +288,39 @@ export default{
       this.UPDATE_ONAIR(false)
       // Remove beforeunload listener
       window.removeEventListener("beforeunload", this.leaveSession);
-      // this.$router.push("/")
+      this.$router.push("/")
     },
 
-    updateMainVideoStreamManager(stream) {
-      if (this.mainStreamManager === stream) return;
-      this.mainStreamManager = stream;
+    updateMainVideo() {
+      // if (this.mainStreamManager === this.publisher){
+      //   this.mainStreamManager = this.subscribers[0]
+      // }else{
+      //   this.mainStreamManager = this.publisher
+      // }
+      if(this.toggleVideo){
+        this.toggleVideo = false
+      }else{
+        this.toggleVideo = true
+      }
+
     },
+
+    muteCamera(){
+      if(this.toggleCamera){
+        this.toggleCamera = false
+      }else{
+        this.toggleCamera = true
+      }
+      this.publisher.publishVideo(this.toggleCamera); 
+    },
+    muteAudio(){
+      if(this.toggleAudio){
+        this.toggleAudio = false
+      }else{
+        this.toggleAudio = true
+      }
+      this.publisher.publishAudio(this.toggleAudio); 
+    }
     },
     data(){
         
@@ -290,9 +342,21 @@ export default{
              pathMicro :mdiMicrophone,
              pathChange : mdiSwapHorizontal,
              pathExit : mdiExitToApp,
-
+             pathOffCamera:  mdiCameraOff,
+             pathOffMicro : mdiMicrophoneOff,
+             pathReservation : mdiBookOpenBlankVariant,
              //logimages
-              logoImageVer2: require('@/assets/logo/logo_ver2.png')
+              logoImageVer2: require('@/assets/logo/logo_ver2.png'),
+
+            //mainVideo
+             toggleVideo: true,
+
+             //mutecamera
+             toggleCamera : true,
+
+             //muteAudio
+             toggleAudio : true,
+
         }
         
     }
@@ -302,9 +366,8 @@ export default{
 <style>
 
 #room-logo{
-  /* width: 200px; */
   height: 100%;
-  margin-right: 200px;
+  margin-right: 100px;
 }
 
 .room-logo-img{
