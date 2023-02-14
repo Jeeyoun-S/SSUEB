@@ -1,5 +1,6 @@
 <template>
-  <div class="page max-page border-sheet-four">
+  <NowLoading v-if="!loaded"></NowLoading>
+  <div v-else class="page max-page border-sheet-four">
     <div class="page-inner max-page">
       <div class="page-inner-title border-sheet-four">
         <v-icon class="mr-2" size="x-large">mdi-view-grid-plus</v-icon>
@@ -13,24 +14,25 @@
 </template>
 
 <script>
+import NowLoading from '@/views/NowLoading.vue';
 import CreateCard from "@/components/CreateMatching/CreateCard.vue";
 
 import { mapState } from "vuex";
 import { apiInstance } from "@/api/index.js";
-const reservationStore = "reservationStore";
 const userStore = "userStore";
 
 export default {
   name: "CreateMatching",
   data: () => ({
+    loaded: false,
     reservations:[], // [{value,[]},{value,[]}] 꼴
   }),
   computed: {
     ...mapState(userStore, ["userId"]),
-    ...mapState(reservationStore),
     },
   components: {
     CreateCard,
+    NowLoading
   },
   
   methods:{
@@ -65,10 +67,14 @@ export default {
         .catch((err) => {
           console.log(err);
         });
+      return await Promise.resolve(true);
     },
   },
-  created() {
-    this.getReservation();
+  async created() {
+    this.loaded = false;
+    await this.getReservation().then((res) => {
+      this.loaded = res;
+    });
   },
 };
 </script>

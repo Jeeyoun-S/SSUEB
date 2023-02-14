@@ -17,7 +17,7 @@
               variant="underlined" maxlength="500" counter="500"
               row-height="500" rows="8" auto-grow
             ></v-textarea>
-            <v-file-input v-model="modifyBoard.boardFile" label="첨부파일" variant="underlined"></v-file-input>
+            <v-file-input v-model="boardFile" label="첨부파일" variant="underlined"></v-file-input>
           </v-form>
         </v-container>
       </v-card-text>
@@ -31,17 +31,18 @@
 </template>
 
 <script>
+import { putBoard } from "@/api/communityFree.js"
 export default {
   name: "FreeBoardModify",
   data() {
     return {
       modifyBoardOpen: false,
+      boardFile: null,
       modifyBoard: {
         // 입력 받는 정보
         boardNo: 0,
         boardTitle: null,
         boardContent: null,
-        boardFile: null,
         // 넣어줄 정보 -> 안 보내줘도 됨
         // userId: null,
         // userNickname: null,
@@ -53,8 +54,10 @@ export default {
     boardDetail: Object
   },
   methods: {
-    validate() {
-
+    async validate() {
+      this.modifyBoard.boardNo = this.boardDetail.no;
+      console.log(this.modifyBoard, this.boardFile)
+      await putBoard(this.modifyBoard, this.boardFile);
     }
   },
   created() {

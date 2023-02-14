@@ -1,10 +1,10 @@
 <template>
   <v-sheet class="mr-2" width="150">
-    <v-combobox
+    <v-select
       :items="['전체', '내용', '품종']"
       variant="outlined" density="compact" v-model="range"
       hide-details
-    ></v-combobox>
+    ></v-select>
   </v-sheet>
   <v-text-field
     class="mb-1"

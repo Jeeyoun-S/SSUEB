@@ -14,9 +14,13 @@
       </v-card-title>
       <v-sheet class="d-flex flex-row justify-start align-center" height="90">
         <v-card-item>
-          <v-avatar color="white" size="80">
+          <v-avatar color="#06BEE1" size="80">
+              <span v-if="reservation.petImage == null">{{ reservation.petName }}</span>
+              <img v-else :src="getImageUrl(reservation.petImage)" height="100" width="100" />
+            </v-avatar>
+          <!-- <v-avatar color="white" size="80">
             <img height="80" :src="require('@/assets/placeholder/placeholder_dog.png')"/>
-          </v-avatar>
+          </v-avatar> -->
         </v-card-item>
         <div>
           <v-card-title class="pa-0 pl-4">{{ reservation.petName }} ({{ reservation.petBirth }})</v-card-title>
@@ -62,7 +66,10 @@ export default {
       //유효성검사후 없으면 적절한 alert띄우기 
         this.$router.push("meeting-room");
         // this.roomInitialize();
-    }
+    },
+    getImageUrl(img) {
+      return `${process.env.VUE_APP_FILE_PATH_PET}${img}`;
+    },
   },
   created(){
     console.log(this.reservation);

@@ -1,12 +1,12 @@
 <template>
   <v-sheet class="mr-2" width="150">
-    <v-combobox
+    <v-select
       :items="['이메일', '이름']"
       variant="outlined"
       density="compact"
       v-model="range"
       hide-details
-    ></v-combobox>
+    ></v-select>
   </v-sheet>
   <v-text-field
     class="mb-1"
@@ -29,9 +29,9 @@
     </thead>
     <tbody>
       <tr
-        v-for="(consultant, index) in consultantList"
+        v-for="(consultant, index) in getSearchList"
         :key="index"
-        @click="moveDetailPage(consultant, index)"
+        @click="moveDetailPage(index)"
         style="cursor: pointer"
       >
         <td>{{ String(index).padStart(4, "0") }}</td>
@@ -44,13 +44,22 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapState } from "vuex";
 const adminStore = "adminStore";
 
 export default {
   name: "ConsultantAcceptTable",
-  props: {
-    consultantList: Array,
+  computed: {
+    ...mapState(adminStore, ["consultantList"]),
+    getSearchList() {
+      if (this.range == '이메일') {
+        return this.consultantList.filter(v => v.id.includes(this.keyword));
+      } else if (this.range == '이름') {
+        return this.consultantList.filter(v => v.user_name.includes(this.keyword));
+      } else {
+        return this.consultantList;
+      }
+    }
   },
   data() {
     return {
@@ -59,13 +68,11 @@ export default {
     };
   },
   methods: {
-    ...mapActions(adminStore, ["updateConsultantDetail"]),
+    // ...mapActions(adminStore, ["updateConsultantDetail"]),
 
     // [@Method] 해당 전문가 Detail 페이지로 이동
-    moveDetailPage(consultantDetail, index) {
-      consultantDetail.index = index;
-      this.updateConsultantDetail(consultantDetail);
-      this.$router.push("/consultant-accept/detail");
+    moveDetailPage(index) {
+      this.$router.push(`/consultant-accept/detail/${index}`);
     },
   },
 };

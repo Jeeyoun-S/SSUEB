@@ -10,7 +10,7 @@ const admin = [
     component: ConsultantAccept
   },
   {
-    path: "/consultant-accept/detail",
+    path: "/consultant-accept/detail/:no",
     name: "consultantAcceptDetail",
     component: ConsultantAcceptDetail
   },

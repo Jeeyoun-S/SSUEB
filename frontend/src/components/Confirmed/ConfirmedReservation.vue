@@ -7,9 +7,11 @@
         <h2>예정된 상담 일정 목록</h2>
       </div>
       <div v-if="userAuth == 'ROLE_USER'" class="page-inner-items border-sheet-four">
+        <MoveCreateReservation v-if="reservations == null || reservations.length < 1" message="아직 확정된 상담이 없습니다."></MoveCreateReservation>
         <ConfirmedPartnerCard v-for="(reservation, idx) in reservations" :reservation="reservation" :key="idx" />
       </div>
       <div v-else-if="userAuth == 'ROLE_CONSULTANT'" class="page-inner-items border-sheet-four">
+        <MoveCreateMatching v-if="reservations == null || reservations.length < 1" message="아직 확정된 상담이 없습니다."></MoveCreateMatching>
         <ConfirmedConsultantCard v-for="(reservation, idx) in reservations" :reservation="reservation" :key="idx" />
       </div>
     </div>
@@ -19,6 +21,8 @@
 <script>
 import ConfirmedPartnerCard from "@/components/Confirmed/ConfirmedPartnerCard.vue";
 import ConfirmedConsultantCard from "@/components/Confirmed/ConfirmedConsultantCard.vue";
+import MoveCreateReservation from "@/components/CreateReservation/MoveCreateReservation.vue";
+import MoveCreateMatching from "@/components/CreateMatching/MoveCreateMatching.vue"
 import NowLoading from '@/views/NowLoading.vue';
 import { apiInstance } from "@/api/index.js";
 import { mapState } from "vuex";
@@ -36,7 +40,9 @@ export default {
   components: {
     ConfirmedPartnerCard,
     ConfirmedConsultantCard,
-    NowLoading
+    NowLoading,
+    MoveCreateReservation,
+    MoveCreateMatching
   },
   methods:{
     async getPartnerReservation() {

@@ -7,7 +7,9 @@
         <h2>회원 탈퇴 처리하기</h2>
       </div>
       <div class="pa-5 page-inner-items border-sheet-four">
-        <UserWithdrawalTable :userList="userList"></UserWithdrawalTable>
+        <UserWithdrawalTable :userList="userList"
+          @deleteRemoveUser="deleteRemoveUser"
+        ></UserWithdrawalTable>
       </div>
     </div>
   </div>
@@ -35,6 +37,11 @@ export default {
     await getAllUserList()
     .then((res) => this.userList = res); 
     this.loaded = true;
+  },
+  methods: {
+    deleteRemoveUser(index) {
+      this.userList.splice(index, 1);
+    }
   }
 }
 </script>
