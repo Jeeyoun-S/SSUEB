@@ -212,6 +212,7 @@ public class UserInfoConsultantController {
 							user.setUserPassword(password);
 						}
 						user.setUserPhone(consultantInfoRequest.getUserPhone());
+						user.setUserAlertFlag(consultantInfoRequest.getUserAlertFlag());
 						
 						consultant.setConsultantPetType(consultantInfoRequest.getConsultantPetType());
 						consultant.setConsultantIntro(consultantInfoRequest.getConsultantIntro());

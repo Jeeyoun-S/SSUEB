@@ -38,13 +38,13 @@ public class UserPetServiceImpl implements UserPetService {
 		// 반려동물 이름 NN
 		if (isDebug) System.out.println("#이름");
 		String name = petRequest.getPetName();
-		if (name == null || name.length() > 20) return false;
+		if (parameterCheck.isEmpty(name) || name.length() > 20) return false;
 		
 		// 반려동물 대분류 NN
 		if (isDebug) System.out.println("#대분류");
 		String petType = petRequest.getPetType();
-		if (petType == null) return false;
-		if (petType != null) {
+		if (parameterCheck.isEmpty(petType)) return false;
+		else {
 			if (!parameterCheck.isValidPetType(petType)) {
 				return false;
 			}
@@ -53,7 +53,7 @@ public class UserPetServiceImpl implements UserPetService {
 		// 반려동물 품종
 		if (isDebug) System.out.println("#품종");
 		String petVariety = petRequest.getPetVariety();
-		if (petVariety != null) {
+		if (!parameterCheck.isEmpty(petVariety)) {
 			if (parameterCheck.isSpecialChar(petVariety) || petVariety.length() > 20) {
 				return false;
 			}
@@ -61,8 +61,8 @@ public class UserPetServiceImpl implements UserPetService {
 		
 		// 반려동물 생일
 		String birth = petRequest.getPetBirth();
-		System.out.println("#생일 "+birth);
-		if (birth != null) {
+		if (isDebug) System.out.println("#생일 "+birth);
+		if (!parameterCheck.isEmpty(birth)) {
 			if (!parameterCheck.isValidPetBirth(birth)) {
 				return false;
 			}
@@ -71,7 +71,7 @@ public class UserPetServiceImpl implements UserPetService {
 		// 반려동물 특이사항
 		String info = petRequest.getPetInfo();
 		System.out.println("#특이사항 "+info);
-		if (info != null) {
+		if (!parameterCheck.isEmpty(info)) {
 			if (info.length() > 80) {
 				return false;
 			}

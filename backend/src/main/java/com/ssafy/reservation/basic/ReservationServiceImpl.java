@@ -37,6 +37,8 @@ public class ReservationServiceImpl implements ReservationService {
 
 	@Override
 	public void deleteReservation(int no) throws SQLException {
+		//부착된 파일들도 지워야한다 -> FK때문에 오류남 ㅇㅇ
+		aRepo.deleteByReservationNo(no);
 		repo.deleteById(no);
 	}
 
