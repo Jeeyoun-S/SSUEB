@@ -34,6 +34,8 @@ export default {
 <style>
 @import "@/css/font.css";
 @import "@/css/page.css";
+@import "@/css/logo.css";
+@import "@/css/sheet.css";
 * {
   font-family: "SUIT-Regular";
 }

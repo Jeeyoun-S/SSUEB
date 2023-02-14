@@ -3,7 +3,7 @@
     <v-card
       class="ma-3 pa-2 d-flex justify-center flex-column"
       width="310"
-      height="450"
+      height="420"
       variant="outlined"
       :elevation="isHovering ? 8 : 0"
       :class="{ 'on-hover': isHovering }"
@@ -14,19 +14,14 @@
     >
       <v-sheet class="d-flex flex-row justify-end">
         <v-avatar class="mr-2 mt-3 mb-2" color="#06BEE1" size="100">
-          <span v-if="consultant.consultantProfile == null">{{
-            consultant.consultantName
-          }}</span>
-          <img
-            v-else
-            :src="getImageUrl(consultant.consultantProfile)"
-            height="100"
-            width="100"
-          />
+          <span v-if="consultant.consultantProfile == null">{{ consultant.consultantName }}</span>
+          <img v-else :src="getImageUrl(consultant.consultantProfile)" height="100" width="100" />
+          <v-tooltip
+            activator="parent"
+            location="bottom"
+            width="300"
+          >{{ consultant.consultantIntro }}</v-tooltip>
         </v-avatar>
-        <!-- <v-avatar class="mr-2 pt-1" color="white" size="100">
-          <img width="100" gradient="to top, rgba(0,0,0,.1), rgba(0,0,0,.5)" :src="require('@/assets/placeholder/placeholder_person.jpg')" />
-        </v-avatar> -->
         <div>
           <v-btn
             class="ma-3 align-self-start"
@@ -49,18 +44,13 @@
       <v-card-title class="align-self-center">
         <h4>{{ consultant.consultantName }}</h4>
       </v-card-title>
-      <v-card-item class="pa-0 align-self-center">
+      <v-card-item class="pa-0 pb-2 align-self-center">
         <v-rating
           v-model="rating"
           color="orange darken-2"
           density="compact"
         ></v-rating>
       </v-card-item>
-      <v-card-text>
-        <v-sheet height="70">
-          {{ consultant.consultantIntro }}
-        </v-sheet>
-      </v-card-text>
       <v-divider></v-divider>
       <v-card-text>
         <v-row>
@@ -210,7 +200,7 @@ export default {
         });
     },
     getImageUrl(img) {
-      return `${process.env.VUE_APP_FILE_PATH_PET}${img}`;
+      return `${process.env.VUE_APP_FILE_PATH_PROFILE}${img}`;
     },
   },
 

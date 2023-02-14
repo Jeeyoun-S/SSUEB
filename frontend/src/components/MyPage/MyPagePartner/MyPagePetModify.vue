@@ -48,13 +48,17 @@
               </v-col>
               <v-col>
                 <v-row>
-                  <v-text-field :rules="petRules.petName" v-model="petModifyInfo.petName" label="이름" variant="underlined" required></v-text-field>
+                  <v-text-field :rules="petRules.petName" v-model="petModifyInfo.petName" label="이름"
+                    variant="underlined" maxlength="20" required></v-text-field>
                 </v-row>
                 <v-row>
-                  <v-select :rules="petRules.petType" v-model="petModifyInfo.petType" :items="['개', '고양이', '토끼', '패럿', '기니피그', '햄스터']" label="종류" variant="underlined" required></v-select>
+                  <v-select :rules="petRules.petType" v-model="petModifyInfo.petType"
+                    :items="['개', '고양이', '토끼', '패럿', '기니피그', '햄스터']" label="종류"
+                    variant="underlined" required></v-select>
                 </v-row>
                 <v-row>
-                  <v-text-field :rules="petRules.petVariety" v-model="petModifyInfo.petVariety" label="품종" variant="underlined"></v-text-field>
+                  <v-text-field :rules="petRules.petVariety" v-model="petModifyInfo.petVariety" label="품종"
+                    variant="underlined" maxlength="20"></v-text-field>
                 </v-row>
                 <v-row>
                   <v-text-field :rules="petRules.petBirth" v-model="petModifyInfo.petBirth" label="생일" variant="underlined"></v-text-field>

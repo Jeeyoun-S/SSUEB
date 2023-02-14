@@ -14,6 +14,7 @@
         label="이름"
         variant="outlined"
         density="compact"
+        maxlength="10"
         :rules="rules.name"
       ></v-text-field>
       <v-text-field
@@ -22,6 +23,7 @@
         label="휴대폰 번호"
         variant="outlined"
         density="compact"
+        maxlength="11"
         :rules="rules.phone"
       ></v-text-field>
       <v-btn
@@ -40,6 +42,7 @@
         label="닉네임"
         variant="outlined"
         density="compact"
+        maxlength="10"
         :rules="rules.nickname"
       ></v-text-field>
       <v-text-field
@@ -52,6 +55,7 @@
         label="비밀번호"
         variant="outlined"
         density="compact"
+        maxlength="20"
         :rules="rules.password"
       ></v-text-field>
       <v-radio-group

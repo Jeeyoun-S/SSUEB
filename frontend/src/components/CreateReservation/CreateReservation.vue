@@ -479,4 +479,9 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+svg {
+  width: 26px !important;
+  height: 26px !important;
+}
+</style>

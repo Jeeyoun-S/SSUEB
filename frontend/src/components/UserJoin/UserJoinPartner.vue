@@ -49,7 +49,7 @@ export default {
         userPassword: null,
         userName: null,
         userNickname: null,
-        userAlertFlag: "0",
+        userAlertFlag: "1",
         userPhone: null,
         userIsSocialId: "0",
       },

@@ -9,10 +9,10 @@
       </v-btn>
     </template>
     <v-card class="pa-5">
-      <v-card-title><h3>{{ reservation.reservationDate }}</h3></v-card-title>
+      <v-card-title><h3>{{ reservation.reservationDate.substr(0, 16) }}</h3></v-card-title>
       <v-card-text class="pa-0 pl-5">
         <p>{{ reservation.petName }} ({{ reservation.petBirth }})</p>
-        <p>{{ reservation.petType }} <span v-show="reservation.petVariety != null">-</span> {{ reservation.petVariety }}</p>
+        <p>{{ reservation.petType }} <span v-if="reservation.petVariety != null && reservation.petVariety != ''">-</span> {{ reservation.petVariety }}</p>
       </v-card-text>
       <v-card-item>
         <v-slide-group v-model="model" selected-class="bg-success" show-arrows>

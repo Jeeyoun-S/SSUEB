@@ -95,7 +95,7 @@
               :rules="consultantRule.intro"
               label="소개글 및 경력"
               variant="outlined"
-              counter="150"
+              counter="150" maxlength="150"
             ></v-textarea>
           </v-row>
           <v-row class="ml-2" rows="5" sm="2" md="4">
@@ -127,6 +127,7 @@
             label="이메일"
             variant="outlined"
             density="compact"
+            maxlength="30"
             disabled
           ></v-text-field>
           <v-text-field
@@ -136,6 +137,7 @@
             variant="outlined"
             density="compact"
             :rules="userRule.name"
+            maxlength="10"
           ></v-text-field>
           <v-text-field
             v-model="userPhone"
@@ -143,6 +145,7 @@
             variant="outlined"
             density="compact"
             :rules="userRule.phone"
+            maxlength="11"
           ></v-text-field>
           <v-btn
             variant="tonal"
@@ -176,6 +179,7 @@
             label="비밀번호"
             variant="outlined"
             density="compact"
+            maxlength="20"
           ></v-text-field>
           <v-btn
             class="mr-3"
