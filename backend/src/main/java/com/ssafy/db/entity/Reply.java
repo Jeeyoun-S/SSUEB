@@ -8,8 +8,11 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
  * reply 테이블 모델 정의
@@ -18,6 +21,9 @@ import lombok.Setter;
 @Table(name = "reply")
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
 public class Reply {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

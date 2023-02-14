@@ -64,7 +64,9 @@ public class BoardReplyController {
     })
 	public ResponseEntity<?> createReply(@RequestBody Reply reply) {
 		try {
+			System.out.println(reply);
 			Reply result = bService.createReply(reply);
+			System.out.println(result);
 			return new ResponseEntity<Reply>(result, HttpStatus.OK);
 		} catch (Exception e) {
 			return exceptionHandling(e);

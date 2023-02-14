@@ -69,6 +69,7 @@ public class BoardController {
     })
 	public ResponseEntity<?> readNotice() {
 		try {
+			System.out.println(boardPath);
 			List<BoardSummary> result = bService.readNotice();
 			
 			return new ResponseEntity<List<BoardSummary>>(result, HttpStatus.OK);
@@ -128,6 +129,7 @@ public class BoardController {
 				if(param.isValidFileSize(1024*1024*5, file)) {//3메가면
 					String uuid = UUID.randomUUID().toString();//랜덤한 코드명 ex)49eec5bf-dce3-43b2-8ff8-c041c792ed0a를 넣어준다
 					String savefileName = uuid + "_" + file.getOriginalFilename();
+					System.out.println(boardPath+savefileName);
 					file.transferTo(new File(boardPath+savefileName));
 					board.setBoardFile(savefileName);
 				}
@@ -151,9 +153,9 @@ public class BoardController {
         @ApiResponse(code = 200, message = "성공"),
         @ApiResponse(code = 500, message = "서버 오류")
     })
-	public ResponseEntity<?> fixBoard(@RequestBody BoardFixReq bfr) {
+	public ResponseEntity<?> fixBoard(@RequestPart(value = "board") BoardFixReq bfr, 
+			@RequestPart(value = "file", required = false)  MultipartFile file) {
 		try {
-			MultipartFile file = bfr.getFile();
 			String path = null;
 			if(file != null) {
 				System.out.println("파일이 있다.");
