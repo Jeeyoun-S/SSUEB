@@ -34,11 +34,16 @@
       ></v-combobox>
       <v-radio-group v-model="info.userAlertFlag" color="primary" inline>
         <v-label>알림방법</v-label>
-        <v-radio label="카카오톡" value="0"></v-radio>
+        <!-- <v-radio label="카카오톡" value="0"></v-radio> -->
         <v-radio label="이메일" value="1"></v-radio>
         <v-radio label="문자" value="2"></v-radio>
       </v-radio-group>
-      <v-btn variant="outlined" size="large" rounded="0" @click="validate()" block
+      <v-btn
+        variant="outlined"
+        size="large"
+        rounded="0"
+        @click="validate()"
+        block
         >회원가입 신청</v-btn
       >
     </v-form>
@@ -62,7 +67,7 @@ export default {
         id: null,
         userPassword: null,
         userName: null,
-        userAlertFlag: "0",
+        userAlertFlag: "0", // #21# 0 = 카카오톡
         userPhone: null,
         consultPetType: [],
         consultantLicenseNumber: null,
@@ -81,7 +86,7 @@ export default {
     },
     consultantRule() {
       return this.$store.getters.getConsultantRule;
-    }
+    },
   },
   methods: {
     async validate() {
@@ -197,5 +202,4 @@ export default {
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

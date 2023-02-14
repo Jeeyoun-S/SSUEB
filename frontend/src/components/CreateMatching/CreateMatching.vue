@@ -1,5 +1,6 @@
 <template>
-  <div class="page max-page border-sheet-four">
+  <NowLoading v-if="!loaded"></NowLoading>
+  <div v-else class="page max-page border-sheet-four">
     <div class="page-inner max-page">
       <div class="page-inner-title border-sheet-four">
         <v-icon class="mr-2" size="x-large">mdi-view-grid-plus</v-icon>
@@ -13,24 +14,32 @@
 </template>
 
 <script>
+import NowLoading from '@/views/NowLoading.vue';
 import CreateCard from "@/components/CreateMatching/CreateCard.vue";
-import axios from "axios";
+
+import { mapState } from "vuex";
+import { apiInstance } from "@/api/index.js";
+const userStore = "userStore";
+
 export default {
   name: "CreateMatching",
   data: () => ({
+    loaded: false,
     reservations:[], // [{value,[]},{value,[]}] 꼴
   }),
+  computed: {
+    ...mapState(userStore, ["userId"]),
+    },
   components: {
     CreateCard,
+    NowLoading
   },
   
   methods:{
-    getReservation() {
+    async getReservation() {
       
-      axios({
-        url: process.env.VUE_APP_API_BASE_URL+`/reservation/consultant/unconfirmed`,
-        method: "get",
-      })
+      const api = apiInstance();
+      await api.get(process.env.VUE_APP_API_BASE_URL+`/reservation/consultant/unconfirmed`)
         .then(({ data }) => {
           for (var i = 0; i < data.length; i++) {
             let reservation = {};
@@ -38,7 +47,6 @@ export default {
             reservation["userId"] = data[i].userId;
             reservation["reservationDate"] = data[i].reservationDate;
             reservation["reservationConsultContent"] = data[i].reservationConsultContent;
-
             reservation["pno"] = data[i].pno;
             reservation["petName"] = data[i].petName;
             reservation["petImage"] = data[i].petImage;
@@ -59,13 +67,16 @@ export default {
         .catch((err) => {
           console.log(err);
         });
+      return await Promise.resolve(true);
     },
   },
-  created() {
-    this.getReservation();
+  async created() {
+    this.loaded = false;
+    await this.getReservation().then((res) => {
+      this.loaded = res;
+    });
   },
 };
 </script>
 
-<style scoped>
-</style>
+<style></style>

@@ -5,6 +5,7 @@ import community from "@/router/community";
 import meetingRoom from "@/router/meetingRoom";
 import reservation from "@/router/reservation";
 import error from "@/router/error";
+import admin from "@/router/admin";
 
 const routes = [
   ...user,
@@ -12,6 +13,7 @@ const routes = [
   ...meetingRoom,
   ...reservation,
   ...error,
+  ...admin
 ];
 
 const router = createRouter({

@@ -23,11 +23,10 @@
       <div class="d-flex flex-row justify-space-around">
         <v-card class="pt-2" width="220" height="320" elevation="0">
           <div class="d-flex align-center flex-column">
-            <img
-              class="image"
-              width="80"
-              :src="require('@/assets/placeholder/placeholder_dog.png')"
-            />
+            <v-avatar color="#06BEE1" size="80">
+              <span v-if="reservation.petImage == null">{{ reservation.petName }}</span>
+              <img v-else :src="getImageUrl(reservation.petImage)" height="100" width="100" />
+            </v-avatar>
             <v-card-title class="pb-0">{{ reservation.petName }}</v-card-title>
             <v-card-subtitle>{{ reservation.petBirth }}</v-card-subtitle>
             <v-card-subtitle>
@@ -40,11 +39,10 @@
         <v-divider vertical></v-divider>
         <v-card class="pt-2" width="220" height="320" elevation="0">
           <div class="d-flex align-center flex-column">
-            <img
-              class="image"
-              width="80"
-              :src="require('@/assets/placeholder/placeholder_person.jpg')"
-            />
+            <v-avatar color="#06BEE1" size="80">
+              <img v-if="reservation.consultantProfile == null" class="image" width="80" :src="require('@/assets/placeholder/placeholder_person.jpg')" />
+              <img v-else :src="getImageUrl(reservation.consultantProfile)" height="80" width="80" />
+            </v-avatar>
             <v-card-title class="pb-0">{{ reservation.consultantName }}</v-card-title>
             <v-card-subtitle class="mb-5">반려동물훈련지도사</v-card-subtitle>
           </div>
@@ -78,7 +76,10 @@ export default {
       //유효성검사후 없으면 적절한 alert띄우기 
         this.$router.push("meeting-room");
         // this.roomInitialize();
-    }
+    },
+    getImageUrl(img) {
+      return `${process.env.VUE_APP_FILE_PATH_PET}${img}`;
+    },
   },
   created(){
     console.log(this.reservation);
@@ -86,5 +87,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>

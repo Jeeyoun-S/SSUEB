@@ -5,6 +5,7 @@ import {
   withdrawalKakao,
   getGoogleInfo,
   withdrawalGoogle,
+  sendKakaoMessage,
 } from "@/api/userOAuth";
 import store from "..";
 
@@ -143,6 +144,18 @@ const userOAuthStore = {
             "#userOAuthStore - withdrawalGoogle# Google 연결끊기 실패: ",
             error
           );
+        }
+      );
+    },
+    // [@Method] 카카오 메세지 보내기 (나에게)
+    async excutedSendKakaoMessage() {
+      console.log("#21# 카카오톡 전송 동작");
+      await sendKakaoMessage(
+        ({ data }) => {
+          console.log("#21# Kakao 톡 전송 성공: ", data);
+        },
+        (error) => {
+          console.log("#21# Kakao 톡 전송 실패: ", error);
         }
       );
     },

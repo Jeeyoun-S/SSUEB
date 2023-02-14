@@ -18,7 +18,7 @@ export default {
   },
   components: {
     FinishedReservationPartner,
-    FinishedReservationConsultant
+    FinishedReservationConsultant,
   }
 };
 </script>

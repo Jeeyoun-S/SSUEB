@@ -37,9 +37,6 @@
           </p>
         </div>
       </div>
-      반려동물 정보 버튼<PetInfoButton></PetInfoButton>
-      반려인 종료 버튼<FinishedReview></FinishedReview>
-      전문가 종료 버튼<FinishedButton></FinishedButton>
     </div>
     <div class="main-right">
       <!-- isLogin : [false - 로그인 X / true - 로그인 O]-->
@@ -66,9 +63,6 @@ import MainPageChatBot from "@/components/MainPage/MainPageChatBot.vue";
 import BoardTopFive from "@/components/MainPage/BoardTopFive.vue";
 import UserMainAlert from "@/components/MainPage/UserMainAlert.vue";
 import NowLoading from "@/views/NowLoading.vue";
-import PetInfoButton from "@/components/MeetingRoom/PetInfoButton.vue"
-import FinishedReview from "@/components/MeetingRoom/FinishedReview.vue"
-import FinishedButton from "@/components/MeetingRoom/FinishedButton.vue"
 
 const userStore = "userStore";
 const userOAuthStore = "userOAuthStore";
@@ -79,7 +73,7 @@ export default {
     return {
       kakaoCode: null,
       googleToken: null,
-      loaded: false
+      loaded: false,
     };
   },
   created() {
@@ -110,9 +104,6 @@ export default {
     BoardTopFive,
     UserMainAlert,
     NowLoading,
-    PetInfoButton,
-    FinishedReview,
-    FinishedButton
   },
   computed: {
     ...mapState(userStore, ["isLogin"]),

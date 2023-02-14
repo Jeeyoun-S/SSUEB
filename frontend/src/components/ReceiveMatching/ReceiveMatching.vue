@@ -1,5 +1,6 @@
 <template>
-  <div class="page max-page border-sheet-four">
+  <NowLoading v-if="!loaded"></NowLoading>
+  <div v-else class="page max-page border-sheet-four">
     <div class="page-inner max-page">
       <div class="page-inner-title border-sheet-four">
         <v-icon class="mr-2" size="x-large">mdi-email-open</v-icon>
@@ -7,7 +8,9 @@
       </div>
       <div class="page-inner-items border-sheet-four">
         <MoveCreateReservation v-if="reservations == null || reservations.length < 1" message="아직 받은 상담 제안이 없습니다."></MoveCreateReservation>
-        <ReceivedCard v-for="(reservation, idx) in reservations" :reservation="reservation" :key="idx" />
+        <ReceivedCard v-for="(reservation, idx) in reservations" :reservation="reservation"
+          :idx="idx" :key="idx" @deleteReservation="deleteReservation"
+        />
       </div>
     </div>
   </div>
@@ -16,34 +19,33 @@
 <script>
 import ReceivedCard from "@/components/ReceiveMatching/ReceivedMatchingCard.vue";
 import MoveCreateReservation from "@/components/CreateReservation/MoveCreateReservation.vue";
-import axios from "axios";
+import NowLoading from "@/views/NowLoading.vue";
+// import axios from "axios";
 import { mapState } from "vuex";
 import { apiInstance } from "@/api/index.js";
-// const reservationStore = "reservationStore";
 const userStore = "userStore";
 
 export default {
   name: "ReceiveMatching",
   data: () => ({
+    loaded: false,
     reservations:[], // [{value,[]},{value,[]}] 꼴
   }),
   computed: {
     ...mapState(userStore, ["userId"]),
-    // ...mapState(reservationStore),
   },
   components: {
     ReceivedCard,
-    MoveCreateReservation
+    MoveCreateReservation,
+    NowLoading
   },
   methods:{
     async getReservation() {
-
+      console.log(`${process.env.VUE_APP_API_BASE_URL}/reservation/partner/unconfirm/${this.userId}`);
       const api = apiInstance();
-      await api({
-        url: `${process.env.VUE_APP_API_BASE_URL}/reservation/partner/unconfirm/${this.userId}`, //이메일 바꾸고
-        method: "get",
-      })
+      await api.get(`${process.env.VUE_APP_API_BASE_URL}/reservation/partner/unconfirm/${this.userId}`)
         .then(({ data }) => {
+          //console.log("받은 상담 제안", data);
           for (var i = 0; i < data.length; i++) {
             let reservation = {};
             reservation["rno"] = data[i].reservationPet.rno;
@@ -72,9 +74,8 @@ export default {
               matchingConsultant["consultantName"] = data[i].matchingConsultants[j].consultant_name;
               matchingConsultant["consultantProfile"] = data[i].matchingConsultants[j].consultant_profile;
               matchingConsultant["consultantRate"] = data[i].matchingConsultants[j].consultant_rate;
-
               matchingConsultant["matchingComment"] = data[i].matchingConsultants[j].matching_comment;
-              matchingConsultant["matchingCost"] = data[i].matchingConsultants[j].matching_comment;
+              matchingConsultant["matchingCost"] = data[i].matchingConsultants[j].matching_cost;
               matchingConsultant["matchingNo"] = data[i].matchingConsultants[j].no;
 
               matchingConsultants.push(matchingConsultant);
@@ -88,21 +89,29 @@ export default {
         .catch((err) => {
           console.log(err);
         });
+      return await Promise.resolve(true);
     },
-    deleteReservation(no) {
-      //삭제 후 카운트 변경은 추후 생각해보자
-      axios
-        .delete(process.env.VUE_APP_API_BASE_URL + `/` + no)
-        .then(() => {
-          console.log("삭제");
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
+    deleteReservation(idx) {
+      this.reservations.splice(idx, 1);
+    }
+    // async deleteReservation(no) {
+    //   //삭제 후 카운트 변경은 추후 생각해보자
+    //   const api = apiInstance();
+    //   await api
+    //     .delete(process.env.VUE_APP_API_BASE_URL + `/` + no)
+    //     .then(() => {
+    //       console.log("삭제");
+    //     })
+    //     .catch((err) => {
+    //       console.log(err);
+    //     });
+    // },
   },
-  created(){
-    this.getReservation();
+  async created(){
+    this.loaded = false;
+    await this.getReservation().then((res) => {
+      this.loaded = res;
+    });
   }
 };
 </script>

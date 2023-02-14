@@ -12,7 +12,6 @@ async function getNoticeBoard() {
   .catch()
   return await Promise.resolve(result);
 }
-
 // [Get] 상세 글 조회하기
 async function getDetailBoard(no) {
   var result = [];

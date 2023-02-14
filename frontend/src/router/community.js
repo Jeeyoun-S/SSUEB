@@ -1,7 +1,7 @@
 import FreeBoard from '@/components/FreeBoard/FreeBoard.vue';
 import NoticeBoard from '@/components/NoticeBoard/NoticeBoard.vue';
 import FreeBoardDetail from '@/components/FreeBoard/FreeBoardDetail.vue';
-import OpenConsultBoard from '@/components/OpenConsultBoard/OpenConsultBoard.vue';
+import OpenBoard from '@/components/OpenBoard/OpenBoard.vue';
 
 const community = [
   {
@@ -21,8 +21,8 @@ const community = [
   },
   {
     path: "/open-consult",
-    name: "OpenConsultBoard",
-    component: OpenConsultBoard,
+    name: "OpenBoard",
+    component: OpenBoard,
   },
 ]
 
