@@ -55,13 +55,13 @@ public class AttachServiceImpl implements AttachService {
 				//설정한 값으로 byte저장 -> return값이 byte[]라서 Files.write(byte[], 경로)로 저장
 				byte[] resizeFile = compressor.resizeImageWithCustomRes(file.getBytes(), ImageFormats.JPEG, customRes);
 				Files.write(resizeFile, new File(path));
-				aRepo.save(new Attach(0,reservationNo,path));
+				aRepo.save(new Attach(0,reservationNo,savefileName));
 				//저장한 byte[]값을 저장 -> R720P 480P등설정 가능 -> 파일이나 byte가지고 바로 저장 가능
 				//compressor.resizeAndSaveImageToAPath(file.getBytes(), savefileName, ImageFormats.JPEG, "C:/Temp", ResizeResolution.SMALL_THUMBNAIL);
 			}
 			else if(file.getContentType().startsWith("video")) {
 				compressor.reduceVideoSizeAndSaveToAPath(file.getBytes(), savefileName, VideoFormats.MP4, ResizeResolution.R480P, videoPath);
-				aRepo.save(new Attach(0,reservationNo,videoPath+savefileName));
+				aRepo.save(new Attach(0,reservationNo,savefileName));
 			}
 			else {//그 외 파일 거름망 -> 어차피 front에서 할 거긴 한데
 				
