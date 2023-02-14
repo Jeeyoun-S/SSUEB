@@ -41,15 +41,6 @@
         <td>{{ user.userNickname }}</td>
         <td>{{ user.authorities[0].authorityName.substr(5, 10) }}</td>
         <td>
-          <!-- <v-btn
-            class="mr-3"
-            variant="outlined"
-            color="error"
-            rounded="0"
-            @click="withdrawal(user.id, user.userIsSocialId)"
-          >
-            탈퇴
-          </v-btn> -->
           <v-btn
             class="mr-3"
             variant="outlined"
@@ -97,30 +88,11 @@ export default {
         })
         .then(async (result) => {
           if (result.isConfirmed) {
-            await this.excuteAdminWithdrawalUser();
+            await this.excuteAdminWithdrawalUser(id);
+            location.reload();
           }
         });
     },
-    // ...mapActions(userStore, ["excuteWithdrawal"]),
-    // // [@Method] 회원 탈퇴
-    // async withdrawal(id, userIsSocialId) {
-    //   userIsSocialId;
-    //   this.$swal
-    //     .fire({
-    //       title: "탈퇴하시겠습니까?",
-    //       text: `탈퇴 시 ${id} 계정은 사용하지 못하게 됩니다.`,
-    //       icon: "warning",
-    //       showCancelButton: true,
-    //       confirmButtonColor: "#3085d6",
-    //       cancelButtonColor: "#d33",
-    //       confirmButtonText: "Yes",
-    //     })
-    //     .then(async (result) => {
-    //       if (result.isConfirmed) {
-    //         await this.excuteWithdrawal();
-    //       }
-    //     });
-    // },
   },
 };
 </script>
