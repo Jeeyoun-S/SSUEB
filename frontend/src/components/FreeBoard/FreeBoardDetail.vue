@@ -41,12 +41,16 @@
           {{ boardDetail.boardContent }}
         </v-sheet>
         <v-sheet class="d-flex align-center ma-3" width="100%">
-          <v-btn class="me-auto" rounded="pill" variant="tonal" prepend-icon="mdi-paperclip">
-            {{ boardDetail.boardFile }}
-          </v-btn>
-          <v-sheet v-show="this.userId == this.boardDetail.userId">
+          <div v-show="boardDetail.boardFile != null" class="me-auto">
+            <a style="text-decoration: none;" :href="getFileUrl(boardDetail.boardFile)"  target="_blank">
+              <v-btn rounded="pill" variant="tonal" prepend-icon="mdi-paperclip">
+                {{ boardDetail.boardFile }}
+              </v-btn>
+            </a>
+          </div>
+          <v-sheet class="ms-auto" v-show="this.userId == this.boardDetail.userId">
+            {{ boardDetail }}
             <FreeBoardModify :boardDetail="boardDetail"></FreeBoardModify>
-            <!-- <v-btn class="ma-1" :rounded="0" color="primary" size="large" @click="moveModify()">수정</v-btn> -->
             <v-btn class="ma-1 mr-10" :rounded="0" color="error" size="large" @click="remove">삭제</v-btn>
           </v-sheet>
         </v-sheet>
@@ -119,7 +123,10 @@ export default {
         )
         this.back()
       });
-    }
+    },
+    getFileUrl(img) {
+      return `${process.env.VUE_APP_FILE_PATH_BOARD}${img}`;
+    },
   },
   async created() {
     // 게시글 상세 조회 API

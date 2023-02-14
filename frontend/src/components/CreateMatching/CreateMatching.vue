@@ -19,7 +19,6 @@ import CreateCard from "@/components/CreateMatching/CreateCard.vue";
 
 import { mapState } from "vuex";
 import { apiInstance } from "@/api/index.js";
-const reservationStore = "reservationStore";
 const userStore = "userStore";
 
 export default {
@@ -30,7 +29,6 @@ export default {
   }),
   computed: {
     ...mapState(userStore, ["userId"]),
-    ...mapState(reservationStore),
     },
   components: {
     CreateCard,

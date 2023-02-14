@@ -44,8 +44,6 @@ import ReceivedMatchingCardButton from "./ReceivedMatchingCardButton.vue";
 import { apiInstance } from "@/api/index.js";
 import { mapState } from "vuex";
 const userStore = "userStore";
-const reservationStore = "reservationStore";
-
 
 export default {
   name: "ReceivedMatchingCard",
@@ -54,7 +52,6 @@ export default {
    },
    computed: {
     ...mapState(userStore, ["userId"]),
-    ...mapState(reservationStore),
   },
   emits: ["deleteReservation"],
   data: () => ({
@@ -92,7 +89,9 @@ export default {
             'success'
           )
         })
-        .catch();
+        .catch((err) => {
+          alert(err);
+        });
     },
   },
 

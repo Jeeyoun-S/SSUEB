@@ -9,14 +9,12 @@
 import FinishedReservationPartner from "./FinishedReservationPartner.vue";
 import FinishedReservationConsultant from "./FinishedReservationConsultant.vue";
 import { mapState } from "vuex";
-const reservationStore = "reservationStore";
 const userStore = "userStore";
 
 export default {
   name: "FinishedReservation",
   computed: {
     ...mapState(userStore, ["userId", "userAuth"]),
-    ...mapState(reservationStore),
   },
   components: {
     FinishedReservationPartner,

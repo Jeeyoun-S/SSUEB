@@ -15,13 +15,13 @@
         <v-container>
           <v-form ref="forms">
             <v-text-field v-model="newBoard.boardTitle" label="제목" variant="underlined"
-              maxlength="100" counter="100"
+              maxlength="100" counter="100" :rules="boardRules.boardTitle"
             ></v-text-field>
             <v-textarea v-model="newBoard.boardContent" label="내용"
               variant="underlined" maxlength="500" counter="500"
-              row-height="500" rows="8" auto-grow
+              row-height="500" rows="8" auto-grow :rules="boardRules.boardContent"
             ></v-textarea>
-            <v-file-input v-model="boardFile" label="첨부파일" variant="underlined"></v-file-input>
+            <v-file-input v-model="boardFile" label="첨부파일" variant="underlined" :rules="boardRules.boardFile"></v-file-input>
           </v-form>
         </v-container>
       </v-card-text>
@@ -41,7 +41,7 @@ const userStore = "userStore";
 export default {
   name: "FreeBoardRegist",
   computed: {
-    ...mapState(userStore, ["userId", "userinfo", "userAuth"]),
+    ...mapState(userStore, ["userId", "userInfo", "userAuth"]),
   },
   data() {
     return {
@@ -53,7 +53,7 @@ export default {
         boardContent: null,
         // 넣어줄 정보
         userId: this.userId,
-        userNickname: "임시닉네임",//this.userinfo.usreNickname,//바로 못받아오는듯?
+        userNickname: "임시닉네임",//this.userInfo.usreNickname,//바로 못받아오는듯?
         boardFlag: this.userAuth=="ROLE_ADMIN"?0:this.userAuth=="ROLE_CONSULTANT"?1:2,
       },
       boardRules: {
@@ -69,7 +69,7 @@ export default {
           (v) => v == null || v.length <= 1 || "첨부파일은 최대 1개까지만 첨부 가능합니다.",
           (v) => v == null || v[0].size <= 5000000 || "첨부 파일 크기는 최대 5MB까지만 가능합니다.",
         ]
-      }
+      },
     }
   },
   methods: {
@@ -78,28 +78,35 @@ export default {
       if (valid) {
         const frm = new FormData();
 
-        this.newBoard.userId = this.userId;
-        frm.append("board",  new Blob([ JSON.stringify(this.newBoard) ], {type : "application/json"}));
-        frm.append("file", this.boardFile);
-        console.log(this.boardFile)
-        console.log(this.newBoard);
-        console.log(frm.getAll("file"))
+        frm.append("boardContent", this.newBoard.boardContent);
+        frm.append("boardFlag", this.newBoard.boardFlag);
+        frm.append("boardTitle", this.newBoard.boardTitle);
+        frm.append("userNickname", this.userInfo.userNickname);
+        frm.append("userId", this.userId);
+        if (this.boardFile != null || this.boardFile.length == 1) frm.append("file", this.boardFile[0]);
+
         const api = apiInstance();
-        api.post(process.env.VUE_APP_API_BASE_URL+`/board/community`, frm, {
+        await api.post(process.env.VUE_APP_API_BASE_URL+`/board/community`, frm, {
           headers: {'Content-Type': 'multipart/form-data; charset=utf-8;'}
-        }).then(() => {
+        }).then((data) => {
+          const board={};
+          board["no"] = data.data.no;
+          board["userNickname"] = data.data.userNickname;
+          board["boardTitle"] = data.data.boardTitle;
+
+          this.$parent.pushList(board);
           this.$swal.fire(
             '게시글 등록 완료',
             '신규 게시글 등록이 완료되었습니다.',
             'success'
           )
+          this.registBoardOpen = false;
         }).catch(error => {
           console.log(error.message)
           return;
         })
       }
 
-      this.registBoardOpen = false;
     }
   }
 }

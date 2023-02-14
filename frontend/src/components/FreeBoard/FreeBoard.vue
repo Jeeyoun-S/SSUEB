@@ -33,11 +33,17 @@ export default {
       boardSummaryList: [],
     }
   },
+  methods:{
+    pushList(board){
+      console.log(board);
+      this.boardSummaryList.push(board);
+    },
+  },
   async created() {
     this.loaded = false;
     this.boardSummaryList = await getFreeBoard();
-    console.log(this.boardSummaryList)
     this.loaded = true;
+    console.log(this.boardSummaryList)
   }
 }
 </script>

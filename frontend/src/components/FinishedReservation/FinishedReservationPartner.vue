@@ -112,7 +112,11 @@
                   >
                     <!-- 좌측 반려동물 정보 -->
                     <v-card class="mr-5 d-flex flex-column justify-center align-center" height="165" width="200" elevation="0">
-                      <img width="80" :src="require('@/assets/placeholder/placeholder_dog.png')" />
+                      <v-avatar color="#06BEE1" size="80">
+                          <span v-if="reservation.consultantProfile == null">{{ reservation.consultantName }}</span>
+                          <img v-else :src="getImageUrl(reservation.consultantProfile)" height="80" width="80" />
+                        </v-avatar>
+                      <!-- <img width="80" :src="require('@/assets/placeholder/placeholder_dog.png')" /> -->
                       <v-card-title class="pa-1">
                         {{ reservation.consultantName }}
                       </v-card-title>
@@ -147,7 +151,6 @@ import NowLoading from "@/views/NowLoading.vue";
 import MoveCreateReservation from "@/components/CreateReservation/MoveCreateReservation.vue";
 import { mapState } from "vuex";
 import { apiInstance } from "@/api/index.js";
-const reservationStore = "reservationStore";
 const userStore = "userStore";
 
 
@@ -166,7 +169,6 @@ export default {
   },
   computed: {
     ...mapState(userStore, ["userId"]),
-    ...mapState(reservationStore),
 
   },
   methods:{
