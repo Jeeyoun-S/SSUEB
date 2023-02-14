@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.google.common.io.Files;
+import com.ssafy.db.entity.Attach;
 import com.ssafy.db.entity.Pet;
 import com.ssafy.db.entity.Reservation;
 import com.ssafy.reservation.basic.request.ReservationDignosis;
@@ -226,6 +227,26 @@ public class ReservationController {
 			List<PetSummary> result = petService.findByUserId(userId);
 			
 			return new ResponseEntity<List<PetSummary>>(result, HttpStatus.OK);
+		} catch (Exception e) {
+			return exceptionHandling(e);
+		}
+	}
+	
+	@GetMapping("/attach/{reservationNo}")
+	@ApiOperation(value = "해당 예약의 첨부된 파일 목록", response = Attach.class)
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "reservationNo", value = "해당 예약 번호", required = true),
+	})
+    @ApiResponses({
+        @ApiResponse(code = 200, message = "성공"),
+        @ApiResponse(code = 500, message = "서버 오류")
+    })
+	//신규 상담 등록 진입 시 현재 로그인 된 유저 기준으로 불러와서 보여주기 
+	public ResponseEntity<?> reatAttachList(@PathVariable int reservationNo) {
+		try {
+			List<Attach> result = attachService.readByReservationNo(reservationNo);
+			
+			return new ResponseEntity<List<Attach>>(result, HttpStatus.OK);
 		} catch (Exception e) {
 			return exceptionHandling(e);
 		}
