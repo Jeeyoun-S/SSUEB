@@ -79,9 +79,6 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-# Spring Boot 
-application.yml
-
 # OAuth Key
 application-oauth.yml
 
@@ -90,7 +87,6 @@ env.properties
 
 # Vue env file
 .env
-vue.config.js
 
 # End of https://www.toptal.com/developers/gitignore/api/vue,vuejs,macos,windows
 # OAuth Key

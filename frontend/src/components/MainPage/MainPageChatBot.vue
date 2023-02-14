@@ -2,13 +2,24 @@
 	<div class="border-sheet-two chatbot">
 		<v-icon icon="mdi-chat-alert-outline" size="50"></v-icon>
 		<h3>SSUEB's Chatbot</h3>
-		<p>챗봇에게 궁금한 점을 물어보세요!</p>
+		<v-btn
+		@click="showMessenger()">
+			<p>챗봇에게 궁금한 점을 물어보세요!</p>
+		</v-btn>
 	</div>
 </template>
 
 <script>
+import chatbotService from '@/api/chatbotService';
+
 export default {
-  name: "MainPageChatBot"
+  name: "MainPageChatBot",
+  methods:{
+	showMessenger() {
+		chatbotService.showMessenger();
+	}
+  }
+  
 }
 </script>
 

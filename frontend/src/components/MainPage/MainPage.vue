@@ -43,6 +43,7 @@ import UserAlert from "../UserLogin/UserAlert.vue";
 import MainPageChatBot from "@/components/MainPage/MainPageChatBot.vue";
 import BoardTopFive from "@/components/MainPage/BoardTopFive.vue";
 import UserMainAlert from "@/components/MainPage/UserMainAlert.vue";
+import ChatbotService from "@/api/chatbotService.js"
 
 const userStore = "userStore";
 const userOAuthStore = "userOAuthStore";
@@ -73,6 +74,10 @@ export default {
         this.google();
       }
     }
+    ChatbotService.boot({
+      pluginKey: "3f36e5e1-896a-4ff5-8493-6695d1b76b19", //please fill with your plugin key
+      "hideChannelButtonOnBoot": true
+    });
   },
   components: {
     UserLogin,
