@@ -19,6 +19,10 @@
             height="100"
             width="100"
           />
+          <v-tooltip
+            activator="parent"
+            location="bottom" width="300"
+          >{{ reservation.petInfo }}</v-tooltip>
         </v-avatar>
       </v-card-item>
       <v-card-title><h4>{{ reservation.reservationDate.substr(0, 16) }}</h4></v-card-title>

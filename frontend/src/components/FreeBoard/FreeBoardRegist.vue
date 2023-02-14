@@ -83,7 +83,7 @@ export default {
         frm.append("boardTitle", this.newBoard.boardTitle);
         frm.append("userNickname", this.userInfo.userNickname);
         frm.append("userId", this.userId);
-        if (this.boardFile != null || this.boardFile.length == 1) frm.append("file", this.boardFile[0]);
+        if (this.boardFile != null && this.boardFile.length == 1) frm.append("file", this.boardFile[0]);
 
         const api = apiInstance();
         await api.post(process.env.VUE_APP_API_BASE_URL+`/board/community`, frm, {

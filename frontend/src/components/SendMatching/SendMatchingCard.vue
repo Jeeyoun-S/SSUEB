@@ -12,6 +12,10 @@
         <v-avatar class="align-self-center" color="#06BEE1" size="100">
           <span v-if="matching.petImage == null">{{ matching.petName }}</span>
           <img v-else :src="getImageUrl(matching.petImage)" height="100" width="100" />
+          <v-tooltip
+            activator="parent"
+            location="bottom" width="300"
+          >{{ matching.petInfo }}</v-tooltip>
         </v-avatar>
         <v-card-title>
           <h4>{{ matching.reservationDate.substr(0, 16) }}</h4>
