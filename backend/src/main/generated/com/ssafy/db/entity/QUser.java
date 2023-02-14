@@ -7,6 +7,7 @@ import com.querydsl.core.types.dsl.*;
 import com.querydsl.core.types.PathMetadata;
 import javax.annotation.Generated;
 import com.querydsl.core.types.Path;
+import com.querydsl.core.types.dsl.PathInits;
 
 
 /**
@@ -19,11 +20,17 @@ public class QUser extends EntityPathBase<User> {
 
     public static final QUser user = new QUser("user");
 
+    public final SetPath<Authority, QAuthority> authorities = this.<Authority, QAuthority>createSet("authorities", Authority.class, QAuthority.class, PathInits.DIRECT2);
+
     public final StringPath id = createString("id");
+
+    public final NumberPath<Integer> userActivated = createNumber("userActivated", Integer.class);
 
     public final NumberPath<Integer> userAlertFlag = createNumber("userAlertFlag", Integer.class);
 
     public final NumberPath<Integer> userDeleteFlag = createNumber("userDeleteFlag", Integer.class);
+
+    public final NumberPath<Integer> userIsSocialId = createNumber("userIsSocialId", Integer.class);
 
     public final StringPath userJoindate = createString("userJoindate");
 
@@ -34,10 +41,6 @@ public class QUser extends EntityPathBase<User> {
     public final StringPath userPassword = createString("userPassword");
 
     public final StringPath userPhone = createString("userPhone");
-
-    public final NumberPath<Integer> userRole = createNumber("userRole", Integer.class);
-
-    public final StringPath userToken = createString("userToken");
 
     public QUser(String variable) {
         super(User.class, forVariable(variable));
