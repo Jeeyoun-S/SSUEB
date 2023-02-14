@@ -1,5 +1,7 @@
 package com.ssafy.board.request;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -28,4 +30,7 @@ public class BoardFixReq {
 	
 	@ApiModelProperty(value = "수정할 게시글 내용")
 	String boardContent;
+	
+	@ApiModelProperty(value = "바꿀 게시글 파일")
+	MultipartFile file;
 }

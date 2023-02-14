@@ -72,11 +72,10 @@ public class UserPetServiceImpl implements UserPetService {
 		String info = petRequest.getPetInfo();
 		System.out.println("#특이사항 "+info);
 		if (info != null) {
-			if (info.length() > 40) {
+			if (info.length() > 80) {
 				return false;
 			}
 		}
-		
 		return true;
 	}
 	
@@ -159,7 +158,7 @@ public class UserPetServiceImpl implements UserPetService {
 		if (petRequest.getPetBirth() != null) pet.setPetBirth(petRequest.getPetBirth()+"-01");
 		pet.setPetInfo(petRequest.getPetInfo());
 		
-		Pet result = petRepository.save(pet);
+		petRepository.save(pet);
 		
 		if (petRequest.getPetImage() != null) return imageName;
 		else if (beforeFileName != null && !isPetDeleteImage) return beforeFileName;

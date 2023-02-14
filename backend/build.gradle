@@ -3,6 +3,8 @@ import org.apache.tools.ant.filters.ReplaceTokens
 buildscript{
     ext {
         springBootVer = '2.4.5'
+        //openvidu때문에변경.
+        //springBootVer = '2.7.0'
         querydslVer = '4.4.0'
         querydslPluginVer = '1.0.10'
         springDependencyMgmtVer = '1.0.11'
@@ -20,7 +22,7 @@ buildscript{
         //이클립스인 경우를 위한 QueryDSL 플러그인. IntelliJ는 불필요. [시작]
         classpath "gradle.plugin.com.ewerk.gradle.plugins:querydsl-plugin:${querydslPluginVer}"
         //[끝] 
-        // classpath "com.github.node-gradle:gradle-node-plugin:3.1.0"
+        //classpath "com.github.node-gradle:gradle-node-plugin:3.1.0"
     }
 }
 
@@ -48,7 +50,8 @@ repositories {
 
 group 'com.ssafy'
 version '1.0-SNAPSHOT'
-sourceCompatibility = '1.8'
+sourceCompatibility = '11'
+targetCompatibility = '11'
 
 // node {
 //     download = true
@@ -203,6 +206,15 @@ dependencies {
     // 파일 Resizing
     compile group: 'io.github.techgnious', name: 'IVCompressor', version: '2.0.0'
     implementation group: 'org.imgscalr', name: 'imgscalr-lib', version: '4.2'
+    
+    //openvidu
+    // https://mvnrepository.com/artifact/io.openvidu/openvidu-java-client
+	implementation group: 'io.openvidu', name: 'openvidu-java-client', version: '2.25.0'
+    
+    // for. 메일 발송
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
 }
 
 test {

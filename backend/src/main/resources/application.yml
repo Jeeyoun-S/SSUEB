@@ -51,8 +51,8 @@ spa:
   default-file: /dist/index.html
 spring:
   # for. oauth 정보 가져오기
-  # profiles:
-  #   include: oauth
+  profiles:
+    include: oauth
   data:
     web:
       pageable:

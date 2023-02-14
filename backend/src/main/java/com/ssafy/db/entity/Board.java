@@ -31,7 +31,6 @@ public class Board {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 	@ApiModelProperty(value = "PK, AI", dataType = "int", example="0")
-	@JsonIgnore
     int no;
 	
 	@Column(name = "user_id")

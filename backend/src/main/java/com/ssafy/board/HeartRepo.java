@@ -15,4 +15,7 @@ import com.ssafy.db.entity.Heart;
 @Repository
 public interface HeartRepo extends JpaRepository<Heart,Integer>{
 	boolean existsByBoardNoAndUserId(int boardNo, String userId);
+	
+	@Transactional
+	void deleteByBoardNoAndUserId(int boardNo, String userId);
 }

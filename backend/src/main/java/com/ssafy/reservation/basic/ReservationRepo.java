@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,7 +23,8 @@ public interface ReservationRepo extends JpaRepository<Reservation,Integer>{
 	//끝나지 않고 곧 실시한 상담이 필요하므로 reservationFinish는 0으로 고정
 	//해당 유저의 확정되어 곧 실시할 상담 내역들을 가져온다. 
 	@Query(value = "select r.no as rno, r.user_id as userId, r.consultant_id as consultantId, r.reservation_date as reservationDate, "
-			+ "r.reservation_consult_content as reservationConsultContent, p.no as pno, p.pet_image as petImage, p.pet_name as petName, "
+			+ "r.reservation_consult_content as reservationConsultContent, r.reservation_cost as reservationCost, r.reservation_reason as reservationReason, "
+			+ "p.no as pno, p.pet_image as petImage, p.pet_name as petName, "
 			+ "p.pet_type as petType, p.pet_variety as petVariety, p.pet_birth as petBirth, p.pet_info as petInfo "
 			+ "from reservation r, pet p "
 			+ "where r.reservation_pet_no = p.no and "
@@ -33,7 +35,8 @@ public interface ReservationRepo extends JpaRepository<Reservation,Integer>{
 	//reservationFinish가 0이다 -> 해당 전문가의 확정된 상담 내역 중 곧 실시할 상담을 불러온다
 	//reservationFinish가 1이다 -> 해당 전문가가 완료한 상담 내역을 가져온다
 	@Query(value = "select r.no as rno, r.user_id as userId, r.consultant_id as consultantId, r.reservation_date as reservationDate, "
-			+ "r.reservation_consult_content as reservationConsultContent, p.no as pno, p.pet_image as petImage, p.pet_name as petName, "
+			+ "r.reservation_consult_content as reservationConsultContent, r.reservation_cost as reservationCost, r.reservation_reason as reservationReason, "
+			+ "p.no as pno, p.pet_image as petImage, p.pet_name as petName, "
 			+ "p.pet_type as petType, p.pet_variety as petVariety, p.pet_birth as petBirth, p.pet_info as petInfo "
 			+ "from reservation r, pet p "
 			+ "where r.reservation_pet_no = p.no and "
@@ -92,6 +95,9 @@ public interface ReservationRepo extends JpaRepository<Reservation,Integer>{
 			+ "from reservation r inner join pet p on r.reservation_pet_no = p.no "
 			+ "where r.user_id = ?1 and r.reservation_finish = 1", nativeQuery = true)
 	List<ReservationPetFinish> findByUserIdAndReservationFinish(String userId);
+	
+	@Query(value ="select reservation_date from reservation where user_id = :userId", nativeQuery = true)
+	String readRoomDate(@Param("userId") String userId);
 	
 	//reservation_date만 뽑기 위해 직접 nativeQuery를 날람 -> 해당 유저의 상담 예정(확정 미확정 둘 다) 시간 대를 전부 가져온다
 	@Query(value = "select reservation_date from reservation where user_id = ?1 and reservation_finish = 0", nativeQuery = true)
