@@ -16,5 +16,4 @@ export default {
 </script>
 
 <style scoped>
-@import "@/css/logo.css";
 </style>

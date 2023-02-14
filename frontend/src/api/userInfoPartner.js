@@ -22,8 +22,6 @@ async function getUserPartnerInfo(id) {
     })
     .then((res) => {
       if (res.data.response == "success") {
-        console.log("#회원정보 조회 성공");
-
         store.dispatch("getPartnerInfo", res.data.data.userInfo);
         const petInfo = res.data.data.petInfo;
         if (petInfo != null)
@@ -112,11 +110,11 @@ async function registerPetInfo(petInfo, id) {
       } else {
         console.log("#반려동물 등록 실패");
 
-        Swal.fire({
-          title: "FAIL",
-          text: "반려동물을 등록에 실패했습니다. 등록 정보를 다시 확인해 주세요.",
-          icon: "error",
-        });
+        // Swal.fire({
+        //   title: "FAIL",
+        //   text: "반려동물을 등록에 실패했습니다. 등록 정보를 다시 확인해 주세요.",
+        //   icon: "error",
+        // });
       }
     })
     .catch()

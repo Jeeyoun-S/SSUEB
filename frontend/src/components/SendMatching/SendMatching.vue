@@ -49,7 +49,7 @@ export default {
             console.log(data[i]);
             let matching = {};
             matching["userId"] = data[i].user_id;
-            matching["reservationDate"] = data[i].reservation_iate;
+            matching["reservationDate"] = data[i].reservation_date;
             matching["reservationConsultContent"] = data[i].reservation_consult_content;
             
             matching["no"] = data[i].matching_no;
