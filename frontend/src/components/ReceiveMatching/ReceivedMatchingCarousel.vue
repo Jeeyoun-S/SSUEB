@@ -148,7 +148,7 @@ export default {
                 // Bootpay
 
                 BootPay.request({
-                  price: 3000, // 결제할 금액
+                  price: 1000, // 결제할 금액
                   application_id:
                     "(부트페이 관리자에서 Web용 Application ID 입력해주세요.)",
                   name: "(판매할 아이템이름)", // 아이템 이름,

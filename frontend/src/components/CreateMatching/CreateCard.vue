@@ -95,9 +95,7 @@
         </div>
       </v-card-text>
       <v-card-actions>
-        <v-btn variant="text" color="primary" @click="seefile">
-          관련 첨부파일 보기
-        </v-btn>
+        <SeeAttatchedFiles :reservation="reservation"/>
       </v-card-actions>
     </v-card>
   </v-hover>
@@ -134,7 +132,7 @@ export default {
   }),
 
   props: {
-    reservation:{},
+    reservation:Object,
   },
 
   methods: {

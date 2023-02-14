@@ -46,7 +46,7 @@ export default {
       await api.get(process.env.VUE_APP_API_BASE_URL+`/reservation/matching/consultant/${this.userId}`)
         .then(({ data }) => {
           for (var i = 0; i < data.length; i++) {
-            //console.log(data[i]);
+            console.log(data[i]);
             let matching = {};
             matching["userId"] = data[i].user_id;
             matching["reservationDate"] = data[i].reservation_iate;
