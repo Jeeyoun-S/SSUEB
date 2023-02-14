@@ -36,7 +36,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
     	
     		// 저장한 파일 가져오기
-    		registry.addResourceHandler("/files/**")
+    		registry.addResourceHandler("/api/files/**")
     				.addResourceLocations("file:///"+filePath);
     				
 //    		
