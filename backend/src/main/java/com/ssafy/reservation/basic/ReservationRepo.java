@@ -2,6 +2,7 @@ package com.ssafy.reservation.basic;
 
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -94,11 +95,38 @@ public interface ReservationRepo extends JpaRepository<Reservation,Integer>{
 			+ "where r.user_id = ?1 and r.reservation_finish = 1", nativeQuery = true)
 	List<ReservationPetFinish> findByUserIdAndReservationFinish(String userId);
 	
-	@Query(value ="select reservation_date from reservation where user_id = :userId", nativeQuery = true)
-	String readRoomDate(@Param("userId") String userId);
+//	@Query(value ="select reservation_date from reservation where user_id = :userId", nativeQuery = true)
+//	String readRoomDate(@Param("userId") String userId);
 	
 	//reservation_date만 뽑기 위해 직접 nativeQuery를 날람 -> 해당 유저의 상담 예정(확정 미확정 둘 다) 시간 대를 전부 가져온다
 	@Query(value = "select reservation_date from reservation where user_id = ?1 and reservation_finish = 0", nativeQuery = true)
 	List<String> readDateValidation(String userId);
+	
+	//시간이 지난 상담을 가져온다. openvidu객체 
+	@Query(value = "SELECT no " + 
+			"FROM reservation " + 
+			"WHERE DATE_ADD(STR_TO_DATE(reservation_date, '%Y-%m-%d %H:%i:%S'), INTERVAL 40 MINUTE) < now() " +
+			"and reservation_finish = 0", nativeQuery = true)
+	Set<Integer> expiredRooms();
+	
+	
+	//회의실 종료정보를 
+	@Modifying
+	@Query(value = "SET SQL_SAFE_UPDATES = 0", nativeQuery = true)
+	void offSafeMode();
+	
+	
+	@Modifying
+	@Query(value = "UPDATE reservation " + 
+			"SET reservation_finish = 1 " + 
+			"WHERE DATE_ADD(STR_TO_DATE(reservation_date, '%Y-%m-%d %H:%i:%S'), INTERVAL 40 MINUTE) " +
+			" < now() and reservation_finish = 0", nativeQuery = true)
+	int updateRooms();
+	
+	
+	@Modifying
+	@Query(value = "SET SQL_SAFE_UPDATES = 1", nativeQuery = true)
+	void onSafeMode();
+	
 	
 }
