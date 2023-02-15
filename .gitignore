@@ -95,6 +95,6 @@ vue.config.js
 # End of https://www.toptal.com/developers/gitignore/api/vue,vuejs,macos,windows
 # OAuth Key
 application-oauth.yml
-*.jpg
+# *.jpg
 *.mp4
 *.gz
