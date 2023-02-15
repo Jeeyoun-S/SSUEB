@@ -22,8 +22,6 @@ async function getUserPartnerInfo(id) {
     })
     .then((res) => {
       if (res.data.response == "success") {
-        console.log("#회원정보 조회 성공");
-
         store.dispatch("getPartnerInfo", res.data.data.userInfo);
         const petInfo = res.data.data.petInfo;
         if (petInfo != null)
@@ -56,6 +54,9 @@ async function updatePartnerInfo(partnerInfo) {
 
         store.dispatch("getPartnerInfo", partnerInfo);
         store.dispatch("updateInfoVersion");
+
+        // 수정된 회원정보 반영 (for. store 저장, 메인페이지 표시) > 권한검증을 통해 회원정보 get
+        store.dispatch("userStore/checkAnyPermit", null, { root: true });
       } else {
         console.log("#회원정보 수정 실패");
 
@@ -65,12 +66,15 @@ async function updatePartnerInfo(partnerInfo) {
           icon: "error",
         });
       }
-    });
+    })
+    .catch()
 }
 
 // [POST] 반려동물 등록
 async function registerPetInfo(petInfo, id) {
-  var result = true;
+  var value = {};
+  value.result = true;
+  value.petInfo = null;
 
   for (let key of petInfo.keys()) {
     console.log(key, ":", petInfo.get(key));
@@ -99,21 +103,23 @@ async function registerPetInfo(petInfo, id) {
           icon: "success",
         });
 
-        result = false;
+        value.result = false;
+        value.petInfo = res.data.data;
         console.log(petInfo);
         store.dispatch("addPetInfo", res.data.data);
       } else {
         console.log("#반려동물 등록 실패");
 
-        Swal.fire({
-          title: "FAIL",
-          text: "반려동물을 등록에 실패했습니다. 등록 정보를 다시 확인해 주세요.",
-          icon: "error",
-        });
+        // Swal.fire({
+        //   title: "FAIL",
+        //   text: "반려동물을 등록에 실패했습니다. 등록 정보를 다시 확인해 주세요.",
+        //   icon: "error",
+        // });
       }
-    });
+    })
+    .catch()
 
-  return await Promise.resolve(result);
+  return await Promise.resolve(value);
 }
 
 // [PUT] 반려동물 수정
@@ -149,13 +155,22 @@ async function modifyPetInfo(petInfo, petNo) {
         });
 
         result = false;
-        petInfo.no = petNo;
-        petInfo.petImage = res.data.data.petImage;
-        store.dispatch("updatePetInfo", petInfo);
+
+        const newModifyPetInfo = {};
+        for (var key in petInfo) {
+          newModifyPetInfo[key] = petInfo[key];
+          console.log(key, petInfo[key]);
+        }
+
+        newModifyPetInfo.no = petNo;
+        newModifyPetInfo.petImage = res.data.data.petImage;
+        console.log("수정 후", newModifyPetInfo);
+        store.dispatch("updatePetInfo", newModifyPetInfo);
       } else {
         console.log("#반려동물 수정 실패");
       }
-    });
+    })
+    .catch()
 
   return await Promise.resolve(result);
 }
@@ -172,7 +187,8 @@ async function removePetInfo(petNo) {
       } else {
         console.log("#반려동물 삭제 실패");
       }
-    });
+    })
+    .catch()
 }
 
 // [POST] 회원정보 수정 전 비밀번호 확인

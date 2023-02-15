@@ -14,6 +14,7 @@
         label="이름"
         variant="outlined"
         density="compact"
+        maxlength="10"
         :rules="rules.name"
       ></v-text-field>
       <v-text-field
@@ -22,6 +23,7 @@
         label="휴대폰 번호"
         variant="outlined"
         density="compact"
+        maxlength="11"
         :rules="rules.phone"
       ></v-text-field>
       <v-btn
@@ -40,10 +42,12 @@
         label="닉네임"
         variant="outlined"
         density="compact"
+        maxlength="10"
         :rules="rules.nickname"
       ></v-text-field>
       <v-text-field
         class="mb-2"
+        :disabled="this.isSocialUser"
         :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
         :type="showPassword ? 'text' : 'password'"
         @click:append="showPassword = !showPassword"
@@ -51,22 +55,42 @@
         label="비밀번호"
         variant="outlined"
         density="compact"
+        maxlength="20"
         :rules="rules.password"
       ></v-text-field>
-      <v-radio-group v-model="userInfo.userAlertFlag" color="primary" density="compact" inline>
+      <v-radio-group
+        v-model="userInfo.userAlertFlag"
+        color="primary"
+        density="compact"
+        inline
+      >
         <v-label>알림방법</v-label>
-        <v-radio label="카카오톡" value="0"></v-radio>
+        <!-- <v-radio label="카카오톡" value="0"></v-radio> -->
         <v-radio label="이메일" value="1"></v-radio>
         <v-radio label="문자" value="2"></v-radio>
       </v-radio-group>
-      <v-btn class="mr-3" variant="outlined" color="primary" @click="store()" rounded="0">저장</v-btn>
-      <v-btn class="mr-3" variant="outlined" color="error" @click="back()" rounded="0">취소</v-btn>
+      <v-btn
+        class="mr-3"
+        variant="outlined"
+        color="primary"
+        @click="store()"
+        rounded="0"
+        >저장</v-btn
+      >
+      <v-btn
+        class="mr-3"
+        variant="outlined"
+        color="error"
+        @click="back()"
+        rounded="0"
+        >취소</v-btn
+      >
     </v-form>
   </v-sheet>
 </template>
 
 <script>
-import { updatePartnerInfo } from '@/api/userInfoPartner.js'
+import { updatePartnerInfo } from "@/api/userInfoPartner.js";
 // import { sendPhoneAuth } from "@/api/userJoin"
 
 export default {
@@ -78,12 +102,13 @@ export default {
         userPhone: null,
         userNickname: null,
         userAlertFlag: null,
-        userPassword: null
+        userPassword: null,
       },
       phoneDisable: true,
       userPhone: null,
       showPassword: false,
-    }
+      isSocialUser: false, // for. 소셜계정 확인 (비밀번호 비활성화)
+    };
   },
   computed: {
     phoneAuthMessage() {
@@ -110,10 +135,14 @@ export default {
       const { valid } = await this.$refs.form.validate();
 
       if (valid && this.phoneAuthStates) {
-
         this.userInfo.userPhone = this.userPhone;
         updatePartnerInfo(this.userInfo);
       }
+      // 소셜 계정의 경우 비밀번호 미입력
+      // else if (!valid && this.phoneAuthStates && this.isSocialUser) {
+      //   this.userInfo.userPhone = this.userPhone;
+      //   updatePartnerInfo(this.userInfo);
+      // }
     },
     back() {
       this.$store.dispatch("updateInfoVersion");
@@ -130,8 +159,19 @@ export default {
     this.userPhone = this.getPartnerInfo.userPhone;
     this.userInfo.userNickname = this.getPartnerInfo.userNickname;
     this.userInfo.userAlertFlag = this.getPartnerInfo.userAlertFlag;
-    // this.userInfo.userPassword = 
-    this.$store.dispatch("updatePhoneAuthMessage", this.getPartnerInfo.userPhone);
+    // this.userInfo.userPassword =
+    this.$store.dispatch(
+      "updatePhoneAuthMessage",
+      this.getPartnerInfo.userPhone
+    );
+
+    // 소셜 계정일 경우 비밀번호 미입력
+    if (
+      localStorage.getItem("kakaoToken") != null ||
+      localStorage.getItem("googleToken") != null
+    ) {
+      this.isSocialUser = true;
+    }
   },
   watch: {
     async userPhone() {
@@ -142,7 +182,7 @@ export default {
       this.$emit("userPhone", this.userPhone);
 
       // 만약 휴대폰 번호 유효성 검사를 통과하지 못한다면
-      if (!this.userPhone || !((/^[0-9]{11}$/).test(this.userPhone))) {
+      if (!this.userPhone || !/^[0-9]{11}$/.test(this.userPhone)) {
         // 인증 버튼 비활성화
         this.phoneDisable = true;
         // 인증 완료인 경우, 미완으로 변경
@@ -162,16 +202,16 @@ export default {
           this.$store.dispatch("resetPhoneAuthMessage");
         }
       }
-    }
+    },
   },
-}
+};
 </script>
 
 <style>
 .warning {
   margin: 5px 0px 15px 18px;
   font-size: 12px;
-  color: #B00020;
+  color: #b00020;
   height: 13px;
 }
 </style>

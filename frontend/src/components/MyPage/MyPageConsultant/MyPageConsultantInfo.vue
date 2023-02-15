@@ -74,7 +74,7 @@
           readonly
         >
           <v-label>알림방법</v-label>&ensp;
-          <v-radio label="카카오톡" value="0"></v-radio>&ensp;
+          <!-- <v-radio label="카카오톡" value="0"></v-radio>&ensp; -->
           <v-radio label="이메일" value="1"></v-radio>&ensp;
           <v-radio label="문자" value="2"></v-radio>
         </v-radio-group>
@@ -125,7 +125,10 @@ export default {
   methods: {
     ...mapActions(userStore, ["excuteWithdrawal"]),
     modifyConsultantInfo() {
-      if (this.socialUserInfo != null) {
+      if (
+        localStorage.getItem("kakaoToken") != null ||
+        localStorage.getItem("googleToken") != null
+      ) {
         this.$store.dispatch("updateInfoVersion");
       } else {
         checkPassword(this.getConsultantInfo.id);
@@ -148,7 +151,7 @@ export default {
       });
     },
     getImageUrl(img) {
-      return require(`${process.env.VUE_APP_IMAGE_FILE_PATH_PROFILE}` + img);
+      return `${process.env.VUE_APP_FILE_PATH_PROFILE}${img}`;
     },
   },
 };

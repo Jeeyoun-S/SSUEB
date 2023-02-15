@@ -1,9 +1,11 @@
 <template>
   <MyPagePartner v-if="userAuth == 'ROLE_USER'"></MyPagePartner>
-  <MyPageConsultant v-else></MyPageConsultant>
+  <MyPageConsultant v-else-if="userAuth == 'ROLE_CONSULTANT'"></MyPageConsultant>
+  <NowLoading v-else></NowLoading>
 </template>
 
 <script>
+import NowLoading from "@/views/NowLoading.vue";
 import MyPagePartner from "@/components/MyPage/MyPagePartner/MyPagePartner.vue";
 import MyPageConsultant from "@/components/MyPage/MyPageConsultant/MyPageConsultant.vue";
 import { mapState } from "vuex";
@@ -14,6 +16,7 @@ export default {
   components: {
     MyPagePartner,
     MyPageConsultant,
+    NowLoading
   },
   computed: {
     ...mapState(userStore, ["userAuth"]),

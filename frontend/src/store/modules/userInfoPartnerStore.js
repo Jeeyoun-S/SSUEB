@@ -50,12 +50,11 @@ const userInfoPartnerStore = {
       }
     },
     UPDATE_PET_INFO(state, payload) {
+      console.log("업데이트로");
       for (var key in payload) {
         console.log(key, payload[key]);
       }
-
       const petInfoArray = state.petInfo;
-
       for (let i = 0; i < petInfoArray.length; i++) {
         if (petInfoArray[i].no == payload.no) {
           state.petInfo[i] = payload;
@@ -82,6 +81,7 @@ const userInfoPartnerStore = {
       await commit("SET_PET_INFO", petInfo);
     },
     addPetInfo({ commit }, petOneInfo) {
+      if (petOneInfo.petBirth != null) petOneInfo.petBirth = petOneInfo.petBirth.substr(0, 7);
       commit("ADD_PET_INFO", petOneInfo);
     },
     deletePetInfo({ commit }, petNo) {

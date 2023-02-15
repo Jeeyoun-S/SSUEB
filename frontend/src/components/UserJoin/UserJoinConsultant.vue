@@ -10,6 +10,7 @@
         label="반려동물행동지도사 자격번호"
         variant="underlined"
         color="primary"
+        maxlength="30"
         required
       ></v-text-field>
       <v-file-input
@@ -33,11 +34,16 @@
       ></v-combobox>
       <v-radio-group v-model="info.userAlertFlag" color="primary" inline>
         <v-label>알림방법</v-label>
-        <v-radio label="카카오톡" value="0"></v-radio>
+        <!-- <v-radio label="카카오톡" value="0"></v-radio> -->
         <v-radio label="이메일" value="1"></v-radio>
         <v-radio label="문자" value="2"></v-radio>
       </v-radio-group>
-      <v-btn variant="outlined" size="large" rounded="0" @click="validate()" block
+      <v-btn
+        variant="outlined"
+        size="large"
+        rounded="0"
+        @click="validate()"
+        block
         >회원가입 신청</v-btn
       >
     </v-form>
@@ -61,7 +67,7 @@ export default {
         id: null,
         userPassword: null,
         userName: null,
-        userAlertFlag: "0",
+        userAlertFlag: "1", // #21# 0 = 카카오톡
         userPhone: null,
         consultPetType: [],
         consultantLicenseNumber: null,
@@ -80,7 +86,7 @@ export default {
     },
     consultantRule() {
       return this.$store.getters.getConsultantRule;
-    }
+    },
   },
   methods: {
     async validate() {
@@ -116,39 +122,39 @@ export default {
         joinConsultant(this.formData, this.socialAccess, this.provider);
       }
       // #21# 소셜 로그인 접근 회원가입
-      else if (
-        !valid &&
-        this.phoneAuthStates &&
-        this.info.userPassword == null
-      ) {
-        // 펫 타입 확인
-        if (this.petCheck.includes("개")) this.info.consultPetType.push("1");
-        else this.info.consultPetType.push("0");
-        if (this.petCheck.includes("고양이"))
-          this.info.consultPetType.push("1");
-        else this.info.consultPetType.push("0");
-        if (this.petCheck.includes("토끼")) this.info.consultPetType.push("1");
-        else this.info.consultPetType.push("0");
-        if (this.petCheck.includes("패럿")) this.info.consultPetType.push("1");
-        else this.info.consultPetType.push("0");
-        if (this.petCheck.includes("기니피그"))
-          this.info.consultPetType.push("1");
-        else this.info.consultPetType.push("0");
-        if (this.petCheck.includes("햄스터"))
-          this.info.consultPetType.push("1");
-        else this.info.consultPetType.push("0");
+      // else if (
+      //   !valid &&
+      //   this.phoneAuthStates &&
+      //   this.info.userPassword == null
+      // ) {
+      //   // 펫 타입 확인
+      //   if (this.petCheck.includes("개")) this.info.consultPetType.push("1");
+      //   else this.info.consultPetType.push("0");
+      //   if (this.petCheck.includes("고양이"))
+      //     this.info.consultPetType.push("1");
+      //   else this.info.consultPetType.push("0");
+      //   if (this.petCheck.includes("토끼")) this.info.consultPetType.push("1");
+      //   else this.info.consultPetType.push("0");
+      //   if (this.petCheck.includes("패럿")) this.info.consultPetType.push("1");
+      //   else this.info.consultPetType.push("0");
+      //   if (this.petCheck.includes("기니피그"))
+      //     this.info.consultPetType.push("1");
+      //   else this.info.consultPetType.push("0");
+      //   if (this.petCheck.includes("햄스터"))
+      //     this.info.consultPetType.push("1");
+      //   else this.info.consultPetType.push("0");
 
-        this.info.consultPetType = this.info.consultPetType.join("");
+      //   this.info.consultPetType = this.info.consultPetType.join("");
 
-        // info를 formData 형식으로 바꿔서 보낸다.
-        for (var keySocial in this.info) {
-          if (keySocial == "consultantLicenseCopyImage")
-            this.formData.append(keySocial, this.info[keySocial][0]);
-          else this.formData.append(keySocial, this.info[keySocial]);
-        }
+      //   // info를 formData 형식으로 바꿔서 보낸다.
+      //   for (var keySocial in this.info) {
+      //     if (keySocial == "consultantLicenseCopyImage")
+      //       this.formData.append(keySocial, this.info[keySocial][0]);
+      //     else this.formData.append(keySocial, this.info[keySocial]);
+      //   }
 
-        joinConsultant(this.formData, this.socialAccess, this.provider);
-      }
+      //   joinConsultant(this.formData, this.socialAccess, this.provider);
+      // }
     },
     updatePhone(userPhone) {
       this.info.userPhone = userPhone;
@@ -196,5 +202,4 @@ export default {
 };
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

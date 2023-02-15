@@ -48,13 +48,17 @@
               </v-col>
               <v-col>
                 <v-row>
-                  <v-text-field :rules="petRules.petName" v-model="petModifyInfo.petName" label="이름" variant="underlined" required></v-text-field>
+                  <v-text-field :rules="petRules.petName" v-model="petModifyInfo.petName" label="이름"
+                    variant="underlined" maxlength="20" required></v-text-field>
                 </v-row>
                 <v-row>
-                  <v-select :rules="petRules.petType" v-model="petModifyInfo.petType" :items="['개', '고양이', '토끼', '패럿', '기니피그', '햄스터']" label="종류" variant="underlined" required></v-select>
+                  <v-select :rules="petRules.petType" v-model="petModifyInfo.petType"
+                    :items="['개', '고양이', '토끼', '패럿', '기니피그', '햄스터']" label="종류"
+                    variant="underlined" required></v-select>
                 </v-row>
                 <v-row>
-                  <v-text-field :rules="petRules.petVariety" v-model="petModifyInfo.petVariety" label="품종" variant="underlined"></v-text-field>
+                  <v-text-field :rules="petRules.petVariety" v-model="petModifyInfo.petVariety" label="품종"
+                    variant="underlined" maxlength="20"></v-text-field>
                 </v-row>
                 <v-row>
                   <v-text-field :rules="petRules.petBirth" v-model="petModifyInfo.petBirth" label="생일" variant="underlined"></v-text-field>
@@ -62,7 +66,7 @@
               </v-col>
             </v-row>
             <v-row>
-              <v-textarea :rules="petRules.petInfo" v-model="petModifyInfo.petInfo" label="특이사항" variant="underlined" counter="40"></v-textarea>
+              <v-textarea :rules="petRules.petInfo" v-model="petModifyInfo.petInfo" label="특이사항" variant="underlined" counter="70" maxlength="70"></v-textarea>
             </v-row>
           </v-form>
         </v-container>
@@ -107,9 +111,6 @@ export default {
     pet: Object
   },
   methods: {
-    modifyPet(pet) {
-      modifyPetInfo(pet);
-    },
     async validate() {
       const { valid } = await this.$refs.form.validate();
 
@@ -117,13 +118,22 @@ export default {
         await modifyPetInfo(this.petModifyInfo, this.pet.no)
         .then((res) => {
           this.modifyOpen = res;
+          // this.petModifyInfo = {
+          //   petBirth: null,
+          //   petImage: null,
+          //   petInfo: null,
+          //   petName: null,
+          //   petType: null,
+          //   petVariety: null,
+          //   petDeleteImage: false
+          // }
+          console.log("수정 후", this.petModifyInfo);
         });
       }
     },
     getImageUrl(img) {
-      console.log(`${process.env.VUE_APP_IMAGE_FILE_PATH_PET}` + img);
-      return require(`${process.env.VUE_APP_IMAGE_FILE_PATH_PET}`+img);
-    }
+      return `${process.env.VUE_APP_FILE_PATH_PET}${img}`;
+    },
   },
   watch: {
     petModifyInfo: {
@@ -156,14 +166,16 @@ export default {
       deep: true
     }
   },
-  created() {
+  beforeUpdate() {
     this.petModifyInfo.petBirth = this.pet.petBirth;
     this.petModifyInfo.petInfo = this.pet.petInfo;
     this.petModifyInfo.petName = this.pet.petName;
     this.petModifyInfo.petType = this.pet.petType;
     this.petModifyInfo.petVariety = this.pet.petVariety;
+    this.petModifyInfo.petImage = null;
     this.petOriginalImage = this.pet.petImage;
-  }
+    console.log("beforeUpdate");
+  },
 }
 </script>
 

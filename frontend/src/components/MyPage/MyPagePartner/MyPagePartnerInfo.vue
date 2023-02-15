@@ -36,7 +36,7 @@
       readonly
     >
       <v-label>알림방법</v-label>
-      <v-radio label="카카오톡" value="0"></v-radio>
+      <!-- <v-radio label="카카오톡" value="0"></v-radio> -->
       <v-radio label="이메일" value="1"></v-radio>
       <v-radio label="문자" value="2"></v-radio>
     </v-radio-group>
@@ -94,7 +94,10 @@ export default {
   methods: {
     ...mapActions(userStore, ["excuteWithdrawal"]),
     modifyPartnerInfo() {
-      if (this.socialUserInfo != null) {
+      if (
+        localStorage.getItem("kakaoToken") != null ||
+        localStorage.getItem("googleToken") != null
+      ) {
         this.$store.dispatch("updateInfoVersion");
       } else {
         checkPassword(this.getPartnerInfo.id);

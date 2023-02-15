@@ -1,3 +1,6 @@
+
+// import { joinRoom } from "@/api/room"
+
 const reservationStore = {
     state: {
     },
@@ -6,6 +9,10 @@ const reservationStore = {
     mutations: {
     },
     actions: {
+        // JOIN_ROOM(userName){
+        //     //jwt token, login User정보 넘겨야함.
+        //     // joinRoom(userName)
+        // }
     }
 }
 

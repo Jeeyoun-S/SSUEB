@@ -5,7 +5,7 @@
         <v-icon v-for="(value, index) in average" :key="index" size="55" color="yellow-darken-3">
           {{ value }}
         </v-icon>
-        <span>{{ getAverageRating }}</span>
+        <span>{{ Math.round(getAverageRating * 10) / 10 }}</span>
       </div>
     </div>
     <div class="star-inner">

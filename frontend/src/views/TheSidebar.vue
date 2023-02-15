@@ -1,5 +1,6 @@
 <template>
   <div class="sidebar">
+  <!-- <div v-if="!onAir" class="sidebar"> -->
     <div class="border-sheet-one sheet">
       <LogoVer2></LogoVer2>
     </div>
@@ -14,9 +15,17 @@
       ></v-list>
       <!-- 전문가 사이드바 -->
       <v-list
-        v-else
+        v-else-if="userAuth == 'ROLE_CONSULTANT'"
         active-color="primary"
         :items="consultantItems"
+        mandatory
+        link
+      ></v-list>
+      <!-- 관리자 사이드바 -->
+      <v-list
+        v-else-if="userAuth == 'ROLE_ADMIN'"
+        active-color="primary"
+        :items="adminItems"
         mandatory
         link
       ></v-list>
@@ -29,7 +38,7 @@ import LogoVer2 from "@/views/LogoVer2.vue";
 import { mapState } from "vuex";
 
 const userStore = "userStore";
-
+// const roomStore = "roomStore";
 export default {
   name: "TheSidebar",
   components: {
@@ -46,7 +55,7 @@ export default {
         {
           title: "마이페이지",
           value: 2,
-          props: { prependIcon: "mdi-account", to: "/mypage" },
+          props: { prependIcon: "mdi-account", to: "/mypage", disabled: true },
         },
         { type: "divider" },
         { type: "subheader", title: "상담" },
@@ -56,33 +65,26 @@ export default {
           props: {
             prependIcon: "mdi-calendar-plus",
             to: "/create-reservation",
+            disabled: true,
           },
         }, // 반려인
-        {
-          title: "신규 상담 제안",
-          value: 4,
-          props: { prependIcon: "mdi-calendar-plus", to: "/create-matching" },
-        }, // 전문가
         {
           title: "받은 상담 제안",
           value: 5,
           props: {
             prependIcon: "mdi-clipboard-text-outline",
             to: "/receive-matching",
+            disabled: true,
           },
         }, // 반려인
         {
-          title: "보낸 상담 제안",
-          value: 6,
-          props: {
-            prependIcon: "mdi-clipboard-text-outline",
-            to: "/send-matching",
-          },
-        }, // 전문가
-        {
           title: "예정 상담 목록",
           value: 7,
-          props: { prependIcon: "mdi-format-list-text", to: "/confirmed" },
+          props: {
+            prependIcon: "mdi-format-list-text",
+            to: "/confirmed",
+            disabled: true,
+          },
         },
         // {
         //   title: "화상 상담 입장",
@@ -95,6 +97,7 @@ export default {
           props: {
             prependIcon: "mdi-format-list-bulleted",
             to: "/finished-reservation",
+            disabled: true,
           },
         },
         { type: "divider" },
@@ -110,6 +113,15 @@ export default {
           props: {
             prependIcon: "mdi-clipboard-edit-outline",
             to: "/free-board",
+            disabled: true,
+          },
+        },
+        {
+          title: "공개된 상담",
+          value: 12,
+          props: {
+            prependIcon: "mdi-share-variant",
+            to: "/open-consult",
           },
         },
       ],
@@ -172,17 +184,105 @@ export default {
             to: "/free-board",
           },
         },
+        {
+          title: "공개된 상담",
+          value: 12,
+          props: {
+            prependIcon: "mdi-share-variant",
+            to: "/open-consult",
+          },
+        },
+      ],
+      adminItems: [
+        {
+          title: "메인페이지",
+          value: 1,
+          props: { prependIcon: "mdi-home", to: "/" },
+        },
+        { type: "divider" },
+        { type: "subheader", title: "회원 관리" },
+        {
+          title: "전문가 가입 수락",
+          value: 2,
+          props: { prependIcon: "mdi-account-star", to: "/consultant-accept" },
+        },
+        {
+          title: "회원 탈퇴 처리",
+          value: 3,
+          props: { prependIcon: "mdi-account-off", to: "/user-withdrawal" },
+        },
+        {
+          title: "회원 알림 보내기",
+          value: 4,
+          props: { prependIcon: "mdi-comment-account", to: "/user-alarm" },
+        },
+        { type: "divider" },
+        { type: "subheader", title: "게시판 관리" },
+        {
+          title: "공지사항",
+          value: 10,
+          props: { prependIcon: "mdi-bell", to: "/notice" },
+        },
+        {
+          title: "자유 게시판",
+          value: 11,
+          props: {
+            prependIcon: "mdi-clipboard-edit-outline",
+            to: "/free-board",
+          },
+        },
+        {
+          title: "공개된 상담",
+          value: 12,
+          props: {
+            prependIcon: "mdi-share-variant",
+            to: "/open-consult",
+          },
+        },
       ],
     };
   },
   computed: {
     ...mapState(userStore, ["userAuth"]),
+    // ...mapState(roomStore,["onAir"])
+  },
+  watch: {
+    userAuth() {
+      this.turnOnOffSideBar();
+    },
+  },
+  created() {
+    this.turnOnOffSideBar();
+  },
+  methods: {
+    // [@Method] 로그인 여부에 따라 SideBar 비/활성화
+    turnOnOffSideBar() {
+      if (this.userAuth == null) this.disableSideBar();
+      else this.activeSideBar();
+    },
+    // [@Method] 비활성화 되어 있는 일부 sideBar 활성화
+    activeSideBar() {
+      this.items[1].props.disabled = false;
+      this.items[4].props.disabled = false;
+      this.items[5].props.disabled = false;
+      this.items[6].props.disabled = false;
+      this.items[7].props.disabled = false;
+      this.items[11].props.disabled = false;
+    },
+    // [@Method] 활성화 되어 있는 일부 sideBar 비활성화
+    disableSideBar() {
+      this.items[1].props.disabled = true;
+      this.items[4].props.disabled = true;
+      this.items[5].props.disabled = true;
+      this.items[6].props.disabled = true;
+      this.items[7].props.disabled = true;
+      this.items[11].props.disabled = true;
+    },
   },
 };
 </script>
 
 <style>
-@import "@/css/sheet.css";
 .sidebar {
   padding-right: 48px;
 }

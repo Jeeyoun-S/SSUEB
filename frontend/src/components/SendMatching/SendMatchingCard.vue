@@ -1,69 +1,121 @@
 <template>
-  <div v-for="(match, index) in sendMatchingList" :key="index">
+  <div>
     <v-hover v-slot="{ isHovering, props }">
-      <v-card class="ma-3 pa-2 d-flex justify-center flex-column"
-        width="320" height="480" variant="outlined"
-        :elevation="isHovering ? 8 : 0" :class="{ 'on-hover': isHovering }"
-        rounded="0" v-bind="props"
+      <v-card
+        class="ma-3 pa-2 d-flex justify-center flex-column"
+        width="320"
+        height="620"
+        variant="outlined"
+        :elevation="isHovering ? 8 : 0"
+        :class="{ 'on-hover': isHovering }"
+        rounded="0"
+        v-bind="props"
       >
-        <v-btn class="ms-auto align-self-end" color="error" variant="text" @click="deleteSendMatching()">
+        <v-btn
+          class="ms-auto align-self-end"
+          color="error"
+          variant="text"
+          @click="deleteSendMatching()"
+        >
           삭제
         </v-btn>
-        <v-avatar class="align-self-center" color="white" size="100">
-          <img width="320" height="100" :src="require('@/assets/placeholder/placeholder_dog.png')"/>
+        <v-avatar class="align-self-center" color="#06BEE1" size="100">
+          <span v-if="matching.petImage == null">{{ matching.petName }}</span>
+          <img v-else :src="getImageUrl(matching.petImage)" height="100" width="100" />
+          <v-tooltip v-if="matching.petInfo != null"
+            activator="parent"
+            location="bottom" width="280"
+          >{{ matching.petInfo }}</v-tooltip>
         </v-avatar>
         <v-card-title>
-          <h5>20XX - XX - XX XX : XX</h5>
+          <h4>{{ matching.reservationDate.substr(0, 16) }}</h4>
         </v-card-title>
         <v-card-subtitle>
-          <p>로이 (8살)</p>
-          <p>강아지 - 이탈리안 그레이하운드</p>
+          <p>{{ matching.petName }}</p>
+          <p>{{ matching.petType }}({{ matching.petBirth }})</p>
+          <p>{{ matching.petVariety }}&nbsp;</p>
         </v-card-subtitle>
         <v-card-text>
-          우리 갱얼쥐... 이제 노견인데 아직도 너무 긔 여 어 여 노견이 이렇게
-          귀여워도 돼요? 이거 문제있는거죠? 말이 됩니까??????? 우리 로이 좀 보세요
-          세상에
+          <div>
+            <v-sheet height="110">
+              {{ matching.reservationConsultContent.substr(0, 60) }}
+              <span v-if="matching.reservationConsultContent.length > 60">···</span>
+              <v-btn v-if="matching.reservationConsultContent.length > 60" color="primary" class="mt-2" @click="overlay = !overlay" variant="outlined" rounded="0" block>
+                더보기
+              </v-btn>
+              <v-overlay v-model="overlay" contained>
+                <v-sheet class="d-flex flex-column justify-center align-center pa-4 detail-info" width="320" height="620">
+                  <v-sheet color="transparent" width="280" height="620">
+                    {{ matching.reservationConsultContent }}
+                    <v-btn class="mt-2" color="primary" @click="overlay = false" rounded="0" block>
+                      닫기
+                    </v-btn>
+                  </v-sheet>
+                </v-sheet>
+              </v-overlay>
+            </v-sheet>
+          </div>
         </v-card-text>
         <v-divider></v-divider>
-        <v-card-text>
-          <v-row>
-            <v-col class="bold-font" cols="3">금액</v-col>
-            <v-col>20,000원</v-col>
-          </v-row>
-          <v-row>
-            <v-col class="bold-font" cols="3">설명</v-col>
-            <v-col>어려운 상담이 될 거 같습니다. 시간은 30분 정도 예상됩니다.</v-col>
-          </v-row>
-        </v-card-text>
+        <v-sheet height="162">
+          <v-card-text class="pa-4">
+            <p>
+              <span class="bold-font mr-2">금액</span>
+              <span>{{ matching.matchingCost }}</span>
+            </p>
+            <p class="mt-2">
+              <span class="bold-font mr-2">설명</span>
+              <span>{{ matching.matchingComment }}</span>
+            </p>
+          </v-card-text>
+        </v-sheet>
+        <v-card-actions>
+          <SeeAttatchedFiles :rno="matching.reservationNo" />
+        </v-card-actions>
       </v-card>
     </v-hover>
   </div>
 </template>
 
 <script>
+import { deleteMatching } from "@/api/reservationMatching.js";
+import SeeAttatchedFiles from "../SeeAttachedFiles/SeeAttatchedFiles.vue";
+
 export default {
   name: "SendMatchingCard",
   data() {
     return {
-      sendMatchingList: [
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-        {},
-      ]
-    }
+      overlay: false,
+    };
+  },
+  props: {
+    matching: Object,
+    idx: Number,
+  },
+  components: {
+    SeeAttatchedFiles,
   },
   methods: {
-    deleteSendMatching() {
-      alert("삭제 버튼 활성화")
-    }
+    async deleteSendMatching() {
+      await deleteMatching(this.matching.no).then((res) => {
+        if (res) {
+          this.$emit("deleteMatching", this.idx);
+          this.$swal.fire(
+            "제안한 상담 삭제 완료",
+            "제안하신 상담이 삭제되었습니다.",
+            "success"
+          );
+        }
+      });
+    },
+    getImageUrl(img) {
+      return `${process.env.VUE_APP_FILE_PATH_PET}${img}`;
+    },
+  },
+  created(){
+    console.log(this.reservation)
   }
-}
+};
 </script>
 
-<style>
-
-</style>
+<style></style>

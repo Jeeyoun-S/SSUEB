@@ -12,7 +12,8 @@
           label="이메일"
           variant="outlined"
           required
-          class="pb-2"
+          class="pb-2 mb-3"
+          hide-details
         ></v-text-field>
         <v-text-field
           v-model="loginInfo.password"
@@ -23,7 +24,8 @@
           label="비밀번호"
           variant="outlined"
           required
-          class="pb-2"
+          class="pb-2 mb-3"
+          hide-details
         ></v-text-field>
         <v-btn variant="outlined" block @click="login" rounded="0" size="large"
           >로그인</v-btn
@@ -99,8 +101,16 @@ export default {
     ...mapActions(userStore, ["excuteLogin"]),
     // [@Method] 로그인
     async login() {
-      await this.$refs.form.validate();
-      await this.excuteLogin(this.loginInfo);
+      const { valid } = await this.$refs.form.validate();
+      if (valid) {
+        await this.excuteLogin(this.loginInfo);
+      } else {
+        this.$swal.fire(
+          "로그인 실패",
+          "id 또는 password를 다시 입력해 주세요.",
+          "error"
+        );
+      }
     },
     // [@Method] 회원가입 페이지로 이동
     moveJoin() {

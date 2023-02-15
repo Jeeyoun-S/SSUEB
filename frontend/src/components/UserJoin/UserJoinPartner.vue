@@ -9,12 +9,13 @@
         label="닉네임"
         variant="underlined"
         color="primary"
+        maxlength="10"
         required
       ></v-text-field>
       <UserJoinPhone @userPhone="updatePhone"></UserJoinPhone>
       <v-radio-group v-model="info.userAlertFlag" color="primary" inline>
         <v-label>알림방법</v-label>
-        <v-radio label="카카오톡" value="0"></v-radio>
+        <!-- <v-radio label="카카오톡" value="0"></v-radio> -->
         <v-radio label="이메일" value="1"></v-radio>
         <v-radio label="문자" value="2"></v-radio>
       </v-radio-group>
@@ -48,7 +49,7 @@ export default {
         userPassword: null,
         userName: null,
         userNickname: null,
-        userAlertFlag: "0",
+        userAlertFlag: "1",
         userPhone: null,
         userIsSocialId: "0",
       },
@@ -81,13 +82,13 @@ export default {
         joinPartner(this.info, this.socialAccess); // #21# 소셜 로그인 접근 여부 확인을 위해 코드 변경
       }
       // #21# 소셜 로그인 접근 회원가입
-      else if (
-        !valid &&
-        this.phoneAuthStates &&
-        this.info.userPassword == null
-      ) {
-        joinPartner(this.info, this.socialAccess, this.provider);
-      }
+      // else if (
+      //   !valid &&
+      //   this.phoneAuthStates &&
+      //   this.info.userPassword == null
+      // ) {
+      //   joinPartner(this.info, this.socialAccess, this.provider);
+      // }
     },
     updatePhone(userPhone) {
       this.info.userPhone = userPhone;

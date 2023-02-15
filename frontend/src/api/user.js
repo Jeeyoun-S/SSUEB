@@ -6,7 +6,6 @@ const api = apiInstance();
 async function login(loginInfo, success, fail) {
   // console.log("#user - api# 로그인 params: ", loginInfo);
   await api
-    // .post(`/user/login/`, JSON.stringify(loginInfo))
     .post(
       `${process.env.VUE_APP_API_BASE_URL}/user/login/`,
       JSON.stringify(loginInfo)
@@ -19,7 +18,6 @@ async function login(loginInfo, success, fail) {
 async function anyPermit(token, success, fail) {
   console.log("#user - anyPermit# 모든 권한 허용 params - token: ", token);
   await api
-    // .get(`/user/auth/permit`, {
     .get(`${process.env.VUE_APP_API_BASE_URL}/user/auth/permit`, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -34,7 +32,6 @@ async function partPermit(userId, token, success, fail) {
   // console.log("#user - api# 일부 권한 허용 params - userId: ", userId);
   // console.log("#user - api# 일부 권한 허용 params - token: ", token);
   await api
-    // .get(`/user/auth/permit/${userId}`, {
     .get(`${process.env.VUE_APP_API_BASE_URL}/user/auth/permit/${userId}`, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -49,7 +46,6 @@ async function withdrawal(info, success, fail) {
   console.log("#user - api# 회원탈퇴 - userId: ", info);
 
   await api
-    // .post(`/user/withdrawal/`, JSON.stringify(info))
     .post(
       `${process.env.VUE_APP_API_BASE_URL}/user/withdrawal/`,
       JSON.stringify(info)
@@ -58,4 +54,16 @@ async function withdrawal(info, success, fail) {
     .catch(fail);
 }
 
-export { login, anyPermit, partPermit, withdrawal };
+// [GET] 최근 예약 상담 내역 조회
+async function getRecentlyReservation(id, success, fail) {
+  console.log("#user - 최근 예약 상담 내역 조회# id: ", id);
+
+  await api
+    .get(
+      `${process.env.VUE_APP_API_BASE_URL}/user/logout/alert/reservation/${id}`
+    )
+    .then(success)
+    .catch(fail);
+}
+
+export { login, anyPermit, partPermit, withdrawal, getRecentlyReservation };

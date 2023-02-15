@@ -22,5 +22,5 @@ module.exports = defineConfig({
       },
     },
   },
-  outputDir: "C:/Users/SSAFY/S08P12A801/backend/src/main/resources/static",
+  outputDir: "/home/ubuntu/mydocker/frontend",
 });
