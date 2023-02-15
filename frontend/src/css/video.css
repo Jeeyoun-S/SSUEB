@@ -1,0 +1,181 @@
+/* 최상단 */
+#video-bound{
+  border-style: solid;
+  height: 654.4px;
+  width: 1344px;
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  padding: 10px;
+}
+
+/* 좌측 (화면 + 채팅) */
+#video-main{
+  height: 610px;
+  width: 1050px;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  /* width: 80%; */
+}
+
+/* 비디오 화면 */
+#main-video {
+  height: 595px;
+  width: 760px;
+}
+#main-video-stream{
+  height: 595px;
+  width: 760px;
+}
+
+/* 메인 비디오 */
+#video-main video{
+  /* width: 1000px; */
+  height: 570px; 
+  /* margin-top: 30px; */
+  /* margin: 0 auto; */
+}
+
+/* 채팅 박스 */
+#chatbox {
+  /* margin-top: 40px; */
+  width: 280px;
+  height: 610px;
+  padding: 15px;
+  /* margin-top: 10p; */
+}
+
+/* 채팅창 상단 */
+#chatbox-body{
+  /* padding:20px; */
+  display: flex;
+  flex-direction: column;
+  min-height: 90%;
+  overflow-y: auto;
+  max-height: 90%;
+  overflow-x: hidden;
+  /* overflow-y: hidden; */
+  
+}
+
+/* 채팅창 하단 입력창 */
+.chat-input{
+  /* margin: 0px 20px 0px 20px; */
+}
+
+/* 우측 */
+#video-option{
+  height: 610px;
+  width: 230px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  /* align-items: center; */
+  /* flex-direction: column; */
+}
+
+/* 하단 왼쪽 옵션 */
+#options {
+  height: 365px;
+  /* width: 950px; */
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  /* justify-content: space-around; */
+}
+
+/* 로고 */
+#options .sheet {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 10px;
+
+  height: 100px;
+  width: 230px;
+}
+
+/* 하단 오른쪽 작은 비디오 */
+#sub-video{
+  width: 230px;
+  height: 200px;
+  /* margin-left: 10px; */
+}
+
+#subvideo video{
+  /* position: relative;
+  float: left;
+  width: 50%;
+  cursor: pointer;
+  object-fit: cover; */
+  /* margin-left: ; */
+  width: 230px;
+  height: 170px;
+}
+
+#room-logo{
+  height: 100%;
+  margin-right: 100px;
+}
+
+.room-logo-img{
+  width: 350px;
+  height: 150px;
+}
+
+
+/* #video-option *{
+  height: 100%;
+  
+} */
+
+
+.up-content{
+  font-size: 20px;
+}
+.chat-title{
+
+  font-weight: bold;
+  
+}
+
+.one-chat{
+  margin-bottom: 10px;
+}
+
+svg{
+  width: 70px;
+  height: 70px;
+}
+
+.option-btn{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 109px;
+  height: 100%;
+  background-color: rgb(221, 214, 214);
+  margin-left: 10px;
+}
+
+.option-btn:hover{
+  background-color: gray;
+}
+
+.option-text{
+  height: 40px;
+}
+
+.chat-input-icon{
+  margin-left: 10px;
+  margin-bottom: 10px;
+}
