@@ -74,7 +74,14 @@ export default {
   methods: {
     moveRoom(){
       //유효성검사후 없으면 적절한 alert띄우기 
-        this.$router.push("meeting-room");
+        console.log("reservation 정보 : ",this.reservation.rno)
+        this.$router.push(
+          {
+            name:"meetingRoom",
+            params:this.reservation
+
+          }
+        );
         // this.roomInitialize();
     },
     getImageUrl(img) {

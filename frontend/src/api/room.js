@@ -3,11 +3,11 @@ import { apiInstance } from "./index.js";
 
 const token = localStorage.getItem("token");
 const api = apiInstance();
-async function joinRoomSession(loginInfo, success, fail) {
+async function joinRoomSession(roomId, success, fail) {
     //나중에 수정. login 정보와 기타등등을 넘겨야함.
     // console.log(loginInfo);d
     await api
-      .post(`api/room/session`, {customSessionId: '2'},{  
+      .post(`api/room/session`, {customSessionId: roomId},{  
           headers: {
             Authorization: `Bearer ${token}`
           },
