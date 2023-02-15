@@ -6,6 +6,7 @@ const meetingRoom = [
         path:"/meeting-room",
         name:"meetingRoom",
         component:meetingRoomVue,
+        props: true,
     }
     
 ]

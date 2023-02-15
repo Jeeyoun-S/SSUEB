@@ -1,8 +1,11 @@
 <template>
-    <div id ="video-bound" class="border-sheet-one">
+    <div v-if="roomToken!==null" id ="video-bound" class="border-sheet-one">
       <v-row id="video-main">
         <v-col  cols="9">
-        <UserVideo id="main-video-stream" :stream-manager="mainStreamManager" />
+        <UserVideo v-if="toggleVideo" id="main-video-stream" :stream-manager="mainStreamManager" />
+        <div v-if="!toggleVideo">
+          <UserVideo id="main-video-stream" v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub"/>
+        </div>
         </v-col>
           <div id="chatbox" class="border-sheet-one">
             <div id="chatbox-body">
@@ -10,11 +13,11 @@
                     <div>
                         <div>
                             <div v-for="(item, index) in chat" :key="index">
-                                <div v-if="item.from == '당신'" class="one-chat black--text">
+                                <div v-if="item.from === userInfo.userNickname" class="one-chat black--text">
                                   <div class="chat-title">{{ item.from}}({{item.time}})</div>
                                   <div>{{ item.msg }}</div>
                                   </div>
-                                <div v-if="item.from != '당신'" class="one-chat blue--text">
+                                <div v-if="item.from !== userInfo.userNickname" class="one-chat blue--text">
                                   <div class="chat-title">{{ item.from}}({{item.time}})</div>
                                   <div>{{ item.msg }}</div>
                                   </div>
@@ -31,7 +34,7 @@
                         <v-col>
                           <div class="chat-input d-flex flex-row align-center">
                             <v-text-field class="" v-model="msg" placeholder="글을 입력하세요" @keypress.enter="sendMsg"></v-text-field>
-                            <v-btn icon class="" @click="sendMsg"><v-icon>mdi-send</v-icon></v-btn>
+                            <v-btn icon class="chat-input-icon" @click="sendMsg"><v-icon>mdi-send</v-icon></v-btn>
                           </div>
                         </v-col>                   
                     <!-- </v-row> -->
@@ -44,20 +47,85 @@
           <div id="room-logo">
             <img class="room-logo-img" :src="logoImageVer2" />
           </div>
+          <v-dialog
+            v-model="dialog"
+            width="800px"
+            height="800px"
+          >
+            <template v-slot:activator="{ props }">
+              <div>
+                <div class="option-btn" v-bind="props">
+                  <!-- 상담내역보기: 클릭시 모달창이벤트. -->
+                  <div class="option-svg"> <svg-icon type="mdi" :path="pathReservation"></svg-icon></div>
+                  <!-- <div v-if="!toggleCamera" class="option-svg"> <svg-icon type="mdi" :path="pathOffCamera"></svg-icon></div> -->
+                  <div class="option-text">상담내역보기</div> 
+                </div>
+              </div>
+            </template>
+            <v-card>
+              <v-card-title>
+                <h1>상담내역</h1>
+              </v-card-title>
+              <v-card-item class="align-self-center">
+                <v-avatar color="#06BEE1" size="100">
+                  <span v-if="reservation.petImage == null">{{
+                    reservation.petName
+                  }}</span>
+                  <img
+                    v-else
+                    :src="getImageUrl(reservation.petImage)"
+                    height="100"
+                    width="100"
+                  />
+                </v-avatar>
+                <!-- <v-avatar class="pt-1" color="white" size="100">
+                  <img width="100" :src="require('@/assets/placeholder/placeholder_dog.png')" />
+                </v-avatar> -->
+              </v-card-item>
+
+              <!-- <v-card-title>{{ reservation.reservationDate }}</v-card-title> -->
+              <v-card-title>
+                <p>{{ reservation.petName }} ({{ reservation.petBirth }})</p>
+                <p>
+                  {{ reservation.petType }}
+                  <span v-show="reservation.petVariety != null">-</span>
+                  {{ reservation.petVariety }}
+                </p>
+                <p>
+                  {{reservation.petInfo}}
+                </p>
+              </v-card-title>
+              <v-card-text>
+                <h2>상담내용</h2>
+                {{reservation.reservationConsultContent}}
+                <h2>견적/측정사유</h2>
+                {{reservation.reservationCost}}/{{reservation.reservationReason}}
+              </v-card-text>
+              <v-card-item>
+                <SeeAttatchedFiles :reservation="reservation"/>
+              </v-card-item>
+              <v-card-actions>
+                <v-btn color="primary" block @click="dialog = false">닫기</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-dialog>
+
           <div>
-            <div class="option-btn">
-              <div class="option-svg"> <svg-icon type="mdi" :path="pathCamera"></svg-icon></div>
+            <div class="option-btn" @click="muteCamera">
+              <div v-if="toggleCamera" class="option-svg"> <svg-icon type="mdi" :path="pathCamera"></svg-icon></div>
+              <div v-if="!toggleCamera" class="option-svg"> <svg-icon type="mdi" :path="pathOffCamera"></svg-icon></div>
               <div class="option-text">카메라 ON/OFF</div> 
             </div>
           </div>
           <div>
-            <div class="option-btn">
-             <div class="option-svg">  <svg-icon type="mdi" :path="pathMicro"></svg-icon></div>
+            <div class="option-btn" @click="muteAudio">
+             <div v-if="toggleAudio" class="option-svg">  <svg-icon type="mdi" :path="pathMicro"></svg-icon></div>
+             <div v-if="!toggleAudio" class="option-svg">  <svg-icon type="mdi" :path="pathOffMicro"></svg-icon></div>
               <div class="option-text">마이크 ON/OFF</div> 
             </div>
           </div>
           <div>
-            <div class="option-btn">
+            <div class="option-btn" @click="updateMainVideo">
               <div class="option-svg"> <svg-icon type="mdi" :path="pathChange"></svg-icon> </div> 
               <div class="option-text">화면전환</div> 
             </div>
@@ -70,7 +138,10 @@
           </div>
         </v-col>
         <v-col id="sub-video" cols="2">
-          <UserVideo id="subvideo" v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub"/>
+          <div v-if="toggleVideo">
+           <UserVideo id="subvideo" v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub"/>
+          </div>
+          <UserVideo v-if="!toggleVideo" id="subvideo" :stream-manager="mainStreamManager" />
         </v-col>
       </v-row>
     </div>
@@ -79,24 +150,28 @@
 import {mapMutations, mapState } from "vuex"
 import UserVideo from "./UserVideo.vue" 
 // import ChatBox from "./ChatBox.vue"
-const roomStore = "roomStore";
 import { OpenVidu } from "openvidu-browser";
 import {joinRoomSession} from "@/api/room";
 import SvgIcon from '@jamescoyle/vue-icon';
-import { mdiCamera, mdiSwapHorizontal, mdiMicrophone,mdiExitToApp} from '@mdi/js';
+import SeeAttatchedFiles from '../SeeAttachedFiles/SeeAttatchedFiles.vue'
+import { mdiBookOpenBlankVariant,mdiMicrophoneOff,mdiCameraOff ,mdiCamera, mdiSwapHorizontal, mdiMicrophone,mdiExitToApp} from '@mdi/js';
 // import LogoVer2 from "@/views/LogoVer2.vue";
-
+const roomStore = "roomStore";
+const userStore = "userStore";
 export default{
     name : "meeting-room",
     components:{
         UserVideo,
         SvgIcon,
+        SeeAttatchedFiles
         // LogoVer2
     },
     computed:{
-        ...mapState(roomStore,["onAir"])
+        ...mapState(roomStore,["onAir"]),
+        ...mapState(userStore, ["userInfo","userAuth"])
     },
     created(){
+
       this.initialize()
       // this.session.on('signal:my-chat',(event)=>{
       //   console.log(event.data); // Message
@@ -110,10 +185,12 @@ export default{
         initialize(){
             console.log("meetingRoom 초기화")
             console.log("THISOV: ",this.OV)
+            this.reservation = this.$route.params
+            console.log(this.reservation)
             if(this.OV===undefined){
                 console.log("영상 설정 초기화 및 연결")
                 //userName가져오기
-                joinRoomSession(this.userName,
+                joinRoomSession(this.reservation.rno + "",
                 (data)=>{
                     console.log("this.roomToken : ",this.roomToken);
                     // this.UPDATE_TOKEN(data.data);
@@ -124,11 +201,34 @@ export default{
         
                 },
                 (error)=>{
-                  console.log(error);
+                  // console.log(error);
                 //  this.timealert();
+                  //유효성(권한, 시간)에러
+                
+                this.timealert(error.response.data);
+                this.$router.push("/confirmed")
               })
 
             }
+        },
+        timealert(msg) {
+          this.$swal.fire(
+              '화상 상담 입장 대기',
+              msg,
+            'warning') 
+        },
+        leaveAlert(){
+          if(this.userAuth === 'ROLE_USER' ){
+              this.$swal.fire(
+              '상담이 끝나셨나요?',
+              `지금 리뷰를 작성해보세요!`
+              )
+          }else{
+            this.$swal.fire(
+              '상담이 끝나셨나요?',
+              `지금 상담내역을 작성해보세요!`
+            )
+          }
         },
         roomInitialize(){
 
@@ -159,24 +259,27 @@ export default{
                 console.warn(exception);
             });
 
+            // this.sessino.on("SessionDisconnected",()=>{
+            //   console.log("세션나가기 로그가 찍히는가?")
+              
+            //   this.$router.push("finished-reservation")
+            // })
+
             // Receiver of the message (usually before calling 'session.connect')
             this.session.on('signal:my-chat',(event)=>{
               console.log("메시지도착 : ")
               let msg = JSON.parse(event.data)
-              console.log(event.data); // Message
-              console.log(event.from); // Connection object of the sender
-              console.log(event.type); // The type of message ("my-chat")
-              if(msg.from !== "당신"){
+              // console.log(event.data); // Message
+              // console.log(event.from); // Connection object of the sender
+              // console.log(event.type); // The type of message ("my-chat")
                         this.chat.push(
                         msg
                        )
-              }
-              
             })
 
 
             // --- 4) Connect to the session with a valid user token ---
-            this.session.connect(this.roomToken, { clientData: this.myUserName })
+            this.session.connect(this.roomToken, { clientData: this.userInfo.userNickname })
             .then(() => {
 
             // --- 5) Get your own camera stream with the desired properties ---
@@ -205,7 +308,6 @@ export default{
           .catch((error) => {
             console.log("There was an error connecting to the session:", error.code, error.message);
           });
-
         window.addEventListener("beforeunload", this.leaveSession);
 
     },
@@ -220,9 +322,9 @@ export default{
         
         let msgData = {
           //로그인 유저 정보로 수정해야함.
-          from : this.myUserName,
+          from : this.userInfo.userNickname,
           time : time,
-          msg : this. msg
+          msg : this.msg
         }
 
         //상대에게보내기:
@@ -262,12 +364,42 @@ export default{
       this.UPDATE_ONAIR(false)
       // Remove beforeunload listener
       window.removeEventListener("beforeunload", this.leaveSession);
-      // this.$router.push("/")
+      this.leaveAlert();
+      this.$router.push("/finished-reservation");
     },
 
-    updateMainVideoStreamManager(stream) {
-      if (this.mainStreamManager === stream) return;
-      this.mainStreamManager = stream;
+    updateMainVideo() {
+      // if (this.mainStreamManager === this.publisher){
+      //   this.mainStreamManager = this.subscribers[0]
+      // }else{
+      //   this.mainStreamManager = this.publisher
+      // }
+      if(this.toggleVideo){
+        this.toggleVideo = false
+      }else{
+        this.toggleVideo = true
+      }
+
+    },
+
+    muteCamera(){
+      if(this.toggleCamera){
+        this.toggleCamera = false
+      }else{
+        this.toggleCamera = true
+      }
+      this.publisher.publishVideo(this.toggleCamera); 
+    },
+    muteAudio(){
+      if(this.toggleAudio){
+        this.toggleAudio = false
+      }else{
+        this.toggleAudio = true
+      }
+      this.publisher.publishAudio(this.toggleAudio); 
+    },
+    getImageUrl(img) {
+      return `${process.env.VUE_APP_FILE_PATH_PET}${img}`;
     },
     },
     data(){
@@ -290,9 +422,26 @@ export default{
              pathMicro :mdiMicrophone,
              pathChange : mdiSwapHorizontal,
              pathExit : mdiExitToApp,
-
+             pathOffCamera:  mdiCameraOff,
+             pathOffMicro : mdiMicrophoneOff,
+             pathReservation : mdiBookOpenBlankVariant,
              //logimages
-              logoImageVer2: require('@/assets/logo/logo_ver2.png')
+              logoImageVer2: require('@/assets/logo/logo_ver2.png'),
+
+            //mainVideo
+             toggleVideo: true,
+
+             //mutecamera
+             toggleCamera : true,
+
+             //muteAudio
+             toggleAudio : true,
+
+             //reservation
+             reservation : null,
+
+             //modal dialog
+             dialog : false,
         }
         
     }
@@ -302,9 +451,8 @@ export default{
 <style>
 
 #room-logo{
-  /* width: 200px; */
   height: 100%;
-  margin-right: 200px;
+  margin-right: 100px;
 }
 
 .room-logo-img{
@@ -410,6 +558,10 @@ svg{
 }
 
 .option-btn{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   width: 109px;
   height: 100%;
   background-color: rgb(221, 214, 214);
@@ -424,4 +576,8 @@ svg{
   height: 40px;
 }
 
+.chat-input-icon{
+  margin-left: 10px;
+  margin-bottom: 10px;
+}
 </style>
