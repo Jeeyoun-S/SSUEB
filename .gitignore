@@ -90,6 +90,7 @@ env.properties
 
 # Vue env file
 .env
+vue.config.js
 
 # End of https://www.toptal.com/developers/gitignore/api/vue,vuejs,macos,windows
 # OAuth Key
@@ -102,8 +103,5 @@ backend/src/main/resources/application.yml
 *.gz
 *.yml
 backend/src/main/resources/application.yml
-<<<<<<< HEAD
-=======
->>>>>>> refs/remotes/origin/member/back/LSJ
 *.png
->>>>>>> refs/remotes/origin/member/back/LSJ
+
