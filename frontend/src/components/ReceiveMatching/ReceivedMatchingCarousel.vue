@@ -19,7 +19,8 @@
           <v-tooltip
             activator="parent"
             location="bottom"
-            width="300"
+            width="285"
+            v-if="consultant.consultantIntro != null"
           >{{ consultant.consultantIntro }}</v-tooltip>
         </v-avatar>
         <div>

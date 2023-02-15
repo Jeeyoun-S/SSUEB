@@ -39,7 +39,7 @@ import { getReply, createReply, removeReply } from "@/api/communityReply.js"
 export default {
   name: "FreeBoardReply",
   computed: {
-    ...mapState(userStore, ["userId", "userInfo"]),
+    ...mapState(userStore, ["userId", "userInfo", "userAuth"]),
   },
   data() {
     return {
@@ -58,7 +58,11 @@ export default {
   },
   methods: {
   async registReply() {
-      this.replyList.push(await createReply(this.$route.params.no, this.replyContent, this.userId, this.userInfo.userNickname));
+      var userNickname = "";
+      if (this.userAuth == 'ROLE_CONSULTANT') userNickname = this.userInfo.userName;
+      else userNickname = this.userInfo.userNickname;
+      
+      this.replyList.push(await createReply(this.$route.params.no, this.replyContent, this.userId, userNickname));
       
       const date = new Date();
       this.replyList[this.replyList.length-1].replyWritetime = 

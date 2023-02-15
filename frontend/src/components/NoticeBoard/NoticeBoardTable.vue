@@ -53,7 +53,7 @@ export default {
   methods: {
     async moveDetailBoard(no) {
       const result = await getDetailBoard(no);
-      this.$refs.noticeBoardDetail.boardDetail = result;
+      this.$refs.noticeBoardDetail.boardDetail = await result;
       this.$refs.noticeBoardDetail.dialog = true;
     }
   },

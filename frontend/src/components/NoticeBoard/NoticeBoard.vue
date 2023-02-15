@@ -5,6 +5,7 @@
       <div class="page-inner-title border-sheet-four">
         <v-icon class="mr-2" size="x-large">mdi-alert</v-icon>
         <h2>공지사항</h2>
+        <FreeBoardRegist v-if="userAuth == 'ROLE_ADMIN'"></FreeBoardRegist>
       </div>
       <div class="pa-5 page-inner-items border-sheet-four">
         <NoticeBoardTable :boardSummaryList="boardSummaryList"></NoticeBoardTable>
@@ -15,19 +16,31 @@
 
 <script>
 import NowLoading from '@/views/NowLoading.vue';
+import FreeBoardRegist from "@/components/FreeBoard/FreeBoardRegist.vue"
 import NoticeBoardTable from "@/components/NoticeBoard/NoticeBoardTable.vue"
 import { getNoticeBoard } from "@/api/communityNotice.js"
+import { mapState } from "vuex";
+const userStore = "userStore";
 
 export default {
   name: "NoticeBoard",
+  computed: {
+    ...mapState(userStore, ["userAuth"]),
+  },
   components: {
     NoticeBoardTable,
-    NowLoading
+    NowLoading,
+    FreeBoardRegist
   },
   data() {
     return {
       loaded: false,
       boardSummaryList: [],
+    }
+  },
+  methods: {
+    pushNoticeList(board) {
+      this.boardSummaryList.push(board);
     }
   },
   async created() {

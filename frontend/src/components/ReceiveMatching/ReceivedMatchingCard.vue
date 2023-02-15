@@ -14,7 +14,7 @@
           <v-avatar color="#06BEE1" size="90">
             <span v-if="reservation.petImage == null">{{ reservation.petName }}</span>
             <img v-else :src="getImageUrl(reservation.petImage)" height="90" width="90" />
-            <v-tooltip v-if="reservation.petInfo != null" activator="parent" location="end" width="170">{{ reservation.petInfo }}</v-tooltip>
+            <v-tooltip v-if="reservation.petInfo != null" activator="parent" location="end" width="180">{{ reservation.petInfo }}</v-tooltip>
           </v-avatar>
         </template>
         <v-card-title>{{ reservation.petName }}</v-card-title>

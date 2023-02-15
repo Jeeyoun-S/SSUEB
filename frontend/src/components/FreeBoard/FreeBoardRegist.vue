@@ -98,7 +98,9 @@ export default {
           board["userNickname"] = data.data.userNickname;
           board["boardTitle"] = data.data.boardTitle;
 
-          if (this.userAuth != 'ROLE_ADMIN')this.$parent.pushList(board);
+          if (this.userAuth != 'ROLE_ADMIN') this.$parent.pushList(board);
+          else this.$parent.pushNoticeList(board);
+
           this.$swal.fire(
             '게시글 등록 완료',
             '신규 게시글 등록이 완료되었습니다.',

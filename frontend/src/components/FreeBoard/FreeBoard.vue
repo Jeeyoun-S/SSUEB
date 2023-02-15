@@ -5,7 +5,7 @@
       <div class="page-inner-title border-sheet-four">
         <v-icon class="mr-2" size="x-large">mdi-bulletin-board</v-icon>
         <h2>자유게시판</h2>
-        <FreeBoardRegist></FreeBoardRegist>
+        <FreeBoardRegist v-if="userAuth != 'ROLE_ADMIN'"></FreeBoardRegist>
       </div>
       <div class="pa-5 page-inner-items border-sheet-four">
         <FreeBoardTable :boardSummaryList="boardSummaryList"></FreeBoardTable>
@@ -19,9 +19,14 @@ import FreeBoardTable from "@/components/FreeBoard/FreeBoardTable.vue"
 import FreeBoardRegist from "@/components/FreeBoard/FreeBoardRegist.vue"
 import NowLoading from '@/views/NowLoading.vue';
 import { getFreeBoard } from "@/api/communityFree.js"
+import { mapState } from "vuex";
+const userStore = "userStore";
 
 export default {
   name: "FreeBoard",
+  computed: {
+    ...mapState(userStore, ["userAuth"]),
+  },
   components: {
     FreeBoardTable,
     FreeBoardRegist,
