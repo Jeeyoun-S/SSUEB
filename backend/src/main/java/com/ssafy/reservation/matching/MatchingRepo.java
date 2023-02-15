@@ -25,7 +25,8 @@ public interface MatchingRepo extends JpaRepository<Matching,Integer>{
 			+ "where m.consultant_id = u.id and u.id = c.id and reservation_no = ?1", nativeQuery = true)
 	List<MatchingConsultant> findReceiveMatching(int reservationNo);
 	
-	@Query(value = "select m.no as matching_no, m.matching_cost, m.matching_comment, r.reservation_date, r.reservation_consult_content, p.* "
+	@Query(value = "select m.no as matching_no, m.matching_cost, m.matching_comment, "
+			+ "r.reservation_date, r.reservation_consult_content, r.no as reservation_no, p.* "
 			+ "from matching m, reservation r, pet p "
 			+ "where m.reservation_no = r.no and r.reservation_pet_no = p.no and m.consultant_id = ?1", nativeQuery = true)
 	List<SendMatching> findSendMatching(String consultantId);

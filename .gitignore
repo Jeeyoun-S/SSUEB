@@ -105,3 +105,8 @@ backend/src/main/resources/application.yml
 *.yml
 *.yml
 backend/src/main/resources/application.yml
+<<<<<<< HEAD
+=======
+>>>>>>> refs/remotes/origin/member/back/LSJ
+*.png
+>>>>>>> refs/remotes/origin/member/back/LSJ
