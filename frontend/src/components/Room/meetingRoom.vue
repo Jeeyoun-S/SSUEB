@@ -192,7 +192,7 @@ import { mapMutations, mapState, mapActions } from "vuex"
 import UserVideo from "./UserVideo.vue"
 // import ChatBox from "./ChatBox.vue"
 import { OpenVidu } from "openvidu-browser";
-import { joinRoomSession } from "@/api/room";
+import { joinRoomSession,finishRoom } from "@/api/room";
 // import SvgIcon from '@jamescoyle/vue-icon';
 import SeeAttatchedFiles from '../SeeAttachedFiles/SeeAttatchedFiles.vue'
 import { mdiBookOpenBlankVariant, mdiMicrophoneOff, mdiCameraOff, mdiCamera, mdiSwapHorizontal, mdiMicrophone, mdiExitToApp } from '@mdi/js';
@@ -248,7 +248,7 @@ export default {
 
             this.timealert(error.response.data);
             // this.$router.push("/confirmed")
-            location.href = `${process.env.VUE_APP_BASE_URL}/confirmed`;
+            // location.href = `${process.env.VUE_APP_BASE_URL}/confirmed`;
           })
 
       }
@@ -257,19 +257,27 @@ export default {
       this.$swal.fire(
         '화상 상담 입장 대기',
         msg,
-        'warning')
+        'warning').then(()=>{
+          location.href = `${process.env.VUE_APP_BASE_URL}/confirmed`;})
     },
     leaveAlert() {
       if (this.userAuth === 'ROLE_USER') {
         this.$swal.fire(
           '상담이 끝나셨나요?',
-          `지금 리뷰를 작성해보세요!`
-        )
+          `지금 리뷰를 작성해보세요!`,
+          'warning'
+        ).then(()=>{
+          location.href = `${process.env.VUE_APP_BASE_URL}/finished-reservation`;
+        })
+
       } else {
         this.$swal.fire(
           '상담이 끝나셨나요?',
-          `지금 상담내역을 작성해보세요!`
-        )
+          `지금 상담내역을 작성해보세요!`,
+          'warning'
+        ).then(()=>{
+          location.href = `${process.env.VUE_APP_BASE_URL}/finished-reservation`;
+        })
       }
     },
     roomInitialize() {
@@ -319,9 +327,15 @@ export default {
         )
       })
 
-
+      let name = null;
+      if(this.userAuth === 'ROLE_USER'){
+        name = this.userInfo.userNickname
+      }else{
+        name = this.userInfo.userName
+      }
+      
       // --- 4) Connect to the session with a valid user token ---
-      this.session.connect(this.roomToken, { clientData: this.userInfo.userNickname })
+      this.session.connect(this.roomToken, { clientData: name })
         .then(() => {
 
           // --- 5) Get your own camera stream with the desired properties ---
@@ -362,9 +376,15 @@ export default {
         // console.log(today.getSeconds());
         let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds()
 
+        let name = null;
+        if(this.userAuth === 'ROLE_USER'){
+          name = this.userInfo.userNickname
+        }else{
+          name = this.userInfo.userName
+        }
         let msgData = {
           //로그인 유저 정보로 수정해야함.
-          from: this.userInfo.userNickname,
+          from: name,
           time: time,
           msg: this.msg
         }
@@ -402,7 +422,6 @@ export default {
         denyButtonText: '취소',
       }).then((result) => {
         if (result.isConfirmed) {
-          this.setMeetingReservation({});
           // --- 7) Leave the session by calling 'disconnect' method over the Session object ---
           console.log("leavesession : session ", this.session)
           if (this.session) this.session.disconnect();
@@ -416,8 +435,16 @@ export default {
           this.UPDATE_ONAIR(false)
           // Remove beforeunload listener
           window.removeEventListener("beforeunload", this.leaveSession);
-          this.leaveAlert();
-          location.href = `${process.env.VUE_APP_BASE_URL}/finished-reservation`;
+          console.log("종료 reservation 정보 : ",this.reservation);
+          finishRoom(this.reservation.rno,()=>{
+            this.setMeetingReservation({});
+            this.leaveAlert();
+            // 경고문과 동기화하도록 수정.
+            // location.href = `${process.env.VUE_APP_BASE_URL}/finished-reservation`;
+          },(error)=>{
+            console.log(error)
+          })
+          
           // this.$router.push("/finished-reservation");
         }
       })
