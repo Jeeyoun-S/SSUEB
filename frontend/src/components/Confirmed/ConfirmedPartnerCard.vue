@@ -15,7 +15,7 @@
         <div>
           <!--날짜계산-->
           <v-btn class="mr-3" rounded="pill" color="primary" disabled
-            >D-2</v-btn
+            >D-{{ reservation.dDay }}</v-btn
           >
           <v-btn rounded="pill" color="primary" @click="moveRoom">입장</v-btn>
         </div>
@@ -48,7 +48,7 @@
             {{ reservation.reservationConsultContent }}
           </v-card-text>
           <v-card-actions>
-            <SeeAttatchedFiles :reservation="reservation" />
+            <SeeAttatchedFiles :rno="reservation.rno" />
           </v-card-actions>
         </v-card>
         <v-divider vertical></v-divider>
@@ -115,7 +115,7 @@ export default {
     },
   },
   created() {
-    console.log(this.reservation);
+    //console.log(this.reservation);
   },
 };
 </script>

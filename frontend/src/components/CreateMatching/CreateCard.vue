@@ -110,7 +110,7 @@
         </div>
       </v-card-text>
       <v-card-actions>
-        <SeeAttatchedFiles :reservation="reservation"/>
+        <SeeAttatchedFiles :rno="reservation.rno"/>
       </v-card-actions>
     </v-card>
   </v-hover>

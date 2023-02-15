@@ -203,7 +203,7 @@ import RegistPet from '@/components/CreateReservation/RegistPet.vue';
 import RegisterPetBig from '@/components/CreateReservation/RegisterPetBig.vue'
 import { mapState } from "vuex";
 import { DatePicker } from 'v-calendar';
-// import moment from 'moment';
+import moment from 'moment';
 import { apiInstance } from "@/api/index.js";
 // const reservationStore = "reservationStore";
 const userStore = "userStore";
@@ -263,7 +263,7 @@ export default {
       if (this.selectedPet == null) {
           this.$swal.fire(
             '반려동물 선택 필수',
-            '상담할 반려동물을 선택하지 않았습니다. 반려동물을 선택해 주세요.',
+            '상담할 반려동물을 선택하지 않았습니다. <br /> 반려동물을 선택해 주세요.',
             'error'
           )
       } 
@@ -292,25 +292,25 @@ export default {
       this.reservation.reservationPetNo = this.selectedPet.no;
       this.reservation.userId = this.userId;
 
-      // for (let i = 0; i < this.timeList.length; i++) {
-      //   const diff = moment
-      //     .duration(
-      //       moment(
-      //         this.reservation.reservationDate,
-      //         "YYYY-MM-DD HH:mm:ss"
-      //       ).diff(moment(this.timeList[i], "YYYY-MM-DD HH:mm:ss"))
-      //     )
-      //     .asMinutes();
-      //   if (-30 < diff && diff < 30) {
-      //     //console.log("근처 시간대 존재");
-      //     this.$swal.fire(
-      //       "상담 등록 실패",
-      //       "신규 상담 등록이 실패하였습니다. <br /> 등록한 시간대 30분 이내에 상담이 있습니다. <br /> 시간을 다시 선택해 주세요.",
-      //       "error"
-      //     );
-      //     return;
-      //   }
-      // }
+      for (let i = 0; i < this.timeList.length; i++) {
+        const diff = moment
+          .duration(
+            moment(
+              this.reservation.reservationDate,
+              "YYYY-MM-DD HH:mm:ss"
+            ).diff(moment(this.timeList[i], "YYYY-MM-DD HH:mm:ss"))
+          )
+          .asMinutes();
+        if (-30 < diff && diff < 30) {
+          //console.log("근처 시간대 존재");
+          this.$swal.fire(
+            "상담 등록 실패",
+            "신규 상담 등록이 실패하였습니다. <br /> 등록한 시간대 30분 이내에 상담이 있습니다. <br /> 시간을 다시 선택해 주세요.",
+            "error"
+          );
+          return;
+        }
+      }
 
       const frm = new FormData();
       frm.append("reservation",  new Blob([ JSON.stringify(this.reservation) ], {type : "application/json"}));

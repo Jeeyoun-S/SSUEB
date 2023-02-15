@@ -47,7 +47,7 @@
         </div>
       </v-card-text>
       <v-card-actions class="d-flex flex-row justify-space-between">
-        <SeeAttatchedFiles :reservation="reservation"/>
+        <SeeAttatchedFiles :rno="reservation.rno"/>
         <v-btn variant="text" color="error" @click="deleteRese"> 삭제 </v-btn>
       </v-card-actions>
     </v-card>

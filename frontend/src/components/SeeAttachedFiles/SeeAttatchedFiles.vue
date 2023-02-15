@@ -50,13 +50,13 @@ export default {
     attach: null,
   }),
   props: {
-    reservation: Object,
+    rno: Number,
     idx: Number,
   },
   methods: {
     async seefile() {
       if (this.attach == null)
-        this.attach = await getAttachUrl(this.reservation.rno);
+        this.attach = await getAttachUrl(this.rno);
       this.dialog = true;
     },
     getImageUrl(img) {
@@ -64,7 +64,7 @@ export default {
     },
   },
   created() {
-    console.log(this.reservation);
+
   },
 };
 </script>

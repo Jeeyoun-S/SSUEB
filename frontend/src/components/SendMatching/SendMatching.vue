@@ -51,7 +51,8 @@ export default {
             matching["userId"] = data[i].user_id;
             matching["reservationDate"] = data[i].reservation_date;
             matching["reservationConsultContent"] = data[i].reservation_consult_content;
-            
+            matching["reservationNo"] = data[i].reservation_no;
+
             matching["no"] = data[i].matching_no;
             matching["matchingCost"] = data[i].matching_cost;
             matching["matchingComment"] = data[i].matching_comment;

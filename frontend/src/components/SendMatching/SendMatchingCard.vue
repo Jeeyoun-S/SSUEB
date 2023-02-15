@@ -88,7 +88,7 @@
             </p>
           </v-card-text>
           <v-card-actions>
-            <SeeAttatchedFiles :reservation="reservation" />
+            <SeeAttatchedFiles :rno="matching.reservationNo" />
           </v-card-actions>
         </v-sheet>
       </v-card>
@@ -108,7 +108,6 @@ export default {
     };
   },
   props: {
-    reservation: Object,
     matching: Object,
     idx: Number,
   },
@@ -132,6 +131,9 @@ export default {
       return `${process.env.VUE_APP_FILE_PATH_PET}${img}`;
     },
   },
+  created(){
+    console.log(this.reservation)
+  }
 };
 </script>
 
