@@ -1,6 +1,7 @@
 package com.ssafy.classroom.interceptor;
 
+import java.sql.SQLException;
+
 public interface RoomValidService {
-	boolean checkUser(String id);
-	boolean checkConsultant(String id);
+	boolean checkValid(int roomId) throws SQLException;
 }
