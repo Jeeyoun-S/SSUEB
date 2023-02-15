@@ -65,7 +65,7 @@ const store = new Vuex.Store({
     createPersistedState({
       // ! localStorage에 저장할 store만을 path에 등록
       //paths: ["userStore", "userJoinStore"],
-      paths: ["userStore", "userSocialStore", "mainPageStore"],
+      paths: ["userStore", "userSocialStore", "mainPageStore", "roomStore"],
     }),
   ],
 });

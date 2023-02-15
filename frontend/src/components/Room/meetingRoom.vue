@@ -147,7 +147,7 @@
         >화면 전환</v-btn>
         <v-btn color="primary" prepend-icon="mdi-exit-to-app"
           variant="elevated" @click="leaveSession" rounded="0"
-        >상담 종료</v-btn>
+        >상담 종료하기</v-btn>
         <!-- <div>
           <div class="option-btn" >
             <div v-if="toggleCamera" class="option-svg"> <svg-icon type="mdi" :path="pathCamera"></svg-icon></div>
@@ -175,6 +175,7 @@
           </div>
         </div> -->
       </v-sheet>
+      <!-- {{ reservation }} -->
       <v-sheet id="sub-video">
         <div v-if="toggleVideo">
           <UserVideo id="subvideo" v-for="sub in subscribers" :key="sub.stream.connection.connectionId"
@@ -187,7 +188,7 @@
 </template>
 <script>
 import LogoVer2 from "@/views/LogoVer2.vue";
-import { mapMutations, mapState } from "vuex"
+import { mapMutations, mapState, mapActions } from "vuex"
 import UserVideo from "./UserVideo.vue"
 // import ChatBox from "./ChatBox.vue"
 import { OpenVidu } from "openvidu-browser";
@@ -207,7 +208,7 @@ export default {
     LogoVer2
   },
   computed: {
-    ...mapState(roomStore, ["onAir"]),
+    ...mapState(roomStore, ["onAir", "reservation"]),
     ...mapState(userStore, ["userInfo", "userAuth"])
   },
   created() {
@@ -221,12 +222,12 @@ export default {
   },
   methods: {
     ...mapMutations(roomStore, ["UPDATE_ONAIR"]),
-
+    ...mapActions(roomStore, ["setMeetingReservation"]),
     initialize() {
       console.log("meetingRoom 초기화")
       console.log("THISOV: ", this.OV)
-      this.reservation = this.$route.params
-      console.log(this.reservation)
+      // this.reservation = this.$route.params
+      // alert(this.reservation)
       if (this.OV === undefined) {
         console.log("영상 설정 초기화 및 연결")
         //userName가져오기
@@ -246,7 +247,8 @@ export default {
             //유효성(권한, 시간)에러
 
             this.timealert(error.response.data);
-            this.$router.push("/confirmed")
+            // this.$router.push("/confirmed")
+            location.href = `${process.env.VUE_APP_BASE_URL}/confirmed`;
           })
 
       }
@@ -390,22 +392,35 @@ export default {
         this.msg = null;
       }
     },
-    leaveSession() {
-      // --- 7) Leave the session by calling 'disconnect' method over the Session object ---
-      console.log("leavesession : session ", this.session)
-      if (this.session) this.session.disconnect();
-
-      // Empty all properties...
-      this.session = undefined;
-      this.mainStreamManager = undefined;
-      this.publisher = undefined;
-      this.subscribers = [];
-      this.OV = undefined;
-      this.UPDATE_ONAIR(false)
-      // Remove beforeunload listener
-      window.removeEventListener("beforeunload", this.leaveSession);
-      this.leaveAlert();
-      this.$router.push("/finished-reservation");
+    async leaveSession() {
+      this.$swal.fire({
+        title: '상담 종료하기',
+        html:'상담을 종료하시면 <b>재입장 불가능</b>합니다.<br>상담을 종료하시겠습니까?',
+        icon: 'warning',
+        showDenyButton: true,
+        confirmButtonText: '종료',
+        denyButtonText: '취소',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.setMeetingReservation({});
+          // --- 7) Leave the session by calling 'disconnect' method over the Session object ---
+          console.log("leavesession : session ", this.session)
+          if (this.session) this.session.disconnect();
+    
+          // Empty all properties...
+          this.session = undefined;
+          this.mainStreamManager = undefined;
+          this.publisher = undefined;
+          this.subscribers = [];
+          this.OV = undefined;
+          this.UPDATE_ONAIR(false)
+          // Remove beforeunload listener
+          window.removeEventListener("beforeunload", this.leaveSession);
+          this.leaveAlert();
+          location.href = `${process.env.VUE_APP_BASE_URL}/finished-reservation`;
+          // this.$router.push("/finished-reservation");
+        }
+      })
     },
 
     updateMainVideo() {
@@ -466,7 +481,7 @@ export default {
       pathOffMicro: mdiMicrophoneOff,
       pathReservation: mdiBookOpenBlankVariant,
       //logimages
-      logoImageVer2: require('@/assets/logo/logo_ver2.png'),
+      // logoImageVer2: require('@/assets/logo/logo_ver2.png'),
 
       //mainVideo
       toggleVideo: true,
@@ -478,7 +493,7 @@ export default {
       toggleAudio: true,
 
       //reservation
-      reservation: null,
+      // reservation: null,
 
       //modal dialog
       dialog: false,

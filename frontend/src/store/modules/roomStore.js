@@ -4,6 +4,7 @@ const roomStore = {
     namespaced: true,
     state: {
         onAir: false,
+        reservation: {}
     },
     getters: {
     },
@@ -13,8 +14,11 @@ const roomStore = {
         //     state.roomToken = token;
         //     console.log("changeToken",state.roomToken)
         //   },
-        UPDATE_ONAIR(state,onAir){
+        UPDATE_ONAIR(state, onAir) {
             state.onAir = onAir;
+        },
+        UPDATE_RESERVATION(state, payload) {
+            state.reservation = payload;
         }
     },
     actions: {
@@ -30,6 +34,14 @@ const roomStore = {
         //         )
 
         // }
+
+        async setMeetingReservation({ commit }, reservation) {
+            console.log("되니?", reservation);
+            await commit("UPDATE_RESERVATION", reservation);
+            console.log("되니?");
+            return await Promise.resolve(true);
+            // location.href = `${process.env.VUE_APP_BASE_URL}/meeting-room`;
+        }
     }
 }
 

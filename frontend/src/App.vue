@@ -22,7 +22,7 @@ export default {
     // console.log("# 라우터 이름: ", this.$router.name);
     // console.log("# 라우터 이름: ", document.location.pathname);
     // 회원가입 페이지에서는 Sidebar가 안 보이게 설정
-    if (document.location.pathname == "/join") {
+    if (document.location.pathname == "/join" || document.location.pathname == "/meeting-room") {
       this.isShowSidebar = false;
     }
     //SweetAlert2 테스트
