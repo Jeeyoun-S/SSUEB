@@ -5,7 +5,7 @@
       width="310"
       height="420"
       variant="outlined"
-      :elevation="isHovering ? 8 : 0"
+      :elevation="isHovering ? 1 : 0"
       :class="{ 'on-hover': isHovering }"
       rounded="0"
       v-bind="props"
@@ -68,6 +68,7 @@
 </template>
 
 <script>
+import router from "@/router/index.js";
 import { mapState } from "vuex";
 import { apiInstance } from "@/api/index.js";
 import BootPay from "bootpay-js";
@@ -76,7 +77,7 @@ const userStore = "userStore";
 export default {
   name: "CarouselCard",
   computed: {
-    ...mapState(userStore, ["userId"]),
+    ...mapState(userStore, ["userId", "userInfo"]),
   },
   props: {
     // dialog: Boolean,
@@ -98,6 +99,7 @@ export default {
       matchingComment,
       consultantName
     ) {
+      this.$emit("dialogOff");
       console.log(
         rno,
         consultantId,
@@ -105,99 +107,78 @@ export default {
         matchingCost,
         consultantName
       );
-      const api = apiInstance();
-      await api
-        .put(
-          process.env.VUE_APP_API_BASE_URL + `/reservation/matching/confirm`,
-          null,
-          {
-            params: {
-              reservationNo: rno,
-              consultantId: consultantId,
-              matchingCost: matchingCost,
-              matchingReason: matchingComment,
-            },
-          }
-        )
-        .then(() => {
-          this.$emit("dialogOff");
-          this.$swal
-            .fire({
-              title: "상담 제안 수락",
-              html: `상담 제안을 수락하고, 결제를 진행하시겠습니까? <br> <strong>상담날짜</strong> 
+
+      await this.$swal
+        .fire({
+          title: "상담 제안 수락",
+          html: `상담 제안을 수락하고, 결제를 진행하시겠습니까? <br> <strong>상담날짜</strong> 
               ${this.reservationItem.reservationDate} <br> <strong>전문가</strong>
               ${consultantName} (반려동물행동지도사) <br> <strong>결제금액</strong> ${matchingCost}`,
-              icon: "warning",
-              showCancelButton: true,
-              confirmButtonColor: "primary",
-              cancelButtonColor: "#d33",
-              confirmButtonText: "확인",
-              cancelButtonText: "취소",
-            })
-            .then((result) => {
-              if (result.isConfirmed) {
-                // Bootpay
-
-                BootPay.request({
-                  price: 3000, // 결제할 금액
-                  application_id:
-                    "(부트페이 관리자에서 Web용 Application ID 입력해주세요.)",
-                  name: "(판매할 아이템이름)", // 아이템 이름,
-                  phone: "(구매자 전화번호 ex) 01000000000)",
-                  order_id: "(이 결제를 식별할 수 있는 고유 주문 번호)",
-                  pg: "(결제창을 띄우려는 PG 회사명 ex) kcp, danal)",
-                  method: "(결제수단 정보 ex) card, phone, vbank, bank)",
-                  show_agree_window: 0, // 결제 동의창 띄우기 여부 1 - 띄움, 0 - 띄우지 않음
-                  items: [
-                    // 결제하려는 모든 아이템 정보 ( 통계 데이터로 쓰이므로 입력해주시면 좋습니다. 입력하지 않아도 결제는 가능합니다.)
-                    {
-                      item_name: "(판매된 아이템 명)",
-                      qty: 1, // 판매한 아이템의 수량
-                      unique: "(아이템을 식별할 수 있는 unique key)",
-                      price: 3000, // 아이템 하나의 단가
-                    },
-                  ],
-                  user_info: {
-                    // 구매한 고객정보 ( 통계 혹은 PG사에서 요구하는 고객 정보 )
-                    email: "(이메일)",
-                    phone: "(고객의 휴대폰 정보)",
-                    username: "구매자성함",
-                    addr: "(고객의 거주지역)",
-                  },
-                })
-                  .error(function (data) {
-                    // 결제가 실패했을 때 호출되는 함수입니다.
-                    var msg = "결제 에러입니다.: " + JSON.stringify(data);
-                    alert(msg);
-                    console.log(data);
-                  })
-                  .cancel(function (data) {
-                    // 결제창에서 결제 진행을 하다가 취소버튼을 눌렀을때 호출되는 함수입니다.
-                    var msg = "결제 취소입니다.: " + JSON.stringify(data);
-                    alert(msg);
-                    console.log(data);
-                  })
-                  .done(function (data) {
-                    // 결제가 모두 완료되었을 때 호출되는 함수입니다.
-                    this.$swal.fire({
-                      title: "상담 제안 확정",
-                      html: `<strong>상담날짜</strong> ${this.reservationItem.reservationDate} <br>
-                        <strong>전문가</strong> ${consultantName}
-                        (반려동물행동지도사) <br> <strong>반려동물</strong> ${this.reservationItem.petName} (${this.reservationItem.petType})`,
-                      icon: "success",
-                      showCancelButton: false,
-                      confirmButtonColor: "primary",
-                      confirmButtonText: "닫기",
-                    });
-                    console.log(data);
-                  });
-
-                //if result is confirmed
-              }
-            });
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "primary",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "확인",
+          cancelButtonText: "취소",
         })
-        .catch((error) => {
-          alert(error.message);
+        .then((result) => {
+          if (result.isConfirmed) {
+            // Bootpay
+            BootPay.request({
+              price: `${matchingCost}`, // 결제할 금액
+              application_id: `${process.env.VUE_APP_BOOTPAY_JS}`,
+              name: `SSEUB 상담`, // 아이템 이름,
+              phone: `${this.userInfo.userPhone}`,
+              order_id: `${rno}`,
+            })
+              .error(function (data) {
+                // 결제가 실패했을 때 호출되는 함수입니다.
+                var msg = "결제 에러입니다.: " + JSON.stringify(data);
+                alert(msg);
+                console.log(data);
+              })
+              .cancel(function (data) {
+                // 결제창에서 결제 진행을 하다가 취소버튼을 눌렀을때 호출되는 함수입니다.
+                // var msg = "결제 취소입니다.: " + JSON.stringify(data);
+                // alert(msg);
+                console.log(data);
+              })
+              .done(function (data) {
+                // 결제가 모두 완료되었을 때 호출되는 함수입니다.
+                // var msg = "결제 완료되었습니다.";
+                // alert(msg);
+                console.log(data);
+                // Swal.fire({
+                //   title: "상담 예약 확정",
+                //   html: `<strong>상담날짜</strong> ${this.reservationItem.reservationDate} <br> 
+                //   <strong>전문가</strong> ${consultantName} (반려동물행동지도사) <br> 
+                //   <strong>반려동물</strong> ${this.reservationItem.petName} (${this.reservationItem.petType})`,
+                //   icon: "success",
+                //   confirmButtonColor: "primary",
+                //   confirmButtonText: "확인",
+                // });
+
+                const api = apiInstance();
+                api
+                  .put(
+                    process.env.VUE_APP_API_BASE_URL +
+                      `/reservation/matching/confirm`,
+                    null,
+                    {
+                      params: {
+                        reservationNo: rno,
+                        consultantId: consultantId,
+                        matchingCost: matchingCost,
+                        matchingReason: matchingComment,
+                      },
+                    }
+                  )
+                  .catch((error) => {
+                    alert(error.message);
+                  });
+                router.push("/confirmed");
+              });
+          }
         });
     },
     getImageUrl(img) {

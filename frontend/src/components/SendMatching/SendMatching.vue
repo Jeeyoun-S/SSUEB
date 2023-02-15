@@ -46,12 +46,13 @@ export default {
       await api.get(process.env.VUE_APP_API_BASE_URL+`/reservation/matching/consultant/${this.userId}`)
         .then(({ data }) => {
           for (var i = 0; i < data.length; i++) {
-            //console.log(data[i]);
+            console.log(data[i]);
             let matching = {};
             matching["userId"] = data[i].user_id;
             matching["reservationDate"] = data[i].reservation_date;
             matching["reservationConsultContent"] = data[i].reservation_consult_content;
-            
+            matching["reservationNo"] = data[i].reservation_no;
+
             matching["no"] = data[i].matching_no;
             matching["matchingCost"] = data[i].matching_cost;
             matching["matchingComment"] = data[i].matching_comment;
@@ -60,8 +61,8 @@ export default {
             matching["petImage"] = data[i].pet_image;
             matching["petType"] = data[i].pet_type;
             matching["petVariety"] = data[i].pet_variety;
-            if(data[i].petBirth != null){
-              matching["petBirth"] = data[i].petBirth.substr(0,7);
+            if(data[i].pet_birth != null){
+              matching["petBirth"] = data[i].pet_birth.substr(0,7);
             }
             else{
               matching["petBirth"] = "생년월일 미상";

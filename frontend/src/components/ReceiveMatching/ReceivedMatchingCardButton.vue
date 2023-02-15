@@ -16,7 +16,6 @@
       </v-card-text>
       <v-card-item>
         <v-slide-group v-model="model" selected-class="bg-success" show-arrows>
-          <!--v-for 자리-->
           <v-slide-group-item >
             <ReceivedMatchingCarousel :reservationItem="reservation" @dialogOff="dialogOff()" />
           </v-slide-group-item>
@@ -45,6 +44,7 @@ export default {
   }),
   methods: {
     dialogOff() {
+      console.log("dialogOff 실행")
       this.dialog = false;
     }
   },

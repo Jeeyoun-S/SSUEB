@@ -18,7 +18,7 @@
               <v-col class="pa-0"><h3>별점</h3></v-col>
             </v-row>
           </v-sheet>
-          <v-expansion-panels v-model="panel" multiple>
+          <v-expansion-panels v-model="panel">
             <v-expansion-panel class="reservation" v-for="(reservation, idx) in reservations" :key="{idx}">
         
               <!-- 타이틀 -->

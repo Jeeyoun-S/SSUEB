@@ -110,8 +110,9 @@
           >
             더보기
             <v-dialog v-model="overlay" activator="parent" width="600">
-              <v-card class="pa-8">
-                {{ reservation.reservationConsultContent }}
+              <v-card class="pa-5">
+                <v-card-title><h4>상담 신청 내용</h4></v-card-title>
+                <v-card-text>{{ reservation.reservationConsultContent }}</v-card-text>
                 <v-btn class="mt-4" color="primary" @click="overlay = false" rounded="0" block>
                   닫기
                 </v-btn>
@@ -121,9 +122,7 @@
         </div>
       </v-card-text>
       <v-card-actions>
-        <v-btn variant="text" color="primary" @click="seefile">
-          관련 첨부파일 보기
-        </v-btn>
+        <SeeAttatchedFiles :rno="reservation.rno"/>
       </v-card-actions>
     </v-card>
   </v-hover>
@@ -133,6 +132,7 @@
 import router from "@/router/index.js";
 import { mapState } from "vuex";
 import { apiInstance } from "@/api/index.js";
+import SeeAttatchedFiles from "../SeeAttachedFiles/SeeAttatchedFiles.vue";
 const userStore = "userStore";
 
 
@@ -141,7 +141,9 @@ export default {
   computed: {
     ...mapState(userStore, ["userId"]),
     },
-
+  components: {
+    SeeAttatchedFiles,
+  },
   data: () => ({
     dialog: false,
     model: null,
@@ -162,7 +164,7 @@ export default {
   }),
 
   props: {
-    reservation:{},
+    reservation:Object,
   },
 
   methods: {

@@ -11,32 +11,32 @@
         <v-table hover>
           <tbody>
             <tr>
-              <td class="bold-font" width="150">상담 일시</td>
-              <td width="920">{{ board.reservationDate }}</td>
+              <td class="bold-font" width="170">상담 일시</td>
+              <td width="730">{{ board.reservationDate }}</td>
             </tr>
             <tr>
-              <td class="bold-font" width="150">대분류</td>
-              <td width="920">{{ board.petType }}</td>
+              <td class="bold-font" width="170">대분류</td>
+              <td width="730">{{ board.petType }}</td>
             </tr>
             <tr>
-              <td class="bold-font" width="150">품종</td>
-              <td width="920">{{ board.petVariety }}</td>
+              <td class="bold-font" width="170">품종</td>
+              <td width="730">{{ board.petVariety }}</td>
             </tr>
             <tr>
-              <td class="bold-font" width="150">생일</td>
-              <td width="920">{{ board.petBirth }}</td>
+              <td class="bold-font" width="170">생일</td>
+              <td width="730">{{ board.petBirth }}</td>
             </tr>
             <tr>
-              <td class="bold-font" width="150">상담 신청 내용</td>
-              <td width="920">{{ board.reservationConsultContent }}</td>
+              <td class="bold-font" width="170">상담 신청 내용</td>
+              <td width="730">{{ board.reservationConsultContent }}</td>
             </tr>
             <tr>
-              <td class="bold-font" width="150">상담 결과</td>
-              <td width="920">{{ board.reservationDignosisRecord }}</td>
+              <td class="bold-font" width="170">상담 결과</td>
+              <td width="730">{{ board.reservationDignosisRecord }}</td>
             </tr>
             <tr>
-              <td class="bold-font" width="150">별점</td>
-              <td width="920">
+              <td class="bold-font" width="170">별점</td>
+              <td width="730">
                 <v-rating
                   v-model="board.reviewGrade"
                   density="compact" color="yellow-darken-3" readonly
@@ -44,8 +44,8 @@
               </td>
             </tr>
             <tr>
-              <td class="bold-font" width="150">리뷰</td>
-              <td width="920">{{ board.reviewComment }}</td>
+              <td class="bold-font" width="170">리뷰</td>
+              <td width="730">{{ board.reviewComment }}</td>
             </tr>
           </tbody>
         </v-table>
