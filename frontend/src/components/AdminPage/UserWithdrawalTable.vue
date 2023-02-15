@@ -30,8 +30,10 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="(user, index) in getSearchList" :key="index"
-        style="cursor: pointer;"
+      <tr
+        v-for="(user, index) in getSearchList"
+        :key="index"
+        style="cursor: pointer"
       >
         <td>{{ String(index).padStart(4, "0") }}</td>
         <td>{{ user.id }}</td>
@@ -67,23 +69,23 @@ export default {
   data() {
     return {
       range: "이메일",
-      keyword: ""
-    }
+      keyword: "",
+    };
   },
   computed: {
     getSearchList() {
-      if (this.range == '이메일') {
-        return this.userList.filter(v => v.id.includes(this.keyword));
-      } else if (this.range == '이름') {
-        return this.userList.filter(v => v.userName.includes(this.keyword));
-      } else if (this.range == '닉네임') {
-        return this.userList.filter(v => 
-          v.userNickname != null && v.userNickname.includes(this.keyword)
+      if (this.range == "이메일") {
+        return this.userList.filter((v) => v.id.includes(this.keyword));
+      } else if (this.range == "이름") {
+        return this.userList.filter((v) => v.userName.includes(this.keyword));
+      } else if (this.range == "닉네임") {
+        return this.userList.filter(
+          (v) => v.userNickname != null && v.userNickname.includes(this.keyword)
         );
       } else {
         return this.userList;
       }
-    }
+    },
   },
   methods: {
     ...mapActions(adminStore, ["excuteAdminWithdrawalUser"]),

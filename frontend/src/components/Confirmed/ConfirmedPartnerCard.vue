@@ -11,21 +11,21 @@
       v-bind="props"
     >
       <v-card-title class="d-flex flex-row justify-space-between">
-        <h4>{{ reservation.reservationDate.substr(0, 16) }}</h4>
+        <h4>{{ reservation.reservationDate }}</h4>
         <div>
           <!--날짜계산-->
           <v-btn class="mr-3" rounded="pill" color="primary" disabled
-            >D-2</v-btn
+            >D-{{ reservation.dDay }}</v-btn
           >
           <v-btn rounded="pill" color="primary" @click="moveRoom">입장</v-btn>
         </div>
       </v-card-title>
       <div class="d-flex flex-row justify-space-around">
-        <v-card class="pt-2 mb-5" width="220" height="350" elevation="0">
+        <v-card class="pt-2" width="220" height="360" elevation="0">
           <div class="d-flex flex-column">
             <v-avatar color="#06BEE1" size="80" class="align-self-center">
               <span v-if="reservation.petImage == null">{{ reservation.petName }}</span>
-              <img v-else :src="getImageUrl(reservation.petImage)" height="100" width="100" />
+              <img v-else :src="getImageUrl(reservation.petImage)" height="80" width="80" />
               <v-tooltip v-if="reservation.petInfo != null"
                 activator="parent"
                 location="bottom" width="220"
@@ -33,32 +33,36 @@
             </v-avatar>
             <v-card-title class="pb-0">{{ reservation.petName }}</v-card-title>
             <v-card-subtitle>{{ reservation.petType }} ({{ reservation.petBirth }})</v-card-subtitle>
-            <v-card-subtitle>{{ reservation.petVariety }}</v-card-subtitle>
+            <v-card-subtitle>{{ reservation.petVariety }}&nbsp;</v-card-subtitle>
           </div>
-          <v-card-text>
+          <v-card-text class="pb-0">
             <div class="reservation-pet-info">
-              <span>
-                {{ reservation.reservationConsultContent.substr(0, 85) }}
-              </span>
-              <span v-if="reservation.reservationConsultContent.length > 85">···</span>
-              <v-btn v-if="reservation.reservationConsultContent.length > 85"
-                color="primary" class="mt-2" v-model="overlayDetail"
-                variant="outlined" rounded="0" block
-              >
-                더보기
-                <v-dialog v-model="overlayDetail" activator="parent" width="600">
-                  <v-card class="pa-8">
-                    <h2 class="mb-3">상담 신청 내용</h2>
-                    {{ reservation.reservationConsultContent }}
-                    <v-btn class="mt-4" color="primary" @click="overlayDetail = false" rounded="0" block>
-                      닫기
-                    </v-btn>
-                  </v-card>
-                </v-dialog>
-              </v-btn>
+              <v-sheet height="130">
+                <span>
+                  {{ reservation.reservationConsultContent.substr(0, 55) }}
+                </span>
+                <span v-if="reservation.reservationConsultContent.length > 55">···</span>
+                <v-btn v-if="reservation.reservationConsultContent.length > 55"
+                  color="primary" class="mt-2" v-model="overlayDetail"
+                  variant="outlined" rounded="0" block 
+                >
+                  더보기
+                  <v-dialog v-model="overlayDetail" activator="parent" width="600">
+                    <v-card class="pa-8">
+                      <h2 class="mb-3">상담 신청 내용</h2>
+                      {{ reservation.reservationConsultContent }}
+                      <v-btn class="mt-4" color="primary" @click="overlayDetail = false" rounded="0" block>
+                        닫기
+                      </v-btn>
+                    </v-card>
+                  </v-dialog>
+                </v-btn>
+              </v-sheet>
             </div>
           </v-card-text>
-          <!-- <v-card-text> {{ reservation.reservationConsultContent }} </v-card-text> -->
+          <v-card-actions>
+            <SeeAttatchedFiles :rno="reservation.rno" />
+          </v-card-actions>
         </v-card>
         <v-divider vertical></v-divider>
         <v-card class="pt-2 mb-5" width="220" height="350" elevation="0">
@@ -75,17 +79,17 @@
             <v-card-subtitle class="mb-5">반려동물훈련지도사</v-card-subtitle>
           </div>
           <v-sheet height="162">
-          <v-card-text class="pa-4">
-            <p>
-              <span class="bold-font mr-2">금액</span>
-              <span>{{ reservation.reservationCost }}</span>
-            </p>
-            <p class="mt-2">
-              <span class="bold-font mr-2">설명</span>
-              <span>{{ reservation.reservationReason }}</span>
-            </p>
-          </v-card-text>
-        </v-sheet>
+            <v-card-text class="pa-4">
+              <p>
+                <span class="bold-font mr-2">금액</span>
+                <span>{{ reservation.reservationCost }}</span>
+              </p>
+              <p class="mt-2">
+                <span class="bold-font mr-2">설명</span>
+                <span>{{ reservation.reservationReason }}</span>
+              </p>
+            </v-card-text>
+          </v-sheet>
         </v-card>
       </div>
     </v-card>
@@ -96,6 +100,7 @@
 import { mapActions } from 'vuex';
 
 const roomStore = "roomStore";
+import SeeAttatchedFiles from "../SeeAttachedFiles/SeeAttatchedFiles.vue";
 
 export default {
   name: "ConfirmedPartnerCard",
@@ -106,6 +111,9 @@ export default {
     return {
       overlayDetail: false
     }
+  },
+  components: {
+    SeeAttatchedFiles,
   },
   methods: {
     ...mapActions(roomStore, ["setMeetingReservation"]),
@@ -136,16 +144,10 @@ export default {
     getProfileUrl(img) {
       return `${process.env.VUE_APP_FILE_PATH_PROFILE}${img}`;
     },
-    showDetail(detail) {
-      this.$swal.fire({
-        title: '상담 신청 내용',
-        text: detail,
-      })
-    }
   },
-  created(){
-    console.log(this.reservation);
-  }
+  created() {
+    //console.log(this.reservation);
+  },
 };
 </script>
 

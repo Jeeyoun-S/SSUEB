@@ -88,49 +88,50 @@
           <v-row class="d-flex flex-row justify-space-around">
             <v-hover v-slot="{ isHovering, props }">
               <v-card
-                class="ma-3 mr-1 pa-2 d-flex justify-flex-start flex-column"
-                width="585"
-                height="360"
-                variant="outlined"
-                :elevation="isHovering ? 8 : 0"
-                :class="{ 'on-hover': isHovering }"
-                rounded="0"
-                v-bind="props"
+              class="ma-3 mr-1 pa-2 d-flex justify-flex-start flex-column"
+              width="585"
+              height="360"
+              variant="outlined"
+              :elevation="isHovering ? 8 : 0"
+              :class="{ 'on-hover': isHovering }"
+              rounded="0"
+              v-bind="props"
               >
-                <v-card-title class="pa-0 ml-4 mr-4 mt-2 mb-2"
-                  ><h4>상담 내용 작성하기</h4></v-card-title
-                >
-                <v-card-item class="pa-0 ml-4 mr-4 mb-2">
-                  <v-textarea
-                    class="mt-2 mb-1"
-                    label="상담내용 작성하기 (최대 500자)"
-                    :rules="rules"
-                    no-resize
-                    clearable
-                    clear-icon="mdi-close-circle"
-                    counter
-                    variant="outlined"
-                    rows="5"
-                    row-height="15"
-                    maxlength="500"
-                    oninput="javascript: if (this.value.length > this.maxLength) 
-                      this.value = this.value.slice(0, this.maxLength);"
-                    v-model="reservation.reservationConsultContent"
-                  ></v-textarea>
-                  <v-file-input
+              <v-card-title class="pa-0 ml-4 mr-4 mt-2 mb-2"
+              ><h4>상담 내용 작성하기</h4></v-card-title
+              >
+              <v-card-item class="pa-0 ml-4 mr-4 mb-2">
+                <v-textarea
+                class="mt-2 mb-1"
+                label="상담내용 작성하기 (최대 500자)"
+                :rules="rules"
+                no-resize
+                clearable
+                clear-icon="mdi-close-circle"
+                counter
+                variant="outlined"
+                rows="5"
+                row-height="15"
+                maxlength="500"
+                oninput="javascript: if (this.value.length > this.maxLength) 
+                this.value = this.value.slice(0, this.maxLength);"
+                v-model="reservation.reservationConsultContent"
+                ></v-textarea>
+                    <v-file-input
                     v-model="files"
-                    counter
+                    
                     multiple
                     show-size
                     chips
                     accept="video/*, image/*"
                     variant="outlined"
-                  ></v-file-input>
-                </v-card-item>
-              </v-card>
-            </v-hover>
-            <v-hover v-slot="{ isHovering, props }">
-              <v-card
+                    :rules="[(v) => v == null || v.length <= 5 || '파일을 5개 이하로 첨부해 주세요.']"
+                    ></v-file-input>
+                  </v-card-item>
+                </v-card>
+              </v-hover>
+              <v-hover v-slot="{ isHovering, props }">
+                <v-card
                 class="ma-3 pa-2 d-flex justify-center flex-column"
                 width="410"
                 height="360"
@@ -139,7 +140,7 @@
                 :class="{ 'on-hover': isHovering }"
                 rounded="0"
                 v-bind="props"
-              >
+                >
                 <v-card-title></v-card-title>
                 <v-card-item>
                   <p>
@@ -147,13 +148,13 @@
                     회원에게 상담일정 확정 시점까지 공개됩니다.
                   </p>
                   <v-radio-group
-                    v-model="radio1"
-                    :rules="[(v) => v == 'radio1-yes' || '동의는 필수입니다.']"
-                    color="primary"
-                    inline
+                  v-model="radio1"
+                  :rules="[(v) => v == 'radio1-yes' || '동의는 필수입니다.']"
+                  color="primary"
+                  inline
                   >
-                    <v-label color="black"
-                      >이에 동의하십니까?<sup>*</sup></v-label
+                  <v-label color="black"
+                  >이에 동의하십니까?<sup>*</sup></v-label
                     >
                     <v-radio label="동의" value="radio1-yes"></v-radio>
                     <v-radio label="비동의" value="radio1-no"></v-radio>
@@ -162,23 +163,23 @@
                 <v-card-item>
                   <p>상담 등록시, 이와 관련된 알람을 보내드립니다.</p>
                   <v-radio-group
-                    v-model="radio2"
-                    color="primary"
-                    :rules="[(v) => v == 'radio2-yes' || '동의는 필수입니다.']"
-                    inline
+                  v-model="radio2"
+                  color="primary"
+                  :rules="[(v) => v == 'radio2-yes' || '동의는 필수입니다.']"
+                  inline
                   >
-                    <v-label color="black"
-                      >이에 동의하십니까?<sup>*</sup></v-label
-                    >
-                    <v-radio label="동의" value="radio2-yes"></v-radio>
-                    <v-radio label="비동의" value="radio2-no"></v-radio>
-                  </v-radio-group>
-                </v-card-item>
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn
-                    size="x-large"
-                    rounded="0"
+                  <v-label color="black"
+                  >이에 동의하십니까?<sup>*</sup></v-label
+                  >
+                  <v-radio label="동의" value="radio2-yes"></v-radio>
+                  <v-radio label="비동의" value="radio2-no"></v-radio>
+                </v-radio-group>
+              </v-card-item>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn
+                size="x-large"
+                rounded="0"
                     color="primary"
                     @click="registed"
                     variant="tonal"
@@ -202,7 +203,7 @@ import RegistPet from '@/components/CreateReservation/RegistPet.vue';
 import RegisterPetBig from '@/components/CreateReservation/RegisterPetBig.vue'
 import { mapState } from "vuex";
 import { DatePicker } from 'v-calendar';
-// import moment from 'moment';
+import moment from 'moment';
 import { apiInstance } from "@/api/index.js";
 // const reservationStore = "reservationStore";
 const userStore = "userStore";
@@ -262,7 +263,7 @@ export default {
       if (this.selectedPet == null) {
           this.$swal.fire(
             '반려동물 선택 필수',
-            '상담할 반려동물을 선택하지 않았습니다. 반려동물을 선택해 주세요.',
+            '상담할 반려동물을 선택하지 않았습니다. <br /> 반려동물을 선택해 주세요.',
             'error'
           )
       } 
@@ -291,25 +292,25 @@ export default {
       this.reservation.reservationPetNo = this.selectedPet.no;
       this.reservation.userId = this.userId;
 
-      // for (let i = 0; i < this.timeList.length; i++) {
-      //   const diff = moment
-      //     .duration(
-      //       moment(
-      //         this.reservation.reservationDate,
-      //         "YYYY-MM-DD HH:mm:ss"
-      //       ).diff(moment(this.timeList[i], "YYYY-MM-DD HH:mm:ss"))
-      //     )
-      //     .asMinutes();
-      //   if (-30 < diff && diff < 30) {
-      //     //console.log("근처 시간대 존재");
-      //     this.$swal.fire(
-      //       "상담 등록 실패",
-      //       "신규 상담 등록이 실패하였습니다. <br /> 등록한 시간대 30분 이내에 상담이 있습니다. <br /> 시간을 다시 선택해 주세요.",
-      //       "error"
-      //     );
-      //     return;
-      //   }
-      // }
+      for (let i = 0; i < this.timeList.length; i++) {
+        const diff = moment
+          .duration(
+            moment(
+              this.reservation.reservationDate,
+              "YYYY-MM-DD HH:mm:ss"
+            ).diff(moment(this.timeList[i], "YYYY-MM-DD HH:mm:ss"))
+          )
+          .asMinutes();
+        if (-30 < diff && diff < 30) {
+          //console.log("근처 시간대 존재");
+          this.$swal.fire(
+            "상담 등록 실패",
+            "신규 상담 등록이 실패하였습니다. <br /> 등록한 시간대 30분 이내에 상담이 있습니다. <br /> 시간을 다시 선택해 주세요.",
+            "error"
+          );
+          return;
+        }
+      }
 
       const frm = new FormData();
       frm.append("reservation",  new Blob([ JSON.stringify(this.reservation) ], {type : "application/json"}));
@@ -436,7 +437,7 @@ export default {
       if (this.files != null) {
         var maxLength = 30; // 파일명 길이는 default 30
         if (this.files.length > 4)
-          maxLength = 6; // 첨부한 파일이 4개 이상인 경우 길이 6
+          maxLength = 4; // 첨부한 파일이 4개 이상인 경우 길이 6
         else if (this.files.length > 2) maxLength = 11; // 첨부한 파일이 2개 이상인 경우 길이 11
 
         // 첨부한 전체 파일 반복

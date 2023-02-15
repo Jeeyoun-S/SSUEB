@@ -12,15 +12,15 @@ module.exports = defineConfig({
     // port: 8080,
     // proxy: "http://localhost:8080/api",
     // proxy: process.env.VUE_APP_API_BASE_URL,
-    proxy:{
-      '/api':{
-        target: 'http://localhost:5000',
-        changeOrigin:true,
-        onProxyReq: function(request) {
+    proxy: {
+      "/api": {
+        target: "http://localhost:5000",
+        changeOrigin: true,
+        onProxyReq: function (request) {
           request.setHeader("origin", "http://localhost:5000");
         },
       },
     },
   },
-  outputDir: 'C:/Users/SSAFY/S08P12A801/backend/src/main/resources/static'
+  outputDir: "/home/ubuntu/mydocker/frontend",
 });

@@ -1,14 +1,21 @@
 <template>
   <v-hover v-slot="{ isHovering, props }">
-    <v-card class="ma-3 pa-2 d-flex justify-center flex-column"
-      width="492" height="400" variant="outlined"
-      :elevation="isHovering ? 8 : 0" :class="{ 'on-hover': isHovering }"
-      rounded="0" v-bind="props"
-    > 
+    <v-card
+      class="ma-3 pa-2 d-flex justify-center flex-column"
+      width="492"
+      height="470"
+      variant="outlined"
+      :elevation="isHovering ? 8 : 0"
+      :class="{ 'on-hover': isHovering }"
+      rounded="0"
+      v-bind="props"
+    >
       <v-card-title class="d-flex flex-row justify-space-between">
         <h4>{{ reservation.reservationDate }}</h4>
         <div>
-          <v-btn class="mr-2" rounded="pill" color="primary" disabled>D-2</v-btn>
+          <v-btn class="mr-2" rounded="pill" color="primary" disabled
+            >D-{{ reservation.dDay }}</v-btn
+          >
           <v-btn rounded="pill" color="primary" @click="moveRoom">입장</v-btn>
         </div>
       </v-card-title>
@@ -20,7 +27,7 @@
               <img v-else :src="getImageUrl(reservation.petImage)" height="100" width="100" />
               <v-tooltip
                 activator="parent"
-                location="end" width="300"
+                location="end" width="350"
               >{{ reservation.petInfo }}</v-tooltip>
             </v-avatar>
           </template>
@@ -40,7 +47,7 @@
               더보기
             </v-btn>
             <v-overlay v-model="overlay" class="d-flex flex-column align-center justify-center" contained>
-              <v-sheet class="pa-4 detail-info" height="400">
+              <v-sheet class="pa-4 detail-info" height="470">
                 {{ reservation.reservationConsultContent }}
                 <v-btn class="mt-2" color="primary" @click="overlay = false" rounded="0" block>
                   닫기
@@ -52,32 +59,37 @@
         </v-card-text>
       </v-sheet>
       <v-divider></v-divider>
-      <v-sheet height="115">
-        <v-card-text class="pa-4">
-          <p>
-            <span class="bold-font mr-3">금액</span>
-            <span>{{ reservation.reservationCost }}</span>
-          </p>
-          <p>
-            <span class="bold-font mr-3">설명</span>
-            <span>{{ reservation.reservationReason }}</span>
-          </p>
-        </v-card-text>
-      </v-sheet>
+      <v-card-text>
+        <v-row>
+          <v-col class="pb-0 bold-font" cols="2">금액</v-col>
+          <v-col class="pb-0">{{ reservation.reservationCost }}</v-col>
+        </v-row>
+        <v-row>
+          <v-col class="pb-0 bold-font" cols="2">설명</v-col>
+          <v-col>{{ reservation.reservationReason }}</v-col>
+        </v-row>
+      </v-card-text>
+      <v-card-actions>
+        <SeeAttatchedFiles :rno="reservation.rno" />
+      </v-card-actions>
     </v-card>
   </v-hover>
 </template>
 
 <script>
+import SeeAttatchedFiles from "../SeeAttachedFiles/SeeAttatchedFiles.vue";
 export default {
   name: "ConfirmedConsultantCard",
   data() {
     return {
-      overlay: false
-    }
+      overlay: false,
+    };
   },
   props: {
     reservation: {},
+  },
+  components: {
+    SeeAttatchedFiles,
   },
   methods: {
     //timealert() {
@@ -87,19 +99,19 @@ export default {
     //    "warning"
     //  );
     //},
-    moveRoom(){
-      //유효성검사후 없으면 적절한 alert띄우기 
-        this.$router.push("meeting-room");
-        // this.roomInitialize();
+    moveRoom() {
+      //유효성검사후 없으면 적절한 alert띄우기
+      this.$router.push("meeting-room");
+      // this.roomInitialize();
     },
     getImageUrl(img) {
       return `${process.env.VUE_APP_FILE_PATH_PET}${img}`;
     },
   },
-  created(){
-    console.log(this.reservation);
-  }
-}
+  created() {
+
+  },
+};
 </script>
 
 <style></style>

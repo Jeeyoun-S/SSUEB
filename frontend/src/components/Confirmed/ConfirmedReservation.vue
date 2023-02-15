@@ -26,6 +26,7 @@ import MoveCreateMatching from "@/components/CreateMatching/MoveCreateMatching.v
 import NowLoading from '@/views/NowLoading.vue';
 import { apiInstance } from "@/api/index.js";
 import { mapState } from "vuex";
+import moment from 'moment';
 const userStore = "userStore";
 
 export default {
@@ -52,12 +53,19 @@ export default {
       const api = apiInstance();
       await api.get(process.env.VUE_APP_API_BASE_URL+`/reservation/partner/${this.userId}`)
         .then(({ data }) => {
-          console.log("확정 상담", data)
+          //console.log("확정 상담", data)
           for (var i = 0; i < data.length; i++) {
             let reservation = {};
             reservation["rno"] = data[i].reservationPet.rno;
             reservation["userId"] = data[i].reservationPet.userId;
-            reservation["reservationDate"] = data[i].reservationPet.reservationDate;
+            reservation["reservationDate"] = data[i].reservationPet.reservationDate.substr(0, 16);
+
+            const diff = moment.duration(
+              moment(reservation.reservationDate,"YYYY-MM-DD")
+              .diff(moment().format("YYYY-MM-DD"))
+            ).asDays();
+            reservation["dDay"] = diff;
+
             reservation["reservationConsultContent"] = data[i].reservationPet.reservationConsultContent;
             reservation["reservationCost"] = data[i].reservationPet.reservationCost;
             reservation["reservationReason"] = data[i].reservationPet.reservationReason;
@@ -67,8 +75,8 @@ export default {
             reservation["petImage"] = data[i].reservationPet.petImage;
             reservation["petType"] = data[i].reservationPet.petType;
             reservation["petVariety"] = data[i].reservationPet.petVariety;
-            if(data[i].petBirth != null){
-              reservation["petBirth"] = data[i].petBirth.substr(0,7);
+            if(data[i].reservationPet.petBirth != null){
+              reservation["petBirth"] = data[i].reservationPet.petBirth.substr(0,7);
             }
             else{
               reservation["petBirth"] = "생년월일 미상";
@@ -103,7 +111,14 @@ export default {
             let reservation = {};
             reservation["rno"] = data[i].rno;
             reservation["userId"] = data[i].userId;
-            reservation["reservationDate"] = data[i].reservationDate.substr(0,16)+":00";
+            reservation["reservationDate"] = data[i].reservationDate.substr(0,16);
+
+            const diff = moment.duration(
+              moment(reservation.reservationDate,"YYYY-MM-DD")
+              .diff(moment().format("YYYY-MM-DD"))
+            ).asDays();
+            reservation["dDay"] = diff;
+
             reservation["reservationConsultContent"] = data[i].reservationConsultContent;
             reservation["reservationCost"] = data[i].reservationCost;
             reservation["reservationReason"] = data[i].reservationReason;

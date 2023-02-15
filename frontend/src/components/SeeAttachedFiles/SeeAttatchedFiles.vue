@@ -8,7 +8,7 @@
     </template>
 
     <v-card>
-      <v-card-title><h3>관련 첨부파일 보기</h3></v-card-title>
+      <v-card-title class="ma-3"><h3>관련 첨부파일 보기</h3></v-card-title>
       <v-divider></v-divider>
       <v-card-text class="pa-0 pl-5"> </v-card-text>
       <v-card-item>
@@ -50,13 +50,13 @@ export default {
     attach: null,
   }),
   props: {
-    reservation: Object,
+    rno: Number,
     idx: Number,
   },
   methods: {
     async seefile() {
       if (this.attach == null)
-        this.attach = await getAttachUrl(this.reservation.rno);
+        this.attach = await getAttachUrl(this.rno);
       this.dialog = true;
     },
     getImageUrl(img) {
@@ -64,7 +64,7 @@ export default {
     },
   },
   created() {
-    console.log(this.reservation);
+
   },
 };
 </script>

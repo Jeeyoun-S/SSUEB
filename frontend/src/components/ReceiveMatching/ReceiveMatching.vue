@@ -58,8 +58,8 @@ export default {
             reservation["petType"] = data[i].reservationPet.petType;
             reservation["petName"] = data[i].reservationPet.petName;
             reservation["petVariety"] = data[i].reservationPet.petVariety;
-            if(data[i].petBirth != null){
-              reservation["petBirth"] = data[i].petBirth.substr(0,7);
+            if(data[i].reservationPet.petBirth != null){
+              reservation["petBirth"] = data[i].reservationPet.petBirth.substr(0,7);
             }
             else{
               reservation["petBirth"] = "생년월일 미상";
