@@ -7,7 +7,7 @@ async function joinRoomSession(roomId, success, fail) {
     //나중에 수정. login 정보와 기타등등을 넘겨야함.
     // console.log(loginInfo);d
     await api
-      .post(`api/room/session`, {customSessionId: roomId},{  
+      .post(`${process.env.VUE_APP_API_BASE_URL}/room/session`, {customSessionId: roomId},{  
           headers: {
             Authorization: `Bearer ${token}`
           },
