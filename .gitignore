@@ -108,3 +108,4 @@ backend/src/main/resources/application.yml
 *.yml
 backend/src/main/resources/application.yml
 >>>>>>> refs/remotes/origin/member/back/LSJ
+*.png
