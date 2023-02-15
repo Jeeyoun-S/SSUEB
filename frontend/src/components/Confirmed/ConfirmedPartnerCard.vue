@@ -28,20 +28,20 @@
               <img v-else :src="getImageUrl(reservation.petImage)" height="100" width="100" />
               <v-tooltip v-if="reservation.petInfo != null"
                 activator="parent"
-                location="bottom" width="230"
+                location="bottom" width="220"
               >{{ reservation.petInfo }}</v-tooltip>
             </v-avatar>
             <v-card-title class="pb-0">{{ reservation.petName }}</v-card-title>
-            <v-card-subtitle>{{ reservation.petBirth }} - {{ reservation.petType }}</v-card-subtitle>
+            <v-card-subtitle>{{ reservation.petType }} ({{ reservation.petBirth }})</v-card-subtitle>
             <v-card-subtitle>{{ reservation.petVariety }}</v-card-subtitle>
           </div>
           <v-card-text>
             <div class="reservation-pet-info">
               <span>
-                {{ reservation.reservationConsultContent.substr(0, 80) }}
+                {{ reservation.reservationConsultContent.substr(0, 85) }}
               </span>
-              <span v-if="reservation.reservationConsultContent.length > 80">···</span>
-              <v-btn v-if="reservation.reservationConsultContent.length > 80"
+              <span v-if="reservation.reservationConsultContent.length > 85">···</span>
+              <v-btn v-if="reservation.reservationConsultContent.length > 85"
                 color="primary" class="mt-2" v-model="overlayDetail"
                 variant="outlined" rounded="0" block
               >
@@ -68,7 +68,7 @@
               <img v-else :src="getProfileUrl(reservation.consultantProfile)" height="80" width="80" />
               <v-tooltip v-if="reservation.consultantIntro != null"
                 activator="parent"
-                location="bottom" width="230"
+                location="bottom" width="220"
               >{{ reservation.consultantIntro }}</v-tooltip>
             </v-avatar>
             <v-card-title class="pb-0">{{ reservation.consultantName }}</v-card-title>
