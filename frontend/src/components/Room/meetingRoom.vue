@@ -327,9 +327,15 @@ export default {
         )
       })
 
-
+      let name = null;
+      if(this.userAuth === 'ROLE_USER'){
+        name = this.userInfo.userNickname
+      }else{
+        name = this.userInfo.userName
+      }
+      
       // --- 4) Connect to the session with a valid user token ---
-      this.session.connect(this.roomToken, { clientData: this.userInfo.userNickname })
+      this.session.connect(this.roomToken, { clientData: name })
         .then(() => {
 
           // --- 5) Get your own camera stream with the desired properties ---
@@ -370,9 +376,15 @@ export default {
         // console.log(today.getSeconds());
         let time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds()
 
+        let name = null;
+        if(this.userAuth === 'ROLE_USER'){
+          name = this.userInfo.userNickname
+        }else{
+          name = this.userInfo.userName
+        }
         let msgData = {
           //로그인 유저 정보로 수정해야함.
-          from: this.userInfo.userNickname,
+          from: name,
           time: time,
           msg: this.msg
         }

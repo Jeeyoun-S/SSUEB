@@ -77,6 +77,9 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
+
+const roomStore = "roomStore";
 import SeeAttatchedFiles from "../SeeAttachedFiles/SeeAttatchedFiles.vue";
 export default {
   name: "ConfirmedConsultantCard",
@@ -92,6 +95,7 @@ export default {
     SeeAttatchedFiles,
   },
   methods: {
+    ...mapActions(roomStore, ["setMeetingReservation"]),
     //timealert() {
     //  this.$swal.fire(
     //    "화상 상담 입장 대기",
@@ -101,7 +105,14 @@ export default {
     //},
     moveRoom() {
       //유효성검사후 없으면 적절한 alert띄우기
-      this.$router.push("meeting-room");
+      this.setMeetingReservation(this.reservation)
+        .then((res) => {
+          console.log("여기")
+          if (res) {
+            location.href = `${process.env.VUE_APP_BASE_URL}/meeting-room`;
+          }
+        }); 
+      // this.$router.push("meeting-room");
       // this.roomInitialize();
     },
     getImageUrl(img) {
