@@ -61,8 +61,7 @@ public class BoardServiceImpl implements BoardService {
 		Board board = bRepo.findById(bfr.getNo()).get();
 		board.setBoardContent(bfr.getBoardContent());
 		board.setBoardTitle(bfr.getBoardTitle());
-		if(path != null)
-			board.setBoardFile(path);
+		board.setBoardFile(path);
 		
 		return bRepo.save(board);
 	}
@@ -124,7 +123,7 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public List<BoardSummary> readPopular() throws SQLException {
-		return bRepo.findTop5ByOrderByBoardHeartnumDesc();
+		return bRepo.findTop5ByBoardFlagNotOrderByBoardHeartnumDesc(0);
 	}
 
 }

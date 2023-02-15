@@ -25,9 +25,11 @@ public class QReply extends EntityPathBase<Reply> {
 
     public final StringPath replyContent = createString("replyContent");
 
-    public final DateTimePath<java.sql.Timestamp> replyWritetime = createDateTime("replyWritetime", java.sql.Timestamp.class);
+    public final StringPath replyWritetime = createString("replyWritetime");
 
     public final StringPath userId = createString("userId");
+
+    public final StringPath userNickname = createString("userNickname");
 
     public QReply(String variable) {
         super(Reply.class, forVariable(variable));

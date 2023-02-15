@@ -10,14 +10,14 @@ import com.querydsl.core.types.Path;
 
 
 /**
- * QLike is a Querydsl query type for Like
+ * QHeart is a Querydsl query type for Heart
  */
 @Generated("com.querydsl.codegen.EntitySerializer")
-public class QLike extends EntityPathBase<Heart> {
+public class QHeart extends EntityPathBase<Heart> {
 
-    private static final long serialVersionUID = 846264921L;
+    private static final long serialVersionUID = 460586436L;
 
-    public static final QLike like = new QLike("like1");
+    public static final QHeart heart = new QHeart("heart");
 
     public final NumberPath<Integer> boardNo = createNumber("boardNo", Integer.class);
 
@@ -25,15 +25,15 @@ public class QLike extends EntityPathBase<Heart> {
 
     public final StringPath userId = createString("userId");
 
-    public QLike(String variable) {
+    public QHeart(String variable) {
         super(Heart.class, forVariable(variable));
     }
 
-    public QLike(Path<? extends Heart> path) {
+    public QHeart(Path<? extends Heart> path) {
         super(path.getType(), path.getMetadata());
     }
 
-    public QLike(PathMetadata metadata) {
+    public QHeart(PathMetadata metadata) {
         super(Heart.class, metadata);
     }
 

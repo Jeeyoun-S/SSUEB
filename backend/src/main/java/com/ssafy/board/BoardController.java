@@ -163,7 +163,7 @@ public class BoardController {
 					String uuid = UUID.randomUUID().toString();//랜덤한 코드명 ex)49eec5bf-dce3-43b2-8ff8-c041c792ed0a를 넣어준다
 					String savefileName = uuid + "_" + file.getOriginalFilename();
 					file.transferTo(new File(boardPath+savefileName));
-					path = boardPath+savefileName;
+					path = savefileName;
 				}
 				else {
 					return new ResponseEntity<String>("파일 크기가 초과했습니다.", HttpStatus.OK);

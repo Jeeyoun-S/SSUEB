@@ -11,6 +11,7 @@ public interface SendMatching {
 	String getReservation_date();
 	String getUser_id();
 	String getReservation_consult_content();
+	String getReservation_no();
 	
 	int getMatching_no();
     int getMatching_cost();
