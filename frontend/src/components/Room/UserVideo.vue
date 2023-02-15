@@ -2,7 +2,10 @@
 <div v-if="streamManager">
 	<div id="main-video-stream-container">
 		<OvVideo :stream-manager="streamManager"/>
-		<div>{{ clientData }}</div>
+		<v-chip class="mt-2" color="primary">
+			{{ clientData }}
+		</v-chip>
+		<!-- <div>{{ clientData }}</div> -->
 	</div>
 </div>
 </template>
