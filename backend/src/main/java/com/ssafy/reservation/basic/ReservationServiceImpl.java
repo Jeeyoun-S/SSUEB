@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.ssafy.db.entity.Attach;
 import com.ssafy.db.entity.Reservation;
+import com.ssafy.reservation.matching.MatchingRepo;
 import com.ssafy.reservation.pet.response.ReservationPet;
 import com.ssafy.reservation.pet.response.ReservationPetFinish;
 
@@ -19,6 +20,9 @@ public class ReservationServiceImpl implements ReservationService {
 	
 	@Autowired
 	AttachRepo aRepo;
+	
+	@Autowired
+	MatchingRepo mRepo;
 
 	@Override
 	public Reservation createReservation(Reservation reservation) throws SQLException {
@@ -37,6 +41,8 @@ public class ReservationServiceImpl implements ReservationService {
 
 	@Override
 	public void deleteReservation(int no) throws SQLException {
+		//부착된 매칭들도 지워야한다 -> FK때문에 오류
+		mRepo.deleteByReservationNo(no);
 		//부착된 파일들도 지워야한다 -> FK때문에 오류남 ㅇㅇ
 		aRepo.deleteByReservationNo(no);
 		repo.deleteById(no);

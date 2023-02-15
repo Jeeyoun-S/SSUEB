@@ -124,7 +124,7 @@ public class BoardServiceImpl implements BoardService {
 
 	@Override
 	public List<BoardSummary> readPopular() throws SQLException {
-		return bRepo.findTop5ByOrderByBoardHeartnumDesc();
+		return bRepo.findTop5ByBoardFlagNotOrderByBoardHeartnumDesc(0);
 	}
 
 }
