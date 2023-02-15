@@ -23,7 +23,7 @@ public interface BoardService {
 	Board readBoard(int no) throws SQLException;
 	
 	//보드 수정
-	Board fixBoard(BoardFixReq bfr) throws SQLException;
+	Board fixBoard(BoardFixReq bfr, String path) throws SQLException;
 	//보드 삭제
 	void deleteBoard(int no) throws SQLException;
 	//보드 조회수 증가
@@ -33,7 +33,7 @@ public interface BoardService {
 	//좋아요 클릭
 	Heart createLike(Heart heart) throws SQLException;
 	//좋아요 취소
-	void deleteLike(int no) throws SQLException;
+	void deleteLike(int boardNo, String userId) throws SQLException;
 	//좋아요 여부
 	boolean whetherLike(int boardNo, String userId) throws SQLException;
 	

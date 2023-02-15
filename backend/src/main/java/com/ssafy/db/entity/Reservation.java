@@ -7,6 +7,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.DynamicInsert;
+
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,6 +26,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+@DynamicInsert
 public class Reservation{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -77,4 +80,8 @@ public class Reservation{
 	@Column(name="reservation_cost")
 	@ApiModelProperty(value = "상담 가격", dataType = "int", example="0")
     int reservationCost;
+	
+	@Column(name="reservation_reason")
+	@ApiModelProperty(value = "상담 가격에 대한 이유")
+    String reservationReason;
 }

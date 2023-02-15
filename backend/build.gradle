@@ -3,11 +3,13 @@ import org.apache.tools.ant.filters.ReplaceTokens
 buildscript{
     ext {
         springBootVer = '2.4.5'
+        //openvidu때문에변경.
+        //springBootVer = '2.7.0'
         querydslVer = '4.4.0'
         querydslPluginVer = '1.0.10'
         springDependencyMgmtVer = '1.0.11'
         springLoadedVer = '1.2.8'
-        nodePluginVer = '1.3.1'
+        // nodePluginVer = '1.3.1'
     }
     repositories {
         mavenCentral()
@@ -20,7 +22,7 @@ buildscript{
         //이클립스인 경우를 위한 QueryDSL 플러그인. IntelliJ는 불필요. [시작]
         classpath "gradle.plugin.com.ewerk.gradle.plugins:querydsl-plugin:${querydslPluginVer}"
         //[끝] 
-        classpath "com.github.node-gradle:gradle-node-plugin:3.1.0"
+        //classpath "com.github.node-gradle:gradle-node-plugin:3.1.0"
     }
 }
 
@@ -32,7 +34,7 @@ plugins {
 
 apply plugin: 'io.spring.dependency-management'
 apply plugin: 'eclipse'
-apply plugin: 'com.github.node-gradle.node'
+// apply plugin: 'com.github.node-gradle.node'
 //이클립스인 경우를 위한 QueryDSL 플러그인. IntelliJ는 불필요.
 apply plugin: 'com.ewerk.gradle.plugins.querydsl'
 
@@ -48,14 +50,15 @@ repositories {
 
 group 'com.ssafy'
 version '1.0-SNAPSHOT'
-sourceCompatibility = '1.8'
+sourceCompatibility = '11'
+targetCompatibility = '11'
 
-node {
-    download = true
-    version = '14.17.0'
-    // Set the work directory where node_modules should be located
-    nodeModulesDir = file("${project.projectDir}/src/main/resources/static")
-}
+// node {
+//     download = true
+//     version = '14.17.0'
+//     // Set the work directory where node_modules should be located
+//     nodeModulesDir = file("${project.projectDir}/src/main/resources/static")
+// }
 
 configurations {
     providedRuntime
@@ -65,12 +68,12 @@ configurations {
     args = ['install']
 }*/
 
-task webpack(type: NpmTask, dependsOn: 'create') {
-    args = ['run','build']
-}
+// task webpack(type: NpmTask, dependsOn: 'create') {
+//     args = ['run','build']
+// }
 
 // processResources is a Java task. Run the webpack bundling before this task using the 'build' task in the package.json
-processResources.dependsOn 'webpack'
+// processResources.dependsOn 'webpack'
 
 //set build time and inject value to application.properties
 def buildTime() {
@@ -179,7 +182,9 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
     
-    implementation("io.springfox:springfox-swagger3:3.0.0")
+    //implementation("io.springfox:springfox-swagger3:3.0.0")
+    //implementation("io.springfox:springfox-swagger-ui:3.0.0")
+    implementation("io.springfox:springfox-swagger2:3.0.0")
     implementation("io.springfox:springfox-swagger-ui:3.0.0")
     implementation("io.springfox:springfox-data-rest:3.0.0")
     implementation("io.springfox:springfox-bean-validators:3.0.0")
@@ -201,6 +206,15 @@ dependencies {
     // 파일 Resizing
     compile group: 'io.github.techgnious', name: 'IVCompressor', version: '2.0.0'
     implementation group: 'org.imgscalr', name: 'imgscalr-lib', version: '4.2'
+    
+    //openvidu
+    // https://mvnrepository.com/artifact/io.openvidu/openvidu-java-client
+	implementation group: 'io.openvidu', name: 'openvidu-java-client', version: '2.25.0'
+    
+    // for. 메일 발송
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
 }
 
 test {

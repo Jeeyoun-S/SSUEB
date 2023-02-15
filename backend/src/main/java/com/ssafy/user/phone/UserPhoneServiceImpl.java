@@ -54,7 +54,7 @@ public class UserPhoneServiceImpl implements UserPhoneService {
 	private StringRedisTemplate stringRedisTemplate;
 	
 	@Override
-	public ResponseEntity<BasicResponse> sendSMS(String userPhone, String authNumber) throws InvalidKeyException, IllegalStateException, UnsupportedEncodingException, NoSuchAlgorithmException, JsonProcessingException, URISyntaxException {
+	public ResponseEntity<BasicResponse> sendSMS(String userPhone, String message) throws InvalidKeyException, IllegalStateException, UnsupportedEncodingException, NoSuchAlgorithmException, JsonProcessingException, URISyntaxException {
 		
 		// 요청을 보낼 URL
 		String path = "/sms/v2/services/"+serviceId+"/messages";
@@ -66,7 +66,7 @@ public class UserPhoneServiceImpl implements UserPhoneService {
 		messageApiRequest.setContentType("COMM");
 		messageApiRequest.setCountryCode("82");
 		messageApiRequest.setFrom(ssuebPhone);
-		messageApiRequest.setContent("[SSUEB] 인증번호 ["+authNumber+"]를 입력해 주세요.");
+		messageApiRequest.setContent(message);
 		List<Message> messages = new ArrayList<>();
 		messages.add(new Message(userPhone));
 		messageApiRequest.setMessages(messages);

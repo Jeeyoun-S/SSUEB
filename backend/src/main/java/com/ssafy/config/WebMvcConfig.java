@@ -2,20 +2,19 @@ package com.ssafy.config;
 
 import javax.servlet.Filter;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CommonsRequestLoggingFilter;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class WebMvcConfig implements WebMvcConfigurer {
+	
+	@Value("${file.path}")
+	String filePath;
 	
 	// # CORS 오류 해결을 위하여 주석 처리 > 해당 부분을 주석처리하고 controller에 @CrossOrigin 어노테이션 추가 
 //    @Bean
@@ -35,8 +34,11 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-//    		registry.addResourceHandler("/resources/**")
-//    				.addResourceLocations("/WEB-INF/resources/");
+    	
+    		// 저장한 파일 가져오기
+    		registry.addResourceHandler("/api/files/**")
+    				.addResourceLocations("file:///"+filePath);
+    				
 //    		
 //    		registry.addResourceHandler("swagger-ui.html")
 //    				.addResourceLocations("classpath:/META-INF/resources/");

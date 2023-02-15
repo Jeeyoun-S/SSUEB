@@ -19,19 +19,21 @@ public class QConsultant extends EntityPathBase<Consultant> {
 
     public static final QConsultant consultant = new QConsultant("consultant");
 
+    public final NumberPath<Integer> consultantCertified = createNumber("consultantCertified", Integer.class);
+
     public final StringPath consultantIntro = createString("consultantIntro");
 
-    public final NumberPath<Integer> consultantLicenseCopyImage = createNumber("consultantLicenseCopyImage", Integer.class);
+    public final StringPath consultantLicenseCopyImage = createString("consultantLicenseCopyImage");
 
     public final StringPath consultantLicenseNumber = createString("consultantLicenseNumber");
+
+    public final StringPath consultantPetType = createString("consultantPetType");
 
     public final StringPath consultantProfile = createString("consultantProfile");
 
     public final NumberPath<Double> consultantRate = createNumber("consultantRate", Double.class);
 
     public final NumberPath<Integer> consultantReservationCount = createNumber("consultantReservationCount", Integer.class);
-
-    public final StringPath consultPetType = createString("consultPetType");
 
     public final StringPath id = createString("id");
 
