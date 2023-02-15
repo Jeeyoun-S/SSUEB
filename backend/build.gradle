@@ -181,6 +181,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
     implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
     
+    //build시 swagger 포함못시키게 수정해야함
     implementation("io.springfox:springfox-swagger3:3.0.0")
     implementation("io.springfox:springfox-swagger-ui:3.0.0")
     implementation("io.springfox:springfox-data-rest:3.0.0")
