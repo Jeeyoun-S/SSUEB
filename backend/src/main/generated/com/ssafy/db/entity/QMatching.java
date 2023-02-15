@@ -27,9 +27,9 @@ public class QMatching extends EntityPathBase<Matching> {
 
     public final NumberPath<Integer> no = createNumber("no", Integer.class);
 
-    public final NumberPath<Integer> reservationNo = createNumber("reservationNo", Integer.class);
+    public final StringPath reservationDate = createString("reservationDate");
 
-    public final StringPath userId = createString("userId");
+    public final NumberPath<Integer> reservationNo = createNumber("reservationNo", Integer.class);
 
     public QMatching(String variable) {
         super(Matching.class, forVariable(variable));
