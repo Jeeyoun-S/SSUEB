@@ -23,7 +23,7 @@ public class Scheduler {
 	
 	@Async
 	//spring expression으로 env파일과 연동필요.
-	@Scheduled(fixedRate = 600000)
+	@Scheduled(fixedRate = 60000)
 	//스케쥴 시작후 fixedRate 후에 다음스케쥴 실행
 	public void leaveSession() {
 		//redis와 연동하도록 확장필요.
