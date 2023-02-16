@@ -60,13 +60,13 @@ export default {
   },
   async mounted() {
     this.loaded = false;
-    if (this.getPartnerInfo.id != this.userId) {
+    // if (this.getPartnerInfo.id != this.userId) {
       try {
         await getUserPartnerInfo(this.userId);
       } catch (e) {
         console.error("# 회원정보 조회 오류", e);
       }
-    }
+    // }
     this.loaded = true;
   },
 };

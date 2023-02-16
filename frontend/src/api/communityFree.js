@@ -49,7 +49,7 @@ async function deleteBoard(boardNo) {
   await api
     .delete(`${process.env.VUE_APP_API_BASE_URL}/board/community/${boardNo}`)
     .then(() => {
-      console.log("삭제");
+    //   console.log("삭제");
     });
 }
 
@@ -71,7 +71,7 @@ async function putBoard(modifyBoard, boardFile) {
     })
     .then((res) => {
       result = res.data;
-      console.log("업로드");
+      // console.log("업로드");
     })
     .catch();
   return await Promise.resolve(result);

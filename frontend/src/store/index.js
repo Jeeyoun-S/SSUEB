@@ -5,9 +5,6 @@ import Vuex from "vuex";
 import createPersistedState from "vuex-persistedstate";
 
 import userStore from "@/store/modules/userStore.js";
-import communityStore from "@/store/modules/communityStore.js";
-import meetingRoomStore from "@/store/modules/meetingRoomStore.js";
-import reservationStore from "@/store/modules/reservationStore.js";
 import userJoinStore from "@/store/modules/userJoinStore.js";
 import userInfoPartnerStore from "@/store/modules/userInfoPartnerStore.js";
 import userValidStore from "@/store/modules/userValidStore.js";
@@ -43,9 +40,6 @@ import adminStore from "./modules/adminStore";
 // for. 페이지 refresh 시 vuex store 값 유지
 const store = new Vuex.Store({
   modules: {
-    communityStore: communityStore,
-    meetingRoomStore: meetingRoomStore,
-    reservationStore: reservationStore,
     // 회원 관리 관련
     userStore: userStore,
     userJoinStore: userJoinStore,

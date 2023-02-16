@@ -12,7 +12,7 @@ async function acceptConsultant(id) {
     { params: { id : id } }
   )
   .then((res) => {
-    console.log(res.data);
+    // console.log(res.data);
     if (res.data.response == "success") {
       Swal.fire(
         "회원가입 수락",
@@ -60,7 +60,7 @@ async function sendAlert(id, content) {
     { params: { id : id, message: content } }
   )
   .then((res) => {
-    console.log(res.data);
+    // console.log(res.data);
     if (res.data.response == "success") {
       Swal.fire(
         "알림 전송 완료",

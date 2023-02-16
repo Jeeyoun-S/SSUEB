@@ -36,9 +36,9 @@ const roomStore = {
         // }
 
         async setMeetingReservation({ commit }, reservation) {
-            console.log("되니?", reservation);
+            // console.log("되니?", reservation);
             await commit("UPDATE_RESERVATION", reservation);
-            console.log("되니?");
+            // console.log("되니?");
             return await Promise.resolve(true);
             // location.href = `${process.env.VUE_APP_BASE_URL}/meeting-room`;
         }

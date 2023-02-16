@@ -22,7 +22,7 @@
 </template>
 
 <script>
-// import { sendPhoneAuth } from "@/api/userJoin"
+import { sendPhoneAuth } from "@/api/userJoin"
 
 export default {
   name: "UserJoinPhone",
@@ -52,10 +52,10 @@ export default {
   },
   methods: {
     phoneAuth() {
-      // sendPhoneAuth({
-      //   userPhone: this.userPhone,
-      // });
-      this.$store.dispatch("updatePhoneAuthMessage", this.userPhone);
+      sendPhoneAuth({
+        userPhone: this.userPhone,
+      });
+      // this.$store.dispatch("updatePhoneAuthMessage", this.userPhone);
     },
   },
   watch: {

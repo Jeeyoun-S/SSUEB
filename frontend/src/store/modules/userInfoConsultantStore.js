@@ -89,7 +89,8 @@ const userInfoConsultantStore = {
       for (var i = 1; i < 7; i++) {
         var date = new Date(new Date().setMonth(new Date().getMonth() - i));
         state.graphLabels[6 - i] =
-          date.getFullYear() + "-" + (date.getMonth() + 1);
+        
+          date.getFullYear() + "-" + ((date.getMonth() + 1) < 9 ? "0" : "") + (date.getMonth() + 1);
       }
     },
     UPDATE_CONSULTANT_USER_INFO(state, payload) {

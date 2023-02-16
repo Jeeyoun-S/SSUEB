@@ -11,14 +11,14 @@ const mainPageStore = {
   mutations: {
     SET_BOARD: (state, board) => {
       state.board = board;
-      console.log("#SET_BOARD# 게시글 확인: ", state.board);
+      // console.log("#SET_BOARD# 게시글 확인: ", state.board);
     },
     SET_RESERVATION_COUNT: (state, reservationCount) => {
       state.reservationCount = reservationCount;
-      console.log(
-        "#SET_RESERVATION_COUNT# 금일 예약 상담 건 수 확인: ",
-        state.reservationCount
-      );
+      // console.log(
+      //   "#SET_RESERVATION_COUNT# 금일 예약 상담 건 수 확인: ",
+      //   state.reservationCount
+      // );
     },
   },
   actions: {
@@ -26,11 +26,11 @@ const mainPageStore = {
     async excuteGetBoard({ commit }) {
       await getTopFiveBoard(
         ({ data }) => {
-          console.log("#mainPageStore# 게시글 가져오기 성공");
+          // console.log("#mainPageStore# 게시글 가져오기 성공");
           commit("SET_BOARD", data);
         },
         (error) => {
-          console.log("#mainPageStore# 게시글 가져오기 실패");
+          // console.log("#mainPageStore# 게시글 가져오기 실패");
           console.log(error);
         }
       );
@@ -44,10 +44,10 @@ const mainPageStore = {
         id,
         ({ data }) => {
           if (data.response == "success") {
-            console.log(`#mainPageStore# ${data.message}`);
+            // console.log(`#mainPageStore# ${data.message}`);
             commit("SET_RESERVATION_COUNT", data.reservationCount);
           } else {
-            console.log(`#mainPageStore# ${data.message}`);
+            // console.log(`#mainPageStore# ${data.message}`);
           }
         },
         (error) => {

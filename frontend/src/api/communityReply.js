@@ -35,7 +35,7 @@ async function createReply(no, replyContent, userId, userNickname) {
 async function removeReply(no) {
   await api.delete(`${process.env.VUE_APP_API_BASE_URL}/board/reply/community/${no}`)
   .then(() => {
-    console.log("딜리트")
+    // console.log("딜리트")
   })
   .catch(error=>{
     console.log(error);

@@ -105,9 +105,9 @@ export default {
       const api = apiInstance();
       await api.get(process.env.VUE_APP_API_BASE_URL+`/reservation/consultant/${this.userId}`)
         .then(({ data }) => {
-          console.log("확정 상담", data)
+          // console.log("확정 상담", data)
           for (var i = 0; i < data.length; i++) {
-            console.log(data[i])
+            // console.log(data[i])
             let reservation = {};
             reservation["rno"] = data[i].rno;
             reservation["userId"] = data[i].userId;

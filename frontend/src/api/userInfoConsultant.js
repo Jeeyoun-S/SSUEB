@@ -16,7 +16,7 @@ async function getUserConsultantInfo(id) {
     .get(`${process.env.VUE_APP_API_BASE_URL}/user/info/consultant/${id}`)
     .then((res) => {
       if (res.data.response == "success") {
-        console.log("#회원정보 조회 성공");
+        // console.log("#회원정보 조회 성공");
         const data = res.data.data;
 
         // 회원정보 store에 저장
@@ -56,7 +56,7 @@ async function getUserConsultantInfo(id) {
         store.dispatch("updateStarInfo", starInfo);
         result = true;
       } else {
-        console.log("#회원정보 조회 실패");
+        // console.log("#회원정보 조회 실패");
 
         Swal.fire({
           title: "FAIL",
@@ -76,11 +76,11 @@ async function updateConsultantInfo(consultantInfo) {
   const petType = [0, 0, 0, 0, 0, 0];
   for (var i in consultantInfo.consultantPetType) {
     petType[consultantInfo.consultantPetType[i]] = 1;
-    console.log(i, petType[i])
+    // console.log(i, petType[i])
   }
   consultantInfo.consultantPetType = petType.join('');
-  console.log("consultantInfo", petType);
-  console.log("consultantInfo", consultantInfo);
+  // console.log("consultantInfo", petType);
+  // console.log("consultantInfo", consultantInfo);
 
   await api
     // .post(`user/info/consultant`, consultantInfo, {
@@ -95,11 +95,11 @@ async function updateConsultantInfo(consultantInfo) {
     )
     .then((res) => {
       if (res.data.response == "success") {
-        console.log("#회원정보 수정 성공");
+        // console.log("#회원정보 수정 성공");
 
         consultantInfo.consultantProfile = res.data.message;
 
-        console.log(consultantInfo);
+        // console.log(consultantInfo);
 
         delete consultantInfo.userPassword;
         delete consultantInfo.deleteProfile;
@@ -119,7 +119,7 @@ async function updateConsultantInfo(consultantInfo) {
         // 수정된 회원정보 반영 (for. store 저장, 메인페이지 표시) > 권한검증을 통해 회원정보 get
         store.dispatch("userStore/checkAnyPermit", null, { root: true });
       } else {
-        console.log("#회원정보 수정 실패");
+        // console.log("#회원정보 수정 실패");
 
         Swal.fire({
           title: "FAIL",

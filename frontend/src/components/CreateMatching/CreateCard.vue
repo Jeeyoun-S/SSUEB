@@ -152,7 +152,7 @@ export default {
         matchingCost: [
           (v) => !!v || "필수 입력 사항입니다.",
           (v) => /^[0-9]*$/.test(v) || '숫자만 입력 가능합니다.',
-          (v) => v <= 1000000 || '최대 100만 원까지만 가능합니다.'
+          (v) => (v >= 1000 && v <= 1000000) || '최소 1000원, 최대 100만 원까지만 가능합니다.'
         ],
         matchingComment: [
           (v) => !!v || "필수 입력 사항입니다.",
@@ -169,7 +169,7 @@ export default {
 
   methods: {
     async createMatching(){
-      console.log("he")
+      // console.log("he")
       const api = apiInstance();
       await api.post(process.env.VUE_APP_API_BASE_URL+`/reservation/matching`,null,{
         params:{
@@ -187,7 +187,7 @@ export default {
           text : '반려인에게 상담 제안을 보냈습니다.',
           icon : 'success'
         })
-        console.log("견적 제안 완료!");
+        // console.log("견적 제안 완료!");
         router.push("/send-matching");
       }).catch(error => {
         alert(error.message)
