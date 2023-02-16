@@ -130,7 +130,8 @@
             <v-card-item>
             </v-card-item>
             <v-card-actions>
-              <SeeAttatchedFiles :reservation="reservation" />
+              <SeeAttatchedFiles :rno="reservation.rno"/>
+              <!-- <SeeAttatchedFiles :reservation="reservation" /> -->
               <v-btn class="ms-auto" color="error" @click="dialog = false">닫기</v-btn>
             </v-card-actions>
           </v-card>
@@ -267,7 +268,7 @@ export default {
           `지금 리뷰를 작성해보세요!`,
           'warning'
         ).then(()=>{
-          location.href = `${process.env.VUE_APP_BASE_URL}/finished-reservation`;
+          location.href = `${process.env.VUE_APP_BASE_URL}/finished-reservation?no=0`;
         })
 
       } else {
@@ -276,7 +277,7 @@ export default {
           `지금 상담내역을 작성해보세요!`,
           'warning'
         ).then(()=>{
-          location.href = `${process.env.VUE_APP_BASE_URL}/finished-reservation`;
+          location.href = `${process.env.VUE_APP_BASE_URL}/finished-reservation?no=0`;
         })
       }
     },

@@ -161,7 +161,7 @@ const userStore = "userStore";
 export default {
   name: "FinishedReservationPartner",
   data: () => ({
-    panel: [],
+    panel: null,
     reservations: [],
     rating: 3.5,
     loaded: false
@@ -215,7 +215,12 @@ export default {
             this.reservations.push(reservation);
           }
 
-          console.log(this.reservations)
+          this.reservations.sort((a, b) => {
+            if (a.reservationDate > b.reservationDate) return -1;
+            else if (a.reservationDate < b.reservationDate) return 1;
+            else return 0;
+          });
+          // console.log(this.reservations)
         })
         .catch((err) => {
           console.log(err);
@@ -236,6 +241,16 @@ export default {
   },
   async created(){
     this.loaded = false;
+    try {
+      await this.getReservation();
+      // console.log(this.$route.query.no)
+      if (this.$route.query.no != undefined) {
+        // console.log("실행");
+        this.panel = await Number(this.$route.query.no);
+      }
+    } catch (e) {
+      console.log(e);
+    }
     await this.getReservation();
     this.loaded = true;
   }

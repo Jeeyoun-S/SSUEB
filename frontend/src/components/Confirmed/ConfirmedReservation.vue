@@ -90,6 +90,11 @@ export default {
             this.reservations.push(reservation);
           }
 
+          this.reservations.sort((a, b) => {
+            if (a.reservationDate < b.reservationDate) return -1;
+            else if (a.reservationDate > b.reservationDate) return 1;
+            else return 0;
+          });
           //console.log(this.reservations[0])
         })
         .catch((err) => {
@@ -138,7 +143,13 @@ export default {
 
             this.reservations.push(reservation);
           }
-
+          
+          this.reservations.sort((a, b) => {
+            if (a.reservationDate < b.reservationDate) return -1;
+            else if (a.reservationDate > b.reservationDate) return 1;
+            else return 0;
+          });
+          // console.log(this.reservations);
         })
         .catch((err) => {
           console.log(err);
