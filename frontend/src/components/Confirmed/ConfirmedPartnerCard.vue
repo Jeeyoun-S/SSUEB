@@ -119,12 +119,12 @@ export default {
     ...mapActions(roomStore, ["setMeetingReservation"]),
     moveRoom(){
       //유효성검사후 없으면 적절한 alert띄우기 
-        console.log("reservation 정보 : ",this.reservation.rno)
+        // console.log("reservation 정보 : ",this.reservation.rno)
         // alert(this.reservation.rno)
         // this.$store.dispatch("setMeetingReservation", this.reservation)
         this.setMeetingReservation(this.reservation)
         .then((res) => {
-          console.log("여기")
+          // console.log("여기")
           if (res) {
             location.href = `${process.env.VUE_APP_BASE_URL}/meeting-room`;
           }

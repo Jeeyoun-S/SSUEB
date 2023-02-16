@@ -27,7 +27,7 @@ async function getUserPartnerInfo(id) {
         if (petInfo != null)
           store.dispatch("getPetInfo", res.data.data.petInfo);
       } else {
-        console.log("#회원정보 조회 실패");
+        // console.log("#회원정보 조회 실패");
 
         Swal.fire({
           title: "FAIL",
@@ -37,8 +37,8 @@ async function getUserPartnerInfo(id) {
         router.push("/");
       }
     })
-    .catch(() => {
-      console.log("#회원정보 조회 오류");
+    .catch((err) => {
+      console.log(err);
     });
 }
 
@@ -50,7 +50,7 @@ async function updatePartnerInfo(partnerInfo) {
     .post(`${process.env.VUE_APP_API_BASE_URL}/user/info/partner`, partnerInfo)
     .then((res) => {
       if (res.data.response == "success") {
-        console.log("#회원정보 수정 성공");
+        // console.log("#회원정보 수정 성공");
 
         store.dispatch("getPartnerInfo", partnerInfo);
         store.dispatch("updateInfoVersion");
@@ -58,7 +58,7 @@ async function updatePartnerInfo(partnerInfo) {
         // 수정된 회원정보 반영 (for. store 저장, 메인페이지 표시) > 권한검증을 통해 회원정보 get
         store.dispatch("userStore/checkAnyPermit", null, { root: true });
       } else {
-        console.log("#회원정보 수정 실패");
+        // console.log("#회원정보 수정 실패");
 
         Swal.fire({
           title: "FAIL",
@@ -76,9 +76,9 @@ async function registerPetInfo(petInfo, id) {
   value.result = true;
   value.petInfo = null;
 
-  for (let key of petInfo.keys()) {
-    console.log(key, ":", petInfo.get(key));
-  }
+  // for (let key of petInfo.keys()) {
+  //   console.log(key, ":", petInfo.get(key));
+  // }
 
   await api
     // #21# 기존 code 주석 처리
@@ -95,7 +95,7 @@ async function registerPetInfo(petInfo, id) {
     })
     .then((res) => {
       if (res.data.response == "success") {
-        console.log("#반려동물 등록 성공");
+        // console.log("#반려동물 등록 성공");
 
         Swal.fire({
           title: "SUCCESS",
@@ -105,10 +105,10 @@ async function registerPetInfo(petInfo, id) {
 
         value.result = false;
         value.petInfo = res.data.data;
-        console.log(petInfo);
+        // console.log(petInfo);
         store.dispatch("addPetInfo", res.data.data);
       } else {
-        console.log("#반려동물 등록 실패");
+        // console.log("#반려동물 등록 실패");
 
         // Swal.fire({
         //   title: "FAIL",
@@ -146,7 +146,7 @@ async function modifyPetInfo(petInfo, petNo) {
     })
     .then((res) => {
       if (res.data.response == "success") {
-        console.log("#반려동물 수정 성공");
+        // console.log("#반려동물 수정 성공");
 
         Swal.fire({
           title: "SUCCESS",
@@ -159,15 +159,20 @@ async function modifyPetInfo(petInfo, petNo) {
         const newModifyPetInfo = {};
         for (var key in petInfo) {
           newModifyPetInfo[key] = petInfo[key];
-          console.log(key, petInfo[key]);
+          // console.log(key, petInfo[key]);
         }
 
         newModifyPetInfo.no = petNo;
         newModifyPetInfo.petImage = res.data.data.petImage;
-        console.log("수정 후", newModifyPetInfo);
+        // console.log("수정 후", newModifyPetInfo);
         store.dispatch("updatePetInfo", newModifyPetInfo);
       } else {
-        console.log("#반려동물 수정 실패");
+        // console.log("#반려동물 수정 실패");
+        Swal.fire({
+          title: "FAIL",
+          text: "반려동물 정보를 수정에 실패했습니다. 다시 시도해 주시기 바랍니다.",
+          icon: "error",
+        });
       }
     })
     .catch()
@@ -181,11 +186,16 @@ async function removePetInfo(petNo) {
     .delete(`${process.env.VUE_APP_API_BASE_URL}/user/pet/${petNo}`)
     .then((res) => {
       if (res.data.response == "success") {
-        console.log("#반려동물 삭제 성공");
+        // console.log("#반려동물 삭제 성공");
 
         store.dispatch("deletePetInfo", petNo);
       } else {
-        console.log("#반려동물 삭제 실패");
+        // console.log("#반려동물 삭제 실패");
+        Swal.fire({
+          title: "FAIL",
+          text: "반려동물 삭제에 실패했습니다. 다시 시도해 주시기 바랍니다.",
+          icon: "error",
+        });
       }
     })
     .catch()
@@ -200,7 +210,7 @@ async function checkPassword(id) {
     inputPlaceholder: "비밀번호를 입력해 주세요.",
   });
 
-  console.log("비밀번호 확인을 위해 보내는 정보", id, password);
+  // console.log("비밀번호 확인을 위해 보내는 정보", id, password);
   await api
     .post(`${process.env.VUE_APP_API_BASE_URL}/user/info/password`, {
       id: id,
@@ -208,11 +218,11 @@ async function checkPassword(id) {
     })
     .then((res) => {
       if (res.data.response == "success") {
-        console.log("#비밀번호 확인 성공");
+        // console.log("#비밀번호 확인 성공");
 
         store.dispatch("updateInfoVersion");
       } else {
-        console.log("#비밀번호 확인 실패");
+        // console.log("#비밀번호 확인 실패");
 
         Swal.fire({
           icon: "error",

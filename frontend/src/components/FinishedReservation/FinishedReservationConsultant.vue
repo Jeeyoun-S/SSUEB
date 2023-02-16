@@ -125,8 +125,8 @@ export default {
 
   data() {
     return {
-      loaded: true,
-      panel: [],
+      loaded: false,
+      panel: null,
       reservations: [],
     }
   },
@@ -177,7 +177,13 @@ export default {
             reservation["petInfo"] = data[i].petInfo;
             this.reservations.push(reservation);
           }
-          console.log(this.reservations)
+
+          this.reservations.sort((a, b) => {
+            if (a.reservationDate > b.reservationDate) return -1;
+            else if (a.reservationDate < b.reservationDate) return 1;
+            else return 0;
+          });
+          // console.log(this.reservations)
         })
         .catch((err) => {
           console.log(err);
@@ -187,8 +193,19 @@ export default {
       return `${process.env.VUE_APP_FILE_PATH_PET}${img}`;
     },
   },
-  created(){
-    this.getReservation();
+  async created(){
+    this.loaded = false;
+    try {
+      await this.getReservation();
+      // console.log(this.$route.query.no)
+      if (this.$route.query.no != undefined) {
+        // console.log("실행");
+        this.panel = await Number(this.$route.query.no);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+    this.loaded = true;
   }
 }
 </script>

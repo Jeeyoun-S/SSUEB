@@ -107,7 +107,7 @@ export default {
       //유효성검사후 없으면 적절한 alert띄우기
       this.setMeetingReservation(this.reservation)
         .then((res) => {
-          console.log("여기")
+          // console.log("여기")
           if (res) {
             location.href = `${process.env.VUE_APP_BASE_URL}/meeting-room`;
           }

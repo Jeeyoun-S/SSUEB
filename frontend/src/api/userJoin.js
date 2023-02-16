@@ -62,7 +62,7 @@ async function sendPhoneAuth(phoneNumber) {
         }).then((result) => {
           /* Read more about handling dismissals below */
           if (result.dismiss === Swal.DismissReason.timer) {
-            console.log("I was closed by the timer");
+            // console.log("I was closed by the timer");
           }
         });
       }
@@ -112,7 +112,7 @@ async function sendPhoneAuth(phoneNumber) {
 //     }
 //   })
 // }
-confirmPhoneAuth;
+// confirmPhoneAuth;
 // [GET] 휴대폰 인증번호 확인
 async function confirmPhoneAuth(authNumber, userPhone) {
   await api

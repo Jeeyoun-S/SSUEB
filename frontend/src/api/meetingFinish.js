@@ -22,7 +22,7 @@ async function finishConsult(no) {
 
 // [PUT] 진단서 작성
 async function registDignosis(dignosis) {
-  console.log(dignosis)
+  // console.log(dignosis)
   var result = false;
   await api
   .put(`${process.env.VUE_APP_API_BASE_URL}/reservation/dignosis`, null, { params: dignosis })

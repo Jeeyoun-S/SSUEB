@@ -90,6 +90,11 @@ export default {
             this.reservations.push(reservation);
           }
 
+          this.reservations.sort((a, b) => {
+            if (a.reservationDate < b.reservationDate) return -1;
+            else if (a.reservationDate > b.reservationDate) return 1;
+            else return 0;
+          });
           //console.log(this.reservations[0])
         })
         .catch((err) => {
@@ -105,9 +110,9 @@ export default {
       const api = apiInstance();
       await api.get(process.env.VUE_APP_API_BASE_URL+`/reservation/consultant/${this.userId}`)
         .then(({ data }) => {
-          console.log("확정 상담", data)
+          // console.log("확정 상담", data)
           for (var i = 0; i < data.length; i++) {
-            console.log(data[i])
+            // console.log(data[i])
             let reservation = {};
             reservation["rno"] = data[i].rno;
             reservation["userId"] = data[i].userId;
@@ -138,7 +143,13 @@ export default {
 
             this.reservations.push(reservation);
           }
-
+          
+          this.reservations.sort((a, b) => {
+            if (a.reservationDate < b.reservationDate) return -1;
+            else if (a.reservationDate > b.reservationDate) return 1;
+            else return 0;
+          });
+          // console.log(this.reservations);
         })
         .catch((err) => {
           console.log(err);

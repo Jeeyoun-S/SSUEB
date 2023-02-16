@@ -32,7 +32,7 @@ const userStore = {
   mutations: {
     SET_IS_LOGIN: (state, isLogin) => {
       state.isLogin = isLogin;
-      console.log("#SET_IS_LOGIN# isLogin 확인: ", state.isLogin);
+      // console.log("#SET_IS_LOGIN# isLogin 확인: ", state.isLogin);
     },
     SET_IS_VALID_TOKEN: (state, isValidToken) => {
       state.isValidToken = isValidToken;
@@ -40,18 +40,18 @@ const userStore = {
     SET_USER_ID: (state, userId) => {
       //state.isLogin = true;
       state.userId = userId;
-      console.log("#SET_USER_ID# userId 확인: ", state.userId);
+      // console.log("#SET_USER_ID# userId 확인: ", state.userId);
     },
     SET_USER_INFO: (state, userInfo) => {
       state.userInfo = userInfo;
-      console.log("#SET_USER_INFO# userInfo 확인: ", state.userInfo);
+      // console.log("#SET_USER_INFO# userInfo 확인: ", state.userInfo);
     },
     SET_USER_AUTH: (state, userAuth) => {
       state.userAuth = userAuth;
-      console.log(
-        "#SET_USER_AUTH# 현재 로그인한 사용자의 권한 확인: ",
-        state.userAuth
-      );
+      // console.log(
+      //   "#SET_USER_AUTH# 현재 로그인한 사용자의 권한 확인: ",
+      //   state.userAuth
+      // );
     },
   },
   actions: {
@@ -130,18 +130,18 @@ const userStore = {
     // [@Method] 모든 권한 허용
     // return userNickname (실패 시 null)
     async checkAnyPermit({ commit }) {
-      console.log("#userStore - checkAnyPermit# 모든 권한 허용 동작");
+      // console.log("#userStore - checkAnyPermit# 모든 권한 허용 동작");
       const token = localStorage.getItem("token");
       var userName = null;
       await anyPermit(
         token,
         ({ data }) => {
-          console.log("#userStore - checkAnyPermit# 성공");
+          // console.log("#userStore - checkAnyPermit# 성공");
           commit("SET_USER_INFO", data);
           userName = data.userName;
         },
         (error) => {
-          console.log("#userStore - checkAnyPermit# 실패");
+          // console.log("#userStore - checkAnyPermit# 실패");
           console.log(error);
         }
       );
@@ -149,27 +149,27 @@ const userStore = {
     },
     // [@Method] 전문가, 관리자 권한만 허용
     async checkPartPermit({ commit }, userId) {
-      console.log(
-        "#userStore - checkPartPermit# 전문가, 관리자 권한만 허용 동작"
-      );
+      // console.log(
+      //   "#userStore - checkPartPermit# 전문가, 관리자 권한만 허용 동작"
+      // );
       const token = localStorage.getItem("token");
 
       await partPermit(
         userId,
         token,
         ({ data }) => {
-          console.log("#userStore - checkPartPermit# 성공");
+          // console.log("#userStore - checkPartPermit# 성공");
           commit("SET_USER_INFO", data);
         },
         (error) => {
-          console.log("#userStore - checkPartPermit# 실패");
+          // console.log("#userStore - checkPartPermit# 실패");
           console.log(error);
         }
       );
     },
     // [@Method] 로그아웃
     excuteLogout({ commit }) {
-      console.log("#userStore - excuteLogout# 로그아웃 동작");
+      // console.log("#userStore - excuteLogout# 로그아웃 동작");
       commit;
 
       // ! 가장 최근 예약 상담 정보 alert
@@ -196,7 +196,7 @@ const userStore = {
         ({ data }) => {
           // i) 회원탈퇴 성공
           if (data.response == "success") {
-            console.log("#userStore# 회원탈퇴 성공: ", data);
+            // console.log("#userStore# 회원탈퇴 성공: ", data);
             Swal.fire("SSEUB", `${data.message}`, "success");
 
             // 로그아웃 처리
@@ -204,7 +204,7 @@ const userStore = {
           }
           // ii) 회원탈퇴 실패
           else {
-            console.log("#userStore# 회원탈퇴 실패: ", data);
+            // console.log("#userStore# 회원탈퇴 실패: ", data);
             Swal.fire("SSEUB", `${data.message}`, "error");
           }
         },
@@ -258,10 +258,10 @@ const userStore = {
     // [@Method] 가장 최근 예약 상담 내역 조회
     async excuteRecentlyReservationInfo({ commit }) {
       commit;
-      console.log(
-        "#21# 가장 최근 예약 상담 내역 조회 동작 - id: ",
-        this.state.userStore.userId
-      );
+      // console.log(
+      //   "#21# 가장 최근 예약 상담 내역 조회 동작 - id: ",
+      //   this.state.userStore.userId
+      // );
 
       await getRecentlyReservation(
         this.state.userStore.userId,
@@ -295,7 +295,7 @@ const userStore = {
               }
             });
           } else {
-            console.log("#21# 예약 상담 조회 실패");
+            // console.log("#21# 예약 상담 조회 실패");
             store.dispatch("userStore/clearUserStoreInfo", null, {
               root: true,
             });

@@ -67,13 +67,13 @@ export default {
   },
   async mounted() {
     this.loaded = false;
-    if (this.getConsultantInfo.id != this.userId) {
+    // if (this.getConsultantInfo.id != this.userId) {
       try {
         await getUserConsultantInfo(this.userId);
       } catch (e) {
         console.error("# 회원정보 조회 오류", e);
       }
-    }
+    // }
     this.loaded = true;
   },
 };

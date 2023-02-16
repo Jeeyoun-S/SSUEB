@@ -43,7 +43,7 @@ async function partPermit(userId, token, success, fail) {
 
 // [POST] 회원 탈퇴
 async function withdrawal(info, success, fail) {
-  console.log("#user - api# 회원탈퇴 - userId: ", info);
+  // console.log("#user - api# 회원탈퇴 - userId: ", info);
 
   await api
     .post(
@@ -56,7 +56,7 @@ async function withdrawal(info, success, fail) {
 
 // [GET] 최근 예약 상담 내역 조회
 async function getRecentlyReservation(id, success, fail) {
-  console.log("#user - 최근 예약 상담 내역 조회# id: ", id);
+  // console.log("#user - 최근 예약 상담 내역 조회# id: ", id);
 
   await api
     .get(
