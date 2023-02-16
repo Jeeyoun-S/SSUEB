@@ -116,8 +116,16 @@ public class UserInfoConsultantController {
 						starCount += s.getStarCnt();
 					}
 					
-					if (starCount != 0) userInfoResponseData.setConsultantRate(starAverage / starCount);
-					else userInfoResponseData.setConsultantRate((double) 0);
+					double consultantRate = 0;
+					if (starCount != 0) consultantRate = starAverage / starCount;
+					
+					userInfoResponseData.setConsultantRate(consultantRate);
+//					if (starCount != 0) userInfoResponseData.setConsultantRate(starAverage / starCount);
+//					else userInfoResponseData.setConsultantRate((double) 0);
+					
+					// DB에 별점 변경 반영
+					consultant.setConsultantRate(consultantRate);
+					userInfoConsultantRepository.save(consultant);
 					
 					// 전문가 예약 확정 횟수
 					Optional<Integer> totalConfirm = userInfoConsultantQueryRepository.findTotalConfirmById(id);
