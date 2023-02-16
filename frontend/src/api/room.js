@@ -19,7 +19,7 @@ async function joinRoomSession(roomId, success, fail) {
 
 async function finishRoom(roomId, success,fail){
   await api
-  .post(`${process.env.VUE_APP_API_BASE_URL}/reservation/${roomId}`,{  
+  .post(`${process.env.VUE_APP_API_BASE_URL}/reservation/finish/${roomId}`,{  
   // .put(`api/reservation/finish/${roomId}`,{  
       headers: {
         Authorization: `Bearer ${token}`
