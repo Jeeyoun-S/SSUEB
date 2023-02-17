@@ -232,6 +232,20 @@ VUE_APP_BOOTPAY_PRIVATE={부트페이 Private KEY}
   ![네이버 이메일](/exec/image/naver_email.png)
 
 ### 5. Naver Cloud Platform
+1. [Naver Cloud Platform](https://www.ncloud.com/) 접속
+2. 회원가입 및 로그인 진행
+3. 사이트 상단 우측 Console 접속
+4. 왼쪽 사이드바 **Services**에서 **Simple & Easy Notification Service** 검색
+5. **Simple & Easy Notification Service**에 Project에서 Project 추가 (서비스 타입 SMS 선택)
+6. 추가된 프로젝트의 SMS의 service ID를 Backend `env.properties`에 추가
+  ```
+  naverCloudPlatform.serviceId={service ID}
+  ```
+7. 마이페이지 > 계정 관리 > 인증키 관리에서 Access Key ID와 Secret Key 복사
+  ```
+  naverCloudPlatform.accessKeyId={Access Key ID}
+  naverCloudPlatform.secretKey={Secret Key}
+  ```
 
 ## DB 덤프 파일
 - [DB 덤프 파일 다운로드](https://lab.ssafy.com/s08-webmobile1-sub2/S08P12A801/-/tree/main/exec/file/A801_ssafy_common_DB_dump.zip)
