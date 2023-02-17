@@ -203,6 +203,33 @@ VUE_APP_BOOTPAY_PRIVATE={부트페이 Private KEY}
 6. [링크](https://admin.bootpay.co.kr/payment/setting)에서 결제수단 설정 (KCP, ISP, 샌드박스 모드)
 
 ### 4. Java E-mail
+1. 메일을 전송할 Google 계정 환경설정 [참고 링크](https://ajdahrdl.tistory.com/236)
+2. Backend `application-mail.yml` 내 설정 작성
+  ```
+  spring:
+  mail:
+    default-encoding: utf-8
+    host: smtp.gmail.com
+    port: 587
+    username: "{메일을 발송하는 계정 id(email)}"
+    password: "{1번에서 생성한 앱 비밀번호}"
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+  ```
+3. Backend `application.yml` 내 추가
+  ```
+  spring:
+    # for. mail 정보 가져오기
+    profiles:
+      include: mail
+  ```
+  ![이메일](/exec/image/email_final.png)
+4. *Naver 계정으로 메일을 받는 경우 SMTP 허용 필요
+  ![네이버 이메일](/exec/image/naver_email.png)
 
 ### 5. Naver Cloud Platform
 
@@ -210,4 +237,5 @@ VUE_APP_BOOTPAY_PRIVATE={부트페이 Private KEY}
 - [DB 덤프 파일 다운로드](https://lab.ssafy.com/s08-webmobile1-sub2/S08P12A801/-/tree/main/exec/file/A801_ssafy_common_DB_dump.zip)
 
 ## 시연 시나리오
+- [시연 시나리오](https://mercury-sole-13c.notion.site/SSUEB-2a19a3c7ef9c41149ab8edcb374b7f99)
 - [서비스 화면 링크 참고](https://lab.ssafy.com/s08-webmobile1-sub2/S08P12A801#%EC%84%9C%EB%B9%84%EC%8A%A4-%ED%99%94%EB%A9%B4)
