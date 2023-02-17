@@ -91,8 +91,8 @@
       1. [Naver Cloud Flatform 수정 가이드](#5.-Naver-Cloud-Platform)
       2. Openvidu의 {PUBLIC IP}는 사용자 기기의 pubilc IP또는 domain 입력
     - `application.yml` 파일 수정 필수
-      1. [Kakao Login 수정 가이드](#1.-Kakao-Login)
-      2. [Google Login 수정 가이드](#2.-Google-Login)
+      1. [Kakao Login 수정 가이드](#1-kakao-login)
+      2. [Google Login 수정 가이드](#2-google-login)
     - `application-mail.yml` 파일 수정 필수
       1. [Java E-mail 수정 가이드](#4.-Java-E-mail)
   - backend/src/main/java/com/ssfay/config 경로에 [config.zip](https://lab.ssafy.com/s08-webmobile1-sub2/S08P12A801/-/tree/main/exec/file/backend_config.zip) 압축 해제 후 덮어쓰기
