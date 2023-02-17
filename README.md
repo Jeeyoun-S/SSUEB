@@ -5,7 +5,7 @@
 - 삼성청년SW아카데미 SSAFY 8기 2학기 공통 프로젝트
 - 팀 '개발이 힘들면 창밖을 바라보기'
   - 전희준(팀장), 김민규, 서지윤, 엄희정, 이승진, 이우진
-- [UCC 소개 영상 보러가기]()
+- [UCC 소개 영상 보러가기](https://www.youtube.com/watch?v=3nSiPJ4YDKI&feature=youtu.be)
 
 ## 목차
 1. [기획 배경](#기획-배경)
@@ -90,7 +90,7 @@ SSUEB은 반려인과 전문가가 실시간 영상 상담을 할 수 있고, �
 - [DB 설계서](https://mercury-sole-13c.notion.site/SSUEB-DB-8bf5fdd0ceb649e2954e16603b1fafca)
 - [API 설계서](https://mercury-sole-13c.notion.site/SSUEB-API-f1bfd30ab2a242a080564266e07a60d8)
 - [Convention](https://mercury-sole-13c.notion.site/SSUEB-Team-Convention-d25fc047e14a44ef92b4dfec79707bb9)
-- [포딩 매뉴얼](https://tin-preface-7fe.notion.site/1322956a181f47658e11fb7cdbd7b265)
+- [포딩 매뉴얼](https://lab.ssafy.com/s08-webmobile1-sub2/S08P12A801/-/tree/main/exec)
 
 ## 서비스 화면
 ### 반려인
