@@ -88,22 +88,22 @@
 - **backend 설정 파일 수정**
   - backend/src/main/resources 경로에 [backend_properties.zip](https://lab.ssafy.com/s08-webmobile1-sub2/S08P12A801/-/tree/main/exec/file/backend_properties.zip) 압축 해제 후 추가, 덮어쓰기
     - `env.properties` 파일 수정 필수
-      1. [Naver Cloud Flatform 수정 가이드](#5-naver-cloud-platform)
+      1. [Naver Cloud Flatform 수정 가이드](#5-naver-cloud-platform) 외부 서비스 정리 문서 > 5. Naver Cloud Platform
       2. Openvidu의 {PUBLIC IP}는 사용자 기기의 pubilc IP또는 domain 입력
     - `application.yml` 파일 수정 필수
-      1. [Kakao Login 수정 가이드](#1-kakao-login)
-      2. [Google Login 수정 가이드](#2-google-login)
+      1. [Kakao Login 수정 가이드](#1-kakao-login) 외부 서비스 정리 문서 > 1. Kakao Login
+      2. [Google Login 수정 가이드](#2-google-login) 외부 서비스 정리 문서 > 2. Google Login
     - `application-mail.yml` 파일 수정 필수
-      1. [Java E-mail 수정 가이드](#4-java-e-mail)
+      1. [Java E-mail 수정 가이드](#4-java-e-mail) 외부 서비스 정리 문서 > 4. Java E-mail
   - backend/src/main/java/com/ssfay/config 경로에 [config.zip](https://lab.ssafy.com/s08-webmobile1-sub2/S08P12A801/-/tree/main/exec/file/backend_config.zip) 압축 해제 후 덮어쓰기
 
 - **frontend 설정 파일 수정**
   - frontend 경로에 [frontend_properties.zip](https://lab.ssafy.com/s08-webmobile1-sub2/S08P12A801/-/tree/main/exec/file/frontend_properties.zip) 압축 해제 후 추가, 덮어쓰기
     - `.env` 파일 수정 필수
       1. {PUBLIC IP}는 사용자 기기의 pubilc IP또는 domain 입력
-      2. [Kakao Login 수정 가이드](#1-kakao-login)
-      2. [Google Login 수정 가이드](#2-google-login)
-      4. [Bootpay 수정 가이드](#3-bootpay)
+      2. [Kakao Login 수정 가이드](#1-kakao-login) 외부 서비스 정리 문서 > 1. Kakao Login
+      2. [Google Login 수정 가이드](#2-google-login) 외부 서비스 정리 문서 > 2. Google Login
+      4. [Bootpay 수정 가이드](#3-bootpay) 외부 서비스 정리 문서 > 3. Bootpay
 
 ### 8. Frontend 빌드
 - 루트 디렉토리에서 하위 frontend 디렉토리로 이동
@@ -228,7 +228,7 @@ VUE_APP_BOOTPAY_PRIVATE={부트페이 Private KEY}
       include: mail
   ```
   ![이메일](/exec/image/email_final.png)
-4. *Naver 계정으로 메일을 받는 경우 SMTP 허용 필요
+4. Naver 계정으로 메일을 받는 경우 SMTP 허용 필요
   ![네이버 이메일](/exec/image/naver_email.png)
 
 ### 5. Naver Cloud Platform
@@ -245,6 +245,12 @@ VUE_APP_BOOTPAY_PRIVATE={부트페이 Private KEY}
   ```
   naverCloudPlatform.accessKeyId={Access Key ID}
   naverCloudPlatform.secretKey={Secret Key}
+  ```
+8. Console > Simple & Easy Notification Service > SMS > Calling Number에 휴대폰 번호 추가
+9. 추가한 휴대폰 번호 Backend `env.properties`에 추가
+  ```
+  # Phone Number
+  ssueb.phone={휴대폰 번호}
   ```
 
 ## DB 덤프 파일
