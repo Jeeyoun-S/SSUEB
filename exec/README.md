@@ -72,12 +72,12 @@ docker run --name redis -d -p 6379:6379 redis:3.0.5 redis-server --requirepass "
     ```
     ![git clone](/exec/image/git_clone.png)
 2. backend 설정 파일 수정
-- backend/src/main/resources 경로에 아래 설정파일로 추가, 덮어쓰기
+  - backend/src/main/resources 경로에 아래 설정파일로 추가, 덮어쓰기
 
-- backend/src/main/java/com/ssafy/config 경로에 아래 java파일로 덮어쓰기
+  - backend/src/main/java/com/ssafy/config 경로에 아래 java파일로 덮어쓰기
 
 3. frontend 설정 파일 수정
-- frontend 경로에 아래 설정파일 추가, 덮어쓰기
+  - frontend 경로에 아래 설정파일 추가, 덮어쓰기
 
 ### 8. Frontend 빌드
 루트 디렉토리에서 하위 frontend 디렉토리로 이동
