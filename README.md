@@ -90,7 +90,7 @@ SSUEB은 반려인과 전문가가 실시간 영상 상담을 할 수 있고, �
 - [DB 설계서](https://mercury-sole-13c.notion.site/SSUEB-DB-8bf5fdd0ceb649e2954e16603b1fafca)
 - [API 설계서](https://mercury-sole-13c.notion.site/SSUEB-API-f1bfd30ab2a242a080564266e07a60d8)
 - [Convention](https://mercury-sole-13c.notion.site/SSUEB-Team-Convention-d25fc047e14a44ef92b4dfec79707bb9)
-- [포딩 매뉴얼](https://lab.ssafy.com/s08-webmobile1-sub2/S08P12A801/-/tree/main/exec)
+- [포팅 매뉴얼](https://lab.ssafy.com/s08-webmobile1-sub2/S08P12A801/-/tree/main/exec)
 
 ## 서비스 화면
 ### 반려인

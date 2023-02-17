@@ -59,7 +59,7 @@
       docker-compose up -d
       ```
 
-### 5. MySQL Dokcer 이미지 다운로드 및 실행
+### 5. MySQL Docker 이미지 다운로드 및 실행
 - 버전정보 mysql 5.7.35
   ```jsx
   docker pull mysql:5.7.35
@@ -67,17 +67,17 @@
   ```
 - DB 접속
   - 비밀번호 ssafy 입력
-  ```jsx
-  docker exec -it mysql-container bash
-  mysql -u root -p
-  ```
+    ```jsx
+    docker exec -it mysql-container bash
+    mysql -u root -p
+    ```
 
 ### 6. Redis Docker 이미지 다운로드 및 실행
 - 버전정보 redis 3.0.5
-```jsx
-docker pull redis:3.0.5
-docker run --name redis -d -p 6379:6379 redis:3.0.5 redis-server --requirepass "ssueb2301256a"
-```
+  ```jsx
+  docker pull redis:3.0.5
+  docker run --name redis -d -p 6379:6379 redis:3.0.5 redis-server --requirepass "ssueb2301256a"
+  ```
 
 ### 7. git clone 및 설정 파일 변경
 - git clone 받기
@@ -101,21 +101,21 @@ docker run --name redis -d -p 6379:6379 redis:3.0.5 redis-server --requirepass "
   
 
 ### 8. Frontend 빌드
-루트 디렉토리에서 하위 frontend 디렉토리로 이동
-```
-npm i
-npm run build
-```
+- 루트 디렉토리에서 하위 frontend 디렉토리로 이동
+  ```
+  npm i
+  npm run build
+  ```
 
 ### 9. Backend 실행
 1. gradlew 최초 한번 권한 부여 후 실행
-  ```
-  chmod +x gradlew
-  ```
+    ```
+    chmod +x gradlew
+    ```
 2. 실행
-  ```
-  ./gradlew clean bootRun
-  ```
+    ```
+    ./gradlew clean bootRun
+    ```
 
 ### 10. 동작 확인
 `http://PUBLIC_DOMAIN`으로 접근해 잘 실행되는지 확인
@@ -124,9 +124,11 @@ npm run build
 ### Kakao Login
 ### Google Login
 ### Bootpay
-### E-mail
-### Phone
+### Java E-mail
+### Naver Cloud Platform
 
 ## DB 덤프 파일
+- [DB 덤프 파일 다운로드](https://lab.ssafy.com/s08-webmobile1-sub2/S08P12A801/-/tree/main/exec/file/A801_ssafy_common_DB_dump.zip)
 
 ## 시연 시나리오
+- [서비스 화면 링크 참고](https://lab.ssafy.com/s08-webmobile1-sub2/S08P12A801#%EC%84%9C%EB%B9%84%EC%8A%A4-%ED%99%94%EB%A9%B4)
