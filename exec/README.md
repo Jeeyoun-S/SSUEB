@@ -3,8 +3,8 @@
 ## 목차
 - [배포 가이드](#배포-가이드)
 - [외부 서비스 정리 문서](#외부-서비스-정리-문서)
-- [DB 덤프 파일](#db-덤프-파일)
-- [시연 시나리오](#시연-시나리오)
+- [DB 덤프 파일](https://lab.ssafy.com/s08-webmobile1-sub2/S08P12A801/-/tree/main/exec/file/A801_ssafy_common_DB_dump.zip)
+- [시연 시나리오](https://mercury-sole-13c.notion.site/SSUEB-2a19a3c7ef9c41149ab8edcb374b7f99)
 
 ## 배포 가이드
 ### 0. 개요
