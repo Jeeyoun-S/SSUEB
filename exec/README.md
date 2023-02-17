@@ -2,9 +2,17 @@
 
 ## 목차
 - [배포 가이드](#배포-가이드)
-  - [1. Java](#1.-Java)
+- [외부 서비스 정리 문서](#외부-서비스-정리-문서)
+- [DB 덤프 파일](#DB-덤프-파일)
+- [시연 시나리오](#시연-시나리오)
 
 ## 배포 가이드
+### 0. 개요
+- **JVM** openjdk 11
+- **IDE** eclipse-jee-2020-06-R-win32-x86_64
+  - Spring Tools 3 (Standalone Edition) 3.9.14.RELEASE 추가 설치 필요
+- **기타 정보(WAS, 사용된 모듈)** backend/build.gradle, frontend/package.json에서 확인 가능
+
 ### 1. Java
 - openvidu 2.25.0은 openjdk 11부터 사용 가능
 - openjdk 11 설치
@@ -53,10 +61,16 @@
 
 ### 5. MySQL Dokcer 이미지 다운로드 및 실행
 - 버전정보 mysql 5.7.35
-```jsx
-docker pull mysql:5.7.35
-docker run --name mysql-container -e MYSQL_ROOT_PASSWORD=ssafy -d -p 3307:3306 mysql:latest
-```
+  ```jsx
+  docker pull mysql:5.7.35
+  docker run --name mysql-container -e MYSQL_ROOT_PASSWORD=ssafy -d -p 3307:3306 mysql:latest
+  ```
+- DB 접속
+  - 비밀번호 ssafy 입력
+  ```jsx
+  docker exec -it mysql-container bash
+  mysql -u root -p
+  ```
 
 ### 6. Redis Docker 이미지 다운로드 및 실행
 - 버전정보 redis 3.0.5
@@ -66,18 +80,25 @@ docker run --name redis -d -p 6379:6379 redis:3.0.5 redis-server --requirepass "
 ```
 
 ### 7. git clone 및 설정 파일 변경
-1. git clone 받기
+- git clone 받기
     ```
     git clone https://lab.ssafy.com/s08-webmobile1-sub2/S08P12A801.git
     ```
     ![git clone](/exec/image/git_clone.png)
-2. backend 설정 파일 수정
-  - backend/src/main/resources 경로에 아래 설정파일로 추가, 덮어쓰기
+- backend 설정 파일 수정
+  - backend/src/main/resources 경로에 아래 설정 파일로 추가, 덮어쓰기
+    - [backend_properties.zip](https://lab.ssafy.com/s08-webmobile1-sub2/S08P12A801/-/tree/main/exec/file/backend_properties.zip)
+    - `env.properties` 파일 수정 필수 - [수정 가이드](#)
+    - `application.yml` 파일 수정 필수 - [수정 가이드](#)
+    - `application-mail.yml` 파일 수정 필수 - [수정 가이드](#)
+  - backend/src/main/java/com/ssfay/config 경로에 아래 java파일로 덮어쓰기
+    - [config.zip](https://lab.ssafy.com/s08-webmobile1-sub2/S08P12A801/-/tree/main/exec/file/backend_config.zip)
 
-  - backend/src/main/java/com/ssafy/config 경로에 아래 java파일로 덮어쓰기
-
-3. frontend 설정 파일 수정
-  - frontend 경로에 아래 설정파일 추가, 덮어쓰기
+- frontend 설정 파일 수정
+  - frontend 경로에 아래 설정 파일로 추가, 덮어쓰기
+    - [frontend_properties.zip](https://lab.ssafy.com/s08-webmobile1-sub2/S08P12A801/-/tree/main/exec/file/frontend_properties.zip)
+    - `.env` 파일 수정 필수 - [수정 가이드](#)
+  
 
 ### 8. Frontend 빌드
 루트 디렉토리에서 하위 frontend 디렉토리로 이동
@@ -87,10 +108,25 @@ npm run build
 ```
 
 ### 9. Backend 실행
-gradlew 최초 한번 권한 부여 후 실행
-```
-./gradlew clean bootRun
-```
+1. gradlew 최초 한번 권한 부여 후 실행
+  ```
+  chmod +x gradlew
+  ```
+2. 실행
+  ```
+  ./gradlew clean bootRun
+  ```
 
 ### 10. 동작 확인
 `http://PUBLIC_DOMAIN`으로 접근해 잘 실행되는지 확인
+
+## 외부 서비스 정리 문서
+### Kakao Login
+### Google Login
+### Bootpay
+### E-mail
+### Phone
+
+## DB 덤프 파일
+
+## 시연 시나리오
