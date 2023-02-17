@@ -80,24 +80,23 @@
   ```
 
 ### 7. git clone 및 설정 파일 변경
-- git clone 받기
+- **git clone 받기**
     ```
     git clone https://lab.ssafy.com/s08-webmobile1-sub2/S08P12A801.git
     ```
     ![git clone](/exec/image/git_clone.png)
-- backend 설정 파일 수정
-  - backend/src/main/resources 경로에 아래 설정 파일로 추가, 덮어쓰기
-    - [backend_properties.zip](https://lab.ssafy.com/s08-webmobile1-sub2/S08P12A801/-/tree/main/exec/file/backend_properties.zip)
-    - `env.properties` 파일 수정 필수 - [수정 가이드](#)
+- **backend 설정 파일 수정**
+  - backend/src/main/resources 경로에 [backend_properties.zip](https://lab.ssafy.com/s08-webmobile1-sub2/S08P12A801/-/tree/main/exec/file/backend_properties.zip) 압축 해제 후 추가, 덮어쓰기
+    - `env.properties` 파일 수정 필수
+      1. [Naver Cloud Flatform 수정 가이드](#Naver-Cloud-Platform)
     - `application.yml` 파일 수정 필수 - [수정 가이드](#)
     - `application-mail.yml` 파일 수정 필수 - [수정 가이드](#)
-  - backend/src/main/java/com/ssfay/config 경로에 아래 java파일로 덮어쓰기
-    - [config.zip](https://lab.ssafy.com/s08-webmobile1-sub2/S08P12A801/-/tree/main/exec/file/backend_config.zip)
+  - backend/src/main/java/com/ssfay/config 경로에 [config.zip](https://lab.ssafy.com/s08-webmobile1-sub2/S08P12A801/-/tree/main/exec/file/backend_config.zip) 압축 해제 후 덮어쓰기
 
-- frontend 설정 파일 수정
-  - frontend 경로에 아래 설정 파일로 추가, 덮어쓰기
-    - [frontend_properties.zip](https://lab.ssafy.com/s08-webmobile1-sub2/S08P12A801/-/tree/main/exec/file/frontend_properties.zip)
-    - `.env` 파일 수정 필수 - [수정 가이드](#)
+- **frontend 설정 파일 수정**
+  - frontend 경로에 [frontend_properties.zip](https://lab.ssafy.com/s08-webmobile1-sub2/S08P12A801/-/tree/main/exec/file/frontend_properties.zip) 압축 해제 후 추가, 덮어쓰기
+    - `.env` 파일 수정 필수
+      1. [수정 가이드](#)
   
 
 ### 8. Frontend 빌드
@@ -121,11 +120,18 @@
 `http://PUBLIC_DOMAIN`으로 접근해 잘 실행되는지 확인
 
 ## 외부 서비스 정리 문서
-### Kakao Login
-### Google Login
-### Bootpay
-### Java E-mail
-### Naver Cloud Platform
+### 1. Kakao Login
+1. [kakao developers](https://developers.kakao.com/) 접속
+2. 내 애플리케이션에 프로젝트 SSUEB 추가
+  ![project SSUEB](/exec/image/kakao_project_ssueb.png)
+3. Rest API Key 사용 예정
+  ![app key](/exec/image/kakao_app_key.png)
+4. 사이트 도메인 등록
+
+### 2. Google Login
+### 3. Bootpay
+### 4. Java E-mail
+### 5. Naver Cloud Platform
 
 ## DB 덤프 파일
 - [DB 덤프 파일 다운로드](https://lab.ssafy.com/s08-webmobile1-sub2/S08P12A801/-/tree/main/exec/file/A801_ssafy_common_DB_dump.zip)
