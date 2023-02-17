@@ -143,23 +143,23 @@
 8. Client Secret 코드 발급
   ![Client Secret 코드 발급](/exec/image/kakao/kakao_client.png)
 9. Frontend `.env` 파일 내 Kakao Oauth를 위한 설정 추가
-  ```
-  VUE_APP_OAUTH_KAKAO_CLIENT={REST API 키}
-  VUE_APP_OAUTH_KAKAO_CLIENT_SECRET={Client Secret 코드}
-  VUE_APP_OAUTH_KAKAO=socialKakao
+    ```
+    VUE_APP_OAUTH_KAKAO_CLIENT={REST API 키}
+    VUE_APP_OAUTH_KAKAO_CLIENT_SECRET={Client Secret 코드}
+    VUE_APP_OAUTH_KAKAO=socialKakao
 
-  VUE_APP_OAUTH_REDIRECT_URI=https://i8a801.p.ssafy.io
+    VUE_APP_OAUTH_REDIRECT_URI=https://i8a801.p.ssafy.io
 
-  VUE_APP_API_BASE_URL=https://i8a801.p.ssafy.io/api
-  VUE_APP_BASE_URL=https://i8a801.p.ssafy.io
-  ```
+    VUE_APP_API_BASE_URL=https://i8a801.p.ssafy.io/api
+    VUE_APP_BASE_URL=https://i8a801.p.ssafy.io
+    ```
 10. Backend `application.yml` 내에 Kakao Oauth를 위한 설정 추가
-  ```
-  # for. Kakao 
-  kakao:
-    secret: {Client Secret 코드}
-  ```
-  ![application.yml](/exec/image/kakao/kakao_final.png)
+    ```
+    # for. Kakao 
+    kakao:
+      secret: {Client Secret 코드}
+    ```
+    ![application.yml](/exec/image/kakao/kakao_final.png)
 
 ### 2. Google Login
 1. [Google Cloud Platform](https://console.cloud.google.com/) 접속
@@ -172,61 +172,61 @@
 4. OAuth 동의 화면 생성
   ![OAuth 동의 화면 생성](/exec/image/google/google_oauth.png)
 5. Frontend `.env` 내에 Google Oauth를 위한 설정 추가
-  ```
-  VUE_APP_OAUTH_GOOGLE_CLIENT={Client ID}
-  VUE_APP_OAUTH_GOOGLE_CLIENT_SECRET={Client 보안 비밀}
-  VUE_APP_OAUTH_GOOGLE=socialGoogle
+    ```
+    VUE_APP_OAUTH_GOOGLE_CLIENT={Client ID}
+    VUE_APP_OAUTH_GOOGLE_CLIENT_SECRET={Client 보안 비밀}
+    VUE_APP_OAUTH_GOOGLE=socialGoogle
 
-  VUE_APP_OAUTH_REDIRECT_URI=https://i8a801.p.ssafy.io (카카오 때 추가했다면 안해도 됨)
+    VUE_APP_OAUTH_REDIRECT_URI=https://i8a801.p.ssafy.io (카카오 때 추가했다면 안해도 됨)
 
-  VUE_APP_API_BASE_URL=https://i8a801.p.ssafy.io/api  (카카오 때 추가했다면 안해도 됨)
-  VUE_APP_BASE_URL=https://i8a801.p.ssafy.io (카카오 때 추가했다면 안해도 됨)
-  ```
+    VUE_APP_API_BASE_URL=https://i8a801.p.ssafy.io/api  (카카오 때 추가했다면 안해도 됨)
+    VUE_APP_BASE_URL=https://i8a801.p.ssafy.io (카카오 때 추가했다면 안해도 됨)
+    ```
 6. Backend `application.yml` 내에 Google Oauth를 위한 설정 추가
-  ```
-  # for. Google
-  google:
-    secret: {Client 보안 비밀}
-  ```
-  ![application.yml](/exec/image/google/google_final.png)
+    ```
+    # for. Google
+    google:
+      secret: {Client 보안 비밀}
+    ```
+    ![application.yml](/exec/image/google/google_final.png)
 
 ### 3. Bootpay
 1. Bootpay [회원가입](https://admin.bootpay.co.kr/join) 및 [로그인](https://admin.bootpay.co.kr/login)
 2. [새 프로젝트 생성](https://admin.bootpay.co.kr/join)하기 https://admin.bootpay.co.kr/join
 4. [링크](https://admin.bootpay.co.kr/payment/app_key)에서 Javascript 키, REST API 키, Private Key를 복사.
 5. Frontend `.env` 내에 Bootpay를 위한 설정 추가
-```
-VUE_APP_BOOTPAY_JS={부트페이 Javascript KEY}
-VUE_APP_BOOTPAY_REST={부트페이 REST API KEY}
-VUE_APP_BOOTPAY_PRIVATE={부트페이 Private KEY}
-```
+    ```
+    VUE_APP_BOOTPAY_JS={부트페이 Javascript KEY}
+    VUE_APP_BOOTPAY_REST={부트페이 REST API KEY}
+    VUE_APP_BOOTPAY_PRIVATE={부트페이 Private KEY}
+    ```
 6. [링크](https://admin.bootpay.co.kr/payment/setting)에서 결제수단 설정 (KCP, ISP, 샌드박스 모드)
 
 ### 4. Java E-mail
 1. 메일을 전송할 Google 계정 환경설정 [참고 링크](https://ajdahrdl.tistory.com/236)
 2. Backend `application-mail.yml` 내 설정 작성
-  ```
-  spring:
-  mail:
-    default-encoding: utf-8
-    host: smtp.gmail.com
-    port: 587
-    username: "{메일을 발송하는 계정 id(email)}"
-    password: "{1번에서 생성한 앱 비밀번호}"
-    properties:
-      mail:
-        smtp:
-          auth: true
-          starttls:
-            enable: true
-  ```
+    ```
+    spring:
+    mail:
+      default-encoding: utf-8
+      host: smtp.gmail.com
+      port: 587
+      username: "{메일을 발송하는 계정 id(email)}"
+      password: "{1번에서 생성한 앱 비밀번호}"
+      properties:
+        mail:
+          smtp:
+            auth: true
+            starttls:
+              enable: true
+    ```
 3. Backend `application.yml` 내 추가
-  ```
-  spring:
-    # for. mail 정보 가져오기
-    profiles:
-      include: mail
-  ```
+    ```
+    spring:
+      # for. mail 정보 가져오기
+      profiles:
+        include: mail
+    ```
   ![이메일](/exec/image/email_final.png)
 4. Naver 계정으로 메일을 받는 경우 SMTP 허용 필요
   ![네이버 이메일](/exec/image/naver_email.png)
@@ -238,20 +238,20 @@ VUE_APP_BOOTPAY_PRIVATE={부트페이 Private KEY}
 4. 왼쪽 사이드바 **Services**에서 **Simple & Easy Notification Service** 검색
 5. **Simple & Easy Notification Service**에 Project에서 Project 추가 (서비스 타입 SMS 선택)
 6. 추가된 프로젝트의 SMS의 service ID를 Backend `env.properties`에 추가
-  ```
-  naverCloudPlatform.serviceId={service ID}
-  ```
+    ```
+    naverCloudPlatform.serviceId={service ID}
+    ```
 7. 마이페이지 > 계정 관리 > 인증키 관리에서 Access Key ID와 Secret Key 복사
-  ```
-  naverCloudPlatform.accessKeyId={Access Key ID}
-  naverCloudPlatform.secretKey={Secret Key}
-  ```
+    ```
+    naverCloudPlatform.accessKeyId={Access Key ID}
+    naverCloudPlatform.secretKey={Secret Key}
+    ```
 8. Console > Simple & Easy Notification Service > SMS > Calling Number에 휴대폰 번호 추가
 9. 추가한 휴대폰 번호 Backend `env.properties`에 추가
-  ```
-  # Phone Number
-  ssueb.phone={휴대폰 번호}
-  ```
+    ```
+    # Phone Number
+    ssueb.phone={휴대폰 번호}
+    ```
 
 ## DB 덤프 파일
 - [DB 덤프 파일 다운로드](https://lab.ssafy.com/s08-webmobile1-sub2/S08P12A801/-/tree/main/exec/file/A801_ssafy_common_DB_dump.zip)
